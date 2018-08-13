@@ -18,7 +18,7 @@
 
 *12.08.2018*
 
-updating starid structure in parallel with growth of statespace. what's perfectly clear now is that cpp should be in a library and interactions with it should be from python. the ideal is [kurt schwer's libais project](https://github.com/schwehr/libais), aka the google ais decoder. going forward the objective is to get the github starid as similar to github libais as possible, and hopefully even make it a standard [pypi.org package](https://packaging.python.org/) as [kurt did](https://pypi.org/project/libais/).
+updating starid structure in parallel with growth of statespace. what's perfectly clear now is that cpp should be in a library and interactions with it should be from python. the ideal is [kurt schwer's libais project](https://github.com/schwehr/libais), aka the google ais decoder. going forward the objective is to get starid as similar to libais as possible, and make it a standard [pypi.org package](https://packaging.python.org/) as [kurt did](https://pypi.org/project/libais/).
 
 *17.11.2017*
 
