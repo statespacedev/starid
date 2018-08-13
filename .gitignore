@@ -8,4 +8,5 @@ venv/*
 *cmake_install*
 *CMakeCache*
 *.so
+libstarid/Makefile
 
