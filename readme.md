@@ -312,10 +312,6 @@ with stars brighter than 6.5 and pairs up to four degrees, triangle sides begin 
 
  ![triangle](images/triangleb.jpg)
 
-*30.1.2017*
-
-source code comments beginning with /// and ### are now extracted into markdown available [here](comments.md). the python app performing this is a new project [here](https://github.com/noahhsmith/commenter).
-
 *23.1.2017*
 
 the point in this discussion of uncertainty and triangle methods - with mnist style images a rules based approach becomes harder. previously the image was from a spacecraft grade star tracker. now it's from a childrens toy. it's a useful challenge...
