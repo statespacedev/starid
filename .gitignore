@@ -1,2 +1,5 @@
 *.idea*
 *cmake-*
+dist/*
+build/*
+*egg-info*
