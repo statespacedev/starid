@@ -1,6 +1,6 @@
 <img src="images/nouns and verbs level0.png" align="center" width="426" height="202"/>
 
-[references](http://starid.org/references), [about](http://starid.org/about)
+[references](http://starid.icu/references), [about](http://starid.icu/about)
 
 [*stars*](https://github.com/noahhsmith/starid/tree/master/stars) image generation from the nasa skymap star catalog.
 
@@ -288,7 +288,7 @@ the focus now seems headed towards directly using higher level geometrical struc
 
 now that it's easy to see exactly when and where the correct star is lost, it makes sense for development purposes to be able to pass its id all the way down in the code. things get much more deterministic.
 
-and the beginnings of how it came about are creeping forward [here](http://starid.org/about).
+and the beginnings of how it came about are creeping forward [here](http://starid.icu/about).
 
 *17.2.2017*
 
