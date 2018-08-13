@@ -12,3 +12,4 @@ install:
 	$(call startvenv) && pip install -r requirements.txt
 
 reset: clean venv install
+
