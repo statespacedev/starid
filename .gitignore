@@ -1,19 +1,8 @@
 dist/*
-build/*
+*/build/*
 venv/*
-
-*.cmake
-*CMakeFiles*
-Makefile
+cmake-build-debug/*
 
 *.idea*
-*cmake-*
-*egg-info*
-*cmake_install*
-*CMakeCache*
 *.so
-*.cbp
-*.cmake
 a.out
-
-test_pod
