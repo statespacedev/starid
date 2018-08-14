@@ -1,21 +1,21 @@
 #ifndef LIBSTARID_H
 #define LIBSTARID_H
 #include <pybind11/pybind11.h>
-//#include <pybind11/eigen.h>
-//#include <Eigen/Core>
-//#include <cereal/archives/binary.hpp>
+#include <pybind11/eigen.h>
+#include <Eigen/Core>
+#include <cereal/archives/binary.hpp>
 //#include "globals.h"
 //#include "sky.h"
 //#include "triangles.h"
-
-//namespace py = pybind11;
+#include <iostream>
 
 int add(int i, int j);
 
-//int main() {
-//    std::cout << "test";
-//    return 0;
-//}
+int main() {
+    Eigen::MatrixXd img;
+    std::cout << "test";
+    return 0;
+}
 
 PYBIND11_MODULE(libstarid, pymod) {
     pymod.def("add", &add);

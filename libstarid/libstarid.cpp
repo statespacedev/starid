@@ -1,10 +1,9 @@
 #include "libstarid.h"
 
 int add(int i, int j) {
-    return i + j;
+    Eigen::MatrixXd img;
+    return i + 3*j;
 }
-
-
 
 // default constructor automatically loads a sky object
 //libstarid::libstarid() {
