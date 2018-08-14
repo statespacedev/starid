@@ -7,8 +7,7 @@ add_subdirectory(pybind11-2.2.3)
 
 add_subdirectory(eigen-git-mirror-3.3.5)
 
-add_subdirectory(cereal-1.2.2)
+#add_subdirectory(cereal-1.2.2)
 
 pybind11_add_module(libstarid libstarid.cpp)
-
 

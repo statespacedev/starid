@@ -1,50 +1,21 @@
-#include <pybind11/pybind11.h>
+#include "libstarid.h"
 
 int add(int i, int j) {
     return i + j;
 }
 
-namespace py = pybind11;
 
-PYBIND11_MODULE(libstarid, m) {
-m.doc() = R"pbdoc(
-        Pybind11 example plugin
-        -----------------------
-        .. currentmodule:: cmake_example
-        .. autosummary::
-           :toctree: _generate
-           add
-           subtract
-    )pbdoc";
 
-m.def("add", &add, R"pbdoc(
-        Add two numbers
-        Some other explanation about the add function.
-    )pbdoc");
-
-m.def("subtract", [](int i, int j) { return i - j; }, R"pbdoc(
-        Subtract two numbers
-        Some other explanation about the subtract function.
-    )pbdoc");
-
-#ifdef VERSION_INFO
-m.attr("__version__") = VERSION_INFO;
-#else
-m.attr("__version__") = "dev";
-#endif
-}
-
-//#include "libstarid.h"
-//
-//// default constructor automatically loads a sky object
+// default constructor automatically loads a sky object
 //libstarid::libstarid() {
+//    std::cout << 'hello';
 //    std::string skydata = "/home/noah/starid/stars/";
 //    std::ifstream is1(std::string(skydata + "sky"));
 //    cereal::BinaryInputArchive iarchive1(is1);
 //    iarchive1(sky);
 //}
-//
-//// load a pairs object
+
+// load a pairs object
 //void libstarid::load_pairs() {
 //    std::string pairsdata = "/home/noah/starid/identification/";
 //    std::ifstream is2(std::string(pairsdata + "pairs"));
@@ -66,7 +37,7 @@ m.attr("__version__") = "dev";
 //    Eigen::MatrixXd angseqvec = starid::pointing_vectors::new_ang_seq_vec(starndx, sky);
 //    return angseqvec;
 //}
-//
+
 //int libstarid::id(starid::image_matrix imgmat) {
 //    starid::triangles ider(imgmat, pairs);
 //    int result = ider.id();
