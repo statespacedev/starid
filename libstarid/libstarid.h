@@ -1,19 +1,24 @@
 #ifndef LIBSTARID_H
 #define LIBSTARID_H
 #include <pybind11/pybind11.h>
-//#include <cereal/archives/binary.hpp>
-//#include <Eigen/Core>
 //#include <pybind11/eigen.h>
+//#include <Eigen/Core>
+//#include <cereal/archives/binary.hpp>
 //#include "globals.h"
 //#include "sky.h"
 //#include "triangles.h"
-namespace py = pybind11;
+
+//namespace py = pybind11;
 
 int add(int i, int j);
 
-PYBIND11_MODULE(libstarid, libstarid) {
-    libstarid.def("add", &add);
-    //    m.def("add", &add, R"pbdoc(placeholder)pbdoc");
+//int main() {
+//    std::cout << "test";
+//    return 0;
+//}
+
+PYBIND11_MODULE(libstarid, pymod) {
+    pymod.def("add", &add);
 }
 
 //PYBIND11_PLUGIN(libstarid) {
