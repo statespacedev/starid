@@ -16,6 +16,8 @@
 
 [*neural machine translation*](https://github.com/noahhsmith/starid/blob/master/identification/nmt.py) writes sentences about star patterns using a geometrical language, and translates into an identifier language. this can be insensitive to rotation.
 
+make -f starid.mk venv, make -f starid.mk install
+
 *12.08.2018*
 
 updating starid project in parallel with growth of statespace project. it's clear now cpp should be a library with calls from python. ideal is [kurt schwer's libais project](https://github.com/schwehr/libais). objective is to get starid as similar to libais as possible, including a [pypi package](https://test.pypi.org/project/starid/) similar to [kurt's](https://pypi.org/project/libais/).
