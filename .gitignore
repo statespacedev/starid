@@ -1,12 +1,18 @@
-*.idea*
-*cmake-*
 dist/*
 build/*
-*egg-info*
 venv/*
-*/CMakeFiles/*
+
+*.cmake
+*CMakeFiles*
+Makefile
+
+*.idea*
+*cmake-*
+*egg-info*
 *cmake_install*
 *CMakeCache*
 *.so
-libstarid/Makefile
+*.cbp
+*.cmake
+a.out
 
