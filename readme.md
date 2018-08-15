@@ -1,6 +1,6 @@
-<img src="images/nouns and verbs level0.png" align="center" width="426" height="202"/>
+<img src="docs/images/nouns and verbs level0.png" align="center" width="426" height="202"/>
 
-[references](http://starid.icu/references), [about](http://starid.icu/about)
+[references](http://starid.icu/docs/references), [about](http://starid.icu/docs/about)
 
 [*stars*](https://github.com/noahhsmith/starid/tree/master/stars) image generation from the nasa skymap star catalog.
 
@@ -81,7 +81,7 @@ for writing nouns deterministically, stars can be ordered by distance from the i
      [8808, 11, 23, 9.5, 2.5, 9.83],
      [8834, 16, 23, 9.5, -2.5, 9.83],
 
-<img src="images/starndx3_nouns.png" align="center" width="240" height="240"/>
+<img src="docs/images/starndx3_nouns.png" align="center" width="240" height="240"/>
 
 *1.11.2017*
 
@@ -258,19 +258,19 @@ convnet can identify ten stars, triangles can identify all stars, or at least fo
 
 basic triangles method is complete. the following is for a typical image. we're identifying the star at the center and there are 8876 possibilities. there are thirty other stars and for each an attempt is made to discard incorrect ids. in each attempt, the ideal is that the possible ids drop quickly to one. here are results using the most naive approach. in one attempt possible ids drop to ninety.
 
-<img src="images/ab1.png"/>
+<img src="docs/images/ab1.png"/>
 
 next to most naive approach. an adjustment to extract more information from the image. many attempts are now dropping to twenty or less possibilities, several to five.
 
-<img src="images/ab2.png"/> 
+<img src="docs/images/ab2.png"/> 
 
 another adjustment.
 
-<img src="images/ab3.png"/> 
+<img src="docs/images/ab3.png"/> 
 
 final adjustment.
 
-<img src="images/ab4.png"/> 
+<img src="docs/images/ab4.png"/> 
 
 *6.3.2017*
 
