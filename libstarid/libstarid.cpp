@@ -1,18 +1,13 @@
 #include "libstarid.h"
 
-int add(int i, int j) {
-    Eigen::MatrixXd img;
-    return i + 3*j;
-}
-
-// default constructor automatically loads a sky object
-//libstarid::libstarid() {
-//    std::cout << 'hello';
+//default constructor automatically loads a sky object
+libstarid::libstarid() {
+    std::cout << "hello";
 //    std::string skydata = "/home/noah/starid/stars/";
 //    std::ifstream is1(std::string(skydata + "sky"));
 //    cereal::BinaryInputArchive iarchive1(is1);
 //    iarchive1(sky);
-//}
+}
 
 // load a pairs object
 //void libstarid::load_pairs() {

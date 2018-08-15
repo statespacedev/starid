@@ -4,23 +4,27 @@
 #include <pybind11/eigen.h>
 #include <Eigen/Core>
 #include <cereal/archives/binary.hpp>
-//#include "globals.h"
-//#include "sky.h"
-//#include "triangles.h"
+#include "globals.h"
+#include "sky.h"
+#include "triangles.h"
 #include <iostream>
 
-int add(int i, int j);
+class libstarid {
+public:
+    starid::sky sky;
+    starid::pairs pairs;
+    libstarid();
+//    void load_pairs();
+//    Eigen::MatrixXd image(int starndx);
+//    Eigen::MatrixXd image_info(int starndx);
+//    Eigen::MatrixXd ang_seq_vec(int starndx);
+//    int id(starid::image_matrix image);
+};
 
-int main() {
-    Eigen::MatrixXd img;
-    std::cout << "test";
-    return 0;
+PYBIND11_MODULE(libstarid, m) {
+    pybind11::class_<libstarid>(m, "libstarid")
+            .def(pybind11::init<>());
 }
-
-PYBIND11_MODULE(libstarid, pymod) {
-    pymod.def("add", &add);
-}
-
 //PYBIND11_PLUGIN(libstarid) {
 //    pybind11::module pymodule("Libstarid", "libstarid python module");
 //    pybind11::class_<libstarid>(pymodule, "Libstarid")
@@ -33,16 +37,5 @@ PYBIND11_MODULE(libstarid, pymod) {
 //    return pymodule.ptr();
 //}
 
-//class libstarid {
-//public:
-//    starid::sky sky;
-//    starid::pairs pairs;
-//    libstarid();
-//    void load_pairs();
-//    Eigen::MatrixXd image(int starndx);
-//    Eigen::MatrixXd image_info(int starndx);
-//    Eigen::MatrixXd ang_seq_vec(int starndx);
-//    int id(starid::image_matrix image);
-//};
 
 #endif
