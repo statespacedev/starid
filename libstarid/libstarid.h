@@ -11,19 +11,23 @@
 
 class libstarid {
 public:
-    starid::sky sky;
-    starid::pairs pairs;
     libstarid();
+    starid::sky sky;
+    void load_sky();
+    Eigen::MatrixXd image_info(int starndx);
+    Eigen::MatrixXd image(int starndx);
+//    starid::pairs pairs;
 //    void load_pairs();
-//    Eigen::MatrixXd image(int starndx);
-//    Eigen::MatrixXd image_info(int starndx);
-//    Eigen::MatrixXd ang_seq_vec(int starndx);
 //    int id(starid::image_matrix image);
+//    Eigen::MatrixXd ang_seq_vec(int starndx);
 };
 
 PYBIND11_MODULE(libstarid, m) {
     pybind11::class_<libstarid>(m, "libstarid")
-            .def(pybind11::init<>());
+            .def(pybind11::init<>())
+            .def("load_sky", &libstarid::load_sky)
+            .def("image_info", &libstarid::image_info)
+            .def("image", &libstarid::image);
 }
 //PYBIND11_PLUGIN(libstarid) {
 //    pybind11::module pymodule("Libstarid", "libstarid python module");

@@ -9,3 +9,5 @@ starid.egg-info/*
 *.so
 *.cbp
 a.out
+sky
+pairs
