@@ -4,8 +4,8 @@ libstarid::libstarid() {
 }
 
 void libstarid::load_sky() {
-    std::string skydata = "/home/noah/starid/data/";
-    std::ifstream is1(std::string(skydata + "sky"));
+    std::string skydata = "/home/noah/starid/data/sky";
+    std::ifstream is1(skydata);
     cereal::BinaryInputArchive iarchive1(is1);
     iarchive1(sky);
 }
