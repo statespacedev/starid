@@ -109,7 +109,7 @@ there'll be something like an image_info(target_starndx) function in libstarid, 
      [  2.00000000e+01   2.30000000e+01   9.10000000e+01   1.60054000e+05   4.08970500e+00   4.35950492e+01]
      [  5.00000000e+00   2.40000000e+01   9.70000000e+01   1.70028000e+05   4.28768208e+00   4.79474053e+01]
      
-after a bit of experimenting, turns out [orion's too big](images/orion.svg) for our eight by eight degree field of view. at most, we can only see the belt together, mintaka, alnilam, and alnitak. it's worth noting this field of view was a default, to match standard ninties era star trackers. and it did in fact accidentally have some nice properties once we also defaulted to low resolution 28 by 28 pixel images to match the mnist dataset, resulting in 1000 arcsecond pixels. last two columns here are hd number and starndx.
+after a bit of experimenting, turns out [orion's too big](docs/images/orion.svg) for our eight by eight degree field of view. at most, we can only see the belt together, mintaka, alnilam, and alnitak. it's worth noting this field of view was a default, to match standard ninties era star trackers. and it did in fact accidentally have some nice properties once we also defaulted to low resolution 28 by 28 pixel images to match the mnist dataset, resulting in 1000 arcsecond pixels. last two columns here are hd number and starndx.
 
     betelgeuse, alpha, 39801, 2062
     rigel, beta, 34085, 1719
@@ -123,7 +123,7 @@ after a bit of experimenting, turns out [orion's too big](images/orion.svg) for 
 
 on the encoder side, here's an example of generating symbols representing nouns, blue, and verbs, green. we can build symbols from numerical lengths. for a noun with sides 2.3, 5.1, 4.9 we could have the symbol 235149. on the decoder side, symbols are built from numerical starids.
 
-![nouns and verbs](images/nouns and verbs.png)
+![nouns and verbs](docs/images/nouns and verbs.png)
 
 *8.10.2017*
 
@@ -216,7 +216,7 @@ star image and inverse now working, with direct cpp eigen and python numpy using
     plt.matshow(-1 * image, cmap='Greys', interpolation='nearest')
     plt.show()
 
-![image](images/image.png)
+![image](docs/images/image.png)
 
 *14.4.2017*
 
@@ -278,7 +278,7 @@ next two weeks will pretty much be about vacation, so time for a bit of planning
 
 *5.3.2017*
 
-triangle based identification is now working for mnist style images. this was really a challenge. [here's](images/itworks.png) an image of the eureka moment. nice convergence over nineteen triangles.
+triangle based identification is now working for mnist style images. this was really a challenge. [here's](docs/images/itworks.png) an image of the eureka moment. nice convergence over nineteen triangles.
 
 *27.2.2017*
 
@@ -312,7 +312,7 @@ after a weekend of experimentation, the method for reducing the number of candid
 
 with stars brighter than 6.5 and pairs up to four degrees, triangle sides begin with tens of thousands of candidate pairs. with loose contraints because of position quantization, there are a lot of false positives in such a large number of candidates. multiple triangles are needed to improve the constraints. the following sketches some important components.
 
- ![triangle](images/triangleb.jpg)
+ ![triangle](docs/images/triangleb.jpg)
 
 *23.1.2017*
 
@@ -331,19 +331,19 @@ arcseconds. the position uncertainty of a star is half this, and triangle side t
 
 triangle logic
 
-![triangle](images/triangle.jpg)
+![triangle](docs/images/triangle.jpg)
 
 *19.1.2017*
 
 concepts for image and triangle
 
-![concepts](images/concepts.jpg)
+![concepts](docs/images/concepts.jpg)
 
 *16.1.2017*
 
 mnist viewer. a bit of python code in data/mnist_viewer to see what's in the mnist style data files. this is bare minimum functionality for now. two examples for star 4. these demonstrate axjndx axindx plane. variations of relative positions because of quantization are clear - relative positions vibrate as yaw varies, creating inherent uncertainties in the mnist images...
 
-![imgndx3](images/star4a.png)![imgndx13](images/star4b.png)
+![imgndx3](docs/images/star4a.png)![imgndx13](docs/images/star4b.png)
 
 *15.1.2017*
 
