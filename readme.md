@@ -1,6 +1,6 @@
 <img src="docs/images/nouns and verbs level0.png" align="center" width="426" height="202"/>
 
-[references](http://starid.icu/docs/references), [about](http://starid.icu/docs/about)
+[references](http://starid.icu/references), [about](http://starid.icu/about)
 
 [*stars*](https://github.com/noahhsmith/starid/tree/master/stars) image generation from the nasa skymap star catalog.
 
