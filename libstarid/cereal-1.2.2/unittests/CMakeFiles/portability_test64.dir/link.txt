@@ -1,0 +1,1 @@
+/usr/bin/c++  -Werror -Wall -g -Wextra -Wshadow -pedantic -Wold-style-cast  -g  -rdynamic CMakeFiles/portability_test64.dir/portability_test.cpp.o  -o portability_test64 

@@ -1,0 +1,1 @@
+/usr/bin/c++  -Werror -Wall -g -Wextra -Wshadow -pedantic -Wold-style-cast  -g  -rdynamic CMakeFiles/test_structs_specialized.dir/structs_specialized.cpp.o  -o test_structs_specialized 

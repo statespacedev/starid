@@ -1,0 +1,1 @@
+/usr/bin/c++  -Werror -Wall -g -Wextra -Wshadow -pedantic -Wold-style-cast  -g  -rdynamic -coverage CMakeFiles/coverage_valarray.dir/valarray.cpp.o  -o ../../../coverage/coverage_valarray 

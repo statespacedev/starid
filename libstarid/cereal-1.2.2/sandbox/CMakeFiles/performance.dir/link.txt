@@ -1,0 +1,1 @@
+/usr/bin/c++  -Werror -Wall -g -Wextra -Wshadow -pedantic -Wold-style-cast  -g  -rdynamic CMakeFiles/performance.dir/performance.cpp.o  -o performance -lboost_serialization 

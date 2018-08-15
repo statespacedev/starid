@@ -1,0 +1,1 @@
+/usr/bin/c++  -Werror -Wall -g -Wextra -Wshadow -pedantic -Wold-style-cast  -g  -rdynamic -coverage CMakeFiles/coverage_forward_list.dir/forward_list.cpp.o  -o ../../../coverage/coverage_forward_list 

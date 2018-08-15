@@ -1,0 +1,1 @@
+/usr/bin/c++  -Werror -Wall -g -Wextra -Wshadow -pedantic -Wold-style-cast  -g  -rdynamic -coverage CMakeFiles/coverage_user_data_adapters.dir/user_data_adapters.cpp.o  -o ../../../coverage/coverage_user_data_adapters 

@@ -1,0 +1,1 @@
+/usr/bin/c++ -fPIC -Werror -Wall -g -Wextra -Wshadow -pedantic -Wold-style-cast  -g  -shared -Wl,-soname,libsandbox_vs_dll.so -o libsandbox_vs_dll.so CMakeFiles/sandbox_vs_dll.dir/base.cpp.o CMakeFiles/sandbox_vs_dll.dir/derived.cpp.o 

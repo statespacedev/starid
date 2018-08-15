@@ -2,7 +2,10 @@ dist/*
 */build/*
 venv/*
 cmake-build-debug/*
+starid.egg-info/*
+
 
 *.idea*
 *.so
+*.cbp
 a.out

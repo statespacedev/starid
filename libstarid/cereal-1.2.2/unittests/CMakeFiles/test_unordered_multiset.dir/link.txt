@@ -1,0 +1,1 @@
+/usr/bin/c++  -Werror -Wall -g -Wextra -Wshadow -pedantic -Wold-style-cast  -g  -rdynamic CMakeFiles/test_unordered_multiset.dir/unordered_multiset.cpp.o  -o test_unordered_multiset 

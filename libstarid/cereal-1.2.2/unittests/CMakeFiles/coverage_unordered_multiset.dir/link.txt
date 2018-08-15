@@ -1,0 +1,1 @@
+/usr/bin/c++  -Werror -Wall -g -Wextra -Wshadow -pedantic -Wold-style-cast  -g  -rdynamic -coverage CMakeFiles/coverage_unordered_multiset.dir/unordered_multiset.cpp.o  -o ../../../coverage/coverage_unordered_multiset 
