@@ -2,15 +2,15 @@
 
 [references](http://starid.icu/docs/references), [about](http://starid.icu/docs/about)
 
-[sky](https://github.com/noahhsmith/starid/blob/master/libstarid/sky.h) image generation from the nasa skymap star catalog, search for stars near a point on the sky
+[sky](https://github.com/noahhsmith/starid/blob/master/libstarid/sky.h) generates three-dimensional sky models and two-dimensional images from the nasa skymap star catalog, finds stars near arbitrary points on the sky-sphere
 
-[triangles](https://github.com/noahhsmith/starid/blob/master/libstarid/triangles.h) recurrently sets aside star identities that disagree geometrically, until one remains.
+[triangles](https://github.com/noahhsmith/starid/blob/master/libstarid/triangles.h) recurrently sets aside stars that disagree geometrically until one remains
 
-[convolutional neural networks](https://github.com/noahhsmith/starid/blob/master/starid/cnn.py) are about static patterns.
+[convolutional neural networks](https://github.com/noahhsmith/starid/blob/master/starid/cnn.py) are about static patterns and sensitive to rotation
 
-[recurrent neural networks](https://github.com/noahhsmith/starid/blob/master/starid/rnn.py) are focused on sequences. it's possible to reduce sensitivity to rotation.
+[recurrent neural networks](https://github.com/noahhsmith/starid/blob/master/starid/rnn.py) are about sequences and less sensitive to rotation
 
-[neural machine translation](https://github.com/noahhsmith/starid/blob/master/starid/nmt.py) writes sentences about star patterns using a geometrical language, and translates into an identifier language. this can be insensitive to rotation.
+[neural machine translation](https://github.com/noahhsmith/starid/blob/master/starid/nmt.py) writes sentences about star patterns using a geometrical language and translates into an identifier language
 
 180816
 
