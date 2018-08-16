@@ -13,7 +13,6 @@ import libstarid
 ls = libstarid.libstarid()
 ls.load_sky()
 image_info = ls.image_info(3)
-
 image = image_info_to_image(image_info)
 plt.matshow(-1 * image, cmap='Greys', interpolation='nearest')
 plt.show()

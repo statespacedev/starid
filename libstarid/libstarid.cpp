@@ -1,6 +1,8 @@
 #include "libstarid.h"
+#include <iostream>
 
 libstarid::libstarid() {
+    std::cout << "hello";
 }
 
 void libstarid::load_sky() {
