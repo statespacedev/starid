@@ -16,7 +16,11 @@
 
 [*neural machine translation*](https://github.com/noahhsmith/starid/blob/master/identification/nmt.py) writes sentences about star patterns using a geometrical language, and translates into an identifier language. this can be insensitive to rotation.
 
-make -f starid.mk venv, make -f starid.mk install
+*16.08.2018*
+
+switch to cmake for cpp build complete. painful as expected, about ten hours worth with figuring out latest pybind11, eigen, and cereal, but nice. it's impressive once it's working and you relax. accept the new. basically it brings in automation, and you have to let go of the urge to understand and control every thing. keep it simple. get the most basic thing possible working and then take it step by step, letting cmake do everything its way. when you hit a block, go back, resimplify, and figure out what cmake wants. made some dumb mistakes here myself, there aren't enough paint-by-numbers examples out there. don't try to fight it or outsmart it. the ideal is for the build to take care of itself. who wants to spend time on this stuff?
+
+next step is to move every libstarid interface into starid python. libstarid will be a pure library used only via calls from python.
 
 *12.08.2018*
 
