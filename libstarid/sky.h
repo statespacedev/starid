@@ -12,7 +12,6 @@
 #include <cmath>
 #include <algorithm>
 #include <random>
-#include "globals.h"
 #include "util.h"
 
 namespace starid {

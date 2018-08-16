@@ -10,7 +10,7 @@
 #include <unordered_map>
 #include <map>
 #include "sky.h"
-#include "globals.h"
+#include "util.h"
 
 namespace starid {
 

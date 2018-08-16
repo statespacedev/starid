@@ -4,7 +4,6 @@
 #include <pybind11/eigen.h>
 #include <Eigen/Core>
 #include <cereal/archives/binary.hpp>
-#include "globals.h"
 #include "sky.h"
 #include "triangles.h"
 #include <iostream>
