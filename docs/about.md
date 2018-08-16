@@ -1,6 +1,6 @@
 [1990](#1990), [2003](#2003), [2016](#2016)
 
-<a name="1990"/>*1990, [photos](http://photos.starid.icu) and [pdf](docs/papers/1986 hemenway.pdf), [pdf](docs/papers/1986 pierce.pdf), [pdf](docs/papers/1987 hemenway.pdf)*
+<a name="1990"/>*1990, [photos](http://photos.starid.icu) and [pdf](papers/1986 hemenway.pdf), [pdf](papers/1986 pierce.pdf), [pdf](papers/1987 hemenway.pdf)*
  
 In the summer of 1990, I was a twenty-one year old University of Texas astronomy undergrad. In recent months the Berlin Wall had fallen and the Hubble Space Telescope had finally reached orbit. I was living just north of campus. Monthly rent was less than two hundred dollars and my landlady Martha Ann Zively, an eighty-three year old local character, lived overhead. Mobile phones, notebook computers, and the web were all still somewhere over the horizon. 
 
