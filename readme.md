@@ -18,9 +18,9 @@
 
 *16.08.2018*
 
-switched to cmake. painful as expected, about ten hours worth with figuring out latest pybind11, eigen, and cereal, but nice. it's impressive once it's working and you relax. accept the new. basically it brings in automation, and you have to let go of the urge to understand and control every thing. keep it simple. get the most basic thing possible working and then take it step by step, letting cmake do everything its way. when you hit a block, go back, resimplify, and figure out what cmake wants. made some dumb mistakes here myself, there aren't enough paint-by-numbers examples out there. don't try to fight it or outsmart it. the ideal is for the build to take care of itself. who wants to spend time on this stuff?
+switched to cmake. painful as expected, about ten hours worth with figuring out latest library versions, but nice. impressive once it's working. basically it's about automation and you have to let go of the urge to understand everything. keep it simple. get the simplest possible thing working, move on by minimalist steps letting cmake do everything its way. when you hit a block, go back, resimplify, and figure out what cmake wants. don't try to force it or outsmart it. ideal is build should just work. who wants to spend time on this stuff?
 
-next step is to move every libstarid interface into starid python. libstarid will be a pure library used only via calls from python.
+next step is move every libstarid interface into starid python. libstarid = pure *.so
 
 *12.08.2018*
 
