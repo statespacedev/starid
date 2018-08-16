@@ -1,8 +1,3 @@
-/// *sky*
-///
-/// sky representation as pointing vectors, with methods to get the stars near an arbitrary point.
-///
-
 #ifndef STARS_H
 #define STARS_H
 #include <Eigen/Core>
