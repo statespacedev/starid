@@ -1,5 +1,6 @@
 import argparse, sys
 sys.path.append('starid')
+sys.path.append('cmake-build-debug/libstarid')
 
 def main():
     parser = argparse.ArgumentParser('starid')
