@@ -1,5 +1,5 @@
 import argparse, sys
-sys.path.append('statespace')
+sys.path.append('starid')
 
 def main():
     parser = argparse.ArgumentParser('starid')

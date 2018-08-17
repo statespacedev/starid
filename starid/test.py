@@ -15,3 +15,9 @@ def test():
     image = image_info_to_image(image_info)
     plt.matshow(-1 * image, cmap='Greys', interpolation='nearest')
     plt.show()
+
+def main():
+    pass
+
+if __name__ == "__main__":
+    main()
