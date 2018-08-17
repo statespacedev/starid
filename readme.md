@@ -12,6 +12,13 @@
 
 [neural machine translation](https://github.com/noahhsmith/starid/blob/master/starid/nmt.py) writes sentences about star patterns using a geometrical language and translates into an identifier language
 
+    ~/starid$ venv/bin/python -m starid -h
+    usage: starid [-h] [-t]
+    
+    optional arguments:
+      -h, --help  show this help message and exit
+      -t          test the project, shows a star image
+
 180816
 
 switched to cmake. painful as expected but nice once it's working. keep it simple. get the simplest possible thing working, move on by minimalist steps letting cmake do everything its way. when you hit a block, go back, re-simplify, and figure out what cmake wants. don't try to force it.

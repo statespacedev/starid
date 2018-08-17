@@ -1,6 +1,6 @@
 #include <Eigen/Core>
 #include <cereal/archives/binary.hpp>
-#include "globals.h"
+#include "util.h"
 #include "sky.h"
 
 int main() {

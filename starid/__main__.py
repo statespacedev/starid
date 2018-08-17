@@ -4,7 +4,7 @@ sys.path.append('cmake-build-debug/libstarid')
 
 def main():
     parser = argparse.ArgumentParser('starid')
-    parser.add_argument('-t', help='test the project', action='store_true')
+    parser.add_argument('-t', help='test the project, shows a star image', action='store_true')
     args = parser.parse_args()
 
     if args.t:
