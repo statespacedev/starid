@@ -3,7 +3,7 @@ dist/*
 venv/*
 cmake-build-debug/*
 starid.egg-info/*
-
+starid-?/*
 
 *.idea*
 *.so

@@ -10,4 +10,7 @@ recursive-include docs *
 recursive-include libstarid *
 recursive-include starid *
 
+exclude data/pairs
+exclude data/sky
+
 
