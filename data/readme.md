@@ -1,6 +1,8 @@
-nasa skymap sky2000 star catalog is our starting-point. this is an old catalog with a lot of history and interesting quirks. back in the day, i interacted with some of the people involved and learned a bit. there were roughly two phases of skymap's history - before hubble, and after. nasa still had some power in those days, and when it turned out after launch that star catalogs were among hubble's problems, resources were allocated to improve the skymap catalog. serious work was done in the 90s to make skymap the baseline reference catalog for spacecraft star trackers.
+nasa skymap sky2000 star catalog is our starting-point. this is an old catalog with a lot of history and interesting quirks. back in the day, i interacted with some of the people involved and learned a bit. there were roughly two phases of skymap's history - before hubble, and after. nasa still had power in those days, and when it turned out after launch that star catalogs were among hubble's problems, resources were allocated to improve skymap. serious work was done in the 90s to make it the baseline catalog for spacecraft star trackers.
 
-here are some notes from back in the day, these are floating around on the net and turn up with a quick googling.
+here are some notes from back in the day, these are floating around on the net and turn up with a quick googling. details about the hubble events, and an interesting read, are in
+
+[The Hubble Wars: Astrophysics Meets Astropolitics in the Two-Billion-Dollar Struggle over the Hubble Space Telescope, Eric J. Chaisson](http://a.co/8E8tqBU)
 
 ## note
 
