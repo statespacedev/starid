@@ -1,0 +1,13 @@
+include CMakeLists.txt
+include license.md
+include Makefile
+include manifest.in
+include readme.md
+include setup.py
+
+recursive-include data *
+recursive-include docs *
+recursive-include libstarid *
+recursive-include starid *
+
+
