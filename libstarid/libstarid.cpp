@@ -2,10 +2,18 @@
 #include <iostream>
 
 libstarid::libstarid() {
-    std::cout << "hello";
+    return;
 }
 
-void libstarid::load_sky() {
+void libstarid::write_sky() {
+    starid::sky sky;
+    sky.init(std::string("/home/noah/starid/data/skymap-brightest-8876"));
+    std::ofstream os1(std::string("/home/noah/starid/data/sky"));
+    cereal::BinaryOutputArchive oarchive1(os1);
+    oarchive1(sky);
+}
+
+void libstarid::read_sky() {
     std::string skydata = "/home/noah/starid/data/sky";
     std::ifstream is1(skydata);
     cereal::BinaryInputArchive iarchive1(is1);
