@@ -13,7 +13,7 @@ public:
     libstarid();
     starid::sky sky;
     void write_sky();
-    void read_sky();
+    void read_sky(std::string pathsky);
     Eigen::MatrixXd image_info(int starndx);
     Eigen::MatrixXd image(int starndx);
 //    starid::pairs pairs;
@@ -26,7 +26,7 @@ PYBIND11_MODULE(libstarid, m) {
     pybind11::class_<libstarid>(m, "libstarid")
             .def(pybind11::init<>())
             .def("write_sky", &libstarid::write_sky)
-            .def("read_sky", &libstarid::read_sky)
+            .def("read_sky", &libstarid::read_sky, pybind11::arg("pathsky"))
             .def("image_info", &libstarid::image_info)
             .def("image", &libstarid::image);
 }

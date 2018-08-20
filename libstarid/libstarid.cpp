@@ -13,9 +13,8 @@ void libstarid::write_sky() {
     oarchive1(sky);
 }
 
-void libstarid::read_sky() {
-    std::string skydata = "/home/noah/starid/data/sky";
-    std::ifstream is1(skydata);
+void libstarid::read_sky(std::string pathsky) {
+    std::ifstream is1(pathsky);
     cereal::BinaryInputArchive iarchive1(is1);
     iarchive1(sky);
 }

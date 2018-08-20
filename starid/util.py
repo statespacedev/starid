@@ -6,8 +6,8 @@ ls = libstarid.libstarid()
 def write_sky():
     ls.write_sky()
 
-def read_sky():
-    ls.read_sky()
+def read_sky(pathsky):
+    ls.read_sky(pathsky)
     image_info = ls.image_info(3)
     image = np.zeros((28,28))
     for rowndx in range(len(image_info)):
