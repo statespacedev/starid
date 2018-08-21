@@ -3,8 +3,8 @@ import matplotlib.pyplot as plt
 import libstarid
 ls = libstarid.libstarid()
 
-def write_sky():
-    ls.write_sky()
+def write_sky(pathcat, pathsky):
+    ls.write_sky(pathcat, pathsky)
 
 def read_sky(pathsky):
     ls.read_sky(pathsky)

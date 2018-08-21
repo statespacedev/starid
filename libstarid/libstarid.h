@@ -9,38 +9,23 @@
 #include <iostream>
 
 class libstarid {
+    
 public:
     libstarid();
     starid::sky sky;
-    void write_sky();
+    void write_sky(std::string pathcat, std::string pathsky);
     void read_sky(std::string pathsky);
     Eigen::MatrixXd image_info(int starndx);
     Eigen::MatrixXd image(int starndx);
-//    starid::pairs pairs;
-//    void load_pairs();
-//    int id(starid::image_matrix image);
-//    Eigen::MatrixXd ang_seq_vec(int starndx);
 };
 
 PYBIND11_MODULE(libstarid, m) {
     pybind11::class_<libstarid>(m, "libstarid")
             .def(pybind11::init<>())
-            .def("write_sky", &libstarid::write_sky)
+            .def("write_sky", &libstarid::write_sky, pybind11::arg("pathcat"), pybind11::arg("pathsky"))
             .def("read_sky", &libstarid::read_sky, pybind11::arg("pathsky"))
             .def("image_info", &libstarid::image_info)
             .def("image", &libstarid::image);
 }
-//PYBIND11_PLUGIN(libstarid) {
-//    pybind11::module pymodule("Libstarid", "libstarid python module");
-//    pybind11::class_<libstarid>(pymodule, "Libstarid")
-//        .def(pybind11::init<>())
-//        .def("image", &libstarid::image, "create star image", pybind11::arg("starndx"))
-//        .def("image_info", &libstarid::image_info, "create star image info", pybind11::arg("starndx"))
-//        .def("ang_seq_vec", &libstarid::ang_seq_vec, "create angle sequence vector", pybind11::arg("starndx"))
-//        .def("load_pairs", &libstarid::load_pairs, "load pairs")
-//        .def("id", &libstarid::id, "id");
-//    return pymodule.ptr();
-//}
-
 
 #endif
