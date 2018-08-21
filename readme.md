@@ -22,11 +22,15 @@
       --sky SKY   filename for sky binary file
       --cat CAT   filename for skymap text file
 
+180821
+
+libstarid interface switched entirely to python, libstarid = pure *-cpython.so
+
+sky write, read, and image generation working. creating release r2018a in preparation for an initial pypi project release. 
+
 180816
 
-switched to cmake. painful as expected but nice once it's working. keep it simple. get the simplest possible thing working, move on by minimalist steps letting cmake do everything its way. when you hit a block, go back, re-simplify, and figure out what cmake wants. don't try to force it.
-
-next step is to use libstarid only from starid python. libstarid = pure .so
+switched to cmake. painful as expected but nice once it's working. get the simplest possible thing working, move on by minimalist steps letting cmake do everything its way. when you hit a block, go back, re-simplify, and figure out what cmake wants. don't try to force it.
 
 180812
 
