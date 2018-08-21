@@ -16,7 +16,10 @@ def main():
         if args.fnsky:
             pathsky = dirdata + args.fnsky
         import util
-        util.read_sky(pathsky)
+        try:
+            util.read_sky(pathsky)
+        except:
+            print('read sky unsuccessful, %s' % (pathsky))
 
     if args.wsky:
         import util
