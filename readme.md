@@ -13,12 +13,14 @@
 [neural machine translation](https://github.com/noahhsmith/starid/blob/master/starid/nmt.py) writes sentences about star patterns using a geometrical language and translates into an identifier language
 
     ~/starid$ venv/bin/python -m starid -h
-    usage: starid [-h] [-w] [-r]
+    usage: starid [-h] [-w] [-r] [--sky SKY] [--cat CAT]
     
     optional arguments:
       -h, --help  show this help message and exit
       -w, --wsky  write sky binary file
-      -r, --rsky  read sky binary file and show a star image
+      -r, --rsky  read sky binary file
+      --sky SKY   filename for sky binary file
+      --cat CAT   filename for skymap text file
 
 180816
 
