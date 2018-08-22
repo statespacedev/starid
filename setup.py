@@ -5,7 +5,7 @@ with open('readme.md', 'r') as fh:
 
 setuptools.setup(
     name='starid',
-    version='3.1.1',
+    version='2018.1.1',
     author='noah smith',
     author_email='noahhsmith@gmail.com',
     description='star identification',
