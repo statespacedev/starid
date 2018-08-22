@@ -9,6 +9,8 @@ recursive-include data *
 recursive-include docs *
 recursive-include starid *
 
+recursive-exclude docs/papers *
+
 exclude data/pairs
 exclude data/sky
 
