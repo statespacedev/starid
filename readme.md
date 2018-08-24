@@ -22,6 +22,15 @@
       --sky SKY   filename for sky binary file
       --cat CAT   filename for skymap text file
 
+compiling libstarid from setuptools and pip isn't automated yet - for now
+
+    mkdir build; cd build
+    cmake ../libstarid/eigen-3.3.5
+    su make install
+    cmake ..
+    make
+    update PYTHONPATH with the folder containing the *.so
+
 180821
 
 libstarid interface switched entirely to python, libstarid = pure *-cpython.so
