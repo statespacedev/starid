@@ -17,3 +17,7 @@ compiling libstarid from setuptools and pip isn't automated yet - for now
     cmake ..
     make
     update PYTHONPATH with the folder containing the *.so
+
+what seems to be working now is
+
+    ~/starid$ python3 setup.py develop
