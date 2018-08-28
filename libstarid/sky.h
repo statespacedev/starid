@@ -1,6 +1,5 @@
 #ifndef SKY_H
 #define SKY_H
-
 #include <Eigen/Core>
 #include <cereal/access.hpp>
 #include <cereal/types/utility.hpp>
@@ -15,13 +14,12 @@
 #include "util.h"
 
 namespace starid {
-
     using images = Eigen::MatrixXd;
     using ang_seq_vec = Eigen::Matrix<double, 36, 1>;
 
-    class star_catalog {
+    class skymap {
     public:
-        struct star_record {
+        struct skymaprec {
             double mv1;
             std::string iau_identifier;
             std::string star_name;
@@ -46,8 +44,8 @@ namespace starid {
             double pmdecsign;
             std::string fileline;
         };
-        star_catalog(std::string fcat);
-        std::vector<star_record> star_records;
+        skymap(std::string fcat);
+        std::vector<skymaprec> star_records;
         int dim_stars;
     };
 
@@ -89,7 +87,6 @@ namespace starid {
             ar(stars, xtable, ytable, ztable);
         }
     };
-
 }
 
 #endif

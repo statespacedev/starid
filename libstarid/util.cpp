@@ -33,16 +33,3 @@ std::vector<int> starid::float_int_table::find_ints(double lowerFloat, double up
     std::sort(intsFromTable.begin(), intsFromTable.end());
     return intsFromTable;
 }
-
-starid::stopwatch::stopwatch() {
-    t1 = std::chrono::steady_clock::now();
-}
-
-int starid::stopwatch::end() {
-    t2 = std::chrono::steady_clock::now();
-    return std::chrono::duration_cast<std::chrono::milliseconds>(t2 - t1).count();
-}
-
-void starid::stopwatch::reset() {
-    t1 = std::chrono::steady_clock::now();
-}
