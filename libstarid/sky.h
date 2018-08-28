@@ -19,7 +19,7 @@ namespace starid {
 
     class skymap {
     public:
-        struct skymaprec {
+        struct record {
             double mv1;
             std::string iau_identifier;
             std::string star_name;
@@ -45,7 +45,7 @@ namespace starid {
             std::string fileline;
         };
         skymap(std::string fcat);
-        std::vector<skymaprec> star_records;
+        std::vector<record> records;
         int dim_stars;
     };
 

@@ -8,7 +8,7 @@ starid::skymap::skymap(std::string fcat) {
     std::ifstream catfile(fcat);
     if (catfile.is_open()) {
         std::string line;
-        skymaprec rec;
+        record rec;
         while (std::getline(catfile, line)) {
             try {
                 try { rec.mv1 = std::stof(line.substr(232, 6)); } catch (...) {}
@@ -42,7 +42,7 @@ starid::skymap::skymap(std::string fcat) {
                 if (line.substr(157, 1).compare("-") == 0)
                     rec.pmdecsign = -1.0;
                 rec.fileline = line;
-                star_records.push_back(rec);
+                records.push_back(rec);
             } catch (...) {
             }
         }
@@ -58,7 +58,7 @@ void starid::sky::init(std::string fcatin) {
 
     starid::skymap skymapCatalog(fcatalog);
     int starndx = 0;
-    for (auto rec : skymapCatalog.star_records) {
+    for (auto rec : skymapCatalog.records) {
         star.starndx = starndx;
         star.skymap_number = rec.skymap_number;
         star.mv = rec.mv1;
