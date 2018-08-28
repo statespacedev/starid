@@ -1,71 +1,8 @@
 #include "sky.h"
 
-void starid::sky::init(std::string fcatin) {
-    fcatalog = fcatin;
-    t = 0.0;
-    star star;
-
-    starid::star_catalog skymapCatalog(fcatalog);
-    int starndx = 0;
-    for (auto rec : skymapCatalog.star_records) {
-        star.starndx = starndx;
-        star.skymap_number = rec.skymap_number;
-        star.mv = rec.mv1;
-        star.ra_degrees = 15.0 * (rec.rah + rec.ram / 60.0 + rec.ras / 3600.0);
-        star.dec_degrees = rec.decsign * (rec.decd + rec.decm / 60.0 + rec.decs / 3600.0);
-//        star.ra_degrees += (t * rec.pmra_arcsec_per_year) / 3600.0;
-//        star.dec_degrees += (t * rec.pmdecsign * rec.pmdec_arcsec_per_year) / 3600.0;
-        double ra = star.ra_degrees * starid::pi / 180.0;
-        double dec = star.dec_degrees * starid::pi / 180.0;
-        star.x = std::cos(ra) * std::cos(dec);
-        star.y = std::sin(ra) * std::cos(dec);
-        star.z = std::sin(dec);
-        xtable.add_pair(star.x, starndx);
-        ytable.add_pair(star.y, starndx);
-        ztable.add_pair(star.z, starndx);
-        stars.push_back(star);
-        catalog_lines.push_back(rec.fileline);
-        ++starndx;
-    }
-    xtable.sort();
-    ytable.sort();
-    ztable.sort();
-}
-
-std::vector<int> starid::sky::stars_near_point(double x, double y, double z) {
-    double max_ang = 1.4 * starid::image_radius_radians;
-    std::vector<int> xring = stars_in_ring(x, max_ang, xtable);
-    std::vector<int> yring = stars_in_ring(y, max_ang, ytable);
-    std::vector<int> zring = stars_in_ring(z, max_ang, ztable);
-    std::vector<int> xy;
-    std::set_intersection(xring.begin(), xring.end(), yring.begin(), yring.end(), std::back_inserter(xy));
-    std::vector<int> xyz;
-    std::set_intersection(xy.begin(), xy.end(), zring.begin(), zring.end(), std::back_inserter(xyz));
-    std::vector<int> ndxs;
-    for (uint i = 0; i < xyz.size(); ++i) {
-        ndxs.push_back(xyz[i]);
-    }
-    return ndxs;
-}
-
-std::vector<int> starid::sky::stars_in_ring(double p, double radius, starid::float_int_table &table) {
-    double pmin, pmax;
-    if (p >= cos(radius)) {
-        pmin = p * cos(radius) - sqrt(1 - (p * p)) * sin(radius);
-        pmax = 1.0;
-    } else if (p <= -cos(radius)) {
-        pmin = -1.0;
-        pmax = p * cos(radius) + sqrt(1 - (p * p)) * sin(radius);
-    } else {
-        pmin = p * cos(radius) - sqrt(1 - (p * p)) * sin(radius);
-        pmax = p * cos(radius) + sqrt(1 - (p * p)) * sin(radius);
-    }
-    return table.find_ints(pmin, pmax);
-}
-
-void starid::sky::status() {
-    std::cout << "number of stars " << stars.size() << "\n";
-}
+std::random_device r;
+std::default_random_engine e1(r());
+std::uniform_real_distribution<double> unitscatter(0, 1);
 
 starid::star_catalog::star_catalog(std::string fcat) {
     std::ifstream catfile(fcat);
@@ -113,13 +50,42 @@ starid::star_catalog::star_catalog(std::string fcat) {
     }
 }
 
-std::random_device r;
-std::default_random_engine e1(r());
-std::uniform_real_distribution<double> unitscatter(0, 1);
+
+void starid::sky::init(std::string fcatin) {
+    fcatalog = fcatin;
+    t = 0.0;
+    star star;
+
+    starid::star_catalog skymapCatalog(fcatalog);
+    int starndx = 0;
+    for (auto rec : skymapCatalog.star_records) {
+        star.starndx = starndx;
+        star.skymap_number = rec.skymap_number;
+        star.mv = rec.mv1;
+        star.ra_degrees = 15.0 * (rec.rah + rec.ram / 60.0 + rec.ras / 3600.0);
+        star.dec_degrees = rec.decsign * (rec.decd + rec.decm / 60.0 + rec.decs / 3600.0);
+//        star.ra_degrees += (t * rec.pmra_arcsec_per_year) / 3600.0;
+//        star.dec_degrees += (t * rec.pmdecsign * rec.pmdec_arcsec_per_year) / 3600.0;
+        double ra = star.ra_degrees * starid::pi / 180.0;
+        double dec = star.dec_degrees * starid::pi / 180.0;
+        star.x = std::cos(ra) * std::cos(dec);
+        star.y = std::sin(ra) * std::cos(dec);
+        star.z = std::sin(dec);
+        xtable.add_pair(star.x, starndx);
+        ytable.add_pair(star.y, starndx);
+        ztable.add_pair(star.z, starndx);
+        stars.push_back(star);
+        catalog_lines.push_back(rec.fileline);
+        ++starndx;
+    }
+    xtable.sort();
+    ytable.sort();
+    ztable.sort();
+}
 
 starid::images starid::sky::image_generator(int starndx, starid::sky &sky) {
     using namespace Eigen;
-    images imginfo = images::Zero(100, 6);
+    images imgs = images::Zero(100, 6);
 
     Vector3d pointing;
     pointing << sky.stars[starndx].x, sky.stars[starndx].y, sky.stars[starndx].z;
@@ -150,17 +116,17 @@ starid::images starid::sky::image_generator(int starndx, starid::sky &sky) {
         if (ndxs(ndx, 0) == starndx) continue;
         if (axjndx < 0 || axjndx > 27) continue;
         if (axindx < 0 || axindx > 27) continue;
-        imginfo(imginfondx, 0) = axjndx;
-        imginfo(imginfondx, 1) = axindx;
-        imginfo(imginfondx, 2) = ndxs(ndx, 0); // starndx
-        imginfo(imginfondx, 3) = ndxs(ndx, 1); // skymap_number
-        imginfo(imginfondx, 4) = ndxs(ndx, 2); // ra
-        imginfo(imginfondx, 5) = ndxs(ndx, 3); // dec
+        imgs(imginfondx, 0) = axjndx;
+        imgs(imginfondx, 1) = axindx;
+        imgs(imginfondx, 2) = ndxs(ndx, 0); // starndx
+        imgs(imginfondx, 3) = ndxs(ndx, 1); // skymap_number
+        imgs(imginfondx, 4) = ndxs(ndx, 2); // ra
+        imgs(imginfondx, 5) = ndxs(ndx, 3); // dec
         ++imginfondx;
     }
-    imginfo.conservativeResize(imginfondx, 6);
+    imgs.conservativeResize(imginfondx, 6);
 
-    return imginfo;
+    return imgs;
 }
 
 starid::ang_seq_vec starid::sky::ang_seq_generator(int starndx, starid::sky &sky) {
@@ -208,23 +174,54 @@ starid::ang_seq_vec starid::sky::ang_seq_generator(int starndx, starid::sky &sky
     return angvec;
 }
 
-//Eigen::MatrixXd starid::pointing_vectors::get_pvecs_from_imgmat(starid::image_matrix &imgmat) {
-//    Eigen::MatrixXd pvecs = Eigen::MatrixXd::Zero(100, 3);
-//    pvecs.row(0) << 0.0, 0.0, 1.0;
-//    int pvecsndx = 1;
-//    for (int axjndx = 0; axjndx < 28; ++axjndx) {
-//        for (int axindx = 0; axindx < 28; ++axindx) {
-//            if (imgmat(axjndx, axindx) > 0) { // there's a star inside axjndx, axindx
-//                double x = starid::image_pixel_unit_vector_plane * (-13.5 + (double) axindx);
-//                double y = starid::image_pixel_unit_vector_plane * (+13.5 - (double) axjndx);
-//                pvecs.row(pvecsndx) << x, y, std::sqrt(1 - x * x - y * y);
-//                ++pvecsndx;
-//            }
-//        }
-//    }
-//    pvecs.conservativeResize(pvecsndx, 3);
-//    return pvecs;
-//}
+Eigen::MatrixXd starid::sky::get_pvecs_from_images(starid::images &imgs) {
+    Eigen::MatrixXd pvecs = Eigen::MatrixXd::Zero(100, 3);
+    pvecs.row(0) << 0.0, 0.0, 1.0;
+    int pvecsndx = 1;
+    for (int axjndx = 0; axjndx < 28; ++axjndx) {
+        for (int axindx = 0; axindx < 28; ++axindx) {
+            if (imgs(axjndx, axindx) > 0) { // there's a star inside axjndx, axindx
+                double x = starid::image_pixel_unit_vector_plane * (-13.5 + (double) axindx);
+                double y = starid::image_pixel_unit_vector_plane * (+13.5 - (double) axjndx);
+                pvecs.row(pvecsndx) << x, y, std::sqrt(1 - x * x - y * y);
+                ++pvecsndx;
+            }
+        }
+    }
+    pvecs.conservativeResize(pvecsndx, 3);
+    return pvecs;
+}
+
+std::vector<int> starid::sky::stars_near_point(double x, double y, double z) {
+    double max_ang = 1.4 * starid::image_radius_radians;
+    std::vector<int> xring = stars_in_ring(x, max_ang, xtable);
+    std::vector<int> yring = stars_in_ring(y, max_ang, ytable);
+    std::vector<int> zring = stars_in_ring(z, max_ang, ztable);
+    std::vector<int> xy;
+    std::set_intersection(xring.begin(), xring.end(), yring.begin(), yring.end(), std::back_inserter(xy));
+    std::vector<int> xyz;
+    std::set_intersection(xy.begin(), xy.end(), zring.begin(), zring.end(), std::back_inserter(xyz));
+    std::vector<int> ndxs;
+    for (uint i = 0; i < xyz.size(); ++i) {
+        ndxs.push_back(xyz[i]);
+    }
+    return ndxs;
+}
+
+std::vector<int> starid::sky::stars_in_ring(double p, double radius, starid::float_int_table &table) {
+    double pmin, pmax;
+    if (p >= cos(radius)) {
+        pmin = p * cos(radius) - sqrt(1 - (p * p)) * sin(radius);
+        pmax = 1.0;
+    } else if (p <= -cos(radius)) {
+        pmin = -1.0;
+        pmax = p * cos(radius) + sqrt(1 - (p * p)) * sin(radius);
+    } else {
+        pmin = p * cos(radius) - sqrt(1 - (p * p)) * sin(radius);
+        pmax = p * cos(radius) + sqrt(1 - (p * p)) * sin(radius);
+    }
+    return table.find_ints(pmin, pmax);
+}
 
 Eigen::Matrix3d starid::sky::rotation_matrix(Eigen::Vector3d &bodyz) {
     using namespace Eigen;
