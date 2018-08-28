@@ -44,7 +44,7 @@ namespace starid {
 
     public:
 
-        triangles(starid::image_matrix &imgmat, starid::pairs &pairs);
+//        triangles(starid::image_matrix &imgmat, starid::pairs &pairs);
 
         int id(int teststar = -1);
 

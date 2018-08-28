@@ -1,10 +1,10 @@
 #include "triangles.h"
 
-starid::triangles::triangles(starid::image_matrix &imgmat, starid::pairs &pairs) : pairs(pairs) {
-    pvecs = starid::pointing_vectors::get_pvecs_from_imgmat(imgmat);
-    double epsilon = 0.0;
-    tolerance = (2.0 * std::sqrt(500.0 * 500.0 + 500.00 * 500.0) + epsilon) * starid::arcseconds_to_radians;
-}
+//starid::triangles::triangles(starid::image_matrix &imgmat, starid::pairs &pairs) : pairs(pairs) {
+//    pvecs = starid::pointing_vectors::get_pvecs_from_imgmat(imgmat);
+//    double epsilon = 0.0;
+//    tolerance = (2.0 * std::sqrt(500.0 * 500.0 + 500.00 * 500.0) + epsilon) * starid::arcseconds_to_radians;
+//}
 
 int starid::triangles::id(int teststar) {
 

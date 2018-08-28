@@ -16,49 +16,8 @@
 
 namespace starid {
 
-    struct star {
-        int starndx;
-        int skymap_number;
-        double mv;
-        double ra_degrees;
-        double dec_degrees;
-        double x;
-        double y;
-        double z;
-
-        template<class Archive>
-        void serialize(Archive &ar) {
-            ar(starndx, skymap_number, mv, ra_degrees, dec_degrees, x, y, z);
-        }
-    };
-
-    class sky {
-    public:
-        std::vector<starid::star> stars;
-        std::vector<std::string> catalog_lines;
-
-        void init(std::string fcatalog);
-
-        std::vector<int> stars_near_point(double x, double y, double z);
-
-        void status();
-
-    private:
-        double t;
-        std::string fcatalog;
-        starid::float_int_table xtable;
-        starid::float_int_table ytable;
-        starid::float_int_table ztable;
-
-        std::vector<int> stars_in_ring(double p, double radius, starid::float_int_table &table);
-
-        friend class cereal::access;
-
-        template<class Archive>
-        void serialize(Archive &ar) {
-            ar(stars, xtable, ytable, ztable);
-        }
-    };
+    using images = Eigen::MatrixXd;
+    using ang_seq_vec = Eigen::Matrix<double, 36, 1>;
 
     struct star_record {
         double mv1;
@@ -87,43 +46,51 @@ namespace starid {
     };
 
     class star_catalog {
-
     public:
-
         star_catalog(std::string fcat);
-
         std::vector<starid::star_record> star_records;
         int dim_stars;
-
     };
 
-    using image_matrix = Eigen::Matrix<double, 28, 28>;
-    using image_info = Eigen::MatrixXd; // axjndx=row axindx=col starndx
-    using ang_seq_vec = Eigen::Matrix<double, 36, 1>;
+    struct star {
+        int starndx;
+        int skymap_number;
+        double mv;
+        double ra_degrees;
+        double dec_degrees;
+        double x;
+        double y;
+        double z;
+        template<class Archive>
+        void serialize(Archive &ar) {
+            ar(starndx, skymap_number, mv, ra_degrees, dec_degrees, x, y, z);
+        }
+    };
 
-    class pointing_vectors {
-
+    class sky {
     public:
-
-        /// axi axj image matrix for the star, with a random yaw
-        static image_matrix new_image_matrix(int starndx, starid::sky &sky);
-
-        /// axi axj image info for the star, with a random yaw
-        static image_info new_image_info(int starndx, starid::sky &sky);
-
-        /// yaw series for use by recurrent networks
-        static ang_seq_vec new_ang_seq_vec(int starndx, starid::sky &sky);
-
-        /// get pointing vector representation of an image
-        static Eigen::MatrixXd get_pvecs_from_imgmat(image_matrix &imgmat);
-
-
+        std::vector<starid::star> stars;
+        std::vector<std::string> catalog_lines;
+        void init(std::string fcatalog);
+        std::vector<int> stars_near_point(double x, double y, double z);
+        void status();
+        static images image_generator(int starndx, starid::sky &sky);
+        static ang_seq_vec ang_seq_generator(int starndx, starid::sky &sky);
+//        static Eigen::MatrixXd get_pvecs_from_imgmat(image_matrix &imgmat);
     private:
-
+        double t;
+        std::string fcatalog;
+        starid::float_int_table xtable;
+        starid::float_int_table ytable;
+        starid::float_int_table ztable;
+        std::vector<int> stars_in_ring(double p, double radius, starid::float_int_table &table);
         static Eigen::Matrix3d rotation_matrix(Eigen::Vector3d &pointing);
-
         static Eigen::Vector3d crossprod(Eigen::Vector3d &u, Eigen::Vector3d &v);
-
+        friend class cereal::access;
+        template<class Archive>
+        void serialize(Archive &ar) {
+            ar(stars, xtable, ytable, ztable);
+        }
     };
 
 }

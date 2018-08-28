@@ -117,46 +117,9 @@ std::random_device r;
 std::default_random_engine e1(r());
 std::uniform_real_distribution<double> unitscatter(0, 1);
 
-starid::image_matrix starid::pointing_vectors::new_image_matrix(int starndx, starid::sky &sky) {
+starid::images starid::sky::image_generator(int starndx, starid::sky &sky) {
     using namespace Eigen;
-    image_matrix imgmat = image_matrix::Zero();
-
-    Vector3d pointing;
-    pointing << sky.stars[starndx].x, sky.stars[starndx].y, sky.stars[starndx].z;
-    std::vector<int> starndxs = sky.stars_near_point(pointing(0), pointing(1), pointing(2));
-
-    Eigen::MatrixXd pvecs = Eigen::MatrixXd::Zero(100, 3);
-    Eigen::MatrixXd ndxs = Eigen::MatrixXd::Zero(100, 1);
-    int pvecsndx = 0;
-    for (auto ndx : starndxs) {
-        pvecs.row(pvecsndx) << sky.stars[ndx].x, sky.stars[ndx].y, sky.stars[ndx].z;
-        ndxs.row(pvecsndx) << ndx;
-        ++pvecsndx;
-    }
-    pvecs.conservativeResize(pvecsndx, 3);
-    Eigen::Matrix3d attitude = rotation_matrix(pointing);
-    pvecs = (attitude.transpose() * pvecs.transpose()).transpose();
-
-    double yaw = unitscatter(e1) * 2 * starid::pi;
-    for (int ndx = 0; ndx < pvecsndx; ++ndx) {
-        double x = std::cos(yaw) * pvecs(ndx, 0) - std::sin(yaw) * pvecs(ndx, 1);
-        double y = std::sin(yaw) * pvecs(ndx, 0) + std::cos(yaw) * pvecs(ndx, 1);
-        double axi = x + starid::image_radius_unit_vector_plane;
-        double axj = -y + starid::image_radius_unit_vector_plane;
-        int axindx = std::floor(axi / starid::image_pixel_unit_vector_plane);
-        int axjndx = std::floor(axj / starid::image_pixel_unit_vector_plane);
-        if (ndxs(ndx, 0) == starndx) continue;
-        if (axjndx < 0 || axjndx > 27) continue;
-        if (axindx < 0 || axindx > 27) continue;
-        imgmat(axjndx, axindx) = 1.0;
-    }
-
-    return imgmat;
-}
-
-starid::image_info starid::pointing_vectors::new_image_info(int starndx, starid::sky &sky) {
-    using namespace Eigen;
-    image_info imginfo = image_info::Zero(100, 6);
+    images imginfo = images::Zero(100, 6);
 
     Vector3d pointing;
     pointing << sky.stars[starndx].x, sky.stars[starndx].y, sky.stars[starndx].z;
@@ -200,7 +163,7 @@ starid::image_info starid::pointing_vectors::new_image_info(int starndx, starid:
     return imginfo;
 }
 
-starid::ang_seq_vec starid::pointing_vectors::new_ang_seq_vec(int starndx, starid::sky &sky) {
+starid::ang_seq_vec starid::sky::ang_seq_generator(int starndx, starid::sky &sky) {
     using namespace Eigen;
     ang_seq_vec angvec = ang_seq_vec::Zero();
 
@@ -245,25 +208,25 @@ starid::ang_seq_vec starid::pointing_vectors::new_ang_seq_vec(int starndx, stari
     return angvec;
 }
 
-Eigen::MatrixXd starid::pointing_vectors::get_pvecs_from_imgmat(starid::image_matrix &imgmat) {
-    Eigen::MatrixXd pvecs = Eigen::MatrixXd::Zero(100, 3);
-    pvecs.row(0) << 0.0, 0.0, 1.0;
-    int pvecsndx = 1;
-    for (int axjndx = 0; axjndx < 28; ++axjndx) {
-        for (int axindx = 0; axindx < 28; ++axindx) {
-            if (imgmat(axjndx, axindx) > 0) { // there's a star inside axjndx, axindx
-                double x = starid::image_pixel_unit_vector_plane * (-13.5 + (double) axindx);
-                double y = starid::image_pixel_unit_vector_plane * (+13.5 - (double) axjndx);
-                pvecs.row(pvecsndx) << x, y, std::sqrt(1 - x * x - y * y);
-                ++pvecsndx;
-            }
-        }
-    }
-    pvecs.conservativeResize(pvecsndx, 3);
-    return pvecs;
-}
+//Eigen::MatrixXd starid::pointing_vectors::get_pvecs_from_imgmat(starid::image_matrix &imgmat) {
+//    Eigen::MatrixXd pvecs = Eigen::MatrixXd::Zero(100, 3);
+//    pvecs.row(0) << 0.0, 0.0, 1.0;
+//    int pvecsndx = 1;
+//    for (int axjndx = 0; axjndx < 28; ++axjndx) {
+//        for (int axindx = 0; axindx < 28; ++axindx) {
+//            if (imgmat(axjndx, axindx) > 0) { // there's a star inside axjndx, axindx
+//                double x = starid::image_pixel_unit_vector_plane * (-13.5 + (double) axindx);
+//                double y = starid::image_pixel_unit_vector_plane * (+13.5 - (double) axjndx);
+//                pvecs.row(pvecsndx) << x, y, std::sqrt(1 - x * x - y * y);
+//                ++pvecsndx;
+//            }
+//        }
+//    }
+//    pvecs.conservativeResize(pvecsndx, 3);
+//    return pvecs;
+//}
 
-Eigen::Matrix3d starid::pointing_vectors::rotation_matrix(Eigen::Vector3d &bodyz) {
+Eigen::Matrix3d starid::sky::rotation_matrix(Eigen::Vector3d &bodyz) {
     using namespace Eigen;
     Matrix3d rm = Matrix3d::Identity(3, 3);
     Vector3d icrfz(0.0, 0.0, 1.0);
@@ -275,7 +238,7 @@ Eigen::Matrix3d starid::pointing_vectors::rotation_matrix(Eigen::Vector3d &bodyz
     return rm;
 }
 
-Eigen::Vector3d starid::pointing_vectors::crossprod(Eigen::Vector3d &u, Eigen::Vector3d &v) {
+Eigen::Vector3d starid::sky::crossprod(Eigen::Vector3d &u, Eigen::Vector3d &v) {
     Eigen::Vector3d result;
     result(0) = u(1) * v(2) - u(2) * v(1);
     result(1) = u(2) * v(0) - u(0) * v(2);

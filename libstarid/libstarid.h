@@ -15,8 +15,7 @@ public:
     starid::sky sky;
     void write_sky(std::string pathcat, std::string pathsky);
     void read_sky(std::string pathsky);
-    Eigen::MatrixXd image_info(int starndx);
-    Eigen::MatrixXd image(int starndx);
+    Eigen::MatrixXd image_generator(int starndx);
 };
 
 PYBIND11_MODULE(libstarid, m) {
@@ -24,8 +23,7 @@ PYBIND11_MODULE(libstarid, m) {
             .def(pybind11::init<>())
             .def("write_sky", &libstarid::write_sky, pybind11::arg("pathcat"), pybind11::arg("pathsky"))
             .def("read_sky", &libstarid::read_sky, pybind11::arg("pathsky"))
-            .def("image_info", &libstarid::image_info)
-            .def("image", &libstarid::image);
+            .def("image_generator", &libstarid::image_generator);
 }
 
 #endif

@@ -1,12 +1,10 @@
-### *convolutional network* cnn using libstarid, and tensorflow training and inference
-###
 import tensorflow as tf
 import numpy as np
 import time, random
-import libstarid.libstarid as ls
-libstarid = ls.libstarid()
+import libstarid
+ls = libstarid.libstarid()
 
-stars = 1000
+stars = 10
 batch_size = 100
 batches = 100
 output_keep_prob = 0.5
@@ -20,7 +18,7 @@ def inputs(batch_size, stars):
     labels = np.zeros((batch_size), dtype=np.int32)
     for cnt in range(batch_size):
         starndx = random.randint(0, stars-1)
-        images[cnt, :, :, 0] = libstarid.image(starndx)
+        images[cnt, :, :, 0] = ls.image(starndx)
         labels[cnt] = starndx
     return images, labels
 
@@ -103,7 +101,7 @@ def train_minimalist():
 
     loss = tf.reduce_mean(tf.nn.sparse_softmax_cross_entropy_with_logits(logits=logits, labels=target))
     train = tf.train.AdamOptimizer().minimize(loss)
-    prediction = tf.cast(tf.arg_max((logits), 1), tf.int32)
+    prediction = tf.cast(tf.argmax((logits), 1), tf.int32)
     accuracy = tf.reduce_mean(tf.cast(tf.equal(prediction, target), tf.float32))
 
     init = tf.global_variables_initializer()
@@ -119,5 +117,5 @@ def train_minimalist():
             print('%s, %.1f, %d, %.2f, %.2f' % (time.strftime('%H%M%S'), time.time() - t0, batchndx, testcost, testacc))
 
 if __name__ == '__main__':
-    # train_minimalist()
-    train()
+    train_minimalist()
+    # train()
