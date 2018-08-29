@@ -1,13 +1,11 @@
 #ifndef LIBSTARID_H
 #define LIBSTARID_H
+#include <Eigen/Core>
 #include <pybind11/pybind11.h>
 #include <pybind11/eigen.h>
-#include <Eigen/Core>
-#include <cereal/archives/binary.hpp>
+#include <pybind11/stl.h>
 #include "sky.h"
 #include "triangles.h"
-#include <iostream>
-#include <pybind11/stl.h>
 
 class libstarid {
     

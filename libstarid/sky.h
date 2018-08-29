@@ -1,24 +1,10 @@
 #ifndef SKY_H
 #define SKY_H
 #include <Eigen/Core>
-#include <cereal/access.hpp>
-#include <cereal/types/utility.hpp>
-#include <cereal/types/vector.hpp>
-#include <cereal/types/string.hpp>
-#include <string>
-#include <vector>
-#include <fstream>
-#include <cmath>
-#include <algorithm>
-#include <random>
 #include <map>
 #include "util.h"
 
 namespace starid {
-    using imgpix = Eigen::MatrixXd;
-    using imginfo = Eigen::MatrixXd;
-    using angseqvec = Eigen::Matrix<double, 36, 1>;
-
     class skymap {
     public:
         struct record {
@@ -48,7 +34,6 @@ namespace starid {
         };
         skymap(std::string fcat);
         std::vector<record> records;
-        int dim_stars;
     };
 
     class sky {
@@ -72,8 +57,8 @@ namespace starid {
         void init(std::string fcatalog);
         std::vector<int> stars_near_point(double x, double y, double z);
         static std::map<std::string, Eigen::MatrixXd> image_generator(int starndx, starid::sky &sky);
-        static angseqvec ang_seq_generator(int starndx, starid::sky &sky);
-        static Eigen::MatrixXd get_pvecs_from_images(imginfo &imgs);
+        static Eigen::Matrix<double, 36, 1> ang_seq_generator(int starndx, starid::sky &sky);
+        static Eigen::MatrixXd get_pvecs_from_images(Eigen::MatrixXd &imgs);
     private:
         double t;
         std::string fcatalog;

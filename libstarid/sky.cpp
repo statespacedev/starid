@@ -1,4 +1,6 @@
 #include "sky.h"
+#include <random>
+#include <fstream>
 
 std::random_device r;
 std::default_random_engine e1(r());
@@ -12,10 +14,7 @@ starid::skymap::skymap(std::string fcat) {
         while (std::getline(catfile, line)) {
             try {
                 try { rec.mv1 = std::stof(line.substr(232, 6)); } catch (...) {}
-                if (rec.mv1 > starid::star_brightness_limit) {
-                    ++dim_stars;
-                    continue;
-                }
+                if (rec.mv1 > starid::star_brightness_limit) continue;
                 rec.iau_identifier = line.substr(0, 27);
                 try { rec.star_name = line.substr(98, 10); } catch (...) {}
                 try { rec.variablestar_name = line.substr(108, 10); } catch (...) {}
@@ -37,10 +36,8 @@ starid::skymap::skymap(std::string fcat) {
                 rec.pmdec_arcsec_per_year = std::stof(line.substr(158, 7));
                 rec.decsign = 1.0;
                 rec.pmdecsign = 1.0;
-                if (line.substr(129, 1).compare("-") == 0)
-                    rec.decsign = -1.0;
-                if (line.substr(157, 1).compare("-") == 0)
-                    rec.pmdecsign = -1.0;
+                if (line.substr(129, 1).compare("-") == 0) rec.decsign = -1.0;
+                if (line.substr(157, 1).compare("-") == 0) rec.pmdecsign = -1.0;
                 rec.fileline = line;
                 records.push_back(rec);
             } catch (...) {
@@ -85,14 +82,14 @@ void starid::sky::init(std::string fcatin) {
 
 std::map<std::string, Eigen::MatrixXd> starid::sky::image_generator(int starndx, starid::sky &sky) {
     using namespace Eigen;
-    imgpix pixels = imgpix::Zero(28, 28);
-    imginfo info = imginfo::Zero(100, 6);
-    Eigen::MatrixXd stars = Eigen::MatrixXd::Zero(50, 1); // for when we're returning multiple images
+    MatrixXd pixels = MatrixXd::Zero(28, 28);
+    MatrixXd info = MatrixXd::Zero(100, 6);
+    MatrixXd stars = MatrixXd::Zero(50, 1); // for when we're returning multiple images
     Vector3d pointing;
     pointing << sky.stars[starndx].x, sky.stars[starndx].y, sky.stars[starndx].z;
     std::vector<int> starndxs = sky.stars_near_point(pointing(0), pointing(1), pointing(2));
-    Eigen::MatrixXd pvecs = Eigen::MatrixXd::Zero(100, 3);
-    Eigen::MatrixXd ndxs = Eigen::MatrixXd::Zero(100, 4);
+    MatrixXd pvecs = MatrixXd::Zero(100, 3);
+    MatrixXd ndxs = MatrixXd::Zero(100, 4);
     int pvecsndx = 0;
     for (auto ndx : starndxs) {
         pvecs.row(pvecsndx) << sky.stars[ndx].x, sky.stars[ndx].y, sky.stars[ndx].z;
@@ -101,7 +98,7 @@ std::map<std::string, Eigen::MatrixXd> starid::sky::image_generator(int starndx,
         ++pvecsndx;
     }
     pvecs.conservativeResize(pvecsndx, 3);
-    Eigen::Matrix3d attitude = rotation_matrix(pointing);
+    Matrix3d attitude = rotation_matrix(pointing);
     pvecs = (attitude.transpose() * pvecs.transpose()).transpose();
     double yaw = unitscatter(e1) * 2 * starid::pi;
     int imgindx = 0;
@@ -133,16 +130,16 @@ std::map<std::string, Eigen::MatrixXd> starid::sky::image_generator(int starndx,
     return result;
 }
 
-starid::angseqvec starid::sky::ang_seq_generator(int starndx, starid::sky &sky) {
+Eigen::Matrix<double, 36, 1> starid::sky::ang_seq_generator(int starndx, starid::sky &sky) {
     using namespace Eigen;
-    angseqvec angvec = angseqvec::Zero();
+    Matrix<double, 36, 1> angvec = Matrix<double, 36, 1>::Zero();
 
     Vector3d pointing;
     pointing << sky.stars[starndx].x, sky.stars[starndx].y, sky.stars[starndx].z;
     std::vector<int> starndxs = sky.stars_near_point(pointing(0), pointing(1), pointing(2));
 
-    Eigen::MatrixXd pvecs = Eigen::MatrixXd::Zero(100, 3);
-    Eigen::MatrixXd ndxs = Eigen::MatrixXd::Zero(100, 1);
+    MatrixXd pvecs = MatrixXd::Zero(100, 3);
+    MatrixXd ndxs = MatrixXd::Zero(100, 1);
     int pvecsndx = 0;
     for (auto ndx : starndxs) {
         pvecs.row(pvecsndx) << sky.stars[ndx].x, sky.stars[ndx].y, sky.stars[ndx].z;
@@ -150,7 +147,7 @@ starid::angseqvec starid::sky::ang_seq_generator(int starndx, starid::sky &sky) 
         ++pvecsndx;
     }
     pvecs.conservativeResize(pvecsndx, 3);
-    Eigen::Matrix3d attitude = rotation_matrix(pointing);
+    Matrix3d attitude = rotation_matrix(pointing);
     pvecs = (attitude.transpose() * pvecs.transpose()).transpose();
 
     double yaw = unitscatter(e1) * 2 * starid::pi;
@@ -174,11 +171,10 @@ starid::angseqvec starid::sky::ang_seq_generator(int starndx, starid::sky &sky) 
         int yawvecndx = std::floor(yawdeg / 10.0);
         ++angvec(yawvecndx);
     }
-
     return angvec;
 }
 
-Eigen::MatrixXd starid::sky::get_pvecs_from_images(starid::imginfo &imgs) {
+Eigen::MatrixXd starid::sky::get_pvecs_from_images(Eigen::MatrixXd &imgs) {
     Eigen::MatrixXd pvecs = Eigen::MatrixXd::Zero(100, 3);
     pvecs.row(0) << 0.0, 0.0, 1.0;
     int pvecsndx = 1;

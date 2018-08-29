@@ -3,9 +3,7 @@
 #include <cereal/access.hpp>
 #include <cereal/types/utility.hpp>
 #include <cereal/types/vector.hpp>
-#include <cereal/types/string.hpp>
 #include <algorithm>
-#include <chrono>
 
 namespace starid {
     const double image_radius_radians = 0.0698131700797732; // four degrees in radians
@@ -22,11 +20,11 @@ namespace starid {
         void sort();
         std::vector<int> findndxs(double lofloat, double hifloat);
     private:
-        std::vector<std::pair<double, int>> float_ndx_table;
+        std::vector<std::pair<double, int>> float_ndx;
         friend class cereal::access;
         template<class Archive>
         void serialize(Archive &ar) {
-            ar(float_ndx_table);
+            ar(float_ndx);
         }
     };
 }

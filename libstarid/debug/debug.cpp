@@ -2,6 +2,7 @@
 #include <cereal/archives/binary.hpp>
 #include "util.h"
 #include "sky.h"
+#include <fstream>
 
 int main() {
     starid::sky sky;

@@ -1,5 +1,7 @@
 #include "libstarid.h"
 #include <iostream>
+#include <fstream>
+#include <cereal/archives/binary.hpp>
 
 libstarid::libstarid() {
     return;
