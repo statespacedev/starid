@@ -224,7 +224,7 @@ std::vector<int> starid::sky::stars_in_ring(double p, double radius, starid::ran
         pmin = p * cos(radius) - sqrt(1 - (p * p)) * sin(radius);
         pmax = p * cos(radius) + sqrt(1 - (p * p)) * sin(radius);
     }
-    return table.find_ints(pmin, pmax);
+    return table.findndxs(pmin, pmax);
 }
 
 Eigen::Matrix3d starid::sky::rotation_matrix(Eigen::Vector3d &bodyz) {

@@ -137,7 +137,7 @@ std::unordered_map<int, std::unordered_map<int, int>> starid::pairs::pairs_map(d
         ang1 = starid::star_pair_angle_limit - epsilon * tol_radius;
     if (ang2 >= starid::star_pair_angle_limit) ang2 = starid::star_pair_angle_limit;
 
-    std::vector<int> intsFromTable = angletable.find_ints(ang1, ang2);
+    std::vector<int> intsFromTable = angletable.findndxs(ang1, ang2);
     for (auto ndx : intsFromTable) {
         int star1 = std::get<1>(starpairs[ndx]);
         int star2 = std::get<2>(starpairs[ndx]);
