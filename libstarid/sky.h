@@ -11,11 +11,13 @@
 #include <cmath>
 #include <algorithm>
 #include <random>
+#include <map>
 #include "util.h"
 
 namespace starid {
-    using images = Eigen::MatrixXd;
-    using ang_seq_vec = Eigen::Matrix<double, 36, 1>;
+    using imgpix = Eigen::MatrixXd;
+    using imginfo = Eigen::MatrixXd;
+    using angseqvec = Eigen::Matrix<double, 36, 1>;
 
     class skymap {
     public:
@@ -69,9 +71,9 @@ namespace starid {
         std::vector<std::string> catalog_lines;
         void init(std::string fcatalog);
         std::vector<int> stars_near_point(double x, double y, double z);
-        static images image_generator(int starndx, starid::sky &sky);
-        static ang_seq_vec ang_seq_generator(int starndx, starid::sky &sky);
-        static Eigen::MatrixXd get_pvecs_from_images(images &imgs);
+        static std::map<std::string, Eigen::MatrixXd> image_generator(int starndx, starid::sky &sky);
+        static angseqvec ang_seq_generator(int starndx, starid::sky &sky);
+        static Eigen::MatrixXd get_pvecs_from_images(imginfo &imgs);
     private:
         double t;
         std::string fcatalog;

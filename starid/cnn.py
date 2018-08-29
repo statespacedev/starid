@@ -2,7 +2,6 @@ import tensorflow as tf
 import numpy as np
 import time, random
 import libstarid
-ls = libstarid.libstarid()
 
 stars = 10
 batch_size = 100
@@ -12,13 +11,17 @@ beta = 0.01
 loginterval = 10 # batches
 outdir = '/home/noah/runs/' + time.strftime('%m%d%H%M%S')
 keep_prob = tf.placeholder(tf.float32)
+pathsky = '../data/sky'
+
+ls = libstarid.libstarid()
+ls.read_sky(pathsky)
 
 def inputs(batch_size, stars):
     images = np.zeros((batch_size, 28, 28, 1), dtype=np.float32)
     labels = np.zeros((batch_size), dtype=np.int32)
     for cnt in range(batch_size):
         starndx = random.randint(0, stars-1)
-        images[cnt, :, :, 0] = ls.image(starndx)
+        imgdict = ls.image_generator(starndx)
         labels[cnt] = starndx
     return images, labels
 
@@ -101,7 +104,7 @@ def train_minimalist():
 
     loss = tf.reduce_mean(tf.nn.sparse_softmax_cross_entropy_with_logits(logits=logits, labels=target))
     train = tf.train.AdamOptimizer().minimize(loss)
-    prediction = tf.cast(tf.argmax((logits), 1), tf.int32)
+    prediction = tf.cast(tf.arg_max((logits), 1), tf.int32)
     accuracy = tf.reduce_mean(tf.cast(tf.equal(prediction, target), tf.float32))
 
     init = tf.global_variables_initializer()

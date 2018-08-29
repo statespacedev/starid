@@ -7,6 +7,7 @@
 #include "sky.h"
 #include "triangles.h"
 #include <iostream>
+#include <pybind11/stl.h>
 
 class libstarid {
     
@@ -15,7 +16,7 @@ public:
     starid::sky sky;
     void write_sky(std::string pathcat, std::string pathsky);
     void read_sky(std::string pathsky);
-    Eigen::MatrixXd image_generator(int starndx);
+    std::map<std::string, Eigen::MatrixXd> image_generator(int starndx);
 };
 
 PYBIND11_MODULE(libstarid, m) {

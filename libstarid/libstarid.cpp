@@ -19,9 +19,9 @@ void libstarid::read_sky(std::string pathsky) {
     iarchive1(sky);
 }
 
-Eigen::MatrixXd libstarid::image_generator(int starndx) {
-    Eigen::MatrixXd images = starid::sky::image_generator(starndx, sky);
-    return images;
+std::map<std::string, Eigen::MatrixXd> libstarid::image_generator(int starndx) {
+    std::map<std::string, Eigen::MatrixXd> result = starid::sky::image_generator(starndx, sky);
+    return result;
 }
 
 
