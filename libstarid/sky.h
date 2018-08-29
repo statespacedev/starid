@@ -32,7 +32,7 @@ namespace starid {
             double pmdecsign;
             std::string fileline;
         };
-        skymap(std::string fcat);
+        skymap(std::string pathcat);
         std::vector<record> records;
     };
 
@@ -54,14 +54,14 @@ namespace starid {
         };
         std::vector<starid::sky::star> stars;
         std::vector<std::string> catalog_lines;
-        void init(std::string fcatalog);
+        void init(std::string pathin);
         std::vector<int> stars_near_point(double x, double y, double z);
         static std::map<std::string, Eigen::MatrixXd> image_generator(int starndx, starid::sky &sky);
         static Eigen::Matrix<double, 36, 1> ang_seq_generator(int starndx, starid::sky &sky);
         static Eigen::MatrixXd get_pvecs_from_images(Eigen::MatrixXd &imgs);
     private:
         double t;
-        std::string fcatalog;
+        std::string pathcat;
         starid::range_of_floats_indexer xtable;
         starid::range_of_floats_indexer ytable;
         starid::range_of_floats_indexer ztable;

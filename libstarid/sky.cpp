@@ -6,8 +6,8 @@ std::random_device r;
 std::default_random_engine e1(r());
 std::uniform_real_distribution<double> unitscatter(0, 1);
 
-starid::skymap::skymap(std::string fcat) {
-    std::ifstream catfile(fcat);
+starid::skymap::skymap(std::string pathcat) {
+    std::ifstream catfile(pathcat);
     if (catfile.is_open()) {
         std::string line;
         record rec;
@@ -47,15 +47,13 @@ starid::skymap::skymap(std::string fcat) {
     }
 }
 
-
-void starid::sky::init(std::string fcatin) {
-    fcatalog = fcatin;
+void starid::sky::init(std::string pathin) {
+    pathcat = pathin;
     t = 0.0;
     star star;
-
-    starid::skymap skymapCatalog(fcatalog);
+    starid::skymap skymap(pathcat);
     int starndx = 0;
-    for (auto rec : skymapCatalog.records) {
+    for (auto rec : skymap.records) {
         star.starndx = starndx;
         star.skymap_number = rec.skymap_number;
         star.mv = rec.mv1;

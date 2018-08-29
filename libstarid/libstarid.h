@@ -8,7 +8,6 @@
 #include "triangles.h"
 
 class libstarid {
-    
 public:
     libstarid();
     starid::sky sky;
