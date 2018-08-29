@@ -85,13 +85,12 @@ void starid::sky::init(std::string fcatin) {
 
 std::map<std::string, Eigen::MatrixXd> starid::sky::image_generator(int starndx, starid::sky &sky) {
     using namespace Eigen;
-    imgpix imgp = imgpix::Zero(28, 28);
-    imginfo imgi = imginfo::Zero(100, 6);
-
+    imgpix pixels = imgpix::Zero(28, 28);
+    imginfo info = imginfo::Zero(100, 6);
+    Eigen::MatrixXd stars = Eigen::MatrixXd::Zero(50, 1); // for when we're returning multiple images
     Vector3d pointing;
     pointing << sky.stars[starndx].x, sky.stars[starndx].y, sky.stars[starndx].z;
     std::vector<int> starndxs = sky.stars_near_point(pointing(0), pointing(1), pointing(2));
-
     Eigen::MatrixXd pvecs = Eigen::MatrixXd::Zero(100, 3);
     Eigen::MatrixXd ndxs = Eigen::MatrixXd::Zero(100, 4);
     int pvecsndx = 0;
@@ -104,7 +103,6 @@ std::map<std::string, Eigen::MatrixXd> starid::sky::image_generator(int starndx,
     pvecs.conservativeResize(pvecsndx, 3);
     Eigen::Matrix3d attitude = rotation_matrix(pointing);
     pvecs = (attitude.transpose() * pvecs.transpose()).transpose();
-
     double yaw = unitscatter(e1) * 2 * starid::pi;
     int imgindx = 0;
     for (int ndx = 0; ndx < pvecsndx; ++ndx) {
@@ -117,19 +115,21 @@ std::map<std::string, Eigen::MatrixXd> starid::sky::image_generator(int starndx,
         if (ndxs(ndx, 0) == starndx) continue;
         if (axjndx < 0 || axjndx > 27) continue;
         if (axindx < 0 || axindx > 27) continue;
-        imgp(axjndx, axindx) = 1.0;
-        imgi(imgindx, 0) = axjndx;
-        imgi(imgindx, 1) = axindx;
-        imgi(imgindx, 2) = ndxs(ndx, 0); // starndx
-        imgi(imgindx, 3) = ndxs(ndx, 1); // skymap_number
-        imgi(imgindx, 4) = ndxs(ndx, 2); // ra
-        imgi(imgindx, 5) = ndxs(ndx, 3); // dec
+        pixels(axjndx, axindx) = 1.0;
+        info(imgindx, 0) = axjndx;
+        info(imgindx, 1) = axindx;
+        info(imgindx, 2) = ndxs(ndx, 0); // starndx
+        info(imgindx, 3) = ndxs(ndx, 1); // skymap_number
+        info(imgindx, 4) = ndxs(ndx, 2); // ra
+        info(imgindx, 5) = ndxs(ndx, 3); // dec
         ++imgindx;
     }
-    imgi.conservativeResize(imgindx, 6);
+    stars(0, 0) = starndx;
+//    imgi.conservativeResize(imgindx, 6);
     std::map<std::string, Eigen::MatrixXd> result;
-    result["pixels"] = imgp;
-    result["info"] = imgi;
+    result["pixels"] = pixels;
+    result["info"] = info;
+    result["stars"] = stars;
     return result;
 }
 
@@ -212,7 +212,7 @@ std::vector<int> starid::sky::stars_near_point(double x, double y, double z) {
     return ndxs;
 }
 
-std::vector<int> starid::sky::stars_in_ring(double p, double radius, starid::float_int_table &table) {
+std::vector<int> starid::sky::stars_in_ring(double p, double radius, starid::range_of_floats_indexer &table) {
     double pmin, pmax;
     if (p >= cos(radius)) {
         pmin = p * cos(radius) - sqrt(1 - (p * p)) * sin(radius);

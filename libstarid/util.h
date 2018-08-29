@@ -16,7 +16,7 @@ namespace starid {
     extern double pi;
     extern double arcseconds_to_radians;
 
-    class float_int_table {
+    class range_of_floats_indexer {
     public:
         void add_pair(double newFloat, int newInt);
         void sort();

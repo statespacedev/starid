@@ -77,10 +77,10 @@ namespace starid {
     private:
         double t;
         std::string fcatalog;
-        starid::float_int_table xtable;
-        starid::float_int_table ytable;
-        starid::float_int_table ztable;
-        std::vector<int> stars_in_ring(double p, double radius, starid::float_int_table &table);
+        starid::range_of_floats_indexer xtable;
+        starid::range_of_floats_indexer ytable;
+        starid::range_of_floats_indexer ztable;
+        std::vector<int> stars_in_ring(double p, double radius, starid::range_of_floats_indexer &table);
         static Eigen::Matrix3d rotation_matrix(Eigen::Vector3d &pointing);
         static Eigen::Vector3d crossprod(Eigen::Vector3d &u, Eigen::Vector3d &v);
         friend class cereal::access;

@@ -8,16 +8,16 @@ double starid::star_brightness_limit = 6.5; // star visual magnitude
 double starid::pi = 3.14159265358979323846;
 double starid::arcseconds_to_radians = starid::pi / 648000.0;
 
-void starid::float_int_table::add_pair(double newFloat, int newInt) {
+void starid::range_of_floats_indexer::add_pair(double newFloat, int newInt) {
     std::pair<double, int> pair{newFloat, newInt};
     float_int_table.push_back(pair);
 }
 
-void starid::float_int_table::sort() {
+void starid::range_of_floats_indexer::sort() {
     std::sort(float_int_table.begin(), float_int_table.end());
 }
 
-std::vector<int> starid::float_int_table::find_ints(double lowerFloat, double upperFloat) {
+std::vector<int> starid::range_of_floats_indexer::find_ints(double lowerFloat, double upperFloat) {
     std::vector<int> intsFromTable;
     auto itlow = std::lower_bound(float_int_table.begin(), float_int_table.end(),
                                   std::make_pair(lowerFloat, 0));
