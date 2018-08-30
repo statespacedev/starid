@@ -62,16 +62,16 @@ namespace starid {
     private:
         double t;
         std::string pathcat;
-        starid::range_of_floats_indexer xtable;
-        starid::range_of_floats_indexer ytable;
-        starid::range_of_floats_indexer ztable;
+        starid::range_of_floats_indexer xndxer;
+        starid::range_of_floats_indexer yndxer;
+        starid::range_of_floats_indexer zndxer;
         std::vector<int> stars_in_ring(double p, double radius, starid::range_of_floats_indexer &table);
         static Eigen::Matrix3d rotation_matrix(Eigen::Vector3d &pointing);
         static Eigen::Vector3d crossprod(Eigen::Vector3d &u, Eigen::Vector3d &v);
         friend class cereal::access;
         template<class Archive>
         void serialize(Archive &ar) {
-            ar(stars, xtable, ytable, ztable);
+            ar(stars, xndxer, yndxer, zndxer);
         }
     };
 }

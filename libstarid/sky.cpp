@@ -66,16 +66,16 @@ void starid::sky::init(std::string pathin) {
         star.x = std::cos(ra) * std::cos(dec);
         star.y = std::sin(ra) * std::cos(dec);
         star.z = std::sin(dec);
-        xtable.add_pair(star.x, starndx);
-        ytable.add_pair(star.y, starndx);
-        ztable.add_pair(star.z, starndx);
+        xndxer.add_pair(star.x, starndx);
+        yndxer.add_pair(star.y, starndx);
+        zndxer.add_pair(star.z, starndx);
         stars.push_back(star);
         catalog_lines.push_back(rec.fileline);
         ++starndx;
     }
-    xtable.sort();
-    ytable.sort();
-    ztable.sort();
+    xndxer.sort();
+    yndxer.sort();
+    zndxer.sort();
 }
 
 std::map<std::string, Eigen::MatrixXd> starid::sky::image_generator(int starndx, starid::sky &sky) {
@@ -192,9 +192,9 @@ Eigen::MatrixXd starid::sky::get_pvecs_from_images(Eigen::MatrixXd &imgs) {
 
 std::vector<int> starid::sky::stars_near_point(double x, double y, double z) {
     double max_ang = 1.4 * starid::image_radius_radians;
-    std::vector<int> xring = stars_in_ring(x, max_ang, xtable);
-    std::vector<int> yring = stars_in_ring(y, max_ang, ytable);
-    std::vector<int> zring = stars_in_ring(z, max_ang, ztable);
+    std::vector<int> xring = stars_in_ring(x, max_ang, xndxer);
+    std::vector<int> yring = stars_in_ring(y, max_ang, yndxer);
+    std::vector<int> zring = stars_in_ring(z, max_ang, zndxer);
     std::vector<int> xy;
     std::set_intersection(xring.begin(), xring.end(), yring.begin(), yring.end(), std::back_inserter(xy));
     std::vector<int> xyz;
