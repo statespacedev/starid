@@ -22,7 +22,8 @@ def inputs(batch_size, stars):
     for cnt in range(batch_size):
         starndx = random.randint(0, stars-1)
         imgdict = ls.image_generator(starndx)
-        labels[cnt] = starndx
+        images[cnt, :, :, 0] = imgdict['pixels']
+        labels[cnt] = imgdict['stars'][0]
     return images, labels
 
 def train():
