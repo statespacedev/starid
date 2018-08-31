@@ -53,7 +53,7 @@ def train():
     loss = tf.reduce_mean(tf.nn.sparse_softmax_cross_entropy_with_logits(logits=logits, labels=target))
     loss = tf.reduce_mean(loss + r1 + r2 + r3 + r4)
     train = tf.train.AdamOptimizer().minimize(loss)
-    prediction = tf.cast(tf.arg_max((logits), 1), tf.int32)
+    prediction = tf.cast(tf.argmax((logits), 1), tf.int32)
     accuracy = tf.reduce_mean(tf.cast(tf.equal(prediction, target), tf.float32))
 
     tf.summary.histogram('w4', w4)
@@ -105,7 +105,7 @@ def train_minimalist():
 
     loss = tf.reduce_mean(tf.nn.sparse_softmax_cross_entropy_with_logits(logits=logits, labels=target))
     train = tf.train.AdamOptimizer().minimize(loss)
-    prediction = tf.cast(tf.arg_max((logits), 1), tf.int32)
+    prediction = tf.cast(tf.argmax((logits), 1), tf.int32)
     accuracy = tf.reduce_mean(tf.cast(tf.equal(prediction, target), tf.float32))
 
     init = tf.global_variables_initializer()
@@ -121,5 +121,5 @@ def train_minimalist():
             print('%s, %.1f, %d, %.2f, %.2f' % (time.strftime('%H%M%S'), time.time() - t0, batchndx, testcost, testacc))
 
 if __name__ == '__main__':
-    train_minimalist()
-    # train()
+    #train_minimalist()
+    train()
