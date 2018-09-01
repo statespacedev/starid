@@ -10,7 +10,7 @@ starid::skymap::skymap(std::string pathcat) {
     std::ifstream catfile(pathcat);
     if (catfile.is_open()) {
         std::string line;
-        record rec;
+        skymaprec rec;
         while (std::getline(catfile, line)) {
             try {
                 try { rec.mv1 = std::stof(line.substr(232, 6)); } catch (...) {}
@@ -59,8 +59,6 @@ void starid::sky::init(std::string pathin) {
         star.mv = rec.mv1;
         star.ra_degrees = 15.0 * (rec.rah + rec.ram / 60.0 + rec.ras / 3600.0);
         star.dec_degrees = rec.decsign * (rec.decd + rec.decm / 60.0 + rec.decs / 3600.0);
-//        star.ra_degrees += (t * rec.pmra_arcsec_per_year) / 3600.0;
-//        star.dec_degrees += (t * rec.pmdecsign * rec.pmdec_arcsec_per_year) / 3600.0;
         double ra = star.ra_degrees * starid::pi / 180.0;
         double dec = star.dec_degrees * starid::pi / 180.0;
         star.x = std::cos(ra) * std::cos(dec);
