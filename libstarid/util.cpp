@@ -25,3 +25,42 @@ std::vector<int> starid::range_of_floats_indexer::findndxs(double lofloat, doubl
     std::sort(intsFromTable.begin(), intsFromTable.end());
     return intsFromTable;
 }
+
+Eigen::MatrixXd starid::get_pvecs_from_images(Eigen::MatrixXd &imgs) {
+    Eigen::MatrixXd pvecs = Eigen::MatrixXd::Zero(100, 3);
+    pvecs.row(0) << 0.0, 0.0, 1.0;
+    int pvecsndx = 1;
+    for (int axjndx = 0; axjndx < 28; ++axjndx) {
+        for (int axindx = 0; axindx < 28; ++axindx) {
+            if (imgs(axjndx, axindx) > 0) { // there's a star inside axjndx, axindx
+                double x = starid::image_pixel_unit_vector_plane * (-13.5 + (double) axindx);
+                double y = starid::image_pixel_unit_vector_plane * (+13.5 - (double) axjndx);
+                pvecs.row(pvecsndx) << x, y, std::sqrt(1 - x * x - y * y);
+                ++pvecsndx;
+            }
+        }
+    }
+    pvecs.conservativeResize(pvecsndx, 3);
+    return pvecs;
+}
+
+Eigen::Matrix3d starid::rotation_matrix(Eigen::Vector3d &bodyz) {
+    using namespace Eigen;
+    Matrix3d rm = Matrix3d::Identity(3, 3);
+    Vector3d icrfz(0.0, 0.0, 1.0);
+    Vector3d bodyx = crossprod(bodyz, icrfz);
+    Vector3d bodyy = crossprod(bodyz, bodyx);
+    rm.col(0) = bodyx.normalized();
+    rm.col(1) = bodyy.normalized();
+    rm.col(2) = bodyz.normalized();
+    return rm;
+}
+
+Eigen::Vector3d starid::crossprod(Eigen::Vector3d &u, Eigen::Vector3d &v) {
+    Eigen::Vector3d result;
+    result(0) = u(1) * v(2) - u(2) * v(1);
+    result(1) = u(2) * v(0) - u(0) * v(2);
+    result(2) = u(0) * v(1) - u(1) * v(0);
+    return result;
+}
+

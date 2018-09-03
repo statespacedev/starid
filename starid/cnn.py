@@ -2,6 +2,8 @@ import tensorflow as tf
 import numpy as np
 import time, random
 import libstarid
+ls = libstarid.libstarid()
+ls.read_sky('../data/sky')
 
 stars = 10
 batch_size = 100
@@ -11,10 +13,6 @@ beta = 0.01
 loginterval = 10 # batches
 outdir = '/home/noah/runs/' + time.strftime('%m%d%H%M%S')
 keep_prob = tf.placeholder(tf.float32)
-pathsky = '../data/sky'
-
-ls = libstarid.libstarid()
-ls.read_sky(pathsky)
 
 def inputs(batch_size, stars):
     images = np.zeros((batch_size, 28, 28, 1), dtype=np.float32)

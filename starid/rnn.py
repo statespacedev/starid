@@ -1,10 +1,9 @@
-### *recurrent neural network* rnn using libstarid, and tensorflow training and inference
-###
 import tensorflow as tf
 import numpy as np
 import random, time
-import libstarid.libstarid as ls
-libstarid = ls.libstarid()
+import libstarid
+ls = libstarid.libstarid()
+ls.read_sky('../data/sky')
 
 stars = 1000
 sequence_length = 36
@@ -39,7 +38,7 @@ def inputs(batch_size, stars):
     labels = np.zeros([batch_size], dtype=np.int32)
     for batchndx in range(batch_size):
         starndx = random.randint(0, stars-1)
-        sequence = libstarid.ang_seq_vec(starndx)
+        sequence = ls.angle_generator(starndx)
         sequences[batchndx, :, :] = unwrap_sequence(sequence)
         labels[batchndx] = starndx
     return sequences, labels

@@ -76,21 +76,21 @@ void starid::sky::init(std::string pathin) {
     zndxer.sort();
 }
 
-std::map<std::string, Eigen::MatrixXd> starid::sky::image_generator(int starndx, starid::sky &sky) {
+std::map<std::string, Eigen::MatrixXd> starid::sky::image_generator(int starndx) {
     using namespace Eigen;
     MatrixXd pixels = MatrixXd::Zero(28, 28);
     MatrixXd info = MatrixXd::Zero(100, 6);
-    MatrixXd stars = MatrixXd::Zero(50, 1); // for when we're returning multiple images
+    MatrixXd targets = MatrixXd::Zero(50, 1); // for when we're returning multiple images
     Vector3d pointing;
-    pointing << sky.stars[starndx].x, sky.stars[starndx].y, sky.stars[starndx].z;
-    std::vector<int> starndxs = sky.stars_near_point(pointing(0), pointing(1), pointing(2));
+    pointing << stars[starndx].x, stars[starndx].y, stars[starndx].z;
+    std::vector<int> starndxs = stars_near_point(pointing(0), pointing(1), pointing(2));
     MatrixXd pvecs = MatrixXd::Zero(100, 3);
     MatrixXd ndxs = MatrixXd::Zero(100, 4);
     int pvecsndx = 0;
     for (auto ndx : starndxs) {
-        pvecs.row(pvecsndx) << sky.stars[ndx].x, sky.stars[ndx].y, sky.stars[ndx].z;
+        pvecs.row(pvecsndx) << stars[ndx].x, stars[ndx].y, stars[ndx].z;
         ndxs.row(pvecsndx)
-                << sky.stars[ndx].starndx, sky.stars[ndx].skymap_number, sky.stars[ndx].ra_degrees, sky.stars[ndx].dec_degrees;
+                << stars[ndx].starndx, stars[ndx].skymap_number, stars[ndx].ra_degrees, stars[ndx].dec_degrees;
         ++pvecsndx;
     }
     pvecs.conservativeResize(pvecsndx, 3);
@@ -117,28 +117,28 @@ std::map<std::string, Eigen::MatrixXd> starid::sky::image_generator(int starndx,
         info(imgindx, 5) = ndxs(ndx, 3); // dec
         ++imgindx;
     }
-    stars(0, 0) = starndx;
+    targets(0, 0) = starndx;
 //    imgi.conservativeResize(imgindx, 6);
     std::map<std::string, Eigen::MatrixXd> result;
     result["pixels"] = pixels;
     result["info"] = info;
-    result["stars"] = stars;
+    result["stars"] = targets;
     return result;
 }
 
-Eigen::Matrix<double, 36, 1> starid::sky::ang_seq_generator(int starndx, starid::sky &sky) {
+std::map<std::string, Eigen::MatrixXd> starid::sky::angle_generator(int starndx) {
     using namespace Eigen;
     Matrix<double, 36, 1> angvec = Matrix<double, 36, 1>::Zero();
 
     Vector3d pointing;
-    pointing << sky.stars[starndx].x, sky.stars[starndx].y, sky.stars[starndx].z;
-    std::vector<int> starndxs = sky.stars_near_point(pointing(0), pointing(1), pointing(2));
+    pointing << stars[starndx].x, stars[starndx].y, stars[starndx].z;
+    std::vector<int> starndxs = stars_near_point(pointing(0), pointing(1), pointing(2));
 
     MatrixXd pvecs = MatrixXd::Zero(100, 3);
     MatrixXd ndxs = MatrixXd::Zero(100, 1);
     int pvecsndx = 0;
     for (auto ndx : starndxs) {
-        pvecs.row(pvecsndx) << sky.stars[ndx].x, sky.stars[ndx].y, sky.stars[ndx].z;
+        pvecs.row(pvecsndx) << stars[ndx].x, stars[ndx].y, stars[ndx].z;
         ndxs.row(pvecsndx) << ndx;
         ++pvecsndx;
     }
@@ -167,25 +167,11 @@ Eigen::Matrix<double, 36, 1> starid::sky::ang_seq_generator(int starndx, starid:
         int yawvecndx = std::floor(yawdeg / 10.0);
         ++angvec(yawvecndx);
     }
-    return angvec;
-}
-
-Eigen::MatrixXd starid::sky::get_pvecs_from_images(Eigen::MatrixXd &imgs) {
-    Eigen::MatrixXd pvecs = Eigen::MatrixXd::Zero(100, 3);
-    pvecs.row(0) << 0.0, 0.0, 1.0;
-    int pvecsndx = 1;
-    for (int axjndx = 0; axjndx < 28; ++axjndx) {
-        for (int axindx = 0; axindx < 28; ++axindx) {
-            if (imgs(axjndx, axindx) > 0) { // there's a star inside axjndx, axindx
-                double x = starid::image_pixel_unit_vector_plane * (-13.5 + (double) axindx);
-                double y = starid::image_pixel_unit_vector_plane * (+13.5 - (double) axjndx);
-                pvecs.row(pvecsndx) << x, y, std::sqrt(1 - x * x - y * y);
-                ++pvecsndx;
-            }
-        }
-    }
-    pvecs.conservativeResize(pvecsndx, 3);
-    return pvecs;
+    std::map<std::string, Eigen::MatrixXd> result;
+//    result["pixels"] = pixels;
+//    result["info"] = info;
+//    result["stars"] = stars;
+    return result;
 }
 
 std::vector<int> starid::sky::stars_near_point(double x, double y, double z) {
@@ -219,22 +205,4 @@ std::vector<int> starid::sky::stars_in_ring(double p, double radius, starid::ran
     return table.findndxs(pmin, pmax);
 }
 
-Eigen::Matrix3d starid::sky::rotation_matrix(Eigen::Vector3d &bodyz) {
-    using namespace Eigen;
-    Matrix3d rm = Matrix3d::Identity(3, 3);
-    Vector3d icrfz(0.0, 0.0, 1.0);
-    Vector3d bodyx = crossprod(bodyz, icrfz);
-    Vector3d bodyy = crossprod(bodyz, bodyx);
-    rm.col(0) = bodyx.normalized();
-    rm.col(1) = bodyy.normalized();
-    rm.col(2) = bodyz.normalized();
-    return rm;
-}
 
-Eigen::Vector3d starid::sky::crossprod(Eigen::Vector3d &u, Eigen::Vector3d &v) {
-    Eigen::Vector3d result;
-    result(0) = u(1) * v(2) - u(2) * v(1);
-    result(1) = u(2) * v(0) - u(0) * v(2);
-    result(2) = u(0) * v(1) - u(1) * v(0);
-    return result;
-}

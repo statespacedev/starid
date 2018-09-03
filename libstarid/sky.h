@@ -59,9 +59,8 @@ namespace starid {
         std::vector<std::string> catalog_lines;
         void init(std::string pathin);
         std::vector<int> stars_near_point(double x, double y, double z);
-        static std::map<std::string, Eigen::MatrixXd> image_generator(int starndx, starid::sky &sky);
-        static Eigen::Matrix<double, 36, 1> ang_seq_generator(int starndx, starid::sky &sky);
-        static Eigen::MatrixXd get_pvecs_from_images(Eigen::MatrixXd &imgs);
+        std::map<std::string, Eigen::MatrixXd> image_generator(int starndx);
+        std::map<std::string, Eigen::MatrixXd> angle_generator(int starndx);
     private:
         double t;
         std::string pathcat;
@@ -69,8 +68,6 @@ namespace starid {
         starid::range_of_floats_indexer yndxer;
         starid::range_of_floats_indexer zndxer;
         std::vector<int> stars_in_ring(double p, double radius, starid::range_of_floats_indexer &table);
-        static Eigen::Matrix3d rotation_matrix(Eigen::Vector3d &pointing);
-        static Eigen::Vector3d crossprod(Eigen::Vector3d &u, Eigen::Vector3d &v);
         friend class cereal::access;
         template<class Archive>
         void serialize(Archive &ar) {

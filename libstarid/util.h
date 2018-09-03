@@ -1,5 +1,6 @@
 #ifndef PROJECT_UTIL_H
 #define PROJECT_UTIL_H
+#include <Eigen/Core>
 #include <cereal/access.hpp>
 #include <cereal/types/utility.hpp>
 #include <cereal/types/vector.hpp>
@@ -27,6 +28,10 @@ namespace starid {
             ar(float_ndx);
         }
     };
+
+    Eigen::MatrixXd get_pvecs_from_images(Eigen::MatrixXd &imgs);
+    Eigen::Matrix3d rotation_matrix(Eigen::Vector3d &pointing);
+    Eigen::Vector3d crossprod(Eigen::Vector3d &u, Eigen::Vector3d &v);
 }
 
 #endif //PROJECT_UTIL_H

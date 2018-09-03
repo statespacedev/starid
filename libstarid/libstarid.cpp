@@ -22,8 +22,11 @@ void libstarid::read_sky(std::string pathsky) {
 }
 
 std::map<std::string, Eigen::MatrixXd> libstarid::image_generator(int starndx) {
-    std::map<std::string, Eigen::MatrixXd> result = starid::sky::image_generator(starndx, sky);
+    std::map<std::string, Eigen::MatrixXd> result = sky.image_generator(starndx);
     return result;
 }
 
-
+std::map<std::string, Eigen::MatrixXd> libstarid::angle_generator(int starndx) {
+    std::map<std::string, Eigen::MatrixXd> result = sky.angle_generator(starndx);
+    return result;
+}
