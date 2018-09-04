@@ -33,3 +33,4 @@ building libstarid from setuptools and pip isn't automated yet - for now
     
 update PYTHONPATH with the folder containing the *.so - this is line 3 of ~/starid/starid/__main__.py 
 
+for nmt see [here](https://github.com/tensorflow/nmt)
