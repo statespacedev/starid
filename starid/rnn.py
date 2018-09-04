@@ -5,7 +5,7 @@ import libstarid
 ls = libstarid.libstarid()
 ls.read_sky('../data/sky')
 
-stars = 1000
+stars = 10
 sequence_length = 36
 batch_size = 100
 batches = 10000
@@ -28,19 +28,20 @@ def unwrap_sequence(sequence):
         for cnt, ndx in enumerate(np.nditer(max_ndxs[:,0])):
             massndxs = np.arange(1, 36)
             massvec = sequence[np.mod(massndxs + ndx, 36)]
-            centers_of_mass[cnt] = np.dot(massndxs, massvec) / massvec.sum()
+            massvec = massvec / massvec.sum()
+            centers_of_mass[cnt] = np.dot(massndxs, massvec)
         start_ndx = max_ndxs[np.argmax(centers_of_mass), 0]
     unwrapped = sequence[np.mod(np.arange(0, 36) + start_ndx, 36)]
     return unwrapped
 
 def inputs(batch_size, stars):
     sequences = np.zeros([batch_size, sequence_length, 1], dtype=np.float32)
-    labels = np.zeros([batch_size], dtype=np.int32)
+    labels = np.zeros(batch_size, dtype=np.int32)
     for batchndx in range(batch_size):
         starndx = random.randint(0, stars-1)
-        sequence = ls.angle_generator(starndx)
-        sequences[batchndx, :, :] = unwrap_sequence(sequence)
-        labels[batchndx] = starndx
+        outdict = ls.angle_generator(starndx) # tbd have seen some all-zero sequences coming in
+        sequences[batchndx, :, :] = unwrap_sequence(outdict['angles'])
+        labels[batchndx] = outdict['stars'][0]
     return sequences, labels
 
 def train():

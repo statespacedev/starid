@@ -16,12 +16,12 @@ keep_prob = tf.placeholder(tf.float32)
 
 def inputs(batch_size, stars):
     images = np.zeros((batch_size, 28, 28, 1), dtype=np.float32)
-    labels = np.zeros((batch_size), dtype=np.int32)
-    for cnt in range(batch_size):
+    labels = np.zeros(batch_size, dtype=np.int32)
+    for batchndx in range(batch_size):
         starndx = random.randint(0, stars-1)
-        imgdict = ls.image_generator(starndx)
-        images[cnt, :, :, 0] = imgdict['pixels']
-        labels[cnt] = imgdict['stars'][0]
+        outdict = ls.image_generator(starndx)
+        images[batchndx, :, :, 0] = outdict['pixels']
+        labels[batchndx] = outdict['stars'][0]
     return images, labels
 
 def train():

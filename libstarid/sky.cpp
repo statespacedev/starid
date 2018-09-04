@@ -80,7 +80,7 @@ std::map<std::string, Eigen::MatrixXd> starid::sky::image_generator(int starndx)
     using namespace Eigen;
     MatrixXd pixels = MatrixXd::Zero(28, 28);
     MatrixXd info = MatrixXd::Zero(100, 6);
-    MatrixXd targets = MatrixXd::Zero(50, 1); // for when we're returning multiple images
+    MatrixXd targets = MatrixXd::Zero(50, 1);
     Vector3d pointing;
     pointing << stars[starndx].x, stars[starndx].y, stars[starndx].z;
     std::vector<int> starndxs = stars_near_point(pointing(0), pointing(1), pointing(2));
@@ -118,7 +118,6 @@ std::map<std::string, Eigen::MatrixXd> starid::sky::image_generator(int starndx)
         ++imgindx;
     }
     targets(0, 0) = starndx;
-//    imgi.conservativeResize(imgindx, 6);
     std::map<std::string, Eigen::MatrixXd> result;
     result["pixels"] = pixels;
     result["info"] = info;
@@ -128,25 +127,25 @@ std::map<std::string, Eigen::MatrixXd> starid::sky::image_generator(int starndx)
 
 std::map<std::string, Eigen::MatrixXd> starid::sky::angle_generator(int starndx) {
     using namespace Eigen;
-    Matrix<double, 36, 1> angvec = Matrix<double, 36, 1>::Zero();
-
+    MatrixXd angles = MatrixXd::Zero(36, 1);
+    MatrixXd info = MatrixXd::Zero(100, 6);
+    MatrixXd targets = MatrixXd::Zero(50, 1);
     Vector3d pointing;
     pointing << stars[starndx].x, stars[starndx].y, stars[starndx].z;
     std::vector<int> starndxs = stars_near_point(pointing(0), pointing(1), pointing(2));
-
     MatrixXd pvecs = MatrixXd::Zero(100, 3);
-    MatrixXd ndxs = MatrixXd::Zero(100, 1);
+    MatrixXd ndxs = MatrixXd::Zero(100, 4);
     int pvecsndx = 0;
     for (auto ndx : starndxs) {
         pvecs.row(pvecsndx) << stars[ndx].x, stars[ndx].y, stars[ndx].z;
-        ndxs.row(pvecsndx) << ndx;
+        ndxs.row(pvecsndx) << stars[ndx].starndx, stars[ndx].skymap_number, stars[ndx].ra_degrees, stars[ndx].dec_degrees;
         ++pvecsndx;
     }
     pvecs.conservativeResize(pvecsndx, 3);
     Matrix3d attitude = rotation_matrix(pointing);
     pvecs = (attitude.transpose() * pvecs.transpose()).transpose();
-
     double yaw = unitscatter(e1) * 2 * starid::pi;
+    int imgindx = 0;
     for (int ndx = 0; ndx < pvecsndx; ++ndx) {
         double x = std::cos(yaw) * pvecs(ndx, 0) - std::sin(yaw) * pvecs(ndx, 1);
         double y = std::sin(yaw) * pvecs(ndx, 0) + std::cos(yaw) * pvecs(ndx, 1);
@@ -157,6 +156,13 @@ std::map<std::string, Eigen::MatrixXd> starid::sky::angle_generator(int starndx)
         if (ndxs(ndx, 0) == starndx) continue;
         if (axindx < 0 || axindx > 27) continue;
         if (axjndx < 0 || axjndx > 27) continue;
+        info(imgindx, 0) = axjndx;
+        info(imgindx, 1) = axindx;
+        info(imgindx, 2) = ndxs(ndx, 0); // starndx
+        info(imgindx, 3) = ndxs(ndx, 1); // skymap_number
+        info(imgindx, 4) = ndxs(ndx, 2); // ra
+        info(imgindx, 5) = ndxs(ndx, 3); // dec
+        ++imgindx;
         double pixelx = (double) axindx - 13.5;
         double pixely = 13.5 - (double) axjndx;
         if (std::sqrt(pixelx * pixelx + pixely * pixely) > 13.0) continue;
@@ -165,12 +171,13 @@ std::map<std::string, Eigen::MatrixXd> starid::sky::angle_generator(int starndx)
         if (yawdeg < 0.0) yawdeg = 360.0 + yawdeg;
         if (yawdeg == 360.0) yawdeg = 359.9;
         int yawvecndx = std::floor(yawdeg / 10.0);
-        ++angvec(yawvecndx);
+        ++angles(yawvecndx);
     }
+    targets(0, 0) = starndx;
     std::map<std::string, Eigen::MatrixXd> result;
-//    result["pixels"] = pixels;
-//    result["info"] = info;
-//    result["stars"] = stars;
+    result["angles"] = angles;
+    result["info"] = info;
+    result["stars"] = targets;
     return result;
 }
 
