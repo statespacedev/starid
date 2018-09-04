@@ -5,6 +5,7 @@ venv/*
 cmake-build-debug/*
 starid.egg-info/*
 starid-*/*
+data/nmt_model/*
 
 *.idea*
 *.so
@@ -13,3 +14,6 @@ a.out
 sky
 pairs
 Makefile
+
+*.geom
+*.ids
