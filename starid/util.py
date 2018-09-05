@@ -3,8 +3,11 @@ import matplotlib.pyplot as plt
 import libstarid
 ls = libstarid.libstarid()
 
-def write_sky(pathcat, pathsky):
-    ls.write_sky(pathcat, pathsky)
+def write_sky(pathsky, pathcat):
+    ls.write_sky(pathsky, pathcat)
+
+def write_starpairs(pathstarpairs, pathcat):
+    ls.write_starpairs(pathstarpairs, pathcat)
 
 def read_sky(pathsky):
     ls.read_sky(pathsky)
@@ -13,5 +16,6 @@ def read_sky(pathsky):
     plt.show()
 
 if __name__ == "__main__":
-    read_sky('../data/sky')
+    #read_sky('../data/sky')
+    write_starpairs('../data/starpairs', '../data/sky')
     pass
