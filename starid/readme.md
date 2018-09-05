@@ -1,4 +1,4 @@
-some basic functionality to test the package
+some basic functionality for testing the package
 
     ~/starid$ starid -h
     usage: starid [-h] [-t] [--cat CAT] [--sky SKY] [--starpairs PAIRS] [--rsky]
