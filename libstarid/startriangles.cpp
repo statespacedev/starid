@@ -1,35 +1,49 @@
 #include "startriangles.h"
 
-//starid::triangles::triangles(starid::image_matrix &imgmat, starid::pairs &pairs) : pairs(pairs) {
-//    pvecs = starid::pointing_vectors::get_pvecs_from_imgmat(imgmat);
-//    double epsilon = 0.0;
-//    tolerance = (2.0 * std::sqrt(500.0 * 500.0 + 500.00 * 500.0) + epsilon) * starid::arcseconds_to_radians;
-//}
+starid::startriangles::startriangles(Eigen::MatrixXd &pixels, starid::starpairs &starpairs) : starpairs(starpairs) {
+    pvecs = starid::get_pvecs_from_images(pixels);
+    double epsilon = 0.0;
+    tolerance = (2.0 * std::sqrt(500.0 * 500.0 + 500.00 * 500.0) + epsilon) * starid::arcseconds_to_radians;
+}
 
-void starid::starpairs::start(starid::sky &sky) {
-    int pairndx = 0;
-    for (auto star : sky.stars) {
-        std::vector<int> starndxs = sky.stars_near_point(star.x, star.y, star.z);
-        starndxs.push_back(star.starndx);
-        for (auto starndx1 : starndxs) {
-            for (auto starndx2 : starndxs) {
-                if (starndx1 == starndx2) continue;
-                std::string key = pairs_key(sky.stars[starndx1].starndx, sky.stars[starndx2].starndx);
-                auto search = starpairs_map.find(key);
-                if (search != starpairs_map.end()) continue; // check map that pair is unique
-                double angle = std::acos((sky.stars[starndx1].x * sky.stars[starndx2].x) +
-                                         (sky.stars[starndx1].y * sky.stars[starndx2].y) +
-                                         (sky.stars[starndx1].z * sky.stars[starndx2].z));
-                if (std::abs(angle) > starid::star_pair_angle_limit) continue; // max pair angle
-                std::tuple<double, int, int> starpair{angle, starndx1, starndx2};
-                starpairs.push_back(starpair);
-                starpairs_map.insert({key, pairndx}); // update map of unique pairs
-                angdxr.add_pair(angle, pairndx);
-                ++pairndx;
+int starid::startriangles::identify(int teststar) {
+    std::vector<startriangleside> abs;
+    for (ndxb = 1; ndxb < pvecs.rows(); ++ndxb) {
+        uveca = pvecs.row(0);
+        uvecb = pvecs.row(ndxb);
+        startriangleside ab(std::acos(uveca.transpose() * uvecb), tolerance, starpairs, teststar);
+        int prev_stars = 0;
+        int repeatcnt = 0;
+        bool converged = false;
+        for (ndxc = 1; ndxc < pvecs.rows(); ++ndxc) {
+            if (converged || !get_angs_c()) continue;
+            startriangle abca(angs_c[0], angs_c[1], angs_c[2], tolerance, starpairs, teststar, pvecs.row(ndxc).transpose());
+            abca.side1.stars = ab.stars;
+            abca.close_loops_abca();
+            ab.append_iterations(abca.side1);
+            std::vector<startriangle> triangles;
+            triangles.push_back(abca);
+            for (ndxd = 1; ndxd < pvecs.rows(); ++ndxd) {
+                if (converged || !get_angs_d()) continue;
+                startriangle abda(angs_d[0], angs_d[4], angs_d[3], tolerance, starpairs, teststar, pvecs.row(ndxd).transpose());
+                abda.side1.stars = ab.stars;
+                abda.close_loops_abda(triangles);
+                ab.append_iterations(abda.side1);
+                triangles.push_back(abda);
+                if (prev_stars == ab.stars.size()) ++repeatcnt; else repeatcnt = 0;
+                if (repeatcnt > 3) converged = true;
+                prev_stars = ab.stars.size();
+                if (ab.stars.size() == 1) break;
             }
+            if (ab.stars.size() == 1) break;
         }
+        if (ab.stars.size() == 1) {
+            auto starsit = ab.stars.begin();
+            return starsit->first;
+        }
+        abs.push_back(ab);
     }
-    angdxr.sort();
+    return -1;
 }
 
 std::unordered_map<int, std::unordered_map<int, int>> starid::starpairs::pairs_map(double angle, double tol_radius) {
@@ -76,48 +90,6 @@ std::string starid::starpairs::pairs_key(int catndx1, int catndx2) {
     }
     std::string key = std::to_string(catndx1) + std::to_string(catndx2);
     return key;
-}
-
-int starid::startriangles::id(int teststar) {
-    std::vector<startriangleside> abs;
-    for (ndxb = 1; ndxb < pvecs.rows(); ++ndxb) {
-        uveca = pvecs.row(0);
-        uvecb = pvecs.row(ndxb);
-        startriangleside ab(std::acos(uveca.transpose() * uvecb), tolerance, pairs, teststar);
-        int prev_stars = 0;
-        int repeatcnt = 0;
-        bool converged = false;
-        for (ndxc = 1; ndxc < pvecs.rows(); ++ndxc) {
-            if (converged || !get_angs_c()) continue;
-            startriangle abca(angs_c[0], angs_c[1], angs_c[2], tolerance, pairs, teststar, pvecs.row(ndxc).transpose());
-            abca.side1.stars = ab.stars;
-            abca.close_loops_abca();
-            ab.append_iterations(abca.side1);
-            std::vector<startriangle> triangles;
-            triangles.push_back(abca);
-            for (ndxd = 1; ndxd < pvecs.rows(); ++ndxd) {
-                if (converged || !get_angs_d()) continue;
-                startriangle abda(angs_d[0], angs_d[4], angs_d[3], tolerance, pairs, teststar, pvecs.row(ndxd).transpose());
-                abda.side1.stars = ab.stars;
-                abda.close_loops_abda(triangles);
-                ab.append_iterations(abda.side1);
-                triangles.push_back(abda);
-                if (prev_stars == ab.stars.size()) ++repeatcnt; else repeatcnt = 0;
-                if (repeatcnt > 3) converged = true;
-                prev_stars = ab.stars.size();
-                // std::cout << ndxb << ", " << ndxc << ", " << ndxd << ", " << ab.stars.size() << ", " << ab.has_teststar << ", " << repeatcnt << std::endl;
-                if (ab.stars.size() == 1) break;
-            }
-            if (ab.stars.size() == 1) break;
-        }
-
-        if (ab.stars.size() == 1) {
-            auto starsit = ab.stars.begin();
-            return starsit->first;
-        }
-        abs.push_back(ab);
-    }
-    return -1;
 }
 
 bool starid::startriangles::get_angs_d() {
@@ -306,4 +278,30 @@ bool starid::startriangleside::check_teststar(int starndx) {
     auto it = stars.find(starndx);
     if (it == stars.end()) return false;
     return true;
+}
+
+void starid::starpairs::start(starid::sky &sky) {
+    int pairndx = 0;
+    for (auto star : sky.stars) {
+        std::vector<int> starndxs = sky.stars_near_point(star.x, star.y, star.z);
+        starndxs.push_back(star.starndx);
+        for (auto starndx1 : starndxs) {
+            for (auto starndx2 : starndxs) {
+                if (starndx1 == starndx2) continue;
+                std::string key = pairs_key(sky.stars[starndx1].starndx, sky.stars[starndx2].starndx);
+                auto search = starpairs_map.find(key);
+                if (search != starpairs_map.end()) continue; // check map that pair is unique
+                double angle = std::acos((sky.stars[starndx1].x * sky.stars[starndx2].x) +
+                                         (sky.stars[starndx1].y * sky.stars[starndx2].y) +
+                                         (sky.stars[starndx1].z * sky.stars[starndx2].z));
+                if (std::abs(angle) > starid::star_pair_angle_limit) continue; // max pair angle
+                std::tuple<double, int, int> starpair{angle, starndx1, starndx2};
+                starpairs.push_back(starpair);
+                starpairs_map.insert({key, pairndx}); // update map of unique pairs
+                angdxr.add_pair(angle, pairndx);
+                ++pairndx;
+            }
+        }
+    }
+    angdxr.sort();
 }

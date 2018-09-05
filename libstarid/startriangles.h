@@ -66,12 +66,12 @@ namespace starid {
 
     class startriangles {
     public:
-//        triangles(starid::image_matrix &imgmat, starid::pairs &pairs);
-        int id(int teststar = -1);
+        startriangles(Eigen::MatrixXd &pixels, starid::starpairs &pairs);
+        int identify(int teststar = -1);
     private:
         bool get_angs_c();
         bool get_angs_d();
-        starid::starpairs pairs;
+        starid::starpairs starpairs;
         Eigen::MatrixXd pvecs;
         double tolerance;
         double min_ang;
@@ -82,7 +82,6 @@ namespace starid {
         Eigen::Vector3d uvecc;
         Eigen::Vector3d uvecd;
         int ndxb, ndxc, ndxd;
-        int teststar;
     };
 }
 
