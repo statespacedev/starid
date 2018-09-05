@@ -47,7 +47,7 @@ starid::skymap::skymap(std::string pathcat) {
     }
 }
 
-void starid::sky::write_sky(std::string pathin) {
+void starid::sky::start(std::string pathin) {
     pathcat = pathin;
     t = 0.0;
     star star;

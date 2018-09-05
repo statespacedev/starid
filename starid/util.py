@@ -12,8 +12,8 @@ def write_sky(pathsky, pathcat):
 def read_starpairs(pathstarpairs):
     ls.read_starpairs(pathstarpairs)
 
-def write_starpairs(pathstarpairs, pathcat):
-    ls.write_starpairs(pathstarpairs, pathcat)
+def write_starpairs(pathstarpairs):
+    ls.write_starpairs(pathstarpairs)
 
 def test_sky(pathsky):
     read_sky(pathsky)
@@ -22,7 +22,9 @@ def test_sky(pathsky):
     plt.show()
 
 def test_starpairs(pathstarpairs):
-    read_starpairs(pathstarpairs)
+    read_sky('../data/sky')
+    write_starpairs('../data/starpairs')
+    #read_starpairs(pathstarpairs)
 
 if __name__ == "__main__":
     #test_sky('../data/sky')

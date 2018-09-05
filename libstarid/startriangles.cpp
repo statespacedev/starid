@@ -6,7 +6,7 @@
 //    tolerance = (2.0 * std::sqrt(500.0 * 500.0 + 500.00 * 500.0) + epsilon) * starid::arcseconds_to_radians;
 //}
 
-void starid::starpairs::write_starpairs(starid::sky &sky) {
+void starid::starpairs::start(starid::sky &sky) {
     int pairndx = 0;
 
     for (auto star : sky.stars) {
