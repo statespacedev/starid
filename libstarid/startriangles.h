@@ -17,7 +17,7 @@ namespace starid {
     class starpairs {
     public:
         std::unordered_map<int, std::unordered_map<int, int>> pairs_map(double angle, double tol_radius);
-        void init(starid::sky &sky);
+        void write_starpairs(starid::sky &sky);
     private:
         starid::range_of_floats_indexer angletable; // angle, starpairs ndx
         std::vector<std::tuple<double, int, int>> starpairs; // angle, catndx1, catndx2

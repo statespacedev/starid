@@ -57,7 +57,7 @@ namespace starid {
     public:
         std::vector<star> stars;
         std::vector<std::string> catalog_lines;
-        void init(std::string pathin);
+        void write_sky(std::string pathin);
         std::vector<int> stars_near_point(double x, double y, double z);
         std::map<std::string, Eigen::MatrixXd> image_generator(int starndx);
         std::map<std::string, Eigen::MatrixXd> angle_generator(int starndx);
