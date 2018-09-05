@@ -16,6 +16,6 @@ def read_sky(pathsky):
     plt.show()
 
 if __name__ == "__main__":
-    #read_sky('../data/sky')
-    write_starpairs('../data/starpairs', '../data/sky')
+    read_sky('../data/sky')
+    #write_starpairs('../data/starpairs', '../data/sky')
     pass

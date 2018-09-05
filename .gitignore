@@ -13,6 +13,7 @@ data/nmt_model/*
 a.out
 sky
 pairs
+starpairs
 Makefile
 
 *.geom

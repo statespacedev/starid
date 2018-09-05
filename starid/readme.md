@@ -1,14 +1,18 @@
 some basic functionality to test the package
 
-    ~/starid$ venv/bin/python -m starid -h
-    usage: starid [-h] [-w] [-r] [--sky SKY] [--cat CAT]
+    ~/starid$ starid -h
+    usage: starid [-h] [--cat CAT] [--sky SKY] [--starpairs STARPAIRS] [--wsky]
+                  [--rsky] [--wstarpairs]
     
     optional arguments:
-      -h, --help  show this help message and exit
-      -w, --wsky  write sky binary file
-      -r, --rsky  read sky binary file
-      --sky SKY   filename for sky binary file
-      --cat CAT   filename for skymap text file
+      -h, --help            show this help message and exit
+      --cat CAT             filename for skymap text file
+      --sky SKY             filename for sky binary file
+      --starpairs STARPAIRS
+                            filename for starpairs binary file
+      --wsky                write sky binary file
+      --rsky                read sky binary file
+      --wstarpairs          write starpairs binary file
 
 180827
 
