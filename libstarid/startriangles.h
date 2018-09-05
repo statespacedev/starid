@@ -1,5 +1,5 @@
-#ifndef STARIDENTIFIER_H
-#define STARIDENTIFIER_H
+#ifndef STARTRIANGLES_H
+#define STARTRIANGLES_H
 
 #include <Eigen/Core>
 #include <cereal/access.hpp>
