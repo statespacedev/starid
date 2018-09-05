@@ -3,6 +3,12 @@ import matplotlib.pyplot as plt
 import libstarid
 ls = libstarid.libstarid()
 
+def test_sky(pathsky):
+    read_sky(pathsky)
+    imgdict = ls.image_generator(3)
+    plt.matshow(-1 * imgdict['pixels'], cmap='Greys', interpolation='nearest')
+    plt.show()
+
 def read_sky(pathsky):
     ls.read_sky(pathsky)
 
@@ -15,18 +21,12 @@ def read_starpairs(pathstarpairs):
 def write_starpairs(pathstarpairs):
     ls.write_starpairs(pathstarpairs)
 
-def test_sky(pathsky):
-    read_sky(pathsky)
-    imgdict = ls.image_generator(3)
-    plt.matshow(-1 * imgdict['pixels'], cmap='Greys', interpolation='nearest')
-    plt.show()
-
 def test_starpairs(pathstarpairs):
     read_sky('../data/sky')
     write_starpairs('../data/starpairs')
     #read_starpairs(pathstarpairs)
 
 if __name__ == "__main__":
-    #test_sky('../data/sky')
-    test_starpairs('../data/starpairs')
+    test_sky()
+    #test_starpairs('../data/starpairs')
     pass

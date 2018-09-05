@@ -1,19 +1,19 @@
 some basic functionality to test the package
 
     ~/starid$ starid -h
-    usage: starid [-h] [--cat CAT] [--sky SKY] [--starpairs STARPAIRS] [--rsky]
+    usage: starid [-h] [-t] [--cat CAT] [--sky SKY] [--starpairs PAIRS] [--rsky]
                   [--wsky] [--rstarpairs] [--wstarpairs]
     
     optional arguments:
-      -h, --help            show this help message and exit
-      --cat CAT             filename for skymap text file
-      --sky SKY             filename for sky binary file
-      --starpairs STARPAIRS
-                            filename for starpairs binary file
-      --rsky                read sky binary file
-      --wsky                write sky binary file
-      --rstarpairs          read starpairs binary file
-      --wstarpairs          write starpairs binary file
+      -h, --help         show this help message and exit
+      -t, --test         show test image
+      --cat CAT          filename for skymap text file
+      --sky SKY          filename for sky binary file
+      --starpairs PAIRS  filename for starpairs binary file
+      --rsky             read sky binary file
+      --wsky             write sky binary file
+      --rstarpairs       read starpairs binary file
+      --wstarpairs       write starpairs binary file
 
 180827
 

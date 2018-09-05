@@ -6,14 +6,19 @@ dirdata = os.getcwd() + '/data/'
 
 def main():
     parser = argparse.ArgumentParser('starid')
+    parser.add_argument('-t', '--test', help='show test image', action='store_true')
     parser.add_argument('--cat', help='filename for skymap text file', dest='cat', action='store', type=str)
     parser.add_argument('--sky', help='filename for sky binary file', dest='sky', action='store', type=str)
-    parser.add_argument('--starpairs', help='filename for starpairs binary file', dest='starpairs', action='store', type=str)
+    parser.add_argument('--starpairs', help='filename for starpairs binary file', dest='pairs', action='store', type=str)
     parser.add_argument('--rsky', help='read sky binary file', action='store_true')
     parser.add_argument('--wsky', help='write sky binary file', action='store_true')
     parser.add_argument('--rstarpairs', help='read starpairs binary file', action='store_true')
     parser.add_argument('--wstarpairs', help='write starpairs binary file', action='store_true')
     args = parser.parse_args()
+
+    if args.test:
+        import util
+        util.test_sky(os.getcwd() + '/data/sky')
 
     if args.rsky:
         pathsky = dirdata + 'sky'

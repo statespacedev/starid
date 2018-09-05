@@ -1,16 +1,16 @@
 <img src="docs/images/nouns and verbs level0.png" align="center" width="426" height="202"/>
 
-[references](http://starid.icu/docs/references), [about](http://starid.icu/docs/about)
+[references](http://starid.icu/docs/references), [about](http://starid.icu/docs/about), [help](https://github.com/noahhsmith/starid/tree/master/starid)
 
 [sky](https://github.com/noahhsmith/starid/blob/master/libstarid/sky.h) generates three-dimensional sky and two-dimensional images from the nasa skymap star catalog, finds stars near points
 
 [star triangles](https://github.com/noahhsmith/starid/blob/master/libstarid/startriangles.h) recurrently sets aside stars that disagree geometrically until one remains
 
-[star cnn](https://github.com/noahhsmith/starid/blob/master/starid/cnn.py) is about static patterns and is relatively sensitive to rotation
+[star patterns](https://github.com/noahhsmith/starid/blob/master/starid/starpatterns.py) are relatively sensitive to rotation
 
-[star rnn](https://github.com/noahhsmith/starid/blob/master/starid/rnn.py) is about sequences and less sensitive to rotation
+[star sequences](https://github.com/noahhsmith/starid/blob/master/starid/starsequences.py) can be less sensitive to rotation
 
-[star nmt](https://github.com/noahhsmith/starid/blob/master/starid/nmt.py) writes sentences about star patterns using a geometrical language and translates into an identifier language
+[star languages](https://github.com/noahhsmith/starid/blob/master/starid/starlanguages.py) writes sentences about star patterns using a geometrical language and translates into an identifier language
 
 180821
 
