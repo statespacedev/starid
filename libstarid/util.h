@@ -14,7 +14,7 @@ namespace starid {
     const double star_brightness_limit = 6.5; // star visual magnitude
     const double pi = 3.14159265358979323846;
     const double arcseconds_to_radians = starid::pi / 648000.0;
-
+    
     class range_of_floats_indexer {
     public:
         void add_pair(double newfloat, int newndx);

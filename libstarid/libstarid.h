@@ -5,7 +5,7 @@
 #include <pybind11/eigen.h>
 #include <pybind11/stl.h>
 #include "sky.h"
-#include "triangles.h"
+#include "startriangles.h"
 
 class libstarid {
 public:

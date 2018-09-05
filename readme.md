@@ -4,13 +4,13 @@
 
 [sky](https://github.com/noahhsmith/starid/blob/master/libstarid/sky.h) generates three-dimensional sky and two-dimensional images from the nasa skymap star catalog, finds stars near points
 
-[triangles](https://github.com/noahhsmith/starid/blob/master/libstarid/triangles.h) recurrently sets aside stars that disagree geometrically until one remains
+[star triangles](https://github.com/noahhsmith/starid/blob/master/libstarid/startriangles.h) recurrently sets aside stars that disagree geometrically until one remains
 
-[convolutional neural networks](https://github.com/noahhsmith/starid/blob/master/starid/cnn.py) are about static patterns and sensitive to rotation
+[star cnn](https://github.com/noahhsmith/starid/blob/master/starid/cnn.py) is about static patterns and is relatively sensitive to rotation
 
-[recurrent neural networks](https://github.com/noahhsmith/starid/blob/master/starid/rnn.py) are about sequences and can be less sensitive to rotation
+[star rnn](https://github.com/noahhsmith/starid/blob/master/starid/rnn.py) is about sequences and less sensitive to rotation
 
-[neural machine translation](https://github.com/noahhsmith/starid/blob/master/starid/nmt.py) writes sentences about star patterns using a geometrical language and translates into an identifier language
+[star nmt](https://github.com/noahhsmith/starid/blob/master/starid/nmt.py) writes sentences about star patterns using a geometrical language and translates into an identifier language
 
 180821
 

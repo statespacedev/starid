@@ -1,4 +1,4 @@
-#include "triangles.h"
+#include "startriangles.h"
 
 //starid::triangles::triangles(starid::image_matrix &imgmat, starid::pairs &pairs) : pairs(pairs) {
 //    pvecs = starid::pointing_vectors::get_pvecs_from_imgmat(imgmat);
@@ -6,92 +6,7 @@
 //    tolerance = (2.0 * std::sqrt(500.0 * 500.0 + 500.00 * 500.0) + epsilon) * starid::arcseconds_to_radians;
 //}
 
-int starid::triangles::id(int teststar) {
-
-    std::vector<triangle_side> abs;
-    for (ndxb = 1; ndxb < pvecs.rows(); ++ndxb) {
-
-        uveca = pvecs.row(0);
-        uvecb = pvecs.row(ndxb);
-        triangle_side ab(std::acos(uveca.transpose() * uvecb), tolerance, pairs, teststar);
-
-        int prev_stars = 0;
-        int repeatcnt = 0;
-        bool converged = false;
-        for (ndxc = 1; ndxc < pvecs.rows(); ++ndxc) {
-            if (converged || !get_angs_c()) continue;
-
-            triangle abca(angs_c[0], angs_c[1], angs_c[2], tolerance, pairs, teststar, pvecs.row(ndxc).transpose());
-            abca.side1.stars = ab.stars;
-            abca.close_loops_abca();
-            ab.append_iterations(abca.side1);
-
-            std::vector<triangle> triangles;
-            triangles.push_back(abca);
-            for (ndxd = 1; ndxd < pvecs.rows(); ++ndxd) {
-                if (converged || !get_angs_d()) continue;
-
-                triangle abda(angs_d[0], angs_d[4], angs_d[3], tolerance, pairs, teststar, pvecs.row(ndxd).transpose());
-                abda.side1.stars = ab.stars;
-                abda.close_loops_abda(triangles);
-                ab.append_iterations(abda.side1);
-                triangles.push_back(abda);
-
-                if (prev_stars == ab.stars.size()) ++repeatcnt; else repeatcnt = 0;
-                if (repeatcnt > 3) converged = true;
-                prev_stars = ab.stars.size();
-                // std::cout << ndxb << ", " << ndxc << ", " << ndxd << ", " << ab.stars.size() << ", " << ab.has_teststar << ", " << repeatcnt << std::endl;
-                if (ab.stars.size() == 1) break;
-            }
-
-            if (ab.stars.size() == 1) break;
-        }
-
-        if (ab.stars.size() == 1) {
-            auto starsit = ab.stars.begin();
-            return starsit->first;
-        }
-        abs.push_back(ab);
-    }
-    return -1;
-}
-
-bool starid::triangles::get_angs_d() {
-    if (ndxd == ndxb || ndxd == ndxc) return false;
-    bool angsok = true;
-    angs_d = angs_c;
-    uvecd = pvecs.row(ndxd);
-    angs_d.push_back(std::acos(uvecd.transpose() * uveca));
-    angs_d.push_back(std::acos(uvecd.transpose() * uvecb));
-    angs_d.push_back(std::acos(uvecd.transpose() * uvecc));
-    if (angs_d[3] < min_ang) angsok = false; // da
-    if (angs_d[4] < min_ang) angsok = false; // db
-    if (angs_d[5] < min_ang) angsok = false; // dc
-    if (std::abs(angs_d[4] - angs_d[3]) < min_ang) angsok = false; // db-da
-    //if (std::abs(angs_d[4]-angs_d[0]) < min_ang) angsok = false; // db-ab
-    //if (std::abs(angs_d[4]-angs_d[5]) < min_ang) angsok = false; // db-dc
-    return angsok;
-}
-
-bool starid::triangles::get_angs_c() {
-    if (ndxc == ndxb) return false;
-    bool angsok = true;
-    angs_c.clear();
-    uvecc = pvecs.row(ndxc);
-    angs_c.push_back(std::acos(uveca.transpose() * uvecb));
-    angs_c.push_back(std::acos(uvecb.transpose() * uvecc));
-    angs_c.push_back(std::acos(uvecc.transpose() * uveca));
-    min_ang = 3000.0 * starid::arcseconds_to_radians;
-    if (angs_c[0] < min_ang) angsok = false; // ab
-    if (angs_c[1] < min_ang) angsok = false; // bc
-    if (angs_c[2] < min_ang) angsok = false; // ca
-    if (std::abs(angs_c[0] - angs_c[1]) < min_ang) angsok = false; // ab-bc
-    if (std::abs(angs_c[0] - angs_c[2]) < min_ang) angsok = false; // ab-ca
-    if (std::abs(angs_c[1] - angs_c[2]) < min_ang) angsok = false; // bc-ca
-    return angsok;
-}
-
-void starid::pairs::init(double max_ang, starid::sky &sky) {
+void starid::starpairs::init(double max_ang, starid::sky &sky) {
     int pairndx = 0;
 
     for (auto star : sky.stars) {
@@ -123,7 +38,7 @@ void starid::pairs::init(double max_ang, starid::sky &sky) {
     angletable.sort();
 }
 
-std::unordered_map<int, std::unordered_map<int, int>> starid::pairs::pairs_map(double angle, double tol_radius) {
+std::unordered_map<int, std::unordered_map<int, int>> starid::starpairs::pairs_map(double angle, double tol_radius) {
     std::unordered_map<int, std::unordered_map<int, int>> stars;
 
     double ang1 = angle - tol_radius;
@@ -166,7 +81,7 @@ std::unordered_map<int, std::unordered_map<int, int>> starid::pairs::pairs_map(d
     return stars;
 };
 
-std::string starid::pairs::pairs_key(int catndx1, int catndx2) {
+std::string starid::starpairs::pairs_key(int catndx1, int catndx2) {
     if (catndx1 > catndx2) {
         int tmp = catndx1;
         catndx1 = catndx2;
@@ -176,11 +91,96 @@ std::string starid::pairs::pairs_key(int catndx1, int catndx2) {
     return key;
 }
 
-starid::triangle::triangle(double ang1,
+int starid::startriangles::id(int teststar) {
+
+    std::vector<startriangle_side> abs;
+    for (ndxb = 1; ndxb < pvecs.rows(); ++ndxb) {
+
+        uveca = pvecs.row(0);
+        uvecb = pvecs.row(ndxb);
+        startriangle_side ab(std::acos(uveca.transpose() * uvecb), tolerance, pairs, teststar);
+
+        int prev_stars = 0;
+        int repeatcnt = 0;
+        bool converged = false;
+        for (ndxc = 1; ndxc < pvecs.rows(); ++ndxc) {
+            if (converged || !get_angs_c()) continue;
+
+            startriangle abca(angs_c[0], angs_c[1], angs_c[2], tolerance, pairs, teststar, pvecs.row(ndxc).transpose());
+            abca.side1.stars = ab.stars;
+            abca.close_loops_abca();
+            ab.append_iterations(abca.side1);
+
+            std::vector<startriangle> triangles;
+            triangles.push_back(abca);
+            for (ndxd = 1; ndxd < pvecs.rows(); ++ndxd) {
+                if (converged || !get_angs_d()) continue;
+
+                startriangle abda(angs_d[0], angs_d[4], angs_d[3], tolerance, pairs, teststar, pvecs.row(ndxd).transpose());
+                abda.side1.stars = ab.stars;
+                abda.close_loops_abda(triangles);
+                ab.append_iterations(abda.side1);
+                triangles.push_back(abda);
+
+                if (prev_stars == ab.stars.size()) ++repeatcnt; else repeatcnt = 0;
+                if (repeatcnt > 3) converged = true;
+                prev_stars = ab.stars.size();
+                // std::cout << ndxb << ", " << ndxc << ", " << ndxd << ", " << ab.stars.size() << ", " << ab.has_teststar << ", " << repeatcnt << std::endl;
+                if (ab.stars.size() == 1) break;
+            }
+
+            if (ab.stars.size() == 1) break;
+        }
+
+        if (ab.stars.size() == 1) {
+            auto starsit = ab.stars.begin();
+            return starsit->first;
+        }
+        abs.push_back(ab);
+    }
+    return -1;
+}
+
+bool starid::startriangles::get_angs_d() {
+    if (ndxd == ndxb || ndxd == ndxc) return false;
+    bool angsok = true;
+    angs_d = angs_c;
+    uvecd = pvecs.row(ndxd);
+    angs_d.push_back(std::acos(uvecd.transpose() * uveca));
+    angs_d.push_back(std::acos(uvecd.transpose() * uvecb));
+    angs_d.push_back(std::acos(uvecd.transpose() * uvecc));
+    if (angs_d[3] < min_ang) angsok = false; // da
+    if (angs_d[4] < min_ang) angsok = false; // db
+    if (angs_d[5] < min_ang) angsok = false; // dc
+    if (std::abs(angs_d[4] - angs_d[3]) < min_ang) angsok = false; // db-da
+    //if (std::abs(angs_d[4]-angs_d[0]) < min_ang) angsok = false; // db-ab
+    //if (std::abs(angs_d[4]-angs_d[5]) < min_ang) angsok = false; // db-dc
+    return angsok;
+}
+
+bool starid::startriangles::get_angs_c() {
+    if (ndxc == ndxb) return false;
+    bool angsok = true;
+    angs_c.clear();
+    uvecc = pvecs.row(ndxc);
+    angs_c.push_back(std::acos(uveca.transpose() * uvecb));
+    angs_c.push_back(std::acos(uvecb.transpose() * uvecc));
+    angs_c.push_back(std::acos(uvecc.transpose() * uveca));
+    min_ang = 3000.0 * starid::arcseconds_to_radians;
+    if (angs_c[0] < min_ang) angsok = false; // ab
+    if (angs_c[1] < min_ang) angsok = false; // bc
+    if (angs_c[2] < min_ang) angsok = false; // ca
+    if (std::abs(angs_c[0] - angs_c[1]) < min_ang) angsok = false; // ab-bc
+    if (std::abs(angs_c[0] - angs_c[2]) < min_ang) angsok = false; // ab-ca
+    if (std::abs(angs_c[1] - angs_c[2]) < min_ang) angsok = false; // bc-ca
+    return angsok;
+}
+
+starid::startriangle::startriangle(double ang1,
                            double ang2,
                            double ang3,
                            double tolerance,
-                           starid::pairs &pairs,
+                           starid::starpairs &pairs,
                            int teststar,
                            Eigen::Vector3d vecin)
         : side1(ang1, tolerance, pairs, teststar),
@@ -193,13 +193,13 @@ starid::triangle::triangle(double ang1,
     vecstar3 << vecin(0), vecin(1), vecin(2);
 }
 
-void starid::triangle::close_loops_abda(std::vector<triangle> &triangles) {
+void starid::startriangle::close_loops_abda(std::vector<startriangle> &triangles) {
 
     int maxtriangles = triangles.size();
     for (int trianglendx = 0; trianglendx < maxtriangles; ++trianglendx) {
 
         double cdang = std::acos(vecstar3.transpose() * triangles[trianglendx].vecstar3);
-        triangle_side cd(cdang, tolerance, pairs, teststar);
+        startriangle_side cd(cdang, tolerance, pairs, teststar);
 
         loops_cnt = 0;
         for (auto it11 = side1.stars.begin(), end = side1.stars.end(); it11 != end; ++it11) {
@@ -254,7 +254,7 @@ void starid::triangle::close_loops_abda(std::vector<triangle> &triangles) {
     }
 }
 
-void starid::triangle::close_loops_abca() {
+void starid::startriangle::close_loops_abca() {
     loops_cnt = 0;
 
     for (auto it11 = side1.stars.begin(), end = side1.stars.end(); it11 != end; ++it11) {
@@ -290,19 +290,19 @@ void starid::triangle::close_loops_abca() {
     side3.trim_pairs();
 }
 
-starid::triangle_side::triangle_side(double ang,
+starid::startriangle_side::startriangle_side(double ang,
                                      double tolerance,
-                                     starid::pairs &pairs,
+                                     starid::starpairs &pairs,
                                      int starndx)
         : teststar(starndx) {
     stars = pairs.pairs_map(ang, tolerance);
 }
 
-starid::triangle_side::triangle_side(int teststar)
+starid::startriangle_side::startriangle_side(int teststar)
         : teststar(teststar) {
 }
 
-void starid::triangle_side::append_iterations(triangle_side &side) {
+void starid::startriangle_side::append_iterations(startriangle_side &side) {
     stars = side.stars;
     for (auto tmp : side.log_pair_count) log_pair_count.push_back(tmp);
     for (auto tmp : side.log_star_count) log_star_count.push_back(tmp);
@@ -310,7 +310,7 @@ void starid::triangle_side::append_iterations(triangle_side &side) {
     has_teststar = side.has_teststar;
 }
 
-void ::starid::triangle_side::trim_pairs() {
+void ::starid::startriangle_side::trim_pairs() {
 
     for (auto star1 = stars.begin(), end = stars.end(); star1 != end; ++star1) {
         auto &pairs = star1->second;
@@ -340,7 +340,7 @@ void ::starid::triangle_side::trim_pairs() {
     log_teststar.push_back(has_teststar);
 }
 
-int starid::triangle_side::pair_count() {
+int starid::startriangle_side::pair_count() {
     int result = 0;
     for (auto it1 = stars.begin(), end = stars.end(); it1 != end; ++it1) {
         result += it1->second.size();
@@ -349,7 +349,7 @@ int starid::triangle_side::pair_count() {
 }
 
 
-std::map<int, int> starid::triangle_side::summary() {
+std::map<int, int> starid::startriangle_side::summary() {
     std::map<int, int> result;
     for (auto it = stars.begin(), end = stars.end(); it != end; ++it) {
         auto &inner = it->second;
@@ -358,7 +358,7 @@ std::map<int, int> starid::triangle_side::summary() {
     return result;
 }
 
-bool starid::triangle_side::check_teststar(int starndx) {
+bool starid::startriangle_side::check_teststar(int starndx) {
     auto it = stars.find(starndx);
     if (it == stars.end()) return false;
     return true;
