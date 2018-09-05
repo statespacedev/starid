@@ -2,7 +2,7 @@
 
 [references](http://starid.icu/docs/references), [about](http://starid.icu/docs/about), [help](https://github.com/noahhsmith/starid/tree/master/starid)
 
-[sky](https://github.com/noahhsmith/starid/blob/master/libstarid/sky.h) generates a three-dimensional sky model and two-dimensional images from the nasa skymap star catalog, finds stars near points
+[sky](https://github.com/noahhsmith/starid/blob/master/libstarid/sky.h) generates a three-dimensional sky model and two-dimensional images from the nasa skymap star catalog, finds stars near arbitrary points on the sky
 
 [star triangles](https://github.com/noahhsmith/starid/blob/master/libstarid/startriangles.h) recurrently sets aside stars that disagree geometrically until one remains
 
