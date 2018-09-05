@@ -8,7 +8,7 @@ here are some notes from back in the day, these are floating around on the net a
 
 The SKYMAP Master Catalog, Myers J.R., Sande C.B., Miller A.C., Warren Jr. W.H., Tracewell D.A., Goddard Space Flight Center, Flight Dynamics Division (2002)
 
-The SKYMAP Star Catalog System consists of a Master Catalog stellar database and a collection of utility software designed to create and maintain the database and to generate derivative mission star catalogs (run catalogs). It contains an extensive compilation of information on almost 300000 stars brighter than 8.0mag.
+The SKYMAP Star Catalog System consists of a Master Catalog stellar database and a collection of utility software designed to create and maintain the database and to generate derivative mission star catalogs (run catalogs). It contains an extensive compilation of information on almost 300000 stars brighter than magnitude 8.0.
 
 The original SKYMAP Master Catalog was generated in the early 1970's. Incremental updates and corrections were made over the following years but the first complete revision of the source data occurred with Version 4.0. This revision also produced a unique, consolidated source of astrometric information which can be used by the astronomical community. The derived quantities were removed and wideband and photometric data in the R (red) and I (infrared) systems were added.
 
