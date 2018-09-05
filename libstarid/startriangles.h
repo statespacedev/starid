@@ -19,14 +19,14 @@ namespace starid {
         void start(starid::sky &sky);
         std::unordered_map<int, std::unordered_map<int, int>> pairs_map(double angle, double tol_radius);
     private:
-        starid::range_of_floats_indexer angletable; // angle, starpairs ndx
+        starid::range_of_floats_indexer angdxr; // angle, starpairs ndx
         std::vector<std::tuple<double, int, int>> starpairs; // angle, catndx1, catndx2
         std::unordered_map<std::string, int> starpairs_map; // starpairkey, starpairsndx
         std::string pairs_key(int catndx1, int catndx2); // hash key
         friend class cereal::access;
         template<class Archive>
         void serialize(Archive &ar) {
-            ar(starpairs, starpairs_map, angletable);
+            ar(starpairs, starpairs_map, angdxr);
         }
     };
 
