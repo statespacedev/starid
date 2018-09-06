@@ -26,7 +26,7 @@ std::vector<int> starid::range_of_floats_indexer::findndxs(double lofloat, doubl
     return intsFromTable;
 }
 
-Eigen::MatrixXd starid::get_pvecs_from_images(Eigen::MatrixXd &imgs) {
+Eigen::MatrixXd starid::pixels_to_starvecs(Eigen::MatrixXd &imgs) {
     Eigen::MatrixXd pvecs = Eigen::MatrixXd::Zero(100, 3);
     pvecs.row(0) << 0.0, 0.0, 1.0;
     int pvecsndx = 1;
