@@ -32,7 +32,7 @@ namespace starid {
 
     class startriangles {
     public:
-        explicit startriangles( starid::starpairs &pairs);
+        explicit startriangles(starid::starpairs &pairs);
         int identify(Eigen::MatrixXd &pixels, int teststar = -1);
     private:
         bool get_angs_c();
