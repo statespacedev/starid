@@ -64,7 +64,7 @@ def main():
         if args.starpairs:
             pathstarpairs = dirdata + args.starpairs
         import util
-        util.write_starpairs(pathstarpairs, pathcat)
+        util.write_starpairs(pathstarpairs)
 
 if __name__ == "__main__":
     main()

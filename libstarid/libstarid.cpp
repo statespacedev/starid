@@ -43,3 +43,9 @@ std::map<std::string, Eigen::MatrixXd> libstarid::angle_generator(int starndx) {
     std::map<std::string, Eigen::MatrixXd> result = sky.angle_generator(starndx);
     return result;
 }
+
+int libstarid::triangles(Eigen::MatrixXd pixels) {
+    starid::startriangles st(starpairs);
+    return st.identify(pixels);
+}
+

@@ -21,6 +21,7 @@ public:
     
     std::map<std::string, Eigen::MatrixXd> image_generator(int starndx);
     std::map<std::string, Eigen::MatrixXd> angle_generator(int starndx);
+    int triangles(Eigen::MatrixXd pixels);
 };
 
 PYBIND11_MODULE(libstarid, m) {
@@ -31,7 +32,8 @@ PYBIND11_MODULE(libstarid, m) {
             .def("read_sky", &libstarid::read_sky, pybind11::arg("pathsky"))
             .def("read_starpairs", &libstarid::read_starpairs, pybind11::arg("pathstarpairs"))
             .def("image_generator", &libstarid::image_generator)
-            .def("angle_generator", &libstarid::angle_generator);
+            .def("angle_generator", &libstarid::angle_generator)
+            .def("triangles", &libstarid::triangles, pybind11::arg("pixels"));
 }
 
 #endif
