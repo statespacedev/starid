@@ -21,11 +21,11 @@ def read_starpairs(pathstarpairs):
 def write_starpairs(pathstarpairs):
     ls.write_starpairs(pathstarpairs)
 
-def triangles(starndx=3):
+def startriangles(starndx=3):
     read_sky('../data/sky')
     read_starpairs('../data/pairs')
     imgdict = ls.image_generator(starndx)
-    id = ls.triangles(imgdict['pixels'])
+    id = ls.startriangles(imgdict['pixels'])
     print(id)
 
 def test_starpairs(pathstarpairs):
@@ -34,7 +34,7 @@ def test_starpairs(pathstarpairs):
     #read_starpairs(pathstarpairs)
 
 if __name__ == "__main__":
-    triangles(2)
+    startriangles(2)
     #test_sky()
     #test_starpairs('../data/starpairs')
     pass

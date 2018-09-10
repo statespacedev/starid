@@ -33,7 +33,6 @@ void libstarid::write_starpairs(std::string pathstarpairs) {
     oarchive2(starpairs);
 }
 
-
 std::map<std::string, Eigen::MatrixXd> libstarid::image_generator(int starndx) {
     std::map<std::string, Eigen::MatrixXd> result = sky.image_generator(starndx);
     return result;
@@ -44,7 +43,7 @@ std::map<std::string, Eigen::MatrixXd> libstarid::angle_generator(int starndx) {
     return result;
 }
 
-int libstarid::triangles(Eigen::MatrixXd pixels) {
+int libstarid::startriangles(Eigen::MatrixXd pixels) {
     starid::startriangles st(starpairs);
     return st.identify(pixels);
 }

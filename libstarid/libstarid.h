@@ -10,18 +10,15 @@
 class libstarid {
 public:
     libstarid();
-    
     starid::sky sky;
+    starid::starpairs starpairs;
     void read_sky(std::string pathsky);
     void write_sky(std::string pathsky, std::string pathcat);
-
-    starid::starpairs starpairs;
     void read_starpairs(std::string pathstarpairs);
     void write_starpairs(std::string pathstarpairs);
-    
     std::map<std::string, Eigen::MatrixXd> image_generator(int starndx);
     std::map<std::string, Eigen::MatrixXd> angle_generator(int starndx);
-    int triangles(Eigen::MatrixXd pixels);
+    int startriangles(Eigen::MatrixXd pixels);
 };
 
 PYBIND11_MODULE(libstarid, m) {
@@ -33,7 +30,7 @@ PYBIND11_MODULE(libstarid, m) {
             .def("read_starpairs", &libstarid::read_starpairs, pybind11::arg("pathstarpairs"))
             .def("image_generator", &libstarid::image_generator)
             .def("angle_generator", &libstarid::angle_generator)
-            .def("triangles", &libstarid::triangles, pybind11::arg("pixels"));
+            .def("startriangles", &libstarid::startriangles, pybind11::arg("pixels"));
 }
 
 #endif
