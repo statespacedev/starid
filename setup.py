@@ -69,7 +69,7 @@ with open('readme.md', 'r') as fh:
 
 setup(
     name='starid',
-    version='2018.1.3',
+    version='2018.2.1',
     author='noah smith',
     author_email='noahhsmith@gmail.com',
     description='star identification',
