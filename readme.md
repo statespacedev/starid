@@ -1,4 +1,4 @@
-<img src="https://github.com/noahhsmith/starid/blob/master/docs/images/nouns%20and%20verbs%20level0.png" align="center" width="426" height="202"/>
+<img src="docs/images/nouns and verbs level0.png" align="center" width="426" height="202"/>
 
 [references](http://starid.icu/docs/references), [about](http://starid.icu/docs/about), [help](https://github.com/noahhsmith/starid/tree/master/starid)
 
