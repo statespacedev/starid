@@ -1,4 +1,4 @@
-<img src="docs/images/nouns and verbs level0.png" align="center" width="426" height="202"/>
+<img src="https://github.com/noahhsmith/starid/blob/master/docs/images/nouns%20and%20verbs%20level0.png" align="center" width="426" height="202"/>
 
 [references](http://starid.icu/docs/references), [about](http://starid.icu/docs/about), [help](https://github.com/noahhsmith/starid/tree/master/starid)
 
@@ -85,7 +85,7 @@ for writing nouns deterministically, stars can be ordered by distance from the i
      [8808, 11, 23, 9.5, 2.5, 9.83],
      [8834, 16, 23, 9.5, -2.5, 9.83],
 
-<img src="docs/images/starndx3_nouns.png" align="center" width="240" height="240"/>
+<img src="https://github.com/noahhsmith/starid/blob/master/docs/images/starndx3_nouns.png" align="center" width="240" height="240"/>
 
 171101
 
