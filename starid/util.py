@@ -34,7 +34,7 @@ def test_starpairs(pathstarpairs):
     #read_starpairs(pathstarpairs)
 
 if __name__ == "__main__":
-    startriangles(2)
-    #test_sky()
+    #startriangles(2)
+    test_sky('../data/sky')
     #test_starpairs('../data/starpairs')
     pass
