@@ -2,15 +2,15 @@
 
 [references](docs/references.md), [about](docs/about.md), [help](starid/readme.md)
 
-[sky](https://github.com/noahhsmith/starid/blob/master/libstarid/sky.h) generates a three-dimensional sky model and two-dimensional images from the nasa skymap star catalog, finds stars near arbitrary points on the sky
+[sky](libstarid/sky.h) generates a three-dimensional sky model and two-dimensional images from the nasa skymap star catalog, finds stars near arbitrary points on the sky
 
-[star triangles](https://github.com/noahhsmith/starid/blob/master/libstarid/startriangles.h) recurrently sets aside stars that disagree geometrically until one remains
+[star triangles](libstarid/startriangles.h) recurrently sets aside stars that disagree geometrically until one remains
 
-[star patterns](https://github.com/noahhsmith/starid/blob/master/starid/starpatterns.py) are relatively sensitive to rotation
+[star patterns](starpatterns.py) are relatively sensitive to rotation
 
-[star sequences](https://github.com/noahhsmith/starid/blob/master/starid/starsequences.py) can be less sensitive to rotation
+[star sequences](starsequences.py) can be less sensitive to rotation
 
-[star languages](https://github.com/noahhsmith/starid/blob/master/starid/starlanguages.py) writes sentences about star patterns using a geometrical language and translates into an identifier language
+[star languages](starlanguages.py) writes sentences about star patterns using a geometrical language and translates into an identifier language
 
 180911
 
