@@ -1,6 +1,6 @@
 <img src="docs/images/nouns and verbs level0.png" align="center" width="426" height="202"/>
 
-[references](http://starid.icu/docs/references), [about](http://starid.icu/docs/about), [help](https://github.com/noahhsmith/starid/tree/master/starid)
+[references](docs/references.md), [about](docs/about.md), [help](starid/readme.md)
 
 [sky](https://github.com/noahhsmith/starid/blob/master/libstarid/sky.h) generates a three-dimensional sky model and two-dimensional images from the nasa skymap star catalog, finds stars near arbitrary points on the sky
 
