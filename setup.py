@@ -64,29 +64,21 @@ class CMakeBuild(build_ext):
                               cwd=self.build_temp)
         print()  # Add an empty line for cleaner output
 
-with open('readme.md', 'r') as fh:
-    long_description = fh.read()
+if os.environ.get('CI_COMMIT_TAG'):
+    version = os.environ['CI_COMMIT_TAG']
+else:
+    version = os.environ['CI_JOB_ID']
 
 setup(
     name='starid',
-    version='2018.2.1',
+    version=version,
     author='noah smith',
     author_email='noahhsmith@gmail.com',
     description='star identification',
-    long_description=long_description,
-    long_description_content_type='text/markdown',
-    url='https://github.com/noahhsmith/starid',
+    url='https://gitlab.com/noahhsmith/starid',
     packages=find_packages(),
-    entry_points={
-        'console_scripts': [
-            'starid = starid.__main__:main'
-        ]
-    },
-    classifiers=(
-        'Programming Language :: Python :: 3',
-        'License :: OSI Approved :: MIT License',
-        'Operating System :: OS Independent',
-    ),
+    entry_points={'console_scripts': ["starid = starid.__main__:main"]},
     ext_modules=[CMakeExtension('starid')],
     cmdclass=dict(build_ext=CMakeBuild),
+    zip_safe=False,
 )
