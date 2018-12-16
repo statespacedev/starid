@@ -12,16 +12,21 @@ before_script:
   - virtualenv venv
   - . venv/bin/activate
   - python -V
-  - pip install pandas
+  - pip install tensorflow
 
 build:
   stage: build
+  artifacts:
+    paths:
+      - dist/
   script:
     - echo "build python package"
     - python setup.py sdist
 
 test:
   stage: test
+  dependencies:
+    - build
   script:
     - echo "test installing python package in ubuntu container"
 
@@ -33,15 +38,15 @@ deploy_staging:
   environment:
     name: staging
     url: $PYPRI_REPOSITORY_URL
-  script:
-    - echo "deploy python package to staging server"
-    - python setup.py sdist
-    - pip install twine
-    - twine upload --repository-url $PYPRI_REPOSITORY_URL dist/*
+  dependencies:
+    - build
   only:
     - master
   except:
     - tags
+  script:
+    - pip install twine
+    - twine upload --repository-url $PYPRI_REPOSITORY_URL dist/*
 
 deploy_production:
   stage: deploy
@@ -51,12 +56,13 @@ deploy_production:
   environment:
     name: production
     url: https://pypi.org/project/starid/
-  script:
-    - echo "deploy python package to production server"
-    - python setup.py sdist
-    - pip install twine
-    - twine upload dist/*
+  dependencies:
+    - build
   only:
     - tags
   except:
     - branches
+  script:
+    - pip install twine
+    - twine upload dist/*
+
