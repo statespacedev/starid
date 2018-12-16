@@ -12,6 +12,10 @@
 
 [star languages](starlanguages.py) writes sentences about star patterns using a geometrical language and translates into an identifier language
 
+181216
+
+testing gitlab ci
+
 180911
 
 r2018b, libstarid refactoring and checks complete. everything updated and working as expected. there's probably more automation of the compilation during pip install needed. it'll wait till needed. enough with the old stuff, time to turn to new stuff again.
