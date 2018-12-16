@@ -21,6 +21,9 @@ deploy_staging:
   variables:
     TWINE_USERNAME: $STAGING_USERNAME
     TWINE_PASSWORD: $STAGING_PASSWORD
+  environment:
+    name: staging
+    url: $PYPRI_REPOSITORY_URL
   script:
     - echo "deploy python package to staging server"
     - python setup.py sdist
@@ -36,6 +39,9 @@ deploy_production:
   variables:
     TWINE_USERNAME: $PRODUCTION_USERNAME
     TWINE_PASSWORD: $PRODUCTION_PASSWORD
+  environment:
+    name: production
+    url: https://pypi.org/project/starid/
   script:
     - echo "deploy python package to production server"
     - python setup.py sdist
