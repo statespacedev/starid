@@ -5,13 +5,10 @@ include MANIFEST.in
 include README.md
 include setup.py
 include requirements.txt
-
+include version
 recursive-include data *
-recursive-include docs *
 recursive-include starid *
-
-recursive-exclude docs/papers *
-
+recursive-exclude docs *
 exclude data/pairs
 exclude data/sky
 

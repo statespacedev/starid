@@ -37,6 +37,13 @@ if os.environ.get('CI_COMMIT_TAG'):
     version = os.environ['CI_COMMIT_TAG']
 elif os.environ.get('CI_JOB_ID'):
     version = os.environ['CI_JOB_ID']
+if version:
+    with open('version', 'wt') as fout:
+        fout.write(version)
+if os.path.exists('version'):
+    with open('version', 'rt') as fin:
+        for line in fin:
+            version = line.strip()
 
 with open('requirements.txt') as fin:
     required = fin.read().splitlines()

@@ -6,6 +6,7 @@ cmake-build-debug/*
 starid.egg-info/*
 starid-*/*
 data/nmt_model/*
+version
 
 *.idea*
 *.so
