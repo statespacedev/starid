@@ -32,10 +32,14 @@ class CMakeBuild(build_ext):
         subprocess.check_call(['cmake', '--build', '.'] + build_args, cwd=self.build_temp)
         print()
 
+version = None
 if os.environ.get('CI_COMMIT_TAG'):
     version = os.environ['CI_COMMIT_TAG']
-else:
+elif os.environ.get('CI_JOB_ID'):
     version = os.environ['CI_JOB_ID']
+
+with open('requirements.txt') as fin:
+    required = fin.read().splitlines()
 
 setup(
     name='starid',
@@ -48,5 +52,5 @@ setup(
     entry_points={'console_scripts': ["starid = starid.__main__:main"]},
     ext_modules=[CMakeExtension('starid')],
     cmdclass=dict(build_ext=CMakeBuild),
-    zip_safe=False,
+    install_requires=required,
 )
