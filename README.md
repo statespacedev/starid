@@ -14,7 +14,7 @@
 
 181216
 
-testing gitlab ci
+auto deploy to pypi using gitlab ci. now to automate testing of build and install as well...
 
 180911
 
