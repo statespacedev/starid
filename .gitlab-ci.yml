@@ -6,15 +6,19 @@ stages:
   - deploy
 
 before_script:
-  - sudo apt-get update
-  - sudo apt-get install python3.6
-  - python -m pip install --upgrade pip
+  - apt-get -qq update && apt-get -qq install -y python
+  - apt-get -qq update
+  - apt-get -qq install -y python python-virtualenv python-pip
+  - virtualenv venv
+  - . venv/bin/activate
+  - python -V
+  - pip install pandas
 
 build:
   stage: build
   script:
     - echo "build python package"
-    - python3 setup.py sdist
+    - python setup.py sdist
 
 test:
   stage: test
@@ -31,7 +35,7 @@ deploy_staging:
     url: $PYPRI_REPOSITORY_URL
   script:
     - echo "deploy python package to staging server"
-    - python3 setup.py sdist
+    - python setup.py sdist
     - pip install twine
     - twine upload --repository-url $PYPRI_REPOSITORY_URL dist/*
   only:
@@ -49,7 +53,7 @@ deploy_production:
     url: https://pypi.org/project/starid/
   script:
     - echo "deploy python package to production server"
-    - python3 setup.py sdist
+    - python setup.py sdist
     - pip install twine
     - twine upload dist/*
   only:
