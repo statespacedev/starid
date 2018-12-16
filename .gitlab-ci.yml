@@ -1,11 +1,21 @@
 image: python:3.6-slim
 
 stages:
+  - build
+  - test
   - deploy
 
-before_script:
-   - pip install twine
-   - python setup.py sdist
+build:
+  stage: build
+  script:
+    - echo "build python package"
+    - pip install twine
+    - python setup.py sdist
+
+test:
+  stage: test
+  script:
+    - echo "test installing python package in ubuntu container"
 
 deploy_staging:
   stage: deploy
@@ -13,7 +23,10 @@ deploy_staging:
     TWINE_USERNAME: $STAGING_USERNAME
     TWINE_PASSWORD: $STAGING_PASSWORD
   script:
+    - echo "deploy python package to staging server"
     - twine upload --repository-url $PYPRI_REPOSITORY_URL dist/*
+  only:
+    - master
   except:
     - tags
 
@@ -23,6 +36,8 @@ deploy_production:
     TWINE_USERNAME: $PRODUCTION_USERNAME
     TWINE_PASSWORD: $PRODUCTION_PASSWORD
   script:
+    - echo "deploy python package to production server"
     - twine upload dist/*
   only:
+    - master
     - tags
