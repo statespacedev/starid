@@ -48,5 +48,6 @@ deploy_production:
     - pip install twine
     - twine upload dist/*
   only:
-    - master
     - tags
+  except:
+    - branches
