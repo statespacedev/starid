@@ -6,13 +6,10 @@ stages:
   - deploy
 
 before_script:
-  - apt-get -qq update && apt-get -qq install -y python
-  - apt-get -qq update
-  - apt-get -qq install -y python python-virtualenv python-pip
+  - apt-get -update
+  - apt-get install python python-virtualenv python-pip
   - virtualenv venv
   - . venv/bin/activate
-  - python -V
-  - pip install tensorflow
 
 build:
   stage: build
@@ -20,7 +17,6 @@ build:
     paths:
       - dist/
   script:
-    - echo "build python package"
     - python setup.py sdist
 
 test:
