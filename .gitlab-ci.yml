@@ -6,8 +6,8 @@ stages:
   - deploy
 
 before_script:
-  - apt-get -update
-  - apt-get install python python-virtualenv python-pip
+  - apt-get -qq -update
+  - apt-get -qq install -y python python-virtualenv python-pip
   - virtualenv venv
   - . venv/bin/activate
 
