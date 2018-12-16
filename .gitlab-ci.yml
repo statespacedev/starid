@@ -9,7 +9,6 @@ build:
   stage: build
   script:
     - echo "build python package"
-    - pip install twine
     - python setup.py sdist
 
 test:
@@ -24,6 +23,7 @@ deploy_staging:
     TWINE_PASSWORD: $STAGING_PASSWORD
   script:
     - echo "deploy python package to staging server"
+    - pip install twine
     - twine upload --repository-url $PYPRI_REPOSITORY_URL dist/*
   only:
     - master
@@ -37,6 +37,7 @@ deploy_production:
     TWINE_PASSWORD: $PRODUCTION_PASSWORD
   script:
     - echo "deploy python package to production server"
+    - pip install twine
     - twine upload dist/*
   only:
     - master
