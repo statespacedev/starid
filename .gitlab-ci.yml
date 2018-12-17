@@ -25,7 +25,7 @@ test:
   dependencies:
     - build
   script:
-    - echo "test installing python package in ubuntu container"
+    - echo "test installing python package"
 
 deploy_staging:
   stage: deploy
@@ -34,7 +34,7 @@ deploy_staging:
     TWINE_PASSWORD: $STAGING_PASSWORD
   environment:
     name: staging
-    url: $PYPRI_REPOSITORY_URL
+    url: $TESTPYPI_URL
   dependencies:
     - build
   only:
@@ -43,7 +43,7 @@ deploy_staging:
     - tags
   script:
     - pip install twine
-    - twine upload --repository-url $PYPRI_REPOSITORY_URL dist/*
+    - twine upload --repository-url $TESTPYPI_URL dist/*
 
 deploy_production:
   stage: deploy
