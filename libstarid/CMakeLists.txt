@@ -4,7 +4,7 @@ project(libstarid)
 
 find_package( Eigen3 )
 
-add_subdirectory(pybind11-2.2.3)
+add_subdirectory( pybind11-2.2.3 )
 
 pybind11_add_module( libstarid libstarid.cpp sky.cpp startriangles.cpp util.cpp )
 

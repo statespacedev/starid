@@ -6,9 +6,9 @@ stages:
   - deploy
 
 before_script:
-  - apt-get -qq update && apt-get -qq install -y python
+  - apt-get -qq update && apt-get -qq install -y python3
   - apt-get -qq update
-  - apt-get -qq install -y python python-virtualenv python-pip
+  - apt-get -qq install -y python3 python-virtualenv python-pip
   - apt-get -qq install -y libeigen3-dev
   - virtualenv venv
   - . venv/bin/activate
@@ -19,7 +19,7 @@ build:
     paths:
       - dist/
   script:
-    - python setup.py sdist
+    - python3 setup.py sdist
 
 test:
   stage: test
