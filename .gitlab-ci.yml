@@ -45,6 +45,8 @@ deploy_staging:
   script:
     - apt-get -qq update -qy
     - apt-get -qq install -y python3.6 python3-venv python3-pip
+    - python3 -m venv venv
+    - . venv/bin/activate
     - pip install twine
     - twine upload --repository-url $TESTPYPI_URL dist/*
 
@@ -65,6 +67,8 @@ deploy_production:
   script:
     - apt-get -qq update -qy
     - apt-get -qq install -y python3.6 python3-venv python3-pip
+    - python3 -m venv venv
+    - . venv/bin/activate
     - pip install twine
     - twine upload dist/*
 

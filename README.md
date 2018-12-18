@@ -29,7 +29,7 @@ rather than os-level install from internal as below. apt install should be simpl
     - . venv/bin/activate
     - python3 setup.py build_ext
     - python3 setup.py build_py
-    - python3 setup.py install
+    - python3 setup.py sdist
 
 180827
 
