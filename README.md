@@ -27,6 +27,8 @@ some usage hints
       
 181218
 
+first working install from pypi, with auto build of libstarid.
+
 preparing for gitlab automated test install using a basic ubuntu container. may want something like
     
     sudo apt install libeigen3-dev
