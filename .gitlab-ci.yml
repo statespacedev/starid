@@ -9,6 +9,7 @@ before_script:
   - apt-get -qq update && apt-get -qq install -y python
   - apt-get -qq update
   - apt-get -qq install -y python python-virtualenv python-pip
+  - apt-get -qq install -y libeigen3-dev
   - virtualenv venv
   - . venv/bin/activate
 

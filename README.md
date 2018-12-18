@@ -13,6 +13,25 @@
       --wsky             write sky binary file
       --rstarpairs       read starpairs binary file
       --wstarpairs       write starpairs binary file
+      
+181218
+
+preparing for gitlab automated test install using a basic ubuntu container. may want something like
+    
+    sudo apt install libeigen3-dev
+    
+rather than os-level install from internal as below. apt install should be simple in the ubuntu container. then setup.py. gitlab script could be looking like
+
+    - apt-get -qq install -y libeigen3-dev
+    - apt-get -qq update && apt-get -qq install -y python
+    - apt-get -qq update
+    - apt-get -qq install -y python python-virtualenv python-pip
+    - apt-get -qq install -y libeigen3-dev
+    - virtualenv venv
+    - . venv/bin/activate
+    - python setup.py build_ext
+    - python setup.py build_py
+    - python setup.py install
 
 180827
 
