@@ -1,3 +1,14 @@
+clone the git project, start a virtualenv, install, and test
+
+    git clone git@gitlab.com:noahhsmith/starid.git starid
+    cd starid
+    python3 -m venv venv
+    .venv/bin/active (same as source venv/bin/activate)
+    python3 setup.py install
+    python3 starid --wsky
+    python3 starid -t (will plot a generated star image)
+    
+some usage hints    
 
     ~/starid$ starid -h
     usage: starid [-h] [-t] [--cat CAT] [--sky SKY] [--starpairs PAIRS] [--rsky]

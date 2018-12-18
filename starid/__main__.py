@@ -1,6 +1,6 @@
 import argparse, sys, os
 sys.path.append('starid')
-sys.path.append('cmake-build-debug/libstarid')
+sys.path.append('build/lib.linux-x86_64-3.6')
 
 dirdata = os.getcwd() + '/data/'
 
