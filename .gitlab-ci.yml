@@ -6,9 +6,9 @@ stages:
   - deploy
 
 before_script:
-  - apt-get -qq update
-  - apt-get -qq install -y python-virtualenv python-pip
-  - apt-get -qq install -y libeigen3-dev
+  - apt-get update -qy
+  - apt-get install -y python-dev python-pip
+  - apt-get install -y libeigen3-dev
   - virtualenv venv
   - . venv/bin/activate
 
