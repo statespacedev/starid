@@ -20,18 +20,16 @@ preparing for gitlab automated test install using a basic ubuntu container. may 
     
     sudo apt install libeigen3-dev
     
-rather than os-level install from internal as below. apt install should be simple in the ubuntu container. then setup.py. gitlab script could be looking like
+rather than os-level install from internal as below. apt install should be simple in the ubuntu container. then setup.py. container script's looking something like
 
+    - apt-get -qq update -qy
+    - apt-get -qq install -y python3.6 python3-venv python3-pip
     - apt-get -qq install -y libeigen3-dev
-    - apt-get -qq update && apt-get -qq install -y python
-    - apt-get -qq update
-    - apt-get -qq install -y python python-virtualenv python-pip
-    - apt-get -qq install -y libeigen3-dev
-    - virtualenv venv
+    - python3 -m venv venv
     - . venv/bin/activate
-    - python setup.py build_ext
-    - python setup.py build_py
-    - python setup.py install
+    - python3 setup.py build_ext
+    - python3 setup.py build_py
+    - python3 setup.py install
 
 180827
 
