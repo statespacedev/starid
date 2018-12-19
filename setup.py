@@ -32,18 +32,18 @@ class CMakeBuild(build_ext):
         subprocess.check_call(['cmake', '--build', '.'] + build_args, cwd=self.build_temp)
         print()
 
-version = None
+__version__ = None
 if os.environ.get('CI_COMMIT_TAG'):
-    version = os.environ['CI_COMMIT_TAG']
+    __version__ = os.environ['CI_COMMIT_TAG']
 elif os.environ.get('CI_JOB_ID'):
-    version = os.environ['CI_JOB_ID']
-if version:
-    with open('version', 'wt') as fout:
-        fout.write(version)
-if os.path.exists('version'):
-    with open('version', 'rt') as fin:
+    __version__ = os.environ['CI_JOB_ID']
+if __version__:
+    with open('__version__', 'wt') as fout:
+        fout.write(__version__)
+if os.path.exists('__version__'):
+    with open('__version__', 'rt') as fin:
         for line in fin:
-            version = line.strip()
+            __version__ = line.strip()
 
 with open('requirements.txt') as fin:
     required = fin.read().splitlines()
@@ -52,7 +52,7 @@ with open('README.md', 'r') as fh:
 
 setup(
     name='starid',
-    version=version,
+    version=__version__,
     author='noah smith',
     author_email='noahhsmith@gmail.com',
     description='star identification',

@@ -1,70 +1,92 @@
-import argparse, sys, os
+import sys, os
+from config import Config
 sys.path.append('starid')
 sys.path.append('build/lib.linux-x86_64-3.6')
 
 dirdata = os.getcwd() + '/data/'
 
-def main():
-    parser = argparse.ArgumentParser('starid')
-    parser.add_argument('-t', '--test', help='show test image', action='store_true')
-    parser.add_argument('--cat', help='filename for skymap text file', dest='cat', action='store', type=str)
-    parser.add_argument('--sky', help='filename for sky binary file', dest='sky', action='store', type=str)
-    parser.add_argument('--starpairs', help='filename for starpairs binary file', dest='pairs', action='store', type=str)
-    parser.add_argument('--rsky', help='read sky binary file', action='store_true')
-    parser.add_argument('--wsky', help='write sky binary file', action='store_true')
-    parser.add_argument('--rstarpairs', help='read starpairs binary file', action='store_true')
-    parser.add_argument('--wstarpairs', help='write starpairs binary file', action='store_true')
-    args = parser.parse_args()
+def rsky(conf):
+    pathsky = dirdata + 'sky'
+    if conf.sky:
+        pathsky = dirdata + args.sky
+    if not os.path.exists(pathsky):
+        print('file check unsuccessful, %s' % (pathsky))
+        return
+    import libstarid
+    ls = libstarid.libstarid()
+    ls.read_sky(conf.pathsky)
 
-    if args.test:
-        import util
-        util.test_sky(os.getcwd() + '/data/sky')
+def wsky(conf):
+    pathcat = dirdata + 'cat'
+    if conf.cat:
+        pathcat = dirdata + conf.cat
+    if not os.path.exists(pathcat):
+        print('file check unsuccessful, %s' % (pathcat))
+        return
+    pathsky = dirdata + 'sky'
+    if conf.sky:
+        pathsky = dirdata + conf.sky
+    import libstarid
+    ls = libstarid.libstarid()
+    ls.write_sky(conf.pathsky, conf.pathcat)
 
-    if args.rsky:
-        pathsky = dirdata + 'sky'
-        if args.sky:
-            pathsky = dirdata + args.sky
-        if not os.path.exists(pathsky):
-            print('file check unsuccessful, %s' % (pathsky))
-            return
-        import util
-        util.read_sky(pathsky)
+def rstarpairs(conf):
+    pathstarpairs = dirdata + 'starpairs'
+    if conf.starpairs:
+        pathstarpairs = dirdata + conf.starpairs
+    if not os.path.exists(pathstarpairs):
+        print('file check unsuccessful, %s' % (pathstarpairs))
+        return
+    import libstarid
+    ls = libstarid.libstarid()
+    ls.read_starpairs(conf.pathstarpairs)
 
-    if args.wsky:
-        pathcat = dirdata + 'cat'
-        if args.cat:
-            pathcat = dirdata + args.cat
-        if not os.path.exists(pathcat):
-            print('file check unsuccessful, %s' % (pathcat))
-            return
-        pathsky = dirdata + 'sky'
-        if args.sky:
-            pathsky = dirdata + args.sky
-        import util
-        util.write_sky(pathsky, pathcat)
+def wstarpairs(conf):
+    pathsky = dirdata + 'sky'
+    if conf.sky:
+        pathsky = dirdata + conf.sky
+    if not os.path.exists(pathsky):
+        print('file check unsuccessful, %s' % (pathsky))
+        return
+    pathstarpairs = dirdata + 'starpairs'
+    if conf.starpairs:
+        pathstarpairs = dirdata + conf.starpairs
+    import libstarid
+    ls = libstarid.libstarid()
+    ls.write_starpairs(conf.pathstarpairs)
 
-    if args.rstarpairs:
-        pathstarpairs = dirdata + 'starpairs'
-        if args.starpairs:
-            pathstarpairs = dirdata + args.starpairs
-        if not os.path.exists(pathstarpairs):
-            print('file check unsuccessful, %s' % (pathstarpairs))
-            return
-        import util
-        util.read_starpairs(pathstarpairs)
+def test_sky(conf):
+    import matplotlib.pyplot as plt
+    import libstarid
+    ls = libstarid.libstarid()
+    ls.read_sky(conf.pathsky)
+    imgdict = ls.image_generator(3)
+    plt.matshow(-1 * imgdict['pixels'], cmap='Greys', interpolation='nearest')
+    plt.show()
 
-    if args.wstarpairs:
-        pathsky = dirdata + 'sky'
-        if args.sky:
-            pathsky = dirdata + args.sky
-        if not os.path.exists(pathsky):
-            print('file check unsuccessful, %s' % (pathsky))
-            return
-        pathstarpairs = dirdata + 'starpairs'
-        if args.starpairs:
-            pathstarpairs = dirdata + args.starpairs
-        import util
-        util.write_starpairs(pathstarpairs)
+def write_sky(conf):
+    import libstarid
+    ls = libstarid.libstarid()
+    ls.write_sky(conf.pathsky, conf.pathcat)
+
+def startriangles(conf):
+    import libstarid
+    ls = libstarid.libstarid()
+    ls.read_sky('../data/sky')
+    ls.read_starpairs('../data/pairs')
+    imgdict = ls.image_generator(conf.starndx)
+    id = ls.startriangles(imgdict['pixels'])
+    print(id)
 
 if __name__ == "__main__":
-    main()
+    args = Config.read_args()
+    args.pathlog = '../log'
+    conf = Config(args)
+    if conf.test: test_sky(conf)
+    if conf.rsky: rsky(conf)
+    if conf.wsky: wsky(conf)
+    if conf.rstarpairs: rstarpairs(conf)
+    if conf.wstarpairs: wstarpairs(conf)
+
+
+
