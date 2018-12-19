@@ -2,7 +2,6 @@ image: ubuntu:bionic
 
 stages:
   - build
-  - test
   - deploy
 
 build:
@@ -20,13 +19,6 @@ build:
     - python3 setup.py build_ext
     - python3 setup.py build_py
     - python3 setup.py sdist
-
-test:
-  stage: test
-  dependencies:
-    - build
-  script:
-    - echo "test installing python package"
 
 deploy_staging:
   stage: deploy

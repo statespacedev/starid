@@ -1,16 +1,45 @@
-<img src="images/nouns and verbs level0.png" align="center" width="426" height="202"/>
 
-[references](references.md), [about](about.md), [help](readme.md)
+181218
 
-[sky](../libstarid/sky.h) generates a three-dimensional sky model and two-dimensional images from the nasa skymap star catalog, finds stars near arbitrary points on the sky
+first working install from pypi, with auto build of libstarid.
 
-[star triangles](../libstarid/startriangles.h) recurrently sets aside stars that disagree geometrically until one remains
+preparing for gitlab automated test install using a basic ubuntu container. may want something like
+    
+    sudo apt install libeigen3-dev
+    
+rather than os-level install from internal as below. apt install should be simple in the ubuntu container. then setup.py. container script's looking something like
 
-[star patterns](../starid/starpatterns.py) are relatively sensitive to rotation
+    - apt-get -qq update -qy
+    - apt-get -qq install -y python3.6 python3-venv python3-pip
+    - apt-get -qq install -y libeigen3-dev
+    - python3 -m venv venv
+    - . venv/bin/activate
+    - python3 setup.py build_ext
+    - python3 setup.py build_py
+    - python3 setup.py sdist
 
-[star sequences](../starid/starsequences.py) can be less sensitive to rotation
+180827
 
-[star languages](../starid/starlanguages.py) writes sentences about star patterns using a geometrical language and translates into an identifier language
+pip install of the package with cmake build of libstarid is working now. haven't tested if it's properly handling eigen on a clean system - so for now will leave the os-level install
+
+    mkdir build; cd build
+    cmake ~/starid/libstarid/eigen-3.3.5
+    su make install
+    
+    ~/starid$ python3 setup.py develop
+
+180813
+
+building libstarid from setuptools and pip isn't automated yet - for now
+
+    mkdir build; cd build
+    cmake ~/starid/libstarid/eigen-3.3.5
+    su make install
+    
+    cmake ~/starid
+    make
+    
+update PYTHONPATH with the folder containing the *.so - this is line 3 of ~/starid/starid/__main__.py 
 
 181216
 

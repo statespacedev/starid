@@ -1,14 +1,35 @@
-clone the git project, start a virtualenv, install, and test
+<img src="https://gitlab.com/noahhsmith/starid/raw/master/docs/images/nouns%20and%20verbs%20level0.png" align="center" width="426" height="202"/>
+
+[references](https://gitlab.com/noahhsmith/starid/blob/master/docs/references.md), [about](https://gitlab.com/noahhsmith/starid/blob/master/docs/about.md)
+
+[sky](https://gitlab.com/noahhsmith/starid/blob/master/libstarid/sky.h) generates a three-dimensional sky model and two-dimensional images from the nasa skymap star catalog, finds stars near arbitrary points on the sky
+
+[star triangles](https://gitlab.com/noahhsmith/starid/blob/master/libstarid/startriangles.h) recurrently sets aside stars that disagree geometrically until one remains
+
+[star patterns](https://gitlab.com/noahhsmith/starid/blob/master/starid/starpatterns.py) are relatively sensitive to rotation
+
+[star sequences](https://gitlab.com/noahhsmith/starid/blob/master/starid/starsequences.py) can be less sensitive to rotation
+
+[star languages](https://gitlab.com/noahhsmith/starid/blob/master/starid/starlanguages.py) writes sentences about star patterns using a geometrical language and translates into an identifier language
+
+in ubuntu, install or upgrade os-level dependencies
+
+    sudo apt-get -qq update -qy
+    sudo apt-get -qq install -y python3.6 python3-venv python3-pip
+    sudo apt-get -qq install -y cmake
+    sudo apt-get -qq install -y libeigen3-dev
+
+clone the git project, start a venv virtual environment, install the package, and test
 
     git clone git@gitlab.com:noahhsmith/starid.git starid
     cd starid
     python3 -m venv venv
-    .venv/bin/active (same as source venv/bin/activate)
+    . venv/bin/activate (same as source venv/bin/activate)
     python3 setup.py install
-    python3 starid --wsky
-    python3 starid -t (will plot a generated star image)
+    python3 starid --wsky (preps the nasa skymap catalog)
+    python3 starid -t (generates and plots a star image using the nasa skymap catalog)
     
-some usage hints    
+usage hints    
 
     ~/starid$ starid -h
     usage: starid [-h] [-t] [--cat CAT] [--sky SKY] [--starpairs PAIRS] [--rsky]
@@ -24,46 +45,3 @@ some usage hints
       --wsky             write sky binary file
       --rstarpairs       read starpairs binary file
       --wstarpairs       write starpairs binary file
-      
-181218
-
-first working install from pypi, with auto build of libstarid.
-
-preparing for gitlab automated test install using a basic ubuntu container. may want something like
-    
-    sudo apt install libeigen3-dev
-    
-rather than os-level install from internal as below. apt install should be simple in the ubuntu container. then setup.py. container script's looking something like
-
-    - apt-get -qq update -qy
-    - apt-get -qq install -y python3.6 python3-venv python3-pip
-    - apt-get -qq install -y libeigen3-dev
-    - python3 -m venv venv
-    - . venv/bin/activate
-    - python3 setup.py build_ext
-    - python3 setup.py build_py
-    - python3 setup.py sdist
-
-180827
-
-pip install of the package with cmake build of libstarid is working now. haven't tested if it's properly handling eigen on a clean system - so for now will leave the os-level install
-
-    mkdir build; cd build
-    cmake ~/starid/libstarid/eigen-3.3.5
-    su make install
-    
-    ~/starid$ python3 setup.py develop
-
-180813
-
-building libstarid from setuptools and pip isn't automated yet - for now
-
-    mkdir build; cd build
-    cmake ~/starid/libstarid/eigen-3.3.5
-    su make install
-    
-    cmake ~/starid
-    make
-    
-update PYTHONPATH with the folder containing the *.so - this is line 3 of ~/starid/starid/__main__.py 
-
