@@ -47,6 +47,8 @@ if os.path.exists('version'):
 
 with open('requirements.txt') as fin:
     required = fin.read().splitlines()
+with open('README.md', 'r') as fh:
+    long_description = fh.read()
 
 setup(
     name='starid',
@@ -54,6 +56,8 @@ setup(
     author='noah smith',
     author_email='noahhsmith@gmail.com',
     description='star identification',
+    long_description=long_description,
+    long_description_content_type='text/markdown',
     url='https://gitlab.com/noahhsmith/starid',
     packages=find_packages(),
     entry_points={'console_scripts': ["starid = starid.__main__:main"]},
