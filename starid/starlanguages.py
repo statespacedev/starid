@@ -112,8 +112,8 @@ def generate_sentences_for_star(starndx, numsentences, verbose=False):
     sentences = {}
     for cnt in range(numsentences):
         outdict = ls.image_generator(starndx)
-        from starimage import Starimg
-        starimg = Starimg(starndx=starndx, info=outdict['info'])
+        from starimages import Starimgs
+        starimg = Starimgs(starndx=starndx, info=outdict['info'])
         if not starimg.lang: # too few stars
             continue
         keytxt = starimg.lang.sentence_geom + ' : ' + starimg.lang.sentence_ids

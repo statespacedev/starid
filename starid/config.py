@@ -1,39 +1,28 @@
-import sys, os, logging, time, argparse
+import sys, os, logging, time, argparse, libstarid
 
 class Config():
     def __init__(self, args):
-        self.cwd = os.getcwd()
+        self.cwd = os.getcwd() # expect */starid, not */starid/starid
         self.args = args
-        self.pathlog = args.pathlog
-        self.logger = self.start_logger(self.pathlog, args.dontlogstdout)
-        self.logger.info('args, ' + str(vars(self.args)))
+        self.pathlog = 'log'
+        self.logger = self.start_logger(self.pathlog)
+        self.logger.info('[cwd|args], %s, %s' % (self.cwd, str(vars(self.args))))
+        self.dirsky = args.dirsky
+        self.namecat = 'cat'
+        self.namesky = 'sky'
+        self.ls = libstarid.libstarid()
 
     @staticmethod
     def read_args():
         parser = argparse.ArgumentParser('starid')
-        parser.add_argument('-t', '--test', help='show test image', action='store_true')
-        parser.add_argument('--cat', help='filename for skymap text file', dest='cat', action='store', type=str)
-        parser.add_argument('--sky', help='filename for sky binary file', dest='sky', action='store', type=str)
-        parser.add_argument('--starpairs', help='filename for starpairs binary file', dest='pairs', action='store', type=str)
-        parser.add_argument('--rsky', help='read sky binary file', action='store_true')
-        parser.add_argument('--wsky', help='write sky binary file', action='store_true')
-        parser.add_argument('--rstarpairs', help='read starpairs binary file', action='store_true')
-        parser.add_argument('--wstarpairs', help='write starpairs binary file', action='store_true')
+        parser.add_argument('--dirsky', help='path to skymap directory', type=str, required=True)
+        parser.add_argument('-t', '--test', help='show test star image', action='store_true')
         args = parser.parse_args()
+        if not args.dirsky[-1] == '/': args.dirsky += '/'
         return args
 
     @staticmethod
-    def start_logger(pathlog, dontlogstdout=False):
-        class StreamToLogger(object):
-            def __init__(self, logger, log_level=logging.INFO):
-                self.logger = logger
-                self.log_level = log_level
-                self.linebuf = ''
-            def write(self, buf):
-                for line in buf.rstrip().splitlines():
-                    self.logger.log(self.log_level, line.rstrip())
-            def flush(self):
-                pass
+    def start_logger(pathlog):
         datefmt = "%Y-%m-%dT%H:%M:%SZ"
         formatter = logging.Formatter('%(asctime)s, %(levelname)s, %(module)s, %(funcName)s, %(message)s', datefmt)
         logging.Formatter.converter = time.gmtime
@@ -42,9 +31,6 @@ class Config():
         logger = logging.getLogger('logger')
         logger.addHandler(fh)
         logger.handlers[0].setLevel(logging.INFO)
-        if not dontlogstdout:
-            sl = StreamToLogger(logger, logging.INFO)
-            sys.stdout = sl
         logger.setLevel(logging.INFO)
         return logger
 

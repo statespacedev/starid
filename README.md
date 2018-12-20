@@ -19,29 +19,20 @@ in ubuntu, install or upgrade os-level dependencies
     sudo apt-get -qq install -y cmake
     sudo apt-get -qq install -y libeigen3-dev
 
-clone the git project, start a virtual environment, install the package, and test
+clone the git project, start a virtual environment, install the package, and test. should generate and display a star image using the nasa skymap catalog.
 
     git clone git@gitlab.com:noahhsmith/starid.git starid
     cd starid
     python3 -m venv venv
-    . venv/bin/activate (same as source venv/bin/activate)
+    . venv/bin/activate
     python3 setup.py install
-    python3 starid --wsky (preps the nasa skymap catalog)
-    python3 starid -t (generates and plots a star image using the nasa skymap catalog)
+    python3 starid --dirsky ./data -t
     
 usage hints    
 
-    ~/starid$ starid -h
-    usage: starid [-h] [-t] [--cat CAT] [--sky SKY] [--starpairs PAIRS] [--rsky]
-                  [--wsky] [--rstarpairs] [--wstarpairs]
+    usage: python3 starid [-h] --dirsky DIRSKY [-t]
     
     optional arguments:
       -h, --help         show this help message and exit
-      -t, --test         show test image
-      --cat CAT          filename for skymap text file
-      --sky SKY          filename for sky binary file
-      --starpairs PAIRS  filename for starpairs binary file
-      --rsky             read sky binary file
-      --wsky             write sky binary file
-      --rstarpairs       read starpairs binary file
-      --wstarpairs       write starpairs binary file
+      --dirsky DIRSKY    path to skymap directory
+      -t, --test         show test star image
