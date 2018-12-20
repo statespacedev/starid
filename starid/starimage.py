@@ -22,7 +22,9 @@ class Starimg:
 
     def plot_image(self):
         plt.matshow(-1 * self.image, cmap='Greys', interpolation='nearest')
-        plt.show()
+        plt.draw()
+        plt.pause(2)
+        plt.close()
 
     def print_starlist(self):
         import pprint

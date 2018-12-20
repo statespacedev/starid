@@ -4,9 +4,7 @@ class Config():
     def __init__(self, args):
         self.cwd = os.getcwd() # expect */starid, not */starid/starid
         self.args = args
-        self.pathlog = 'log'
-        self.logger = self.start_logger(self.pathlog)
-        self.logger.info('[cwd|args], %s, %s' % (self.cwd, str(vars(self.args))))
+
         self.dirsky = args.dirsky
         self.namecat = 'cat'
         self.namesky = 'sky'
@@ -15,10 +13,19 @@ class Config():
             self.ls.write_sky(self.dirsky + self.namesky, self.dirsky + self.namecat)
         self.ls.read_sky(self.dirsky + self.namesky)
 
+        self.namesentences = 'lang-sentences'
+        self.namevocab = 'lang-vocab'
+        self.lang_batches = 2
+        self.lang_batchsize = 10
+
+        self.pathlog = 'log'
+        self.logger = self.start_logger(self.pathlog)
+        self.logger.info('[cwd|args], %s, %s' % (self.cwd, str(vars(self.args))))
+
     @staticmethod
     def read_args():
         parser = argparse.ArgumentParser('starid')
-        parser.add_argument('--dirsky', help='path to skymap directory', type=str, required=True)
+        parser.add_argument('--dirsky', help='path to skymap directory', type=str, default='./data/')
         parser.add_argument('-t', '--test', help='show test star image', action='store_true')
         args = parser.parse_args()
         if not args.dirsky[-1] == '/': args.dirsky += '/'

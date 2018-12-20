@@ -1,63 +1,17 @@
-import tensorflow as tf
 import math
 
-class Vocabulary:
-
-    def __init__(self):
-        self.starndxs = []
-        self.geom = {}
-        self.ids = {}
-        self.geom['<unk>'] = 1000
-        self.geom['<s>'] = 1000
-        self.geom['</s>'] = 1000
-        self.ids['<unk>'] = 1000
-        self.ids['<s>'] = 1000
-        self.ids['</s>'] = 1000
-
-    def update(self, sentences, starndx):
-        self.starndxs.append([starndx, len(sentences)])  # number of unique sentences for this star
-        for key, value in sentences.items():
-            geom = value[1].split(' ')
-            for word in geom:
-                if word not in self.geom:
-                    self.geom[word] = 1
-                else:
-                    self.geom[word] += 1
-            ids = value[2].split(' ')
-            for word in ids:
-                if word not in self.ids:
-                    self.ids[word] = 1
-                else:
-                    self.ids[word] += 1
-
-    def write_files(self, path):
-        with open(path + 'vocab.geom', 'w') as fout:
-            for key in self.geom.keys():
-                fout.write('%s\n' % key)
-        with open(path + 'vocab.ids', 'w') as fout:
-            for key in self.ids.keys():
-                fout.write('%s\n' % key)
-
-class Lang1:
-
-    def __init__(self, starimg):
+class Sentence:
+    def __init__(self, img):
         self.noun0g = 'n:na'
-        self.noun0i = 'n:' + str(starimg.targetndx)
-        self.noun1 = self.Noun(starimg.starlist[0:3])
-        self.noun2 = self.Noun(starimg.starlist[3:6])
+        self.noun0i = 'n:' + str(img.targetndx)
+        self.noun1 = self.Noun(img.starlist[0:3])
+        self.noun2 = self.Noun(img.starlist[3:6])
         self.verb1 = self.Verb(self.noun1)
         self.verb2 = self.Verb(self.noun1, self.noun2)
-        self.sentence_geom = self.noun1.geom + ' ' + self.verb1.geom + ' ' + self.noun0g + ' , ' \
-                             + self.verb2.geom + ' ' + self.noun2.geom + ' .'
-        self.sentence_ids = self.noun1.ids + ' ' + self.verb1.ids + ' ' + self.noun0i + ' , ' \
-                            + self.verb2.ids + ' ' + self.noun2.ids + ' .'
-
-    @staticmethod
-    def diststr(x):
-        return str(math.ceil(x / .1))
+        self.geometry = self.noun1.geom + ' ' + self.verb1.geom + ' ' + self.noun0g + ' , ' + self.verb2.geom + ' ' + self.noun2.geom + ' .'
+        self.identifiers = self.noun1.ids + ' ' + self.verb1.ids + ' ' + self.noun0i + ' , ' + self.verb2.ids + ' ' + self.noun2.ids + ' .'
 
     class Verb:
-
         def __init__(self, nouna, nounb=None):
             xa = [nouna.sides[0][5], nouna.sides[1][5], nouna.sides[2][5]]
             ya = [nouna.sides[0][6], nouna.sides[1][6], nouna.sides[2][6]]
@@ -69,11 +23,10 @@ class Lang1:
             d0 = math.sqrt((xa[0] - xb[0]) ** 2 + (ya[0] - yb[0]) ** 2)
             d1 = math.sqrt((xa[1] - xb[1]) ** 2 + (ya[1] - yb[1]) ** 2)
             d2 = math.sqrt((xa[2] - xb[2]) ** 2 + (ya[2] - yb[2]) ** 2)
-            self.geom = 'v:' + Lang1.diststr(d0) + ':' + Lang1.diststr(d1) + ':' + Lang1.diststr(d2)
+            self.geom = 'v:' + str(math.ceil(d0/.1)) + ':' + str(math.ceil(d1/.1)) + ':' + str(math.ceil(d2/.1))
             self.ids = self.geom
 
     class Noun:
-
         def __init__(self, stars):
             self.stars = stars # star input for just this noun, three stars
             id = [self.stars[0][0], self.stars[1][0], self.stars[2][0]]
@@ -101,50 +54,79 @@ class Lang1:
                 starb = str(sides[0][2])
                 starc = str(sides[1][2])
             self.sides = sides
-            self.geom = 'n:' + Lang1.diststr(sideab) + ':' + Lang1.diststr(sidebc) + ':' + Lang1.diststr(sideca)
+            self.geom = 'n:' + str(math.ceil(sideab/.1)) + ':' + str(math.ceil(sidebc/.1)) + ':' + str(math.ceil(sideca/.1))
             self.ids = 'n:' + stara + ':' + starb + ':' + starc
 
-def generate_sentences_for_star(starndx, numsentences, verbose=False):
-    sentences = {}
-    for cnt in range(numsentences):
-        outdict = ls.image_generator(starndx)
-        from starimages import Starimg
-        starimg = Starimg(starndx=starndx, info=outdict['info'])
-        if not starimg.lang: # too few stars
-            continue
-        keytxt = starimg.lang.sentence_geom + ' : ' + starimg.lang.sentence_ids
-        if keytxt not in sentences:
-            sentences[keytxt] = [1, starimg.lang.sentence_geom, starimg.lang.sentence_ids]
-        else:
-            sentences[keytxt][0] += 1
-    if verbose:
-        print(sorted(sentences.values(), key=lambda x: -x[0]))
-    return sentences
+class Vocab:
+    def __init__(self, conf):
+        self.conf = conf
+        self.starndxs = []
+        self.geom = {}
+        self.ids = {}
+        self.geom['<unk>'] = 1000
+        self.geom['<s>'] = 1000
+        self.geom['</s>'] = 1000
+        self.ids['<unk>'] = 1000
+        self.ids['<s>'] = 1000
+        self.ids['</s>'] = 1000
 
-def create_vocabulary_files(path):
-    vocabulary = Vocabulary()
-    for starndx in range(11): # starndx 4 has less than six stars, so include starndx 10
-        sentences = generate_sentences_for_star(starndx=starndx, numsentences=1000)
-        vocabulary.update(sentences=sentences, starndx=starndx)
-    print(vocabulary.starndxs) # sentences per starndx
-    vocabulary.write_files(path=dirdata)
+    def add(self, sentences, targetndx):
+        self.starndxs.append([targetndx, len(sentences)])  # number of unique sentences for this star
+        for key, value in sentences.items():
+            geom = value[1].split(' ')
+            for word in geom:
+                if word not in self.geom:
+                    self.geom[word] = 1
+                else:
+                    self.geom[word] += 1
+            ids = value[2].split(' ')
+            for word in ids:
+                if word not in self.ids:
+                    self.ids[word] = 1
+                else:
+                    self.ids[word] += 1
 
-def create_sentence_files(path, prefix, sentences_per_itr, numitrs):
-    fgeom = open(path + prefix + '.geom', 'w')
-    fids = open(path + prefix + '.ids', 'w')
-    for itr in range(numitrs):
-        for starndx in range(11): # starndx 4 has less than six stars, so include starndx 10
-            sentences = generate_sentences_for_star(starndx=starndx, numsentences=sentences_per_itr)
-            for key, value in sentences.items():
-                fgeom.write('%s\n' % value[1])
-                fids.write('%s\n' % value[2])
-    fgeom.close()
-    fids.close()
+    def write(self):
+        mode = 'wt'
+        with open(self.conf.dirsky + self.conf.namevocab + '.geom', mode) as geom, open(self.conf.dirsky + self.conf.namevocab + '.labels', 'w') as labels:
+            for key in self.geom.keys():
+                geom.write('%s\n' % key)
+            for key in self.ids.keys():
+                labels.write('%s\n' % key)
+
+class Sentences():
+    def __init__(self, conf):
+        self.conf = conf
+
+    def batch(self, batchndx):
+        from starimage import Starimg
+        self.sentences = {}
+        for sentndx in range(self.conf.lang_batchsize):
+            img = Starimg(conf, targetndx)
+            sentence = Sentence(img)
+            keytxt = sentence.geometry + ' : ' + sentence.identifiers
+            if keytxt not in self.sentences:
+                self.sentences[keytxt] = [1, sentence.geometry, sentence.identifiers]
+            else:
+                self.sentences[keytxt][0] += 1
+        mode = 'at'
+        if batchndx == 0: mode = 'wt'
+        with open(conf.dirsky + conf.namesentences + '.geom', mode) as geom, open(conf.dirsky + conf.namesentences + '.labels', mode) as labels:
+            for key, value in self.sentences.items():
+                geom.write('%s\n' % value[1])
+                labels.write('%s\n' % value[2])
 
 if __name__ == '__main__':
-    if not tf.gfile.Exists(dirdata): tf.gfile.MakeDirs(dirdata)
-    create_vocabulary_files(dirdata)
-    create_sentence_files(path=dirdata, prefix='train', sentences_per_itr=100, numitrs=10)
-    create_sentence_files(path=dirdata, prefix='test1', sentences_per_itr=100, numitrs=10)
-    create_sentence_files(path=dirdata, prefix='test2', sentences_per_itr=100, numitrs=10)
+    from config import Config
+    args = Config.read_args()
+    conf = Config(args)
+    vocab = Vocab(conf)
+    s = Sentences(conf)
+    for batchndx in range(conf.lang_batches):
+        for targetndx in range(11): # starndx 4 has less than six stars, so include starndx 10
+            s.batch(batchndx)
+            vocab.add(s.sentences, targetndx)
+    vocab.write()
+    pass
+
 
