@@ -1,9 +1,5 @@
 import tensorflow as tf
 import math
-import libstarid
-ls = libstarid.libstarid()
-ls.read_sky('../data/sky')
-dirdata = '../data/'
 
 class Vocabulary:
 
@@ -44,11 +40,11 @@ class Vocabulary:
 
 class Lang1:
 
-    def __init__(self, starlist, starndx):
+    def __init__(self, starimg):
         self.noun0g = 'n:na'
-        self.noun0i = 'n:' + str(starndx)
-        self.noun1 = self.Noun(starlist[0:3])
-        self.noun2 = self.Noun(starlist[3:6])
+        self.noun0i = 'n:' + str(starimg.targetndx)
+        self.noun1 = self.Noun(starimg.starlist[0:3])
+        self.noun2 = self.Noun(starimg.starlist[3:6])
         self.verb1 = self.Verb(self.noun1)
         self.verb2 = self.Verb(self.noun1, self.noun2)
         self.sentence_geom = self.noun1.geom + ' ' + self.verb1.geom + ' ' + self.noun0g + ' , ' \
@@ -112,8 +108,8 @@ def generate_sentences_for_star(starndx, numsentences, verbose=False):
     sentences = {}
     for cnt in range(numsentences):
         outdict = ls.image_generator(starndx)
-        from starimages import Starimgs
-        starimg = Starimgs(starndx=starndx, info=outdict['info'])
+        from starimages import Starimg
+        starimg = Starimg(starndx=starndx, info=outdict['info'])
         if not starimg.lang: # too few stars
             continue
         keytxt = starimg.lang.sentence_geom + ' : ' + starimg.lang.sentence_ids

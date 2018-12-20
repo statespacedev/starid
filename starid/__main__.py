@@ -1,16 +1,18 @@
 import sys, os, shutil
-# print(os.getcwd()) # expect */starid, not */starid/starid
+print('cwd, %s' % os.getcwd()) # expect */starid, not */starid/starid
 if not os.path.exists('libstarid.cpython-36m-x86_64-linux-gnu.so'):
     shutil.copy2('build/lib.linux-x86_64-3.6/libstarid.cpython-36m-x86_64-linux-gnu.so', '.')
 sys.path.append('.')
 
-def sky_read(conf):
-    from starimages import Starimgs
-    imgs = Starimgs(conf)
-    imgs.test()
+def test(conf, targetndx):
+    from starimage import Starimg
+    img = Starimg(conf, targetndx)
+    img.print_starlist()
+    img.plot_image()
+    pass
 
 if __name__ == "__main__":
     from config import Config
     args = Config.read_args()
     conf = Config(args)
-    if conf.args.test: sky_read(conf)
+    if conf.args.test: test(conf, targetndx=3)

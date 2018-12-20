@@ -11,6 +11,9 @@ class Config():
         self.namecat = 'cat'
         self.namesky = 'sky'
         self.ls = libstarid.libstarid()
+        if not os.path.exists(self.dirsky + self.namesky):
+            self.ls.write_sky(self.dirsky + self.namesky, self.dirsky + self.namecat)
+        self.ls.read_sky(self.dirsky + self.namesky)
 
     @staticmethod
     def read_args():
