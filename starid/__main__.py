@@ -1,8 +1,5 @@
-import sys, os, shutil
-print('cwd, %s' % os.getcwd()) # should be */starid not */starid/starid
-if not os.path.exists('libstarid.cpython-36m-x86_64-linux-gnu.so'):
-    shutil.copy2('build/lib.linux-x86_64-3.6/libstarid.cpython-36m-x86_64-linux-gnu.so', '.')
-sys.path.append('.')
+import sys
+sys.path.append('build/lib.linux-x86_64-3.6')
 
 def test(conf, targetndx):
     from starimage import Starimg
