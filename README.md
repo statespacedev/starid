@@ -1,6 +1,6 @@
 <img src="https://gitlab.com/noahhsmith/starid/raw/master/docs/images/nouns%20and%20verbs%20level0.png" align="center" width="426" height="202"/>
 
-[references](https://gitlab.com/noahhsmith/starid/blob/master/docs/references.md), [about](https://gitlab.com/noahhsmith/starid/blob/master/docs/about.md)
+[blog](https://gitlab.com/noahhsmith/starid/blob/master/docs/readme.md), [references](https://gitlab.com/noahhsmith/starid/blob/master/docs/references.md), [about](https://gitlab.com/noahhsmith/starid/blob/master/docs/about.md)
 
 [sky](https://gitlab.com/noahhsmith/starid/blob/master/libstarid/sky.h) generates a three-dimensional sky model and two-dimensional images from the nasa skymap star catalog, finds stars near arbitrary points on the sky
 
