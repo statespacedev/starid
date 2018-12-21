@@ -1,5 +1,6 @@
 import math
 import tensorflow as tf
+from starimage import Starimg
 
 class Sentence:
     def __init__(self, img):
@@ -62,34 +63,58 @@ class Sentences():
     def __init__(self, conf):
         self.conf = conf
 
-    def batch(self, batchndx):
-        from starimage import Starimg
-        self.sentences = {}
-        for sentndx in range(self.conf.lang_batchsize):
-            img = Starimg(conf, targetndx)
-            sentence = Sentence(img)
-            keytxt = sentence.geometry + ' : ' + sentence.identifiers
-            if keytxt not in self.sentences:
-                self.sentences[keytxt] = [1, sentence.geometry, sentence.identifiers]
-            else:
-                self.sentences[keytxt][0] += 1
-        mode = 'at'
-        if batchndx == 0: mode = 'wt'
-        with open(conf.dirsky + conf.namesentences + '.geom', mode) as geom, \
-                open(conf.dirsky + conf.namesentences + '.labels', mode) as labels, \
-                open(conf.dirsky + conf.namesentences + '.paired', mode) as paired:
-            for key, value in self.sentences.items():
-                geom.write('%s\n' % value[1])
-                labels.write('%s\n' % value[2])
-                paired.write('%s\t%s\n' % (value[1], value[2]))
+    def write_files(self):
+        for targetndx in range(10):
+            self.sentences = {}
+            for sentndx in range(self.conf.lang_sentences_per_target):
+                img = Starimg(conf, targetndx)
+                if len(img.starlist) < 6: continue
+                sentence = Sentence(img)
+                keytxt = sentence.geometry + '|' + sentence.identifiers
+                if keytxt not in self.sentences:
+                    self.sentences[keytxt] = [1, sentence.geometry, sentence.identifiers]
+                else:
+                    self.sentences[keytxt][0] += 1
+            mode = 'at'
+            if targetndx == 0: mode = 'wt'
+            with open(conf.dirsky + conf.namesentences, mode) as fout:
+                for key, value in self.sentences.items():
+                    fout.write('%s\t%s\n' % (value[1], value[2]))
 
-class Prep():
+class LanguageIndex():
+    def __init__(self, lang):
+        self.lang = lang
+        self.word2idx = {}
+        self.idx2word = {}
+        self.vocab = set()
+        self.create_index()
+
+    def create_index(self):
+        for phrase in self.lang: self.vocab.update(phrase.split(' '))
+        self.vocab = sorted(self.vocab)
+        self.word2idx['<pad>'] = 0
+        for index, word in enumerate(self.vocab): self.word2idx[word] = index + 1
+        for word, index in self.word2idx.items(): self.idx2word[index] = word
+
+class Dataset():
     def __init__(self, conf):
-        self.conf = conf
-        self.input_tensor, self.target_tensor, self.inp_lang, self.targ_lang, self.max_length_inp, self.max_length_targ = Prep.load_dataset(conf.dirsky + conf.namesentences + '.paired', num_examples=30)
+        pairs = self.create_dataset(conf.dirsky + conf.namesentences, num_examples=30)
+        self.inp_lang = LanguageIndex(l2 for l1, l2 in pairs)
+        self.targ_lang = LanguageIndex(l1 for l1, l2 in pairs)
+        self.input_tensor = [[self.inp_lang.word2idx[s] for s in l2.split(' ')] for l1, l2 in pairs]
+        self.target_tensor = [[self.targ_lang.word2idx[s] for s in l1.split(' ')] for l1, l2 in pairs]
+        self.max_length_inp, self.max_length_tar = self.max_length(self.input_tensor), self.max_length(self.target_tensor)
+        self.input_tensor = tf.keras.preprocessing.sequence.pad_sequences(self.input_tensor, maxlen=self.max_length_inp, padding='post')
+        self.target_tensor = tf.keras.preprocessing.sequence.pad_sequences(self.target_tensor, maxlen=self.max_length_tar, padding='post')
+        BUFFER_SIZE = len(self.input_tensor)
+        BATCH_SIZE = 64
+        N_BATCH = BUFFER_SIZE//BATCH_SIZE
+        vocab_inp_size = len(self.inp_lang.word2idx)
+        vocab_tar_size = len(self.targ_lang.word2idx)
+        # dataset = tf.data.Dataset.from_tensor_slices((input_tensor_train, target_tensor_train)).shuffle(BUFFER_SIZE)
+        # dataset = dataset.batch(BATCH_SIZE, drop_remainder=True)
 
-    @staticmethod
-    def preprocess_sentence(w):
+    def preprocess_sentence(self, w):
         import re
         w = w.lower().strip()
         w = re.sub(r"([?.!,¿])", r" \1 ", w)
@@ -99,71 +124,27 @@ class Prep():
         w = '<start> ' + w + ' <end>'
         return w
 
-    @staticmethod
-    def create_dataset(path, num_examples):
+    def create_dataset(self, path, num_examples):
         lines = open(path, encoding='UTF-8').read().strip().split('\n')
-        word_pairs = [[Prep.preprocess_sentence(w) for w in l.split('\t')]  for l in lines[:num_examples]]
+        word_pairs = [[self.preprocess_sentence(w) for w in l.split('\t')] for l in lines[:num_examples]]
         return word_pairs
 
-    class LanguageIndex():
-        def __init__(self, lang):
-            self.lang = lang
-            self.word2idx = {}
-            self.idx2word = {}
-            self.vocab = set()
-            self.create_index()
-
-        def create_index(self):
-            for phrase in self.lang: self.vocab.update(phrase.split(' '))
-            self.vocab = sorted(self.vocab)
-            self.word2idx['<pad>'] = 0
-            for index, word in enumerate(self.vocab): self.word2idx[word] = index + 1
-            for word, index in self.word2idx.items(): self.idx2word[index] = word
-
-    @staticmethod
-    def max_length(tensor):
+    def max_length(self, tensor):
         return max(len(t) for t in tensor)
 
-    @staticmethod
-    def load_dataset(path, num_examples):
-        pairs = Prep.create_dataset(path, num_examples)
-        inp_lang = Prep.LanguageIndex(l2 for l1, l2 in pairs)
-        targ_lang = Prep.LanguageIndex(l1 for l1, l2 in pairs)
-        input_tensor = [[inp_lang.word2idx[s] for s in l2.split(' ')] for l1, l2 in pairs]
-        target_tensor = [[targ_lang.word2idx[s] for s in l1.split(' ')] for l1, l2 in pairs]
-        max_length_inp, max_length_tar = Prep.max_length(input_tensor), Prep.max_length(target_tensor)
-        input_tensor = tf.keras.preprocessing.sequence.pad_sequences(input_tensor, maxlen=max_length_inp, padding='post')
-        target_tensor = tf.keras.preprocessing.sequence.pad_sequences(target_tensor, maxlen=max_length_tar, padding='post')
-        return input_tensor, target_tensor, inp_lang, targ_lang, max_length_inp, max_length_tar
-
 if __name__ == '__main__':
-
     mode = 0
-
     if mode == 0:
         from config import Config
         args = Config.read_args()
         conf = Config(args)
-        s = Sentences(conf)
-        for batchndx in range(conf.lang_batches):
-            for targetndx in range(11): # starndx 4 has less than six stars, so include starndx 10
-                s.batch(batchndx)
-        prep = Prep(conf)
-        pass
+        sentences = Sentences(conf)
+        sentences.write_files()
+        # dataset = Dataset(conf)
 
-    elif mode == 1:
-        from sklearn.model_selection import train_test_split
-        input_tensor_train, input_tensor_val, target_tensor_train, target_tensor_val = train_test_split(input_tensor, target_tensor, test_size=0.2)
-        len(input_tensor_train), len(target_tensor_train), len(input_tensor_val), len(target_tensor_val)
-        BUFFER_SIZE = len(input_tensor_train)
-        BATCH_SIZE = 64
-        N_BATCH = BUFFER_SIZE//BATCH_SIZE
         embedding_dim = 256
         units = 1024
-        vocab_inp_size = len(inp_lang.word2idx)
-        vocab_tar_size = len(targ_lang.word2idx)
-        dataset = tf.data.Dataset.from_tensor_slices((input_tensor_train, target_tensor_train)).shuffle(BUFFER_SIZE)
-        dataset = dataset.batch(BATCH_SIZE, drop_remainder=True)
+        pass
 
     pass
 

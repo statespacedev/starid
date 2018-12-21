@@ -18,7 +18,5 @@ starpairs
 Makefile
 log
 
-*.geom
-*.labels
-*.paired
+lang-sentences*
 

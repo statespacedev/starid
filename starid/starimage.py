@@ -13,6 +13,7 @@ class Starimg:
             self.image[int(self.info[rowndx, 0]), int(self.info[rowndx, 1])] = 1.0
         self.starlist = [] # info ready for writing nouns, verbs, and sentences
         for row in self.info:
+            if row[0] == 0: continue
             starndx = int(row[2])
             x = row[1] - 13.5
             y = 13.5 - row[0]
