@@ -1,3 +1,6 @@
+181221
+
+looks like we've got a fairly state-of-the-art hybrid cpp and python package going, with push button build and deploy to pypi. last annoyances seem to be limited to import-stuff. for now, concept seems to be depending on top-level starid directory being cwd and relative paths from there. cmake's magical-ai auto-discovery stuff keeps looking better and better.
 
 181218
 

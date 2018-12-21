@@ -20,3 +20,5 @@ log
 
 *.geom
 *.labels
+*.paired
+

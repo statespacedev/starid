@@ -1,15 +1,16 @@
 import math
+import tensorflow as tf
 
 class Sentence:
     def __init__(self, img):
-        self.noun0g = 'n:na'
-        self.noun0i = 'n:' + str(img.targetndx)
+        self.noun0g = 'n|na'
+        self.noun0i = 'n|' + str(img.targetndx)
         self.noun1 = self.Noun(img.starlist[0:3])
         self.noun2 = self.Noun(img.starlist[3:6])
         self.verb1 = self.Verb(self.noun1)
         self.verb2 = self.Verb(self.noun1, self.noun2)
-        self.geometry = self.noun1.geom + ' ' + self.verb1.geom + ' ' + self.noun0g + ' , ' + self.verb2.geom + ' ' + self.noun2.geom + ' .'
-        self.identifiers = self.noun1.ids + ' ' + self.verb1.ids + ' ' + self.noun0i + ' , ' + self.verb2.ids + ' ' + self.noun2.ids + ' .'
+        self.geometry = self.noun1.geom + ' ' + self.verb1.geom + ' ' + self.noun0g + ', ' + self.verb2.geom + ' ' + self.noun2.geom + '.'
+        self.identifiers = self.noun1.ids + ' ' + self.verb1.ids + ' ' + self.noun0i + ', ' + self.verb2.ids + ' ' + self.noun2.ids + '.'
 
     class Verb:
         def __init__(self, nouna, nounb=None):
@@ -23,7 +24,7 @@ class Sentence:
             d0 = math.sqrt((xa[0] - xb[0]) ** 2 + (ya[0] - yb[0]) ** 2)
             d1 = math.sqrt((xa[1] - xb[1]) ** 2 + (ya[1] - yb[1]) ** 2)
             d2 = math.sqrt((xa[2] - xb[2]) ** 2 + (ya[2] - yb[2]) ** 2)
-            self.geom = 'v:' + str(math.ceil(d0/.1)) + ':' + str(math.ceil(d1/.1)) + ':' + str(math.ceil(d2/.1))
+            self.geom = 'v|' + str(math.ceil(d0/.1)) + '|' + str(math.ceil(d1/.1)) + '|' + str(math.ceil(d2/.1))
             self.ids = self.geom
 
     class Noun:
@@ -54,45 +55,8 @@ class Sentence:
                 starb = str(sides[0][2])
                 starc = str(sides[1][2])
             self.sides = sides
-            self.geom = 'n:' + str(math.ceil(sideab/.1)) + ':' + str(math.ceil(sidebc/.1)) + ':' + str(math.ceil(sideca/.1))
-            self.ids = 'n:' + stara + ':' + starb + ':' + starc
-
-class Vocab:
-    def __init__(self, conf):
-        self.conf = conf
-        self.starndxs = []
-        self.geom = {}
-        self.ids = {}
-        self.geom['<unk>'] = 1000
-        self.geom['<s>'] = 1000
-        self.geom['</s>'] = 1000
-        self.ids['<unk>'] = 1000
-        self.ids['<s>'] = 1000
-        self.ids['</s>'] = 1000
-
-    def add(self, sentences, targetndx):
-        self.starndxs.append([targetndx, len(sentences)])  # number of unique sentences for this star
-        for key, value in sentences.items():
-            geom = value[1].split(' ')
-            for word in geom:
-                if word not in self.geom:
-                    self.geom[word] = 1
-                else:
-                    self.geom[word] += 1
-            ids = value[2].split(' ')
-            for word in ids:
-                if word not in self.ids:
-                    self.ids[word] = 1
-                else:
-                    self.ids[word] += 1
-
-    def write(self):
-        mode = 'wt'
-        with open(self.conf.dirsky + self.conf.namevocab + '.geom', mode) as geom, open(self.conf.dirsky + self.conf.namevocab + '.labels', 'w') as labels:
-            for key in self.geom.keys():
-                geom.write('%s\n' % key)
-            for key in self.ids.keys():
-                labels.write('%s\n' % key)
+            self.geom = 'n|' + str(math.ceil(sideab/.1)) + '|' + str(math.ceil(sidebc/.1)) + '|' + str(math.ceil(sideca/.1))
+            self.ids = 'n|' + stara + '|' + starb + '|' + starc
 
 class Sentences():
     def __init__(self, conf):
@@ -111,22 +75,96 @@ class Sentences():
                 self.sentences[keytxt][0] += 1
         mode = 'at'
         if batchndx == 0: mode = 'wt'
-        with open(conf.dirsky + conf.namesentences + '.geom', mode) as geom, open(conf.dirsky + conf.namesentences + '.labels', mode) as labels:
+        with open(conf.dirsky + conf.namesentences + '.geom', mode) as geom, \
+                open(conf.dirsky + conf.namesentences + '.labels', mode) as labels, \
+                open(conf.dirsky + conf.namesentences + '.paired', mode) as paired:
             for key, value in self.sentences.items():
                 geom.write('%s\n' % value[1])
                 labels.write('%s\n' % value[2])
+                paired.write('%s\t%s\n' % (value[1], value[2]))
+
+class Prep():
+    def __init__(self, conf):
+        self.conf = conf
+        self.input_tensor, self.target_tensor, self.inp_lang, self.targ_lang, self.max_length_inp, self.max_length_targ = Prep.load_dataset(conf.dirsky + conf.namesentences + '.paired', num_examples=30)
+
+    @staticmethod
+    def preprocess_sentence(w):
+        import re
+        w = w.lower().strip()
+        w = re.sub(r"([?.!,¿])", r" \1 ", w)
+        w = re.sub(r'[" "]+', " ", w)
+        w = re.sub(r"[^a-zA-Z0-9?.!,¿|]+", " ", w)
+        w = w.rstrip().strip()
+        w = '<start> ' + w + ' <end>'
+        return w
+
+    @staticmethod
+    def create_dataset(path, num_examples):
+        lines = open(path, encoding='UTF-8').read().strip().split('\n')
+        word_pairs = [[Prep.preprocess_sentence(w) for w in l.split('\t')]  for l in lines[:num_examples]]
+        return word_pairs
+
+    class LanguageIndex():
+        def __init__(self, lang):
+            self.lang = lang
+            self.word2idx = {}
+            self.idx2word = {}
+            self.vocab = set()
+            self.create_index()
+
+        def create_index(self):
+            for phrase in self.lang: self.vocab.update(phrase.split(' '))
+            self.vocab = sorted(self.vocab)
+            self.word2idx['<pad>'] = 0
+            for index, word in enumerate(self.vocab): self.word2idx[word] = index + 1
+            for word, index in self.word2idx.items(): self.idx2word[index] = word
+
+    @staticmethod
+    def max_length(tensor):
+        return max(len(t) for t in tensor)
+
+    @staticmethod
+    def load_dataset(path, num_examples):
+        pairs = Prep.create_dataset(path, num_examples)
+        inp_lang = Prep.LanguageIndex(l2 for l1, l2 in pairs)
+        targ_lang = Prep.LanguageIndex(l1 for l1, l2 in pairs)
+        input_tensor = [[inp_lang.word2idx[s] for s in l2.split(' ')] for l1, l2 in pairs]
+        target_tensor = [[targ_lang.word2idx[s] for s in l1.split(' ')] for l1, l2 in pairs]
+        max_length_inp, max_length_tar = Prep.max_length(input_tensor), Prep.max_length(target_tensor)
+        input_tensor = tf.keras.preprocessing.sequence.pad_sequences(input_tensor, maxlen=max_length_inp, padding='post')
+        target_tensor = tf.keras.preprocessing.sequence.pad_sequences(target_tensor, maxlen=max_length_tar, padding='post')
+        return input_tensor, target_tensor, inp_lang, targ_lang, max_length_inp, max_length_tar
 
 if __name__ == '__main__':
-    from config import Config
-    args = Config.read_args()
-    conf = Config(args)
-    vocab = Vocab(conf)
-    s = Sentences(conf)
-    for batchndx in range(conf.lang_batches):
-        for targetndx in range(11): # starndx 4 has less than six stars, so include starndx 10
-            s.batch(batchndx)
-            vocab.add(s.sentences, targetndx)
-    vocab.write()
+
+    mode = 0
+
+    if mode == 0:
+        from config import Config
+        args = Config.read_args()
+        conf = Config(args)
+        s = Sentences(conf)
+        for batchndx in range(conf.lang_batches):
+            for targetndx in range(11): # starndx 4 has less than six stars, so include starndx 10
+                s.batch(batchndx)
+        prep = Prep(conf)
+        pass
+
+    elif mode == 1:
+        from sklearn.model_selection import train_test_split
+        input_tensor_train, input_tensor_val, target_tensor_train, target_tensor_val = train_test_split(input_tensor, target_tensor, test_size=0.2)
+        len(input_tensor_train), len(target_tensor_train), len(input_tensor_val), len(target_tensor_val)
+        BUFFER_SIZE = len(input_tensor_train)
+        BATCH_SIZE = 64
+        N_BATCH = BUFFER_SIZE//BATCH_SIZE
+        embedding_dim = 256
+        units = 1024
+        vocab_inp_size = len(inp_lang.word2idx)
+        vocab_tar_size = len(targ_lang.word2idx)
+        dataset = tf.data.Dataset.from_tensor_slices((input_tensor_train, target_tensor_train)).shuffle(BUFFER_SIZE)
+        dataset = dataset.batch(BATCH_SIZE, drop_remainder=True)
+
     pass
 
 

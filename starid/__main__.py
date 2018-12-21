@@ -1,5 +1,3 @@
-import sys
-sys.path.append('build/lib.linux-x86_64-3.6')
 
 def test(conf, targetndx):
     from starimage import Starimg

@@ -30,9 +30,10 @@ clone the git project, start a virtual environment, install the package, and tes
     
 usage hints    
 
-    usage: python3 starid [-h] --dirsky DIRSKY [-t]
+    usage: starid [-h] [--dirsky DIRSKY] [-t]
     
     optional arguments:
-      -h, --help         show this help message and exit
-      --dirsky DIRSKY    path to skymap directory
-      -t, --test         show test star image
+      -h, --help       show this help message and exit
+      --dirsky DIRSKY  path to skymap directory
+      -t, --test       show test star image
+
