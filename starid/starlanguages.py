@@ -2,117 +2,95 @@ import math
 import tensorflow as tf
 from starimage import Starimg
 
-class Sentence:
-    def __init__(self, img):
-        self.noun0g = 'n|na'
-        self.noun0i = 'n|' + str(img.targetndx)
-        self.noun1 = self.Noun(img.starlist[0:3])
-        self.noun2 = self.Noun(img.starlist[3:6])
-        self.verb1 = self.Verb(self.noun1)
-        self.verb2 = self.Verb(self.noun1, self.noun2)
-        self.geometry = self.noun1.geom + ' ' + self.verb1.geom + ' ' + self.noun0g + ', ' + self.verb2.geom + ' ' + self.noun2.geom + '.'
-        self.identifiers = self.noun1.ids + ' ' + self.verb1.ids + ' ' + self.noun0i + ', ' + self.verb2.ids + ' ' + self.noun2.ids + '.'
-
-    class Verb:
-        def __init__(self, nouna, nounb=None):
-            xa = [nouna.sides[0][5], nouna.sides[1][5], nouna.sides[2][5]]
-            ya = [nouna.sides[0][6], nouna.sides[1][6], nouna.sides[2][6]]
-            xb = [0., 0., 0.]
-            yb = [0., 0., 0.]
-            if nounb:
-                xb = [nounb.sides[0][5], nounb.sides[1][5], nounb.sides[2][5]]
-                yb = [nounb.sides[0][6], nounb.sides[1][6], nounb.sides[2][6]]
-            d0 = math.sqrt((xa[0] - xb[0]) ** 2 + (ya[0] - yb[0]) ** 2)
-            d1 = math.sqrt((xa[1] - xb[1]) ** 2 + (ya[1] - yb[1]) ** 2)
-            d2 = math.sqrt((xa[2] - xb[2]) ** 2 + (ya[2] - yb[2]) ** 2)
-            self.geom = 'v|' + str(math.ceil(d0/.1)) + '|' + str(math.ceil(d1/.1)) + '|' + str(math.ceil(d2/.1))
-            self.ids = self.geom
-
-    class Noun:
-        def __init__(self, stars):
-            self.stars = stars # star input for just this noun, three stars
-            id = [self.stars[0][0], self.stars[1][0], self.stars[2][0]]
-            x = [self.stars[0][3], self.stars[1][3], self.stars[2][3]]
-            y = [self.stars[0][4], self.stars[1][4], self.stars[2][4]]
-            side01 = math.sqrt((x[0] - x[1])**2 + (y[0] - y[1])**2)
-            side12 = math.sqrt((x[1] - x[2])**2 + (y[1] - y[2])**2)
-            side20 = math.sqrt((x[2] - x[0])**2 + (y[2] - y[0])**2)
-            sides = [
-                [0, 1, id[0], id[1], side01, x[0], y[0], x[1], y[1]],
-                [1, 2, id[1], id[2], side12, x[1], y[1], x[2], y[2]],
-                [2, 0, id[2], id[0], side20, x[2], y[2], x[0], y[0]]]
-            sides = sorted(sides, key=lambda side: (side[4], side[0])) # increasing side length
-            sideab = sides[0][4]
-            sidebc = sides[1][4]
-            sideca = sides[2][4]
-            if (sides[0][0] == 0 and sides[1][0] == 1) \
-                    or (sides[0][0] == 1 and sides[1][0] == 2) \
-                    or (sides[0][0] == 2 and sides[1][0] == 0):
-                stara = str(sides[0][2])
-                starb = str(sides[0][3])
-                starc = str(sides[1][3])
-            else:
-                stara = str(sides[0][3])
-                starb = str(sides[0][2])
-                starc = str(sides[1][2])
-            self.sides = sides
-            self.geom = 'n|' + str(math.ceil(sideab/.1)) + '|' + str(math.ceil(sidebc/.1)) + '|' + str(math.ceil(sideca/.1))
-            self.ids = 'n|' + stara + '|' + starb + '|' + starc
-
 class Sentences():
     def __init__(self, conf):
         self.conf = conf
 
-    def write_files(self):
-        for targetndx in range(10):
-            self.sentences = {}
-            for sentndx in range(self.conf.lang_sentences_per_target):
-                img = Starimg(conf, targetndx)
+    def write(self):
+        from random import randint
+        with open(conf.dirsky + conf.namesentences, 'wt') as fout:
+            cnt = 0
+            while cnt < self.conf.lang_sentences:
+                target = randint(0, conf.lang_targets - 1)
+                img = Starimg(conf, target)
                 if len(img.starlist) < 6: continue
-                sentence = Sentence(img)
-                keytxt = sentence.geometry + '|' + sentence.identifiers
-                if keytxt not in self.sentences:
-                    self.sentences[keytxt] = [1, sentence.geometry, sentence.identifiers]
+                sentence = Sentences.Sentence(img)
+                fout.write('%s\t%s\n' % (sentence.geometry, sentence.labels))
+                cnt += 1
+                if cnt % 100 == 0: print(cnt)
+
+    class Sentence:
+        def __init__(self, img):
+            self.noun0g = 'n|na'
+            self.noun0i = 'n|' + str(img.targetndx)
+            self.noun1 = Sentences.Sentence.Noun(img.starlist[0:3])
+            self.noun2 = Sentences.Sentence.Noun(img.starlist[3:6])
+            self.verb1 = Sentences.Sentence.Verb(self.noun1)
+            self.verb2 = Sentences.Sentence.Verb(self.noun1, self.noun2)
+            self.geometry = self.noun1.geom + ' ' + self.verb1.geom + ' ' + self.noun0g + ', ' + self.verb2.geom + ' ' + self.noun2.geom + '.'
+            self.labels = self.noun1.ids + ' ' + self.verb1.ids + ' ' + self.noun0i + ', ' + self.verb2.ids + ' ' + self.noun2.ids + '.'
+
+        class Verb:
+            def __init__(self, nouna, nounb=None):
+                xa = [nouna.sides[0][5], nouna.sides[1][5], nouna.sides[2][5]]
+                ya = [nouna.sides[0][6], nouna.sides[1][6], nouna.sides[2][6]]
+                xb = [0., 0., 0.]
+                yb = [0., 0., 0.]
+                if nounb:
+                    xb = [nounb.sides[0][5], nounb.sides[1][5], nounb.sides[2][5]]
+                    yb = [nounb.sides[0][6], nounb.sides[1][6], nounb.sides[2][6]]
+                d0 = math.sqrt((xa[0] - xb[0]) ** 2 + (ya[0] - yb[0]) ** 2)
+                d1 = math.sqrt((xa[1] - xb[1]) ** 2 + (ya[1] - yb[1]) ** 2)
+                d2 = math.sqrt((xa[2] - xb[2]) ** 2 + (ya[2] - yb[2]) ** 2)
+                self.geom = 'v|' + str(math.ceil(d0/.1)) + '|' + str(math.ceil(d1/.1)) + '|' + str(math.ceil(d2/.1))
+                self.ids = self.geom
+
+        class Noun:
+            def __init__(self, stars):
+                self.stars = stars # star input for just this noun, three stars
+                id = [self.stars[0][0], self.stars[1][0], self.stars[2][0]]
+                x = [self.stars[0][3], self.stars[1][3], self.stars[2][3]]
+                y = [self.stars[0][4], self.stars[1][4], self.stars[2][4]]
+                side01 = math.sqrt((x[0] - x[1])**2 + (y[0] - y[1])**2)
+                side12 = math.sqrt((x[1] - x[2])**2 + (y[1] - y[2])**2)
+                side20 = math.sqrt((x[2] - x[0])**2 + (y[2] - y[0])**2)
+                sides = [
+                    [0, 1, id[0], id[1], side01, x[0], y[0], x[1], y[1]],
+                    [1, 2, id[1], id[2], side12, x[1], y[1], x[2], y[2]],
+                    [2, 0, id[2], id[0], side20, x[2], y[2], x[0], y[0]]]
+                sides = sorted(sides, key=lambda side: (side[4], side[0])) # increasing side length
+                sideab = sides[0][4]
+                sidebc = sides[1][4]
+                sideca = sides[2][4]
+                if (sides[0][0] == 0 and sides[1][0] == 1) \
+                        or (sides[0][0] == 1 and sides[1][0] == 2) \
+                        or (sides[0][0] == 2 and sides[1][0] == 0):
+                    stara = str(sides[0][2])
+                    starb = str(sides[0][3])
+                    starc = str(sides[1][3])
                 else:
-                    self.sentences[keytxt][0] += 1
-            mode = 'at'
-            if targetndx == 0: mode = 'wt'
-            with open(conf.dirsky + conf.namesentences, mode) as fout:
-                for key, value in self.sentences.items():
-                    fout.write('%s\t%s\n' % (value[1], value[2]))
+                    stara = str(sides[0][3])
+                    starb = str(sides[0][2])
+                    starc = str(sides[1][2])
+                self.sides = sides
+                self.geom = 'n|' + str(math.ceil(sideab/.1)) + '|' + str(math.ceil(sidebc/.1)) + '|' + str(math.ceil(sideca/.1))
+                self.ids = 'n|' + stara + '|' + starb + '|' + starc
 
-class LanguageIndex():
-    def __init__(self, lang):
-        self.lang = lang
-        self.word2idx = {}
-        self.idx2word = {}
-        self.vocab = set()
-        self.create_index()
-
-    def create_index(self):
-        for phrase in self.lang: self.vocab.update(phrase.split(' '))
-        self.vocab = sorted(self.vocab)
-        self.word2idx['<pad>'] = 0
-        for index, word in enumerate(self.vocab): self.word2idx[word] = index + 1
-        for word, index in self.word2idx.items(): self.idx2word[index] = word
-
-class Dataset():
+class Data():
     def __init__(self, conf):
         pairs = self.create_dataset(conf.dirsky + conf.namesentences, num_examples=30)
-        self.inp_lang = LanguageIndex(l2 for l1, l2 in pairs)
-        self.targ_lang = LanguageIndex(l1 for l1, l2 in pairs)
+        self.inp_lang = Data.LanguageIndex(l2 for l1, l2 in pairs)
+        self.targ_lang = Data.LanguageIndex(l1 for l1, l2 in pairs)
         self.input_tensor = [[self.inp_lang.word2idx[s] for s in l2.split(' ')] for l1, l2 in pairs]
         self.target_tensor = [[self.targ_lang.word2idx[s] for s in l1.split(' ')] for l1, l2 in pairs]
         self.max_length_inp, self.max_length_tar = self.max_length(self.input_tensor), self.max_length(self.target_tensor)
         self.input_tensor = tf.keras.preprocessing.sequence.pad_sequences(self.input_tensor, maxlen=self.max_length_inp, padding='post')
         self.target_tensor = tf.keras.preprocessing.sequence.pad_sequences(self.target_tensor, maxlen=self.max_length_tar, padding='post')
-        BUFFER_SIZE = len(self.input_tensor)
-        BATCH_SIZE = 64
-        N_BATCH = BUFFER_SIZE//BATCH_SIZE
-        vocab_inp_size = len(self.inp_lang.word2idx)
-        vocab_tar_size = len(self.targ_lang.word2idx)
-        # dataset = tf.data.Dataset.from_tensor_slices((input_tensor_train, target_tensor_train)).shuffle(BUFFER_SIZE)
-        # dataset = dataset.batch(BATCH_SIZE, drop_remainder=True)
+        buffer_size = len(self.input_tensor)
+        self.vocab_inp_size = len(self.inp_lang.word2idx)
+        self.vocab_tar_size = len(self.targ_lang.word2idx)
+        self.dataset = tf.data.Dataset.from_tensor_slices((self.input_tensor, self.target_tensor)).shuffle(buffer_size)
+        self.dataset = self.dataset.batch(conf.lang_batch_size, drop_remainder=True)
 
     def preprocess_sentence(self, w):
         import re
@@ -132,18 +110,92 @@ class Dataset():
     def max_length(self, tensor):
         return max(len(t) for t in tensor)
 
-if __name__ == '__main__':
-    mode = 0
-    if mode == 0:
-        from config import Config
-        args = Config.read_args()
-        conf = Config(args)
-        sentences = Sentences(conf)
-        sentences.write_files()
-        # dataset = Dataset(conf)
+    class LanguageIndex():
+        def __init__(self, lang):
+            self.lang = lang
+            self.word2idx = {}
+            self.idx2word = {}
+            self.vocab = set()
+            self.create_index()
 
+        def create_index(self):
+            for phrase in self.lang: self.vocab.update(phrase.split(' '))
+            self.vocab = sorted(self.vocab)
+            self.word2idx['<pad>'] = 0
+            for index, word in enumerate(self.vocab): self.word2idx[word] = index + 1
+            for word, index in self.word2idx.items(): self.idx2word[index] = word
+
+class Model():
+    def __init__(self, conf, vocab_inp_size, vocab_tar_size):
         embedding_dim = 256
         units = 1024
+        self.encoder = Model.Encoder(vocab_inp_size, embedding_dim, units, conf.lang_batch_size)
+        self.decoder = Model.Decoder(vocab_tar_size, embedding_dim, units, conf.lang_batch_size)
+
+    def gru(units):
+        if tf.test.is_gpu_available():
+            return tf.keras.layers.CuDNNGRU(units, return_sequences=True, return_state=True,
+                                            recurrent_initializer='glorot_uniform')
+        else:
+            return tf.keras.layers.GRU(units, return_sequences=True, return_state=True,
+                                       recurrent_activation='sigmoid', recurrent_initializer='glorot_uniform')
+
+    class Encoder(tf.keras.Model):
+        def __init__(self, vocab_size, embedding_dim, enc_units, batch_sz):
+            super(Model.Encoder, self).__init__()
+            self.batch_sz = batch_sz
+            self.enc_units = enc_units
+            self.embedding = tf.keras.layers.Embedding(vocab_size, embedding_dim)
+            self.gru = Model.gru(self.enc_units)
+
+        def call(self, x, hidden):
+            x = self.embedding(x)
+            output, state = self.gru(x, initial_state = hidden)
+            return output, state
+
+        def initialize_hidden_state(self):
+            return tf.zeros((self.batch_sz, self.enc_units))
+
+    class Decoder(tf.keras.Model):
+        def __init__(self, vocab_size, embedding_dim, dec_units, batch_sz):
+            super(Model.Decoder, self).__init__()
+            self.batch_sz = batch_sz
+            self.dec_units = dec_units
+            self.embedding = tf.keras.layers.Embedding(vocab_size, embedding_dim)
+            self.gru = Model.gru(self.dec_units)
+            self.fc = tf.keras.layers.Dense(vocab_size)
+            self.W1 = tf.keras.layers.Dense(self.dec_units)
+            self.W2 = tf.keras.layers.Dense(self.dec_units)
+            self.V = tf.keras.layers.Dense(1)
+
+        def call(self, x, hidden, enc_output):
+            hidden_with_time_axis = tf.expand_dims(hidden, 1)
+            score = self.V(tf.nn.tanh(self.W1(enc_output) + self.W2(hidden_with_time_axis)))
+            attention_weights = tf.nn.softmax(score, axis=1)
+            context_vector = attention_weights * enc_output
+            context_vector = tf.reduce_sum(context_vector, axis=1)
+            x = self.embedding(x)
+            x = tf.concat([tf.expand_dims(context_vector, 1), x], axis=-1)
+            output, state = self.gru(x)
+            output = tf.reshape(output, (-1, output.shape[2]))
+            x = self.fc(output)
+            return x, state, attention_weights
+
+        def initialize_hidden_state(self):
+            return tf.zeros((self.batch_sz, self.dec_units))
+
+if __name__ == '__main__':
+    mode = 1
+    from config import Config
+    args = Config.read_args()
+    conf = Config(args)
+    if mode == 0:
+        sentences = Sentences(conf)
+        sentences.write()
+    elif mode == 1:
+        data = Data(conf)
+        model = Model(conf, len(data.inp_lang.word2idx), len(data.targ_lang.word2idx))
+        a=1
         pass
 
     pass

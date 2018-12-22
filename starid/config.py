@@ -17,7 +17,9 @@ class Config():
 
         self.namesentences = 'lang-sentences'
         self.namevocab = 'lang-vocab'
-        self.lang_sentences_per_target = 100
+        self.lang_targets = 10
+        self.lang_sentences = 30000
+        self.lang_batch_size = 64
 
         self.pathlog = 'log'
         self.logger = self.start_logger(self.pathlog)

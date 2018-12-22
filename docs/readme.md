@@ -1,6 +1,6 @@
 181221
 
-looks like we've got a fairly state-of-the-art hybrid cpp and python package going, with push button build and deploy to pypi. last annoyances seem to be limited to import-stuff. for now, concept seems to be depending on top-level starid directory being cwd and relative paths from there. cmake's magical-ai auto-discovery stuff keeps looking better and better.
+looking like a hybrid cpp-python package. auto build-test-deploy to pypi via gitlab. remaining annoyances seem limited to python-import related stuff. for now, concept is to depend on os.getcwd() being top-level package directory and relative paths from there. cmake's magical-ai auto-discovery stuff keeps looking nicer.
 
 181218
 
