@@ -20,6 +20,8 @@ class Config():
         self.lang_targets = 10
         self.lang_sentences = 30000
         self.lang_batch_size = 64
+        self.lang_epochs = 1
+        self.lang_dirckpt = './data/lang-ckpt/'
 
         self.pathlog = 'log'
         self.logger = self.start_logger(self.pathlog)

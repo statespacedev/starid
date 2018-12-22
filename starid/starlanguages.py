@@ -1,6 +1,9 @@
-import math
+import math, os
+import numpy as np
 import tensorflow as tf
+import matplotlib as plt
 from starimage import Starimg
+tf.enable_eager_execution()
 
 class Sentences():
     def __init__(self, conf):
@@ -78,7 +81,8 @@ class Sentences():
 
 class Data():
     def __init__(self, conf):
-        pairs = self.create_dataset(conf.dirsky + conf.namesentences, num_examples=30)
+        self.conf = conf
+        pairs = self.create_dataset(conf.dirsky + conf.namesentences, num_examples=self.conf.lang_sentences)
         self.inp_lang = Data.LanguageIndex(l2 for l1, l2 in pairs)
         self.targ_lang = Data.LanguageIndex(l1 for l1, l2 in pairs)
         self.input_tensor = [[self.inp_lang.word2idx[s] for s in l2.split(' ')] for l1, l2 in pairs]
@@ -86,10 +90,11 @@ class Data():
         self.max_length_inp, self.max_length_tar = self.max_length(self.input_tensor), self.max_length(self.target_tensor)
         self.input_tensor = tf.keras.preprocessing.sequence.pad_sequences(self.input_tensor, maxlen=self.max_length_inp, padding='post')
         self.target_tensor = tf.keras.preprocessing.sequence.pad_sequences(self.target_tensor, maxlen=self.max_length_tar, padding='post')
-        buffer_size = len(self.input_tensor)
+        self.buffer_size = len(self.input_tensor)
+        self.n_batch = self.buffer_size//self.conf.lang_batch_size
         self.vocab_inp_size = len(self.inp_lang.word2idx)
         self.vocab_tar_size = len(self.targ_lang.word2idx)
-        self.dataset = tf.data.Dataset.from_tensor_slices((self.input_tensor, self.target_tensor)).shuffle(buffer_size)
+        self.dataset = tf.data.Dataset.from_tensor_slices((self.input_tensor, self.target_tensor)).shuffle(self.buffer_size)
         self.dataset = self.dataset.batch(conf.lang_batch_size, drop_remainder=True)
 
     def preprocess_sentence(self, w):
@@ -127,12 +132,22 @@ class Data():
 
 class Model():
     def __init__(self, conf, vocab_inp_size, vocab_tar_size):
+        self.conf = conf
         embedding_dim = 256
         units = 1024
         self.encoder = Model.Encoder(vocab_inp_size, embedding_dim, units, conf.lang_batch_size)
         self.decoder = Model.Decoder(vocab_tar_size, embedding_dim, units, conf.lang_batch_size)
+        self.optimizer = tf.train.AdamOptimizer()
+        self.checkpoint_dir = self.conf.lang_dirckpt
+        self.checkpoint_prefix = os.path.join(self.checkpoint_dir, "ckpt")
+        self.checkpoint = tf.train.Checkpoint(optimizer=self.optimizer, encoder=self.encoder, decoder=self.decoder)
 
-    def gru(units):
+    def loss_function(self, real, pred):
+        mask = 1 - np.equal(real, 0)
+        loss_ = tf.nn.sparse_softmax_cross_entropy_with_logits(labels=real, logits=pred) * mask
+        return tf.reduce_mean(loss_)
+
+    def gru(self, units):
         if tf.test.is_gpu_available():
             return tf.keras.layers.CuDNNGRU(units, return_sequences=True, return_state=True,
                                             recurrent_initializer='glorot_uniform')
@@ -184,8 +199,77 @@ class Model():
         def initialize_hidden_state(self):
             return tf.zeros((self.batch_sz, self.dec_units))
 
+    def training(self, data):
+        import time
+        for epoch in range(self.conf.lang_epochs):
+            start = time.time()
+            hidden = self.encoder.initialize_hidden_state()
+            total_loss = 0
+            for (batch, (inp, targ)) in enumerate(data.dataset):
+                loss = 0
+                with tf.GradientTape() as tape:
+                    enc_output, enc_hidden = self.encoder(inp, hidden)
+                    dec_hidden = enc_hidden
+                    dec_input = tf.expand_dims([data.targ_lang.word2idx['<start>']] * self.conf.lang_batch_size, 1)
+                    for t in range(1, targ.shape[1]):
+                        predictions, dec_hidden, _ = self.decoder(dec_input, dec_hidden, enc_output)
+                        loss += self.loss_function(targ[:, t], predictions)
+                        dec_input = tf.expand_dims(targ[:, t], 1)
+                batch_loss = (loss / int(targ.shape[1]))
+                total_loss += batch_loss
+                variables = self.encoder.variables + self.decoder.variables
+                gradients = tape.gradient(loss, variables)
+                self.optimizer.apply_gradients(zip(gradients, variables))
+                if batch % 100 == 0:
+                    print('Epoch {} Batch {} Loss {:.4f}'.format(epoch + 1, batch, batch_loss.numpy()))
+            if (epoch + 1) % 1 == 0:
+                self.checkpoint.save(file_prefix = self.checkpoint_prefix)
+            print('Epoch {} Loss {:.4f}'.format(epoch + 1, total_loss / data.n_batch))
+            print('Time taken for 1 epoch {} sec\n'.format(time.time() - start))
+
+    def evaluate(self, sentence, encoder, decoder, inp_lang, targ_lang, max_length_inp, max_length_targ):
+        attention_plot = np.zeros((max_length_targ, max_length_inp))
+        sentence = self.preprocess_sentence(sentence)
+        inputs = [inp_lang.word2idx[i] for i in sentence.split(' ')]
+        inputs = tf.keras.preprocessing.sequence.pad_sequences([inputs], maxlen=max_length_inp, padding='post')
+        inputs = tf.convert_to_tensor(inputs)
+        result = ''
+        hidden = [tf.zeros((1, units))]
+        enc_out, enc_hidden = encoder(inputs, hidden)
+        dec_hidden = enc_hidden
+        dec_input = tf.expand_dims([targ_lang.word2idx['<start>']], 0)
+        for t in range(max_length_targ):
+            predictions, dec_hidden, attention_weights = decoder(dec_input, dec_hidden, enc_out)
+            attention_weights = tf.reshape(attention_weights, (-1, ))
+            attention_plot[t] = attention_weights.numpy()
+            predicted_id = tf.argmax(predictions[0]).numpy()
+            result += targ_lang.idx2word[predicted_id] + ' '
+            if targ_lang.idx2word[predicted_id] == '<end>':
+                return result, sentence, attention_plot
+            dec_input = tf.expand_dims([predicted_id], 0)
+        return result, sentence, attention_plot
+
+    def plot_attention(self, attention, sentence, predicted_sentence):
+        fig = plt.figure(figsize=(10,10))
+        ax = fig.add_subplot(1, 1, 1)
+        ax.matshow(attention, cmap='viridis')
+        fontdict = {'fontsize': 14}
+        ax.set_xticklabels([''] + sentence, fontdict=fontdict, rotation=90)
+        ax.set_yticklabels([''] + predicted_sentence, fontdict=fontdict)
+        plt.show()
+
+    def restore(self):
+        self.checkpoint.restore(tf.train.latest_checkpoint(self.checkpoint_dir))
+
+    def translate(self, sentence, encoder, decoder, inp_lang, targ_lang, max_length_inp, max_length_targ):
+        result, sentence, attention_plot = self.evaluate(sentence, encoder, decoder, inp_lang, targ_lang, max_length_inp, max_length_targ)
+        print('Input: {}'.format(sentence))
+        print('Predicted translation: {}'.format(result))
+        # attention_plot = attention_plot[:len(result.split(' ')), :len(sentence.split(' '))]
+        # plot_attention(attention_plot, sentence.split(' '), result.split(' '))
+
 if __name__ == '__main__':
-    mode = 1
+    mode = 2
     from config import Config
     args = Config.read_args()
     conf = Config(args)
@@ -195,8 +279,11 @@ if __name__ == '__main__':
     elif mode == 1:
         data = Data(conf)
         model = Model(conf, len(data.inp_lang.word2idx), len(data.targ_lang.word2idx))
-        a=1
-        pass
+        model.training(data)
+    elif mode == 2:
+        data = Data(conf)
+        model = Model(conf, len(data.inp_lang.word2idx), len(data.targ_lang.word2idx))
+        model.restore()
 
     pass
 
