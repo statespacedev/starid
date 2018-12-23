@@ -1,6 +1,12 @@
+[main](https://gitlab.com/noahhsmith/starid/blob/master/README.md), [data](https://gitlab.com/noahhsmith/starid/blob/master/data/readme.md), [references](https://gitlab.com/noahhsmith/starid/blob/master/docs/references.md), [about](https://gitlab.com/noahhsmith/starid/blob/master/docs/about.md)
+
+181223
+
+lost-in-space star images are inherently dynamic and attempts at stabilizing them are compromises - approaches based on static patterns are inherently at a disadvantage. going forward we're dropping the cnn and basic-rnn stuff in favor of sequence-to-sequence, neural machine translation, dynamic-language based paths, focusing on robustness to arbitrary image-rotation.
+ 
 181221
 
-looking like a hybrid cpp-python package. auto build-test-deploy to pypi via gitlab. remaining annoyances seem limited to python-import related stuff. for now, concept is to depend on os.getcwd() being top-level package directory and relative paths from there. cmake's magical-ai auto-discovery stuff keeps looking nicer.
+hybrid cpp-python package with auto build-test-deploy to pypi via gitlab is go. remaining annoyances seem limited to python-import related stuff. for now, concept is to depend on os.getcwd() being top-level package directory and relative paths from there. cmake's concept of magical-ai auto-discovery stuff keeps looking nicer and nicer.
 
 181218
 
