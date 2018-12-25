@@ -3,11 +3,12 @@ sys.path.append('build/lib.linux-x86_64-3.6')
 import libstarid
 
 class Config():
-    def __init__(self, args):
+    def __init__(self, args=None):
         self.cwd = os.getcwd() # expect */starid, not */starid/starid
         self.args = args
 
-        self.dirsky = args.dirsky
+        self.dirsky = './data/'
+        if args and hasattr(args, 'dirsky'): self.dirsky = args.dirsky
         self.namecat = 'cat'
         self.namesky = 'sky'
         self.ls = libstarid.libstarid()
@@ -23,17 +24,17 @@ class Config():
         self.lang_epochs = 1
         self.lang_dirckpt = './data/lang-ckpt/'
 
-        self.pathlog = 'log'
-        self.logger = self.start_logger(self.pathlog)
-        self.logger.info('[cwd|args], %s, %s' % (self.cwd, str(vars(self.args))))
+        # self.pathlog = 'log'
+        # self.logger = self.start_logger(self.pathlog)
+        # self.logger.info('[cwd|args], %s, %s' % (self.cwd, str(vars(self.args))))
 
     @staticmethod
     def read_args():
         parser = argparse.ArgumentParser('starid')
-        parser.add_argument('--dirsky', help='path to skymap directory', type=str, default='./data/')
-        parser.add_argument('-t', '--test', help='show test star image', action='store_true')
+        parser.add_argument('--dirsky', help='path to skymap directory', type=str)
+        parser.add_argument('-d', '--demo', help='demo star image', action='store_true')
         args = parser.parse_args()
-        if not args.dirsky[-1] == '/': args.dirsky += '/'
+        if hasattr(args, 'dirsky') and not args.dirsky[-1] == '/': args.dirsky += '/'
         return args
 
     @staticmethod

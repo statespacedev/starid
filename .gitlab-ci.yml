@@ -2,6 +2,7 @@ image: ubuntu:bionic
 
 stages:
   - build
+  - test
   - deploy
 
 build:
@@ -19,6 +20,19 @@ build:
     - python3 setup.py build_ext
     - python3 setup.py build_py
     - python3 setup.py sdist
+
+test:
+  stage: test
+  dependencies:
+    - build
+  script:
+    - apt-get -qq update -qy
+    - apt-get -qq install -y python3.6 python3-venv python3-pip
+    - apt-get -qq install -y libeigen3-dev
+    - python3 -m venv venv
+    - . venv/bin/activate
+    - python3 setup.py install
+    - pytest
 
 deploy_staging:
   stage: deploy

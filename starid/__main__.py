@@ -1,5 +1,5 @@
 
-def test(conf, targetndx):
+def demo(conf, targetndx):
     from starimage import Starimg
     img = Starimg(conf, targetndx)
     img.print_starlist()
@@ -12,4 +12,4 @@ if __name__ == "__main__":
     from config import Config
     args = Config.read_args()
     conf = Config(args)
-    if conf.args.test: test(conf, targetndx=3)
+    if conf.args.demo: demo(conf, targetndx=3)
