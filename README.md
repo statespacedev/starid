@@ -21,15 +21,16 @@ clone the git project, start a virtual environment, install the package, and tes
     cd starid
     python3 -m venv venv
     . venv/bin/activate
-    python3 setup.py install
-    python3 starid --dirsky ./data -t
+    pip install -e .
+    pytest --ignore=libstarid
     
-usage hints    
+~/starid$ python starid -h
 
-    usage: starid [-h] [--dirsky DIRSKY] [-t]
+    usage: starid [-h] [--dirsky DIRSKY] [-d]
     
     optional arguments:
       -h, --help       show this help message and exit
       --dirsky DIRSKY  path to skymap directory
-      -t, --test       show test star image
+      -d, --demo       demo star image
+
 
