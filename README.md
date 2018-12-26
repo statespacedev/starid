@@ -8,14 +8,14 @@
 
 [star languages](https://gitlab.com/noahhsmith/starid/blob/master/starid/starlanguages.py) writes sentences about star patterns using geometry-languages and translates into identifier-languages.
 
-in ubuntu, install or upgrade os-level dependencies
+ubuntu dependencies
 
     sudo apt-get -qq update -qy
     sudo apt-get -qq install -y python3.6 python3-venv python3-pip
     sudo apt-get -qq install -y cmake
     sudo apt-get -qq install -y libeigen3-dev
 
-clone the git project, start a virtual environment, install and test
+clone, virtual environment, install and test
 
     git clone git@gitlab.com:noahhsmith/starid.git starid
     cd starid
