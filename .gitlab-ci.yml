@@ -20,7 +20,7 @@ build:
     - python3 setup.py build_py
     - python3 setup.py sdist
     - pip install -e .
-    - pytest --ignore=libstarid
+    - pytest
 
 deploy_staging:
   stage: deploy

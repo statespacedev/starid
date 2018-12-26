@@ -15,14 +15,14 @@ in ubuntu, install or upgrade os-level dependencies
     sudo apt-get -qq install -y cmake
     sudo apt-get -qq install -y libeigen3-dev
 
-clone the git project, start a virtual environment, install the package, and test. should generate and display a star image using the nasa skymap catalog.
+clone the git project, start a virtual environment, install and test
 
     git clone git@gitlab.com:noahhsmith/starid.git starid
     cd starid
     python3 -m venv venv
     . venv/bin/activate
     pip install -e .
-    pytest --ignore=libstarid
+    pytest
     
 ~/starid$ python starid -h
 
