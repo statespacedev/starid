@@ -1,4 +1,4 @@
-import math, os, unicodedata
+import math, os, re
 import numpy as np
 import tensorflow as tf
 from starimage import Starimg
@@ -79,54 +79,34 @@ class Sentences():
                 self.ids = stara + ' ' + starb + ' ' + starc
 
 class Data():
-    def __init__(self, conf, pathin=None):
+    def __init__(self, conf, pathin):
         self.conf = conf
-        pairs = Data.create_dataset(pathin, num_examples=self.conf.lang_sentences)
-        self.inp_lang = Data.LanguageIndex(l2 for l1, l2 in pairs)
-        self.targ_lang = Data.LanguageIndex(l1 for l1, l2 in pairs)
-        self.input_tensor = [[self.inp_lang.word2idx[s] for s in l2.split(' ')] for l1, l2 in pairs]
-        self.target_tensor = [[self.targ_lang.word2idx[s] for s in l1.split(' ')] for l1, l2 in pairs]
-        self.max_length_inp = self.max_length(self.input_tensor)
-        self.max_length_tar = self.max_length(self.target_tensor)
+        lines = open(pathin).read().strip().split('\n')
+        sentence_pairs = [[Data.preprocess_sentence(sen) for sen in l.split('\t')] for l in lines[:self.conf.lang_sentences]]
+
+        self.inp_lang = Data.LanguageIndex(l2 for l1, l2 in sentence_pairs)
+        self.targ_lang = Data.LanguageIndex(l1 for l1, l2 in sentence_pairs)
+        self.vocab_inp_size = len(self.inp_lang.word2idx)
+        self.vocab_tar_size = len(self.targ_lang.word2idx)
+
+        self.input_tensor = [[self.inp_lang.word2idx[s] for s in l2.split(' ')] for l1, l2 in sentence_pairs]
+        self.target_tensor = [[self.targ_lang.word2idx[s] for s in l1.split(' ')] for l1, l2 in sentence_pairs]
+        self.max_length_inp = max(len(t) for t in self.input_tensor)
+        self.max_length_tar = max(len(t) for t in self.target_tensor)
         self.input_tensor = tf.keras.preprocessing.sequence.pad_sequences(self.input_tensor, maxlen=self.max_length_inp, padding='post')
         self.target_tensor = tf.keras.preprocessing.sequence.pad_sequences(self.target_tensor, maxlen=self.max_length_tar, padding='post')
         self.buffer_size = len(self.input_tensor)
         self.n_batch = self.buffer_size//self.conf.lang_batch_size
-        self.vocab_inp_size = len(self.inp_lang.word2idx)
-        self.vocab_tar_size = len(self.targ_lang.word2idx)
+
         self.dataset = tf.data.Dataset.from_tensor_slices((self.input_tensor, self.target_tensor)).shuffle(self.buffer_size)
         self.dataset = self.dataset.batch(conf.lang_batch_size, drop_remainder=True)
 
     @staticmethod
-    def testdata():
-        path_to_zip = tf.keras.utils.get_file('spa-eng.zip', origin='http://download.tensorflow.org/data/spa-eng.zip', extract=True)
-        path_to_file = os.path.dirname(path_to_zip) + "/spa-eng/spa.txt"
-        return path_to_file
-
-    @staticmethod
-    def unicode_to_ascii(s):
-        return ''.join(c for c in unicodedata.normalize('NFD', s) if unicodedata.category(c) != 'Mn')
-
-    @staticmethod
     def preprocess_sentence(w):
-        import re
-        w = Data.unicode_to_ascii(w.lower().strip())
-        w = re.sub(r"([?.!,¿])", r" \1 ", w)
+        w = re.sub(r"([.,])", r" \1 ", w)
         w = re.sub(r'[" "]+', " ", w)
-        # w = re.sub(r"[^a-zA-Z?.!,¿]+", " ", w)
-        w = re.sub(r"[^a-zA-Z0-9?.!,¿|]+", " ", w)
         w = w.rstrip().strip()
-        w = '<start> ' + w + ' <end>'
-        return w
-
-    @staticmethod
-    def create_dataset(path, num_examples):
-        lines = open(path, encoding='UTF-8').read().strip().split('\n')
-        word_pairs = [[Data.preprocess_sentence(w) for w in l.split('\t')] for l in lines[:num_examples]]
-        return word_pairs
-
-    def max_length(self, tensor):
-        return max(len(t) for t in tensor)
+        return '<start> ' + w + ' <end>'
 
     class LanguageIndex():
         def __init__(self, lang):
@@ -236,12 +216,12 @@ class Model():
                 variables = self.encoder.variables + self.decoder.variables
                 gradients = tape.gradient(loss, variables)
                 self.optimizer.apply_gradients(zip(gradients, variables))
-                if batch % 100 == 0:
-                    print('Epoch {} Batch {} Loss {:.4f}'.format(epoch + 1, batch, batch_loss.numpy()))
+                if batch % 10 == 0:
+                    print('epoch {} batch {} loss {:.4f}'.format(epoch + 1, batch, batch_loss.numpy()))
             if (epoch + 1) % 1 == 0:
                 self.checkpoint.save(file_prefix = self.checkpoint_prefix)
-            print('Epoch {} Loss {:.4f}'.format(epoch + 1, total_loss / self.data.n_batch))
-            print('Time taken for 1 epoch {} sec\n'.format(time.time() - start))
+            print('epoch {} loss {:.4f}'.format(epoch + 1, total_loss / self.data.n_batch))
+            print('time taken for 1 epoch {} sec\n'.format(time.time() - start))
 
     def evaluate(self, sentence):
         attention_plot = np.zeros((self.data.max_length_tar, self.data.max_length_inp))
@@ -272,10 +252,10 @@ class Model():
         ax = fig.add_subplot(1, 1, 1)
         ax.matshow(attention, cmap='viridis')
         fontdict = {'fontsize': 10}
-        ax.set_xticks(np.arange(-.5, len(sentence), 1))
+        ax.set_xticks(np.arange(.5, len(sentence), 1))
         ax.set_yticks(np.arange(.5, len(predicted_sentence), 1))
-        ax.set_xticklabels([''] + sentence, fontdict=fontdict, rotation=90, ha='right')
-        ax.set_yticklabels([''] + predicted_sentence, fontdict=fontdict, va='bottom')
+        ax.set_xticklabels(sentence, fontdict=fontdict, rotation=90, ha='right')
+        ax.set_yticklabels(['<start>'] + predicted_sentence, fontdict=fontdict, va='bottom')
         plt.show()
 
     def restore(self):
@@ -296,12 +276,12 @@ def main():
         sentences = Sentences(conf)
         sentences.write()
     elif mode == 1:
-        pathin = './data/lang-sentences' # Data.testdata()
+        pathin = './data/lang-sentences'
         data = Data(conf, pathin)
         model = Model(conf, data)
         model.training()
     elif mode == 2:
-        pathin = './data/lang-sentences' # Data.testdata()
+        pathin = './data/lang-sentences'
         data = Data(conf, pathin)
         model = Model(conf, data)
         model.restore()
