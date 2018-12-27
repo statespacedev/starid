@@ -2,37 +2,37 @@
 
 <a name="anchor1"/>*personal*
 
-2017 - effect of sun shade performance on icesat-2 laser reference sensor alignment estimation - patel, smith, bae, schutz - advances in the astronautical sciences - [pdf](papers/2017%20aas.pdf)
+2017, Effect of sun shade performance on ICESat-2 laser reference sensor alignment estimation, Patel, Smith, Bae, Schutz, AAS advances in the astronautical sciences, [pdf](papers/2017%20aas.pdf)
 
-2014 - laser reference sensor alignment tracking and star observations - smith, bae, schutz - journal of spacecraft and rockets - [pdf](papers/2014%20jsr%20c.pdf)
+2014, Laser reference sensor alignment tracking and star observations, Smith, Bae, Schutz, AIAA journal of spacecraft and rockets, [pdf](papers/2014%20jsr%20c.pdf)
 
-2014 - laser reference sensor alignment estimation using star observations - smith, bae, schutz - journal of spacecraft and rockets - [pdf](papers/2014%20jsr%20b.pdf)
+2014, Laser reference sensor alignment estimation using star observations, Smith, Bae, Schutz, AIAA journal of spacecraft and rockets, [pdf](papers/2014%20jsr%20b.pdf)
 
-2014 - laser reference sensor alignment estimation using reference signal observations - smith, bae, schutz - journal of spacecraft and rockets - [pdf](papers/2014%20jsr%20a.pdf)
+2014, Laser reference sensor alignment estimation using reference signal observations, Smith, Bae, Schutz, AIAA journal of spacecraft and rockets, [pdf](papers/2014%20jsr%20a.pdf)
 
-2013 - nasa icesat 2 pointing knowledge - smith, bae, schutz - nasa technical report - [pdf](papers/2014%20nasa%20icesat%20b.pdf)
+2013, NASA ICESat 2 pointing knowledge, Smith, Bae, Schutz, NASA technical report, [pdf](papers/2014%20nasa%20icesat%20b.pdf)
 
-2012 - nasa icesat 1 pointing knowledge - bae, smith, schutz - nasa technical report - [pdf](papers/2014%20nasa%20icesat%20a.pdf)
+2012, NASA ICESat 1 pointing knowledge, Bae, Smith, Schutz, NASA technical report, [pdf](papers/2014%20nasa%20icesat%20a.pdf)
 
-2011 - improved star tracker instrument magnitude prediction from icesat flight telemetry - smith, fowell, bae, schutz - advances in the astronautical sciences - [pdf](papers/2011%20aas.pdf)
+2011, Improved star tracker instrument magnitude prediction from ICESat flight telemetry, Smith, Fowell, Bae, Schutz, AAS advances in the astronautical sciences, [pdf](papers/2011%20aas.pdf)
 
-2010 - biased star tracker measurements of forty-nine stars from flight data - smith, bae, schutz - advances in the astronautical sciences - [pdf](papers/2010%20jsr.pdf)
+2010, Biased star tracker measurements of forty-nine stars from flight data, Smith, Bae, Schutz, AIAA journal of spacecraft and rockets, [pdf](papers/2010%20jsr.pdf)
 
-2010 - forty-nine biased star positions from icesat flight data - smith, bae, schutz - advances in the astronautical sciences - [pdf](papers/2010%20aas%20b.pdf)
+2010, Forty-nine biased star positions from ICESat flight data, Smith, Bae, Schutz, AAS advances in the astronautical sciences, [pdf](papers/2010%20aas%20b.pdf)
 
-2010 - icesat attitude and pointing correction using the laser reference sensor - bae, smith, schutz - advances in the astronautical sciences - [pdf](papers/2010%20aas%20a.pdf)
+2010, ICESat attitude and pointing correction using the laser reference sensor, Bae, Smith, Schutz, AAS advances in the astronautical sciences, [pdf](papers/2010%20aas%20a.pdf)
 
-2009 - time tag issues in the star tracker and gyro data for icesat precision attitude determination - bae, ricklefs, smith, schutz - advances in the astronautical sciences - [pdf](papers/2009%20aas%20b.pdf)
+2009, Time tag issues in the star tracker and gyro data for ICESat precision attitude determination, Bae, Ricklefs, Smith, Schutz, AAS advances in the astronautical sciences, [pdf](papers/2009%20aas%20b.pdf)
 
-2009 - bad stars  - fowell, smith, bae, schutz - advances in the astronautical sciences - [pdf](papers/2009%20aas%20a.pdf)
+2009, Bad stars, Fowell, Smith, Bae, Schutz, AAS advances in the astronautical sciences, [pdf](papers/2009%20aas%20a.pdf)
 
-2008 - precision orbit and attitude determination for icesat - schutz, bae, smith, sirota - advances in the astronautical sciences - [pdf](papers/2008%20aas.pdf)
+2008, Precision orbit and attitude determination for ICESat, Schutz, Bae, Smith, Sirota, AAS advances in the astronautical sciences, [pdf](papers/2008%20aas.pdf)
 
 <a name="anchor2"/>*star identification*
 
-1977 - star pattern recognition for real time attitude determination - junkins - [pdf](papers/1977%20junkins.pdf)
+1977, Star pattern recognition for real time attitude determination, Junkins, [pdf](papers/1977%20junkins.pdf)
 
-1993 - pattern recognition of star constellations for spacecraft applications - liebe - ieee aerospace and electronic systems magazine - [pdf](papers/1993%20liebe.pdf)
+1993, Pattern recognition of star constellations for spacecraft applications, Liebe, IEEE aerospace and electronic systems magazine, [pdf](papers/1993%20liebe.pdf)
 
 1997 - a grid algorithm for autonomous star identification - padgett - [pdf](papers/1997%20padgett.pdf)
 

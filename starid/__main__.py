@@ -4,9 +4,6 @@ def demo(conf, targetndx):
     img = Starimg(conf, targetndx)
     img.print_starlist()
     img.plot_image()
-    from starlanguages import Sentence
-    sent = Sentence(img)
-    pass
 
 if __name__ == "__main__":
     from config import Config

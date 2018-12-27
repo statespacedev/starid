@@ -8,7 +8,6 @@ class Config():
         self.args = args
 
         self.dirsky = './data/'
-        if self.args and hasattr(args, 'dirsky'): self.dirsky = args.dirsky
         self.namecat = 'cat'
         self.namesky = 'sky'
         self.ls = libstarid.libstarid()
@@ -31,10 +30,8 @@ class Config():
     @staticmethod
     def read_args():
         parser = argparse.ArgumentParser('starid')
-        parser.add_argument('--dirsky', help='path to skymap directory', type=str)
         parser.add_argument('-d', '--demo', help='demo star image', action='store_true')
         args = parser.parse_args()
-        if hasattr(args, 'dirsky') and not args.dirsky[-1] == '/': args.dirsky += '/'
         return args
 
     @staticmethod
