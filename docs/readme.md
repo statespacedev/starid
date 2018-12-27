@@ -1,5 +1,19 @@
 [main](https://gitlab.com/noahhsmith/starid/blob/master/README.md), [data](https://gitlab.com/noahhsmith/starid/blob/master/data/readme.md), [references](https://gitlab.com/noahhsmith/starid/blob/master/docs/references.md), [about](https://gitlab.com/noahhsmith/starid/blob/master/docs/about.md)
 
+181226
+
+looking at star languages again with fresh eyes, a top priority this time could be small vocabularies. trade off is they should be rich - highly descriptive. ideally small enough that the complete vocabularies can simply be auto generated and used - no need to collect them empirically. they're synthetic and we can simply design them to try to meet these objectives.
+
+may be able to move in this direction with a small improvement to the previous design - sentences have structure noun1 verb1 noun0, verb2 noun2. a subject-verb-object, verb-object pattern. noun1 is a triangle formed by the first three stars outward from image center. verb1 is distances from noun1 stars to noun0, the target star at image center, starndx three here. verb2 is distances from noun1 stars to noun2 stars, where noun2 is a triangle formed by the next three stars outward.
+
+to keep the vocabulary small, break the nouns and verbs into parts. so
+
+    n|6|38|8834 v|30|76|58 n|4, v|140|99|171 n|8870|8814|59.        n|6|10|12 v|3|8|6 n|na, v|14|10|17 n|12|20|25.
+    
+becomes
+
+    6 38 8834 30 76 58 4, 140 99 171 8870 8814 59.        6 10 12 3 8 6 na, 14 10 17 12 20 25.
+
 181223
 
 lost-in-space star images are inherently dynamic and attempts at stabilizing them are compromises - approaches based on static patterns are inherently at a disadvantage. going forward we're dropping the cnn and basic-rnn stuff in favor of sequence-to-sequence, neural machine translation, dynamic-language based paths, focusing on robustness to arbitrary image-rotation.

@@ -23,8 +23,8 @@ class Sentences():
 
     class Sentence:
         def __init__(self, img):
-            self.noun0g = 'n|na'
-            self.noun0i = 'n|' + str(img.targetndx)
+            self.noun0g = '<target>'
+            self.noun0i = str(img.targetndx)
             self.noun1 = Sentences.Sentence.Noun(img.starlist[0:3])
             self.noun2 = Sentences.Sentence.Noun(img.starlist[3:6])
             self.verb1 = Sentences.Sentence.Verb(self.noun1)
@@ -44,7 +44,7 @@ class Sentences():
                 d0 = math.sqrt((xa[0] - xb[0]) ** 2 + (ya[0] - yb[0]) ** 2)
                 d1 = math.sqrt((xa[1] - xb[1]) ** 2 + (ya[1] - yb[1]) ** 2)
                 d2 = math.sqrt((xa[2] - xb[2]) ** 2 + (ya[2] - yb[2]) ** 2)
-                self.geom = 'v|' + str(math.ceil(d0/.1)) + '|' + str(math.ceil(d1/.1)) + '|' + str(math.ceil(d2/.1))
+                self.geom = str(round(d0)) + ' ' + str(round(d1)) + ' ' + str(round(d2))
                 self.ids = self.geom
 
         class Noun:
@@ -75,8 +75,8 @@ class Sentences():
                     starb = str(sides[0][2])
                     starc = str(sides[1][2])
                 self.sides = sides
-                self.geom = 'n|' + str(math.ceil(sideab/.1)) + '|' + str(math.ceil(sidebc/.1)) + '|' + str(math.ceil(sideca/.1))
-                self.ids = 'n|' + stara + '|' + starb + '|' + starc
+                self.geom = str(round(sideab)) + ' ' + str(round(sidebc)) + ' ' + str(round(sideca))
+                self.ids = stara + ' ' + starb + ' ' + starc
 
 class Data():
     def __init__(self, conf, pathin=None):
@@ -287,10 +287,9 @@ class Model():
         Model.plot_attention(attention_plot, sentence.split(' '), result.split(' '))
 
 if __name__ == '__main__':
-    mode = 2
+    mode = 0
     from config import Config
-    args = Config.read_args()
-    conf = Config(args)
+    conf = Config()
     if mode == 0:
         sentences = Sentences(conf)
         sentences.write()

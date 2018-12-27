@@ -8,7 +8,7 @@ class Config():
         self.args = args
 
         self.dirsky = './data/'
-        if args and hasattr(args, 'dirsky'): self.dirsky = args.dirsky
+        if self.args and hasattr(args, 'dirsky'): self.dirsky = args.dirsky
         self.namecat = 'cat'
         self.namesky = 'sky'
         self.ls = libstarid.libstarid()
