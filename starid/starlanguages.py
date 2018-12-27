@@ -4,11 +4,11 @@ import tensorflow as tf
 from starimage import Starimg
 tf.enable_eager_execution()
 
-class Sentences():
+class Language():
     def __init__(self, conf):
         self.conf = conf
 
-    def write(self):
+    def sentences_write(self):
         from random import randint
         with open(self.conf.dirsky + self.conf.namesentences, 'wt') as fout:
             cnt = 0
@@ -16,21 +16,52 @@ class Sentences():
                 target = randint(0, self.conf.lang_targets - 1)
                 img = Starimg(self.conf, target)
                 if len(img.starlist) < 6: continue
-                sentence = Sentences.Sentence(img)
+                sentence = Language.Sentence(img)
                 fout.write('%s\t%s\n' % (sentence.labels, sentence.geometry))
                 cnt += 1
                 if cnt % 100 == 0: print(cnt)
+
+    def sentences_gen(self, numtargets, numsentences=None):
+        from random import randint
+        cnt = 0
+        while True:
+            target = randint(0, numtargets - 1)
+            img = Starimg(self.conf, target)
+            if len(img.starlist) < 6: continue
+            cnt += 1
+            if numsentences and cnt > numsentences: return
+            sentences = Language.Sentence(img)
+            yield [sentences.labels, sentences.geometry]
+
+    @staticmethod
+    def vocabulary(mode=None):
+        if not mode: # dynamic
+            sentence_pairs = []
+            for s in Language.sentences_gen(self.conf.lang_targets, numsentences=50000):
+                sentence_pairs.append(s)
+            inp_lang = Language.LanguageIndex(mode='lang', lang=(l2 for l1, l2 in sentence_pairs))
+            targ_lang = Language.LanguageIndex(mode='lang', lang=(l1 for l1, l2 in sentence_pairs))
+            vocab_cnt_inp, vocab_cnt__targ = len(inp_lang.vocab), len(targ_lang.vocab)
+            input_tensor = [[inp_lang.word2idx[s] for s in l2.split(' ')] for l1, l2 in sentence_pairs]
+            target_tensor = [[targ_lang.word2idx[s] for s in l1.split(' ')] for l1, l2 in sentence_pairs]
+            max_length_inp = max(len(t) for t in input_tensor)
+            max_length_tar = max(len(t) for t in target_tensor)
+            return inp_lang, targ_lang, max_length_inp, max_length_tar
+        elif mode == 'full_inp':
+            return map(str, range(35))
+        elif mode == 'full_targ':
+            return map(str, range(10000))
 
     class Sentence:
         def __init__(self, img):
             self.noun0g = ''
             self.noun0i = str(img.targetndx)
-            self.noun1 = Sentences.Sentence.Noun(img.starlist[0:3])
-            self.noun2 = Sentences.Sentence.Noun(img.starlist[3:6])
-            self.verb1 = Sentences.Sentence.Verb(self.noun1)
-            self.verb2 = Sentences.Sentence.Verb(self.noun1, self.noun2)
-            self.geometry = self.noun1.geom + ' ' + self.verb1.geom + ', ' + self.verb2.geom + ' ' + self.noun2.geom + '.'
-            self.labels = self.noun1.ids + ' ' + self.verb1.ids + ' ' + self.noun0i + ', ' + self.verb2.ids + ' ' + self.noun2.ids + '.'
+            self.noun1 = Language.Sentence.Noun(img.starlist[0:3])
+            self.noun2 = Language.Sentence.Noun(img.starlist[3:6])
+            self.verb1 = Language.Sentence.Verb(self.noun1)
+            self.verb2 = Language.Sentence.Verb(self.noun1, self.noun2)
+            self.geometry = '<start> ' + self.noun1.geom + ' ' + self.verb1.geom + ' , ' + self.verb2.geom + ' ' + self.noun2.geom + ' . <end>'
+            self.labels = '<start> ' + self.noun1.ids + ' ' + self.verb1.ids + ' ' + self.noun0i + ' , ' + self.verb2.ids + ' ' + self.noun2.ids + ' . <end>'
 
         class Verb:
             def __init__(self, nouna, nounb=None):
@@ -78,17 +109,37 @@ class Sentences():
                 self.geom = str(round(sideab)) + ' ' + str(round(sidebc)) + ' ' + str(round(sideca))
                 self.ids = stara + ' ' + starb + ' ' + starc
 
-class Data():
-    def __init__(self, conf, pathin):
+    class LanguageIndex():
+        def __init__(self, mode, lang=None):
+            self.word2idx = {}
+            self.idx2word = {}
+            self.vocab = {'<start>', '<end>', '.', ','}
+            if mode == 'dynamic':
+                for phrase in lang: self.vocab.update(phrase.split(' '))
+            elif mode == 'full_inp':
+                self.vocab.update(Language.vocabulary(mode='full_inp'))
+            elif mode == 'full_targ':
+                self.vocab.update(Language.vocabulary(mode="full_targ"))
+            self.vocab = sorted(self.vocab)
+            self.word2idx['<pad>'] = 0
+            for index, word in enumerate(self.vocab): self.word2idx[word] = index + 1
+            for word, index in self.word2idx.items(): self.idx2word[index] = word
+
+class Dataset():
+    def __init__(self, conf, pathin=None):
         self.conf = conf
-        lines = open(pathin).read().strip().split('\n')
-        sentence_pairs = [[Data.preprocess_sentence(sen) for sen in l.split('\t')] for l in lines[:self.conf.lang_sentences]]
-
-        self.inp_lang = Data.LanguageIndex(l2 for l1, l2 in sentence_pairs)
-        self.targ_lang = Data.LanguageIndex(l1 for l1, l2 in sentence_pairs)
-        self.vocab_inp_size = len(self.inp_lang.word2idx)
-        self.vocab_tar_size = len(self.targ_lang.word2idx)
-
+        lang = Language(conf)
+        if pathin:
+            lines = open(pathin).read().strip().split('\n')
+            sentence_pairs = [[s for s in l.split('\t')] for l in lines[:self.conf.lang_train_sentences]]
+            self.inp_lang = lang.LanguageIndex(mode='dynamic', lang=(l2 for l1, l2 in sentence_pairs))
+            self.targ_lang = lang.LanguageIndex(mode='dynamic', lang=(l1 for l1, l2 in sentence_pairs))
+        else:
+            self.inp_lang = lang.LanguageIndex(mode='full_inp')
+            self.targ_lang = lang.LanguageIndex(mode='full_targ')
+            sentence_pairs = []
+            for s in lang.sentences_gen(self.conf.lang_targets, self.conf.lang_train_sentences):
+                sentence_pairs.append(s)
         self.input_tensor = [[self.inp_lang.word2idx[s] for s in l2.split(' ')] for l1, l2 in sentence_pairs]
         self.target_tensor = [[self.targ_lang.word2idx[s] for s in l1.split(' ')] for l1, l2 in sentence_pairs]
         self.max_length_inp = max(len(t) for t in self.input_tensor)
@@ -96,32 +147,9 @@ class Data():
         self.input_tensor = tf.keras.preprocessing.sequence.pad_sequences(self.input_tensor, maxlen=self.max_length_inp, padding='post')
         self.target_tensor = tf.keras.preprocessing.sequence.pad_sequences(self.target_tensor, maxlen=self.max_length_tar, padding='post')
         self.buffer_size = len(self.input_tensor)
-        self.n_batch = self.buffer_size//self.conf.lang_batch_size
-
+        self.n_batch = self.buffer_size//self.conf.lang_train_batch
         self.dataset = tf.data.Dataset.from_tensor_slices((self.input_tensor, self.target_tensor)).shuffle(self.buffer_size)
-        self.dataset = self.dataset.batch(conf.lang_batch_size, drop_remainder=True)
-
-    @staticmethod
-    def preprocess_sentence(w):
-        w = re.sub(r"([.,])", r" \1 ", w)
-        w = re.sub(r'[" "]+', " ", w)
-        w = w.rstrip().strip()
-        return '<start> ' + w + ' <end>'
-
-    class LanguageIndex():
-        def __init__(self, lang):
-            self.lang = lang
-            self.word2idx = {}
-            self.idx2word = {}
-            self.vocab = set()
-            self.create_index()
-
-        def create_index(self):
-            for phrase in self.lang: self.vocab.update(phrase.split(' '))
-            self.vocab = sorted(self.vocab)
-            self.word2idx['<pad>'] = 0
-            for index, word in enumerate(self.vocab): self.word2idx[word] = index + 1
-            for word, index in self.word2idx.items(): self.idx2word[index] = word
+        self.dataset = self.dataset.batch(conf.lang_train_batch, drop_remainder=True)
 
 class Model():
     def __init__(self, conf, data):
@@ -129,8 +157,8 @@ class Model():
         self.data = data
         self.embedding_dim = 256
         self.units = 1024
-        self.encoder = Model.Encoder(data.vocab_inp_size, self.embedding_dim, self.units, conf.lang_batch_size)
-        self.decoder = Model.Decoder(data.vocab_tar_size, self.embedding_dim, self.units, conf.lang_batch_size)
+        self.encoder = Model.Encoder(len(data.inp_lang.word2idx), self.embedding_dim, self.units, conf.lang_train_batch)
+        self.decoder = Model.Decoder(len(data.targ_lang.word2idx), self.embedding_dim, self.units, conf.lang_train_batch)
         self.optimizer = tf.train.AdamOptimizer()
         self.checkpoint_dir = self.conf.lang_dirckpt
         self.checkpoint_prefix = os.path.join(self.checkpoint_dir, "ckpt")
@@ -206,7 +234,7 @@ class Model():
                 with tf.GradientTape() as tape:
                     enc_output, enc_hidden = self.encoder(inp, hidden)
                     dec_hidden = enc_hidden
-                    dec_input = tf.expand_dims([self.data.targ_lang.word2idx['<start>']] * self.conf.lang_batch_size, 1)
+                    dec_input = tf.expand_dims([self.data.targ_lang.word2idx['<start>']] * self.conf.lang_train_batch, 1)
                     for t in range(1, targ.shape[1]):
                         predictions, dec_hidden, _ = self.decoder(dec_input, dec_hidden, enc_output)
                         loss += self.loss_function(targ[:, t], predictions)
@@ -216,8 +244,8 @@ class Model():
                 variables = self.encoder.variables + self.decoder.variables
                 gradients = tape.gradient(loss, variables)
                 self.optimizer.apply_gradients(zip(gradients, variables))
-                if batch % 10 == 0:
-                    print('epoch {} batch {} loss {:.4f}'.format(epoch + 1, batch, batch_loss.numpy()))
+                if (batch + 1) % 10 == 0:
+                    print('epoch {} batch {} loss {:.4f}'.format(epoch + 1, batch + 1, batch_loss.numpy()))
             if (epoch + 1) % 1 == 0:
                 self.checkpoint.save(file_prefix = self.checkpoint_prefix)
             print('epoch {} loss {:.4f}'.format(epoch + 1, total_loss / self.data.n_batch))
@@ -225,7 +253,7 @@ class Model():
 
     def evaluate(self, sentence):
         attention_plot = np.zeros((self.data.max_length_tar, self.data.max_length_inp))
-        sentence = Data.preprocess_sentence(sentence)
+        # sentence = Data.preprocess_sentence(sentence)
         inputs = [self.data.inp_lang.word2idx[i] for i in sentence.split(' ')]
         inputs = tf.keras.preprocessing.sequence.pad_sequences([inputs], maxlen=self.data.max_length_inp, padding='post')
         inputs = tf.convert_to_tensor(inputs)
@@ -269,23 +297,37 @@ class Model():
         Model.plot_attention(attention_plot, sentence.split(' '), result.split(' '))
 
 def main():
-    mode = 2
+    mode = 11
     from config import Config
     conf = Config()
     if mode == 0:
-        sentences = Sentences(conf)
-        sentences.write()
+        sen = Language(conf)
+        sen.sentences_write()
     elif mode == 1:
+        sen = Language(conf)
+        sen.vocabulary()
+    elif mode == 10:
         pathin = './data/lang-sentences'
-        data = Data(conf, pathin)
+        data = Dataset(conf, pathin)
         model = Model(conf, data)
         model.training()
-    elif mode == 2:
+    elif mode == 11:
         pathin = './data/lang-sentences'
-        data = Data(conf, pathin)
+        data = Dataset(conf, pathin)
         model = Model(conf, data)
         model.restore()
-        model.translate('2 7 7 4 3 5, 9 4 8 4 7 10.')
+        model.translate('<start> 9 15 17 6 10 8 , 14 15 18 2 17 18 . <end>')
+    elif mode == 20:
+        data = Dataset(conf)
+        model = Model(conf, data)
+        model.training()
+    elif mode == 21:
+        data = Dataset(conf)
+        model = Model(conf, data)
+        model.restore()
+        model.translate('<start> 2 7 7 4 3 5 , 9 4 8 4 7 10 . <end>')
+
+# <start> 8854 64 8859 6 10 8 3 , 14 15 18 8815 8808 10 . <end>	<start> 9 15 17 6 10 8 , 14 15 18 2 17 18 . <end>
 
 if __name__ == '__main__':
     main()

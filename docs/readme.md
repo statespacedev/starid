@@ -1,5 +1,9 @@
 [main](https://gitlab.com/noahhsmith/starid/blob/master/README.md), [data](https://gitlab.com/noahhsmith/starid/blob/master/data/readme.md), [references](https://gitlab.com/noahhsmith/starid/blob/master/docs/references.md), [about](https://gitlab.com/noahhsmith/starid/blob/master/docs/about.md)
 
+181228
+
+tensorflow dataset from generator using libstarid is ready, plugging dynamically generated training sentences into nmt. and complete vocabularies are ready - usable for any training and prediction run. the vocabulary on the labels side is the size of the number of stars - 8876. training is slower than for smaller dynamic vocabularies.
+
 181226
 
 looking at star languages again with fresh eyes, a top priority this time could be small vocabularies. trade off is they should be rich - highly descriptive. ideally small enough that the complete vocabularies can simply be auto generated and used - no need to collect them empirically. they're synthetic and we can simply design them to try to meet these objectives.
