@@ -273,12 +273,9 @@ class Model():
         ax.matshow(attention, cmap='viridis')
         fontdict = {'fontsize': 10}
         ax.set_xticks(np.arange(-.5, len(sentence), 1))
-        ax.set_yticks(np.arange(-.5, len(predicted_sentence), 1))
+        ax.set_yticks(np.arange(.5, len(predicted_sentence), 1))
         ax.set_xticklabels([''] + sentence, fontdict=fontdict, rotation=90, ha='right')
         ax.set_yticklabels([''] + predicted_sentence, fontdict=fontdict, va='bottom')
-        # ax.set_xticks(np.arange(-.5, len(sentence), 1), minor=True)
-        # ax.set_yticks(np.arange(-.5, len(predicted_sentence), 1), minor=True)
-        # ax.grid(which='minor', color='w', linestyle='-', linewidth=2)
         plt.show()
 
     def restore(self):
@@ -286,8 +283,8 @@ class Model():
 
     def translate(self, sentence):
         result, sentence, attention_plot = self.evaluate(sentence)
-        print('Input: {}'.format(sentence))
-        print('Predicted translation: {}'.format(result))
+        print('input: {}'.format(sentence))
+        print('translation: {}'.format(result))
         attention_plot = attention_plot[:len(result.split(' ')), :len(sentence.split(' '))]
         Model.plot_attention(attention_plot, sentence.split(' '), result.split(' '))
 

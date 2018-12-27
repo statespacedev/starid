@@ -18,8 +18,8 @@ we want to use standard nmt, extending where needed for dynamically generated se
 
     /home/noah/starid/venv/bin/python /home/noah/starid/starid/starlanguages.py
     2018-12-27 12:25:47.625037: I tensorflow/compiler/xla/service/service.cc:158]   StreamExecutor device (0): <undefined>, <undefined>
-    Input: <start> 2 7 7 4 3 5 , 9 4 8 4 7 10 . <end>
-    Predicted translation: 37 56 8865 4 3 5 2 , 9 4 8 8825 8823 8 . <end> 
+    input: <start> 2 7 7 4 3 5 , 9 4 8 4 7 10 . <end>
+    translation: 37 56 8865 4 3 5 2 , 9 4 8 8825 8823 8 . <end> 
     
 ![nmt1](images/nmt1.png)
 
