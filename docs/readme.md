@@ -8,11 +8,20 @@ may be able to move in this direction with a small improvement to the previous d
 
 to keep the vocabulary small, break the nouns and verbs into parts. so
 
-    n|6|38|8834 v|30|76|58 n|4, v|140|99|171 n|8870|8814|59.        n|6|10|12 v|3|8|6 n|na, v|14|10|17 n|12|20|25.
+    n|6|38|8834 v|30|76|58 n|4, v|140|99|171 n|8870|8814|59.        n|6|10|12 v|3|8|6, v|14|10|17 n|12|20|25.
     
 becomes
 
-    6 38 8834 30 76 58 4, 140 99 171 8870 8814 59.        6 10 12 3 8 6 na, 14 10 17 12 20 25.
+    6 38 8834 30 76 58 4, 140 99 171 8870 8814 59.        6 10 12 3 8 6, 14 10 17 12 20 25.
+    
+we want to use standard nmt, extending where needed for dynamically generated sentences. here's results from about ten minutes of very basic training on ten stars. translation correctly identifies star two.
+
+    /home/noah/starid/venv/bin/python /home/noah/starid/starid/starlanguages.py
+    2018-12-27 12:25:47.625037: I tensorflow/compiler/xla/service/service.cc:158]   StreamExecutor device (0): <undefined>, <undefined>
+    Input: <start> 2 7 7 4 3 5 , 9 4 8 4 7 10 . <end>
+    Predicted translation: 37 56 8865 4 3 5 2 , 9 4 8 8825 8823 8 . <end> 
+    
+![nmt1](images/nmt1.png)
 
 181223
 

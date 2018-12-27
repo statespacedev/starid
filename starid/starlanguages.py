@@ -10,11 +10,11 @@ class Sentences():
 
     def write(self):
         from random import randint
-        with open(conf.dirsky + conf.namesentences, 'wt') as fout:
+        with open(self.conf.dirsky + self.conf.namesentences, 'wt') as fout:
             cnt = 0
             while cnt < self.conf.lang_sentences:
-                target = randint(0, conf.lang_targets - 1)
-                img = Starimg(conf, target)
+                target = randint(0, self.conf.lang_targets - 1)
+                img = Starimg(self.conf, target)
                 if len(img.starlist) < 6: continue
                 sentence = Sentences.Sentence(img)
                 fout.write('%s\t%s\n' % (sentence.labels, sentence.geometry))
@@ -23,13 +23,13 @@ class Sentences():
 
     class Sentence:
         def __init__(self, img):
-            self.noun0g = '<target>'
+            self.noun0g = ''
             self.noun0i = str(img.targetndx)
             self.noun1 = Sentences.Sentence.Noun(img.starlist[0:3])
             self.noun2 = Sentences.Sentence.Noun(img.starlist[3:6])
             self.verb1 = Sentences.Sentence.Verb(self.noun1)
             self.verb2 = Sentences.Sentence.Verb(self.noun1, self.noun2)
-            self.geometry = self.noun1.geom + ' ' + self.verb1.geom + ' ' + self.noun0g + ', ' + self.verb2.geom + ' ' + self.noun2.geom + '.'
+            self.geometry = self.noun1.geom + ' ' + self.verb1.geom + ', ' + self.verb2.geom + ' ' + self.noun2.geom + '.'
             self.labels = self.noun1.ids + ' ' + self.verb1.ids + ' ' + self.noun0i + ', ' + self.verb2.ids + ' ' + self.noun2.ids + '.'
 
         class Verb:
@@ -113,8 +113,8 @@ class Data():
         w = Data.unicode_to_ascii(w.lower().strip())
         w = re.sub(r"([?.!,¿])", r" \1 ", w)
         w = re.sub(r'[" "]+', " ", w)
-        w = re.sub(r"[^a-zA-Z?.!,¿]+", " ", w)
-        # w = re.sub(r"[^a-zA-Z0-9?.!,¿|]+", " ", w)
+        # w = re.sub(r"[^a-zA-Z?.!,¿]+", " ", w)
+        w = re.sub(r"[^a-zA-Z0-9?.!,¿|]+", " ", w)
         w = w.rstrip().strip()
         w = '<start> ' + w + ' <end>'
         return w
@@ -149,8 +149,8 @@ class Model():
         self.data = data
         self.embedding_dim = 256
         self.units = 1024
-        self.encoder = Model.Encoder(len(data.vocab_inp_size), self.embedding_dim, self.units, conf.lang_batch_size)
-        self.decoder = Model.Decoder(len(data.vocab_tar_size), self.embedding_dim, self.units, conf.lang_batch_size)
+        self.encoder = Model.Encoder(data.vocab_inp_size, self.embedding_dim, self.units, conf.lang_batch_size)
+        self.decoder = Model.Decoder(data.vocab_tar_size, self.embedding_dim, self.units, conf.lang_batch_size)
         self.optimizer = tf.train.AdamOptimizer()
         self.checkpoint_dir = self.conf.lang_dirckpt
         self.checkpoint_prefix = os.path.join(self.checkpoint_dir, "ckpt")
@@ -271,9 +271,14 @@ class Model():
         fig = plt.figure()
         ax = fig.add_subplot(1, 1, 1)
         ax.matshow(attention, cmap='viridis')
-        fontdict = {'fontsize': 14}
-        ax.set_xticklabels([''] + sentence, fontdict=fontdict, rotation=90)
-        ax.set_yticklabels([''] + predicted_sentence, fontdict=fontdict)
+        fontdict = {'fontsize': 10}
+        ax.set_xticks(np.arange(-.5, len(sentence), 1))
+        ax.set_yticks(np.arange(-.5, len(predicted_sentence), 1))
+        ax.set_xticklabels([''] + sentence, fontdict=fontdict, rotation=90, ha='right')
+        ax.set_yticklabels([''] + predicted_sentence, fontdict=fontdict, va='bottom')
+        # ax.set_xticks(np.arange(-.5, len(sentence), 1), minor=True)
+        # ax.set_yticks(np.arange(-.5, len(predicted_sentence), 1), minor=True)
+        # ax.grid(which='minor', color='w', linestyle='-', linewidth=2)
         plt.show()
 
     def restore(self):
@@ -286,24 +291,27 @@ class Model():
         attention_plot = attention_plot[:len(result.split(' ')), :len(sentence.split(' '))]
         Model.plot_attention(attention_plot, sentence.split(' '), result.split(' '))
 
-if __name__ == '__main__':
-    mode = 0
+def main():
+    mode = 2
     from config import Config
     conf = Config()
     if mode == 0:
         sentences = Sentences(conf)
         sentences.write()
     elif mode == 1:
-        pathin = Data.testdata()
+        pathin = './data/lang-sentences' # Data.testdata()
         data = Data(conf, pathin)
         model = Model(conf, data)
         model.training()
     elif mode == 2:
-        pathin = Data.testdata()
+        pathin = './data/lang-sentences' # Data.testdata()
         data = Data(conf, pathin)
         model = Model(conf, data)
         model.restore()
-        model.translate('todavia estan en casa?')
+        model.translate('2 7 7 4 3 5, 9 4 8 4 7 10.')
+
+if __name__ == '__main__':
+    main()
 
     pass
 

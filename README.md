@@ -24,13 +24,4 @@ clone, virtual environment, install and test
     pip install -e .
     pytest
     
-~/starid$ python starid -h
-
-    usage: starid [-h] [--dirsky DIRSKY] [-d]
-    
-    optional arguments:
-      -h, --help       show this help message and exit
-      --dirsky DIRSKY  path to skymap directory
-      -d, --demo       demo star image
-
-
+for command-line help, python starid -h 
