@@ -15,13 +15,12 @@ ubuntu dependencies
     sudo apt-get -qq install -y cmake
     sudo apt-get -qq install -y libeigen3-dev
 
-clone, virtual environment, install and test
+clone-install-test
 
     git clone git@gitlab.com:noahhsmith/starid.git starid
     cd starid
     python3 -m venv venv
     . venv/bin/activate
-    pip install -e .
+    python3 setup.py develop
     pytest
-    
-for command-line help, python starid -h 
+    python3 starid --demo

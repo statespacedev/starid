@@ -50,7 +50,7 @@ class Language():
         elif mode == 'full_inp':
             return map(str, range(35))
         elif mode == 'full_targ':
-            return map(str, range(10000))
+            return map(str, range(8876))
 
     class Sentence:
         def __init__(self, img):
