@@ -8,15 +8,12 @@
 
 [star languages](https://gitlab.com/noahhsmith/starid/blob/master/starid/starlanguages.py) writes sentences about star patterns using geometry-languages and translates into identifier-languages.
 
-ubuntu dependencies
+automated build-test-deploy to [pypi](https://pypi.org/project/starid) is mostly a placeholder, ubuntu clone-install-develop of the [repo](https://gitlab.com/noahhsmith/starid) is assumed for now.
 
     sudo apt-get -qq update -qy
     sudo apt-get -qq install -y python3.6 python3-venv python3-pip
     sudo apt-get -qq install -y cmake
     sudo apt-get -qq install -y libeigen3-dev
-
-clone-install-test
-
     git clone git@gitlab.com:noahhsmith/starid.git starid
     cd starid
     python3 -m venv venv
