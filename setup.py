@@ -64,4 +64,9 @@ setup(
     ext_modules=[CMakeExtension('starid')],
     cmdclass=dict(build_ext=CMakeBuild),
     install_requires=required,
+    classifiers=[
+        "Programming Language :: Python :: 3",
+        "License :: OSI Approved :: MIT License",
+        "Operating System :: OS Independent",
+    ],
 )
