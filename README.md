@@ -2,8 +2,10 @@
 
 [![pipeline](https://gitlab.com/noahhsmith/starid/badges/master/pipeline.svg)](https://gitlab.com/noahhsmith/starid/pipelines)
 [![pypi](https://img.shields.io/badge/pypi-latest-brightgreen.svg)](https://pypi.org/project/starid/)
-
-[data](https://gitlab.com/noahhsmith/starid/tree/master/data), [blog](https://gitlab.com/noahhsmith/starid/blob/master/docs/readme.md), [about](https://gitlab.com/noahhsmith/starid/blob/master/docs/about.md), [references](https://gitlab.com/noahhsmith/starid/blob/master/docs/references.md)
+[![data](https://img.shields.io/badge/data-latest-brightgreen.svg)](https://gitlab.com/noahhsmith/starid/tree/master/data)
+[![blog](https://img.shields.io/badge/blog-latest-brightgreen.svg)](https://gitlab.com/noahhsmith/starid/blob/master/docs/readme.md)
+[![about](https://img.shields.io/badge/about-latest-brightgreen.svg)](https://gitlab.com/noahhsmith/starid/blob/master/docs/about.md)
+[![references](https://img.shields.io/badge/references-latest-brightgreen.svg)](https://gitlab.com/noahhsmith/starid/blob/master/docs/references.md)
 
 [sky](https://gitlab.com/noahhsmith/starid/blob/master/libstarid/sky.h) generates three-dimensional sky models and two-dimensional images from the nasa skymap star catalog. finds stars near arbitrary points on the sky.
 
