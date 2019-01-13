@@ -1,5 +1,7 @@
 <img src="https://gitlab.com/noahhsmith/starid/raw/master/docs/images/nouns%20and%20verbs%20level0.png" align="center" width="426" height="202"/>
 
+lo-fi star identification, forcing use of global structures and patterns rather than localized features and heuristics. there’s simply less information available.
+
 [![pipeline](https://gitlab.com/noahhsmith/starid/badges/master/pipeline.svg)](https://gitlab.com/noahhsmith/starid/pipelines)
 [![pypi](https://img.shields.io/badge/pypi-latest-brightgreen.svg)](https://pypi.org/project/starid/)
 [![data](https://img.shields.io/badge/data-latest-brightgreen.svg)](https://gitlab.com/noahhsmith/starid/tree/master/data)
@@ -13,7 +15,7 @@
 
 [star languages](https://gitlab.com/noahhsmith/starid/blob/master/starid/starlanguages.py) writes sentences about star patterns using geometry-languages and translates into identifier-languages.
 
-automated build-test-deploy to [pypi](https://pypi.org/project/starid) is mostly a placeholder, ubuntu clone-install-develop of the [repo](https://gitlab.com/noahhsmith/starid) is assumed for now.
+pypi pip-install is mostly a placeholder for now, gitlab-repo clone-install-develop is the baseline.
 
     sudo apt-get -qq update -qy
     sudo apt-get -qq install -y python3.6 python3-venv python3-pip
