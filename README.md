@@ -1,6 +1,6 @@
 <img src="https://gitlab.com/noahhsmith/starid/raw/master/docs/images/nouns%20and%20verbs%20level0.png" align="center" width="426" height="202"/>
 
-lo-fi star identification, forcing use of global structures and patterns rather than localized features and heuristics. there’s simply less information available.
+lo-fi star identification - global structures and patterns
 
 [![pipeline](https://gitlab.com/noahhsmith/starid/badges/master/pipeline.svg)](https://gitlab.com/noahhsmith/starid/pipelines)
 [![pypi](https://img.shields.io/badge/pypi-latest-brightgreen.svg)](https://pypi.org/project/starid/)
