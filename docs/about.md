@@ -1,6 +1,7 @@
 [1990](#1990), [2003](#2003), [2016](#2016)
 
-<a name="1990"/>*1990, [photos](https://goo.gl/photos/1VQUCGgC6ukjmpJN7) and [pdf](papers/1986%20hemenway.pdf), [pdf](papers/1986%20pierce.pdf), [pdf](papers/1987%20hemenway.pdf)*
+
+*1990, [photos](https://goo.gl/photos/1VQUCGgC6ukjmpJN7) and [pdf](papers/1986%20hemenway.pdf), [pdf](papers/1986%20pierce.pdf), [pdf](papers/1987%20hemenway.pdf)*
  
 In the summer of 1990 I was an astronomy undergrad at the University of Texas in Austin. In recent months the Berlin Wall had fallen and the Hubble Space Telescope had finally reached orbit. I was living just north of campus. Monthly rent was less than two hundred dollars and my landlady Martha Ann Zively, an eighty-three year old local-legend, lived overhead. Mobile phones, notebook computers, and the web were all still somewhere over the horizon. 
 
