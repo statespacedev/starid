@@ -1,5 +1,6 @@
 import sys, os, logging, time, argparse
 sys.path.append('build/lib.linux-x86_64-3.6')
+sys.path.append('build/cmake/libstarid')
 import libstarid
 
 class Config():
