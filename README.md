@@ -13,8 +13,6 @@ lo-fi star identification - global structures and patterns
 
 [star triangles](https://gitlab.com/noahhsmith/starid/blob/master/libstarid/startriangles.h) recurrently sets aside stars that disagree geometrically until one remains.
 
-[star languages](https://gitlab.com/noahhsmith/starid/blob/master/starid/starlanguages.py) writes sentences about star patterns using geometry-languages and translates into identifier-languages.
-
 pypi pip-install is mostly a placeholder for now, gitlab-repo clone-install-develop is the baseline.
 
     sudo apt-get -qq update -qy
