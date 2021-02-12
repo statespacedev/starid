@@ -38,11 +38,9 @@ deploy_staging:
     - tags
   script:
     - apt-get -qq update -qy
-    - apt-get -qq install -y rustc cargo
     - apt-get -qq install -y python3.8 python3-setuptools python3-venv python3-pip
     - python3 -m venv venv
     - . venv/bin/activate
-    - pip install setuptools-rust
     - pip install twine
     - twine upload --repository-url $TESTPYPI_URL dist/*
 
@@ -62,11 +60,9 @@ deploy_production:
     - branches
   script:
     - apt-get -qq update -qy
-    - apt-get -qq install -y rustc cargo
     - apt-get -qq install -y python3.8 python3-setuptools python3-venv python3-pip
     - python3 -m venv venv
     - . venv/bin/activate
-    - pip install setuptools-rust
     - pip install twine
     - twine upload dist/*
 
