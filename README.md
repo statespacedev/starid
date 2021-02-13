@@ -60,7 +60,7 @@ we want to use standard nmt, extending where needed for dynamically generated se
     translation: 37 56 8865 4 3 5 2 , 9 4 8 8825 8823 8 . <end> 
 
 ![nmt1](https://gitlab.com/noahhsmith/starid/blob/master/docs/images/nmt1.png)
-<img src="https://gitlab.com/noahhsmith/starid/blob/master/docs/images/nmt1.png">
+<img src="https://gitlab.com/noahhsmith/starid/raw/master/docs/images/nmt1.png">
 
 181223
 
