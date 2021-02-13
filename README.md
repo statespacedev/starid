@@ -28,7 +28,7 @@ pypi pip-install is mostly a placeholder for now, gitlab-repo clone-install-deve
 
 [references](https://gitlab.com/noahhsmith/starid/blob/master/docs/references.md) work relating to star identification that is on my radar.
 
-[about](https://gitlab.com/noahhsmith/starid/blob/master/docs/about.md) some of the story so far, going back over thirty years.
+[about](https://docs.google.com/document/d/1x9GSXXt31vQgR15UQpeO5mcmyg4WYv6mEDPBZ_qwCjY/edit?usp=sharing) some of the story so far.
 
 210213
 
