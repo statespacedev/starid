@@ -59,7 +59,7 @@ we want to use standard nmt, extending where needed for dynamically generated se
     input: <start> 2 7 7 4 3 5 , 9 4 8 4 7 10 . <end>
     translation: 37 56 8865 4 3 5 2 , 9 4 8 8825 8823 8 . <end> 
 
-![nmt1](images/nmt1.png)
+![nmt1](https://gitlab.com/noahhsmith/starid/blob/master/docs/images/nmt1.png)
 
 181223
 
@@ -139,13 +139,13 @@ nice [autoencoder example](https://www.learnopencv.com/understanding-autoencoder
 
 171113
 
-minimalist nmt train, eval, and infer are [now working](https://github.com/noahhsmith/starid/blob/master/identification/nmt.py).
+minimalist nmt train, eval, and infer are now working.
 
 creating r2017d. onwards to the attention model.
 
 171110
 
-after [gathering some thoughts](https://www.linkedin.com/pulse/machine-attention-star-patterns-noah-smith/) about next steps, ready for a minimalist-as-possible implementation for experiments with attention. we'll bring the nmt baseline framework into the project as a library, and find a bare minimum training implementation. that should be a good time to have a new release, r2017d.
+after gathering some thoughts about next steps, ready for a minimalist-as-possible implementation for experiments with attention. we'll bring the nmt baseline framework into the project as a library, and find a bare minimum training implementation. that should be a good time to have a new release, r2017d.
 
 171108
 
@@ -200,17 +200,17 @@ implementing a python class languages_starimg focused on writing sentences about
 
 171031
 
-with info concerning image pixels and star identifiers available via libstarid image_info(target_starndx), next step is an initial iteration of our [two languages]((https://www.linkedin.com/pulse/small-deltas-from-neural-machine-translation-noah-smith/)), one reflecting geometric structures and relationships, the other reflecting star identifiers.
+with info concerning image pixels and star identifiers available via libstarid image_info(target_starndx), next step is an initial iteration of our two languages, one reflecting geometric structures and relationships, the other reflecting star identifiers.
 
 the focus is a quick proof of concept using neural machine translation to identify ten stars, starndxs zero to nine. the languages are to be as simple as possible for this first iteration. this means the nouns and their orderings, and so the sentences, are always similar for a particular star. sentences are generated from images in a deterministic manner that's not sensitive to image yaw. in a sense, first iteration sentences themselves are pretty simple star identifiers, setting aside flexibility and complexity for later iterations.
 
 171030
 
-with contemplation and reading over a two week vacation, there's an [overall picture](https://www.linkedin.com/pulse/small-deltas-from-neural-machine-translation-noah-smith/) of what star identification as neural machine translation looks like.
+with contemplation and reading over a two week vacation, there's an overall picture of what star identification as neural machine translation looks like.
 
 next step is to get the information needed for creating two languages available in python. this will come from the cpp stars app via libstarid and pybind11.
 
-here's a quick memory refresh on the baseline sky. it's the 8876 stars brighter than visual magnitude 6.5. the skymap catalog rows for these stars are in the [skymap text file](https://raw.githubusercontent.com/noahhsmith/starid/master/stars/skymap.txt). we've now added a skymap ods spreadsheet with some basic parsing of the fixed width text file, so the hd, hr, and common name identifiers are easily accessible. for example starndx 3, used for many of the starid example images, is the fourth row. cg andromeda, hd 224801, hr 9080.
+here's a quick memory refresh on the baseline sky. it's the 8876 stars brighter than visual magnitude 6.5. the skymap catalog rows for these stars are in the skymap text file. we've now added a skymap ods spreadsheet with some basic parsing of the fixed width text file, so the hd, hr, and common name identifiers are easily accessible. for example starndx 3, used for many of the starid example images, is the fourth row. cg andromeda, hd 224801, hr 9080.
 
     SKY2000 J000043.63+451512.0	114	224801	53568	 BD+44	4538	9080	42458			CG    And 
 
@@ -220,7 +220,7 @@ there'll be something like an image_info(target_starndx) function in libstarid, 
      [  2.00000000e+01   2.30000000e+01   9.10000000e+01   1.60054000e+05   4.08970500e+00   4.35950492e+01]
      [  5.00000000e+00   2.40000000e+01   9.70000000e+01   1.70028000e+05   4.28768208e+00   4.79474053e+01]
 
-after a bit of experimenting, turns out [orion's too big](images/orion.svg) for our eight by eight degree field of view. at most, we can only see the belt together, mintaka, alnilam, and alnitak. it's worth noting this field of view was a default, to match standard ninties era star trackers. and it did in fact accidentally have some nice properties once we also defaulted to low resolution 28 by 28 pixel images to match the mnist dataset, resulting in 1000 arcsecond pixels. last two columns here are hd number and starndx.
+after a bit of experimenting, turns out [orion's too big](https://gitlab.com/noahhsmith/starid/blob/master/docs/images/orion.svg) for our eight by eight degree field of view. at most, we can only see the belt together, mintaka, alnilam, and alnitak. it's worth noting this field of view was a default, to match standard ninties era star trackers. and it did in fact accidentally have some nice properties once we also defaulted to low resolution 28 by 28 pixel images to match the mnist dataset, resulting in 1000 arcsecond pixels. last two columns here are hd number and starndx.
 
     betelgeuse, alpha, 39801, 2062
     rigel, beta, 34085, 1719
@@ -234,7 +234,7 @@ after a bit of experimenting, turns out [orion's too big](images/orion.svg) for 
 
 on the encoder side, here's an example of generating symbols representing nouns, blue, and verbs, green. we can build symbols from numerical lengths. for a noun with sides 2.3, 5.1, 4.9 we could have the symbol 235149. on the decoder side, symbols are built from numerical starids.
 
-![nouns and verbs](images/nouns and verbs.png)
+![nouns and verbs]((https://gitlab.com/noahhsmith/starid/blob/master/docs/images/nouns and verbs.png))
 
 171008
 
@@ -268,7 +268,7 @@ papers from around 2014-2015 concerning attention have a control systems perspec
 
 170820
 
-from here, i may occasionally [post on linkedin](https://www.linkedin.com/pulse/machine-learning-attention-star-identification-noah-smith).
+from here, i may occasionally post on linkedin.
 
 170620
 
@@ -327,7 +327,7 @@ star image and inverse now working, with direct cpp eigen and python numpy using
     plt.matshow(-1  image, cmap='Greys', interpolation='nearest')
     plt.show()
 
-![image](images/image.png)
+![image](https://gitlab.com/noahhsmith/starid/blob/master/docs/images/image.png)
 
 170414
 
@@ -422,7 +422,7 @@ after a weekend of experimentation, the method for reducing the number of candid
 
 with stars brighter than 6.5 and pairs up to four degrees, triangle sides begin with tens of thousands of candidate pairs. with loose contraints because of position quantization, there are a lot of false positives in such a large number of candidates. multiple triangles are needed to improve the constraints. the following sketches some important components.
 
-![triangle](images/triangleb.jpg)
+![triangle](https://gitlab.com/noahhsmith/starid/blob/master/docs/images/triangleb.jpg)
 
 170123
 
@@ -441,19 +441,19 @@ arcseconds. the position uncertainty of a star is half this, and triangle side t
 
 triangle logic
 
-![triangle](images/triangle.jpg)
+![triangle](https://gitlab.com/noahhsmith/starid/blob/master/docs/images/triangle.jpg)
 
 170119
 
 concepts for image and triangle
 
-![concepts](images/concepts.jpg)
+![concepts](https://gitlab.com/noahhsmith/starid/blob/master/docs/images/concepts.jpg)
 
 170116
 
 mnist viewer. a bit of python code in data/mnist_viewer to see what's in the mnist style data files. this is bare minimum functionality for now. two examples for star 4. these demonstrate axjndx axindx plane. variations of relative positions because of quantization are clear - relative positions vibrate as yaw varies, creating inherent uncertainties in the mnist images...
 
-![imgndx3](images/star4a.png)![imgndx13](images/star4b.png)
+![imgndx3](https://gitlab.com/noahhsmith/starid/blob/master/docs/images/star4a.png)![imgndx13](https://gitlab.com/noahhsmith/starid/blob/master/docs/images/star4b.png)
 
 170115
 
