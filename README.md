@@ -59,8 +59,7 @@ we want to use standard nmt, extending where needed for dynamically generated se
     input: <start> 2 7 7 4 3 5 , 9 4 8 4 7 10 . <end>
     translation: 37 56 8865 4 3 5 2 , 9 4 8 8825 8823 8 . <end> 
 
-![nmt1](https://gitlab.com/noahhsmith/starid/blob/master/docs/images/nmt1.png)
-<img src="https://gitlab.com/noahhsmith/starid/raw/master/docs/images/nmt1.png">
+![nmt1](https://gitlab.com/noahhsmith/starid/raw/master/docs/images/nmt1.png)
 
 181223
 
@@ -221,7 +220,7 @@ there'll be something like an image_info(target_starndx) function in libstarid, 
      [  2.00000000e+01   2.30000000e+01   9.10000000e+01   1.60054000e+05   4.08970500e+00   4.35950492e+01]
      [  5.00000000e+00   2.40000000e+01   9.70000000e+01   1.70028000e+05   4.28768208e+00   4.79474053e+01]
 
-after a bit of experimenting, turns out [orion's too big](https://gitlab.com/noahhsmith/starid/blob/master/docs/images/orion.svg) for our eight by eight degree field of view. at most, we can only see the belt together, mintaka, alnilam, and alnitak. it's worth noting this field of view was a default, to match standard ninties era star trackers. and it did in fact accidentally have some nice properties once we also defaulted to low resolution 28 by 28 pixel images to match the mnist dataset, resulting in 1000 arcsecond pixels. last two columns here are hd number and starndx.
+after a bit of experimenting, turns out [orion's too big](https://gitlab.com/noahhsmith/starid/raw/master/docs/images/orion.svg) for our eight by eight degree field of view. at most, we can only see the belt together, mintaka, alnilam, and alnitak. it's worth noting this field of view was a default, to match standard ninties era star trackers. and it did in fact accidentally have some nice properties once we also defaulted to low resolution 28 by 28 pixel images to match the mnist dataset, resulting in 1000 arcsecond pixels. last two columns here are hd number and starndx.
 
     betelgeuse, alpha, 39801, 2062
     rigel, beta, 34085, 1719
@@ -235,7 +234,7 @@ after a bit of experimenting, turns out [orion's too big](https://gitlab.com/noa
 
 on the encoder side, here's an example of generating symbols representing nouns, blue, and verbs, green. we can build symbols from numerical lengths. for a noun with sides 2.3, 5.1, 4.9 we could have the symbol 235149. on the decoder side, symbols are built from numerical starids.
 
-![nouns and verbs]((https://gitlab.com/noahhsmith/starid/blob/master/docs/images/nouns-and-verbs.png))
+![nouns and verbs]((https://gitlab.com/noahhsmith/starid/raw/master/docs/images/nouns-and-verbs.png))
 
 171008
 
@@ -328,7 +327,7 @@ star image and inverse now working, with direct cpp eigen and python numpy using
     plt.matshow(-1  image, cmap='Greys', interpolation='nearest')
     plt.show()
 
-![image](https://gitlab.com/noahhsmith/starid/blob/master/docs/images/image.png)
+![image](https://gitlab.com/noahhsmith/starid/raw/master/docs/images/image.png)
 
 170414
 
@@ -423,7 +422,7 @@ after a weekend of experimentation, the method for reducing the number of candid
 
 with stars brighter than 6.5 and pairs up to four degrees, triangle sides begin with tens of thousands of candidate pairs. with loose contraints because of position quantization, there are a lot of false positives in such a large number of candidates. multiple triangles are needed to improve the constraints. the following sketches some important components.
 
-![triangle](https://gitlab.com/noahhsmith/starid/blob/master/docs/images/triangleb.jpg)
+![triangle](https://gitlab.com/noahhsmith/starid/raw/master/docs/images/triangleb.jpg)
 
 170123
 
@@ -442,19 +441,19 @@ arcseconds. the position uncertainty of a star is half this, and triangle side t
 
 triangle logic
 
-![triangle](https://gitlab.com/noahhsmith/starid/blob/master/docs/images/triangle.jpg)
+![triangle](https://gitlab.com/noahhsmith/starid/raw/master/docs/images/triangle.jpg)
 
 170119
 
 concepts for image and triangle
 
-![concepts](https://gitlab.com/noahhsmith/starid/blob/master/docs/images/concepts.jpg)
+![concepts](https://gitlab.com/noahhsmith/starid/raw/master/docs/images/concepts.jpg)
 
 170116
 
 mnist viewer. a bit of python code in data/mnist_viewer to see what's in the mnist style data files. this is bare minimum functionality for now. two examples for star 4. these demonstrate axjndx axindx plane. variations of relative positions because of quantization are clear - relative positions vibrate as yaw varies, creating inherent uncertainties in the mnist images...
 
-![imgndx3](https://gitlab.com/noahhsmith/starid/blob/master/docs/images/star4a.png) ![imgndx13](https://gitlab.com/noahhsmith/starid/blob/master/docs/images/star4b.png)
+![imgndx3](https://gitlab.com/noahhsmith/starid/raw/master/docs/images/star4a.png) ![imgndx13](https://gitlab.com/noahhsmith/starid/raw/master/docs/images/star4b.png)
 
 170115
 
