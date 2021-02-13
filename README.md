@@ -32,7 +32,7 @@ pypi pip-install is mostly a placeholder for now, gitlab-repo clone-install-deve
 
 210213
 
-a work project has brought hardware math, eigen, cpp, and pybind back on to the front burner. looking into libstarid, there's probably some solid improvements possible just from catching up after the last several years - and it would be an opportunity to improve the documentation of what's here...
+hardware math, eigen, cpp, and pybind are back on to the front burner. looking into libstarid, there's probably some solid improvements possible just from catching up after the last several years - and it would be an opportunity to improve the documentation of what's here...
 
 181228
 
