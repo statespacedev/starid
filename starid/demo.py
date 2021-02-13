@@ -5,6 +5,7 @@ sys.path.append('build/cmake/libstarid')
 import libstarid
 
 class Config():
+    """Configuration including libstarid."""
     def __init__(self, args=None):
         self.cwd = os.getcwd() # expect */starid, not */starid/starid
         self.args = args

@@ -5,6 +5,8 @@
 Introduction
 ==============
 
+.. autoclass:: Config
+
 Another test
 ==============
 
