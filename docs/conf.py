@@ -1,5 +1,5 @@
-import os, sys
-sys.path.insert(0, os.path.abspath('../starid/demo.py'))
+# import os, sys
+# sys.path.insert(0, os.path.abspath('../starid/demo.py'))
 project = 'Starid'
 copyright = '2021, Noah Smith'
 author = 'Noah Smith'
