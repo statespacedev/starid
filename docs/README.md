@@ -1,4 +1,4 @@
-[main](https://gitlab.com/noahhsmith/starid/blob/master/README.md), [data](https://gitlab.com/noahhsmith/starid/blob/master/data/readme.md), [references](https://gitlab.com/noahhsmith/starid/blob/master/docs/references.md), [about](https://gitlab.com/noahhsmith/starid/blob/master/docs/about.md)
+[main](https://gitlab.com/noahhsmith/starid/blob/master/README.md), [data](https://gitlab.com/noahhsmith/starid/blob/master/data/README.md), [references](https://gitlab.com/noahhsmith/starid/blob/master/docs/references.md), [about](https://gitlab.com/noahhsmith/starid/blob/master/docs/about.md)
 
 181228
 

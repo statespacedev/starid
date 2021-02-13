@@ -12,7 +12,7 @@ lo-fi star identification
 pypi pip-install is mostly a placeholder for now, gitlab-repo clone-install-develop is the baseline.
 
     sudo apt-get -qq update -qy
-    sudo apt-get -qq install -y python3.6 python3-venv python3-pip
+    sudo apt-get -qq install -y python3.8 python3-setuptools python3-venv python3-pip
     sudo apt-get -qq install -y cmake
     sudo apt-get -qq install -y libeigen3-dev
     git clone git@gitlab.com:noahhsmith/starid.git starid
