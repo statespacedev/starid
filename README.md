@@ -368,19 +368,19 @@ convnet can identify ten stars, triangles can identify all stars, or at least fo
 
 basic triangles method is complete. the following is for a typical image. we're identifying the star at the center and there are 8876 possibilities. there are thirty other stars and for each an attempt is made to discard incorrect ids. in each attempt, the ideal is that the possible ids drop quickly to one. here are results using the most naive approach. in one attempt possible ids drop to ninety.
 
-<img src="docs/images/ab1.png"/>
+<img src="https://gitlab.com/noahhsmith/starid/raw/master/docs/images/ab1.png"/>
 
 next to most naive approach. an adjustment to extract more information from the image. many attempts are now dropping to twenty or less possibilities, several to five.
 
-<img src="docs/images/ab2.png"/> 
+<img src="https://gitlab.com/noahhsmith/starid/raw/master/docs/images/ab2.png"/> 
 
 another adjustment.
 
-<img src="docs/images/ab3.png"/> 
+<img src="https://gitlab.com/noahhsmith/starid/raw/master/docs/images/ab3.png"/> 
 
 final adjustment.
 
-<img src="docs/images/ab4.png"/> 
+<img src="https://gitlab.com/noahhsmith/starid/raw/master/docs/images/ab4.png"/> 
 
 170306
 
@@ -388,7 +388,7 @@ next two weeks will pretty much be about vacation, so time for a bit of planning
 
 170305
 
-triangle based identification is now working for mnist style images. this was really a challenge. [here's](images/itworks.png) an image of the eureka moment. nice convergence over nineteen triangles.
+triangle based identification is now working for mnist style images. this was really a challenge. [here's](https://gitlab.com/noahhsmith/starid/raw/master/docs/images/itworks.png) an image of the eureka moment. nice convergence over nineteen triangles.
 
 170227
 
@@ -399,8 +399,6 @@ the focus now seems headed towards directly using higher level geometrical struc
 170220
 
 now that it's easy to see exactly when and where the correct star is lost, it makes sense for development purposes to be able to pass its id all the way down in the code. things get much more deterministic.
-
-and the beginnings of how it came about are creeping forward [here](http://starid.icu/about).
 
 170217
 
