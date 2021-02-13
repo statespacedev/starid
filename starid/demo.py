@@ -1,6 +1,26 @@
 import numpy as np
 import matplotlib.pyplot as plt
-import math, os
+import math, os, sys
+sys.path.append('build/cmake/libstarid')
+import libstarid
+
+class Config():
+    def __init__(self, args=None):
+        self.cwd = os.getcwd() # expect */starid, not */starid/starid
+        self.args = args
+        self.dirsky = './data/'
+        self.namecat = 'cat'
+        self.namesky = 'sky'
+        self.ls = libstarid.libstarid()
+        if not os.path.exists(self.dirsky + self.namesky):
+            self.ls.write_sky(self.dirsky + self.namesky, self.dirsky + self.namecat)
+        self.ls.read_sky(self.dirsky + self.namesky)
+
+def demo(args):
+    conf = Config(args)
+    img = Starimg(conf, targetndx=3)
+    img.print_starlist()
+    img.plot_image()
 
 class Starimg:
     def __init__(self, conf, targetndx):
