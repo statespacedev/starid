@@ -24,7 +24,7 @@ pypi pip-install is mostly a placeholder for now, gitlab-repo clone-install-deve
 
 [star triangles](https://gitlab.com/noahhsmith/starid/blob/master/libstarid/startriangles.h) sets aside stars that disagree geometrically until one remains.
 
-[data](https://gitlab.com/noahhsmith/starid/blob/master/data/) the full NASA SKYMAP2000 V5R4 star catalog, created by nasa in the nineties thanks to issues with the hubble space telescope.
+[data](https://gitlab.com/noahhsmith/starid/blob/master/data/) the full NASA SKYMAP2000 V5R4 star catalog.
 
 [references](https://gitlab.com/noahhsmith/starid/blob/master/docs/references.md) work relating to star identification that is on my radar.
 
