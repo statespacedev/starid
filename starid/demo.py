@@ -1,3 +1,9 @@
+"""
+demo.py
+====================================
+well ok
+"""
+
 import numpy as np
 import matplotlib.pyplot as plt
 import math, os, sys
