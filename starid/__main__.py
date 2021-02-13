@@ -1,5 +1,4 @@
-import sys, os, argparse
-import demo
+import argparse, demo
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser('starid')

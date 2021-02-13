@@ -18,12 +18,14 @@ class Config():
         self.ls.read_sky(self.dirsky + self.namesky)
 
 def demo(args):
+    """well ok"""
     conf = Config(args)
     img = Starimg(conf, targetndx=3)
     img.print_starlist()
     img.plot_image()
 
 class Starimg:
+    """Image coming from libstarid as info."""
     def __init__(self, conf, targetndx):
         self.conf = conf
         self.targetndx = targetndx
