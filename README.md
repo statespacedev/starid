@@ -59,6 +59,7 @@ we want to use standard nmt, extending where needed for dynamically generated se
     input: <start> 2 7 7 4 3 5 , 9 4 8 4 7 10 . <end>
     translation: 37 56 8865 4 3 5 2 , 9 4 8 8825 8823 8 . <end> 
 
+
 ![nmt1](https://gitlab.com/noahhsmith/starid/blob/master/docs/images/nmt1.png)
 
 181223
@@ -234,7 +235,7 @@ after a bit of experimenting, turns out [orion's too big](https://gitlab.com/noa
 
 on the encoder side, here's an example of generating symbols representing nouns, blue, and verbs, green. we can build symbols from numerical lengths. for a noun with sides 2.3, 5.1, 4.9 we could have the symbol 235149. on the decoder side, symbols are built from numerical starids.
 
-![nouns and verbs]((https://gitlab.com/noahhsmith/starid/blob/master/docs/images/nouns and verbs.png))
+![nouns and verbs]((https://gitlab.com/noahhsmith/starid/blob/master/docs/images/nouns-and-verbs.png))
 
 171008
 
@@ -453,7 +454,7 @@ concepts for image and triangle
 
 mnist viewer. a bit of python code in data/mnist_viewer to see what's in the mnist style data files. this is bare minimum functionality for now. two examples for star 4. these demonstrate axjndx axindx plane. variations of relative positions because of quantization are clear - relative positions vibrate as yaw varies, creating inherent uncertainties in the mnist images...
 
-![imgndx3](https://gitlab.com/noahhsmith/starid/blob/master/docs/images/star4a.png)![imgndx13](https://gitlab.com/noahhsmith/starid/blob/master/docs/images/star4b.png)
+![imgndx3](https://gitlab.com/noahhsmith/starid/blob/master/docs/images/star4a.png) ![imgndx13](https://gitlab.com/noahhsmith/starid/blob/master/docs/images/star4b.png)
 
 170115
 
