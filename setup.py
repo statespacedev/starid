@@ -50,7 +50,7 @@ with open('requirements.txt') as fin:
 with open('README.md', 'r', encoding="utf-8") as fh:
     long_description = ''
     for line in fh:
-        if '[data]' in line: break
+        if '[sky]' in line: break
         long_description += line
 
 setup(
