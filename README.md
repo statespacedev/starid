@@ -388,7 +388,7 @@ next two weeks will pretty much be about vacation, so time for a bit of planning
 
 170305
 
-triangle based identification is now working for mnist style images. this was really a challenge. [here's](https://gitlab.com/noahhsmith/starid/raw/master/docs/images/itworks.png) an image of the eureka moment. nice convergence over nineteen triangles.
+triangle based identification is now working for mnist style images. this was really a challenge. here's an image of the eureka moment. nice convergence over nineteen triangles.
 
 <img src="https://gitlab.com/noahhsmith/starid/raw/master/docs/images/itworks.png"/>
 
