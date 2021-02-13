@@ -390,6 +390,8 @@ next two weeks will pretty much be about vacation, so time for a bit of planning
 
 triangle based identification is now working for mnist style images. this was really a challenge. [here's](https://gitlab.com/noahhsmith/starid/raw/master/docs/images/itworks.png) an image of the eureka moment. nice convergence over nineteen triangles.
 
+<img src="https://gitlab.com/noahhsmith/starid/raw/master/docs/images/itworks.png"/>
+
 170227
 
 triangle processing is now doing a decent job of handling deep cycles and iterations - tracing star pairs down through multiple layers of linked triangles. what this is revealing is just how tough the problem is for low angular resolution mnist style images. at such low resolution each star triangle contains a relatively small amount of information, or inversely a relatively large amount of uncertainty. to gather enough information to identify a star, you need a lot of low res triangles.
