@@ -5,10 +5,6 @@ lo-fi star identification
 [![pipeline](https://gitlab.com/noahhsmith/starid/badges/master/pipeline.svg)](https://gitlab.com/noahhsmith/starid/pipelines)
 [![pypi](https://img.shields.io/badge/pypi-latest-brightgreen.svg)](https://pypi.org/project/starid/)
 
-[sky](https://gitlab.com/noahhsmith/starid/blob/master/libstarid/sky.h) generates three-dimensional sky models and two-dimensional images from the nasa skymap star catalog. finds stars near arbitrary points on the sky.
-
-[star triangles](https://gitlab.com/noahhsmith/starid/blob/master/libstarid/startriangles.h) recurrently sets aside stars that disagree geometrically until one remains.
-
 pypi pip-install is mostly a placeholder for now, gitlab-repo clone-install-develop is the baseline.
 
     sudo apt-get -qq update -qy
@@ -23,11 +19,20 @@ pypi pip-install is mostly a placeholder for now, gitlab-repo clone-install-deve
     pytest
     python3 starid --demo
 
-[data](https://gitlab.com/noahhsmith/starid/blob/master/data/README.md), [references](https://gitlab.com/noahhsmith/starid/blob/master/docs/references.md), [about](https://gitlab.com/noahhsmith/starid/blob/master/docs/about.md)
+
+[sky](https://gitlab.com/noahhsmith/starid/blob/master/libstarid/sky.h) generates three-dimensional sky models and two-dimensional images from the nasa skymap star catalog. finds stars near arbitrary points on the sky.
+
+[star triangles](https://gitlab.com/noahhsmith/starid/blob/master/libstarid/startriangles.h) sets aside stars that disagree geometrically until one remains.
+
+[data](https://gitlab.com/noahhsmith/starid/blob/master/data/README.md) the full NASA SKYMAP2000 V5R4 star catalog, created by nasa in the nineties thanks to issues with the hubble space telescope.
+
+[references](https://gitlab.com/noahhsmith/starid/blob/master/docs/references.md) work relating to star identification that is on my radar.
+
+[about](https://gitlab.com/noahhsmith/starid/blob/master/docs/about.md) some of the story so far, going back over thirty years.
 
 210213
 
-a work project has brought hardware math, eigen, cpp, and pybind back on to the front burner. looking into libstarid, there's probably some solid improvements possible just from catching up after the last several years - and it would be an opportunity to improve the documentation of what's there...
+a work project has brought hardware math, eigen, cpp, and pybind back on to the front burner. looking into libstarid, there's probably some solid improvements possible just from catching up after the last several years - and it would be an opportunity to improve the documentation of what's here...
 
 181228
 
