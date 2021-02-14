@@ -11,6 +11,6 @@ demo.py
 libstarid.cpp
 =============
 
-.. automodule:: extractor.libstarid
+.. automodule:: libstarid.libstarid
     :members:
 

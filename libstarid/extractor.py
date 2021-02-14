@@ -1,9 +1,7 @@
 import os
 dirin = './libstarid/'
-dirout = './docs/source/libstarid/' \
-         ''
 pathin = dirin + 'libstarid.cpp'
-pathout = dirout + 'libstarid.py'
+pathout = dirin + 'libstarid.py'
 
 with open(pathin, 'rt') as fin, open(pathout, 'wt') as fout:
     for line in fin:
