@@ -5,7 +5,7 @@
 
 /*
  * class Libstarid:
- *    '''Entry point for calls from python.'''
+ *    '''handles calls from libstaridpy.py'''
  * */
 Libstarid::Libstarid() {
     return;

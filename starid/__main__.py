@@ -2,12 +2,9 @@ import argparse
 
 def demo():
     """todo"""
-    from libhandler import LibHandler
-    from starimage import Starimage
-    api = LibHandler()
-    img = Starimage(api, targetndx=3)
-    img.print()
-    img.plot()
+    from libstaridpy import LibstaridPy
+    lib = LibstaridPy()
+    lib.plot(targetndx=3)
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser('starid')
