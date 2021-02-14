@@ -6,7 +6,7 @@ include_directories( ${EIGEN3_INCLUDE_DIRS} cereal/include)
 add_subdirectory( pybind11 )
 
 set(CMAKE_CXX_STANDARD 14)
-set(CMAKE_CXX_FLAGS "-Wall -mavx -mfma")
+set(CMAKE_CXX_FLAGS "-mavx -mfma")
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -Ofast")
 set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} -Ofast")
 #set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -O3")

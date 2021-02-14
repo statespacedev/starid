@@ -1,31 +1,31 @@
 import numpy as np
 import matplotlib.pyplot as plt
-import math, os, sys
+import math, os, sys, argparse
 sys.path.append('build/cmake/libstarid')
 import libstarid
 
 class Config():
-    """Configuration including libstarid."""
+    """todo"""
     def __init__(self, args=None):
         self.cwd = os.getcwd() # expect */starid, not */starid/starid
         self.args = args
         self.dirsky = './data/'
         self.namecat = 'cat'
         self.namesky = 'sky'
-        self.ls = libstarid.libstarid()
+        self.ls = libstarid.Libstarid()
         if not os.path.exists(self.dirsky + self.namesky):
             self.ls.write_sky(self.dirsky + self.namesky, self.dirsky + self.namecat)
         self.ls.read_sky(self.dirsky + self.namesky)
 
 def demo(args):
-    """well ok"""
+    """todo"""
     conf = Config(args)
     img = Starimg(conf, targetndx=3)
     img.print_starlist()
     img.plot_image()
 
 class Starimg:
-    """Image coming from libstarid as info."""
+    """todo"""
     def __init__(self, conf, targetndx):
         self.conf = conf
         self.targetndx = targetndx
@@ -55,4 +55,7 @@ class Starimg:
         pprint.pprint(self.starlist)
 
 if __name__ == '__main__':
-    pass
+    parser = argparse.ArgumentParser('starid')
+    parser.add_argument('-d', '--demo', help='demo star image', action='store_true')
+    args = parser.parse_args()
+    demo(args)

@@ -8,15 +8,17 @@ demo.py
 .. automodule:: starid.demo
     :members:
 
-foobar.cpp
-===========
+libstarid.cpp
+=============
 
-.. cpp:class:: Test
+.. cpp:class:: Libstarid
 
-    hi
+    todo
 
-    .. cpp:function:: test2(int arg1)
+    .. cpp:function:: read_sky(std::string pathsky)
 
-        hello
+        todo
 
+    .. cpp:function:: write_sky(std::string pathsky, std::string pathcat)
 
+        todo
