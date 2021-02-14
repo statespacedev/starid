@@ -4,6 +4,7 @@ lo-fi star identification
 
 [![pipeline](https://gitlab.com/noahhsmith/starid/badges/master/pipeline.svg)](https://gitlab.com/noahhsmith/starid/pipelines)
 [![pypi](https://img.shields.io/badge/pypi-latest-brightgreen.svg)](https://pypi.org/project/starid/)
+[![readthedocs](https://readthedocs.org/projects/starid/badge/?version=latest)](https://starid.readthedocs.io/en/latest/?badge=latest)
 
 pypi pip-install is mostly a placeholder for now, gitlab-repo clone-install-develop is the baseline.
 
