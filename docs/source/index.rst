@@ -2,13 +2,21 @@
    :maxdepth: 2
    :caption: Contents:
 
-head1
-=====
+demo.py
+=======
 
 .. automodule:: starid.demo
     :members:
 
-head2
-=====
+foobar.cpp
+===========
+
+.. cpp:class:: Test
+
+    hi
+
+    .. cpp:function:: test2(int arg1)
+
+        hello
 
 
