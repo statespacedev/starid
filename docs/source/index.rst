@@ -2,10 +2,24 @@
    :maxdepth: 2
    :caption: Contents:
 
-demo.py
+
+
+main.py
 =======
 
-.. automodule:: starid.demo
+.. automodule:: starid.__main__
+    :members:
+
+libhandler.py
+=============
+
+.. automodule:: starid.libhandler
+    :members:
+
+starimage.py
+============
+
+.. automodule:: starid.starimage
     :members:
 
 libstarid.cpp

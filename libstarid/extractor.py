@@ -1,7 +1,8 @@
 import os
 dirin = './libstarid/'
+dirout = './extractor/'
 pathin = dirin + 'libstarid.cpp'
-pathout = dirin + 'libstarid.py'
+pathout = dirout + 'libstarid.py'
 
 with open(pathin, 'rt') as fin, open(pathout, 'wt') as fout:
     for line in fin:
