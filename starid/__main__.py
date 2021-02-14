@@ -1,6 +1,6 @@
 import argparse
 
-def main():
+def demo():
     """todo"""
     from libhandler import LibHandler
     from starimage import Starimage
@@ -11,6 +11,7 @@ def main():
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser('starid')
-    parser.add_argument('-d', '--demo', help='demo star image', action='store_true')
+    parser.add_argument('-d', '--demo', dest='demo', action='store_true', default=False)
     args = parser.parse_args()
-    main()
+    if args.demo: demo()
+    else: demo

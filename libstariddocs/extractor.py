@@ -1,6 +1,6 @@
 import os
 dirin = './libstarid/'
-dirout = './extractor/'
+dirout = './libstariddocs/'
 pathin = dirin + 'libstarid.cpp'
 pathout = dirout + 'libstarid.py'
 
