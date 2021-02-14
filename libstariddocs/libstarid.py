@@ -1,4 +1,4 @@
 class Libstarid:
-   '''handles calls from libstaridpy.py'''
+   '''handles calls from pylibstarid.py'''
    def read_sky(self):
       '''todo'''
