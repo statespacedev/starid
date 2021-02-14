@@ -6,20 +6,15 @@ lo-fi star identification
 [![pypi](https://img.shields.io/badge/pypi-latest-brightgreen.svg)](https://pypi.org/project/starid/)
 [![readthedocs](https://readthedocs.org/projects/starid/badge/?version=latest)](https://starid.readthedocs.io/en/latest/?badge=latest)
 
-pypi pip-install is mostly a placeholder for now, gitlab-repo clone-install-develop is the baseline.
+pypi pip-install is mostly a placeholder for now, gitlab-repo clone-install is the baseline. the following should work on ubuntu. 
 
-    sudo apt-get -qq update -qy
-    sudo apt-get -qq install -y python3.8 python3-setuptools python3-venv python3-pip
-    sudo apt-get -qq install -y cmake
-    sudo apt-get -qq install -y libeigen3-dev
+    sudo apt install cmake libeigen3-dev
     git clone git@gitlab.com:noahhsmith/starid.git starid
     cd starid
     python3 -m venv venv
     . venv/bin/activate
-    python3 setup.py develop
-    pytest
+    pip3 install .
     python3 starid --demo
-
 
 [sky](https://gitlab.com/noahhsmith/starid/blob/master/libstarid/sky.h) generates three-dimensional sky models and two-dimensional images from the nasa skymap star catalog. finds stars near arbitrary points on the sky.
 
@@ -33,7 +28,7 @@ pypi pip-install is mostly a placeholder for now, gitlab-repo clone-install-deve
 
 210213
 
-hardware math, eigen, cpp, and pybind are back on to the front burner. looking into libstarid, there's probably some solid improvements possible just from catching up after the last several years - and it would be an opportunity to improve the documentation of what's here...
+vectorization, eigen, cpp, and pybind are back on to the front burner. looking into libstarid, there's probably some solid improvements possible just from catching up after the last several years - and it would be an opportunity to improve the documentation of what's here... i've been liking the style of documentation at readthedocs.io over the last few years - it seems to have grown up along with python. from some quick reading, readthedocs is a particular style applied to python comments by compilers such as sphinx and mkdocs. this is parallel with cpp comments compiled using doxygen - but for me the readthedocs style is less dusty than the doxygen style. so, what would it mean to use readthedocs for starid? no problem for python - sphinx compiles the comments. things are not so nice for cpp components - seems the automation requires doxygen and various adapters. or we can bypass automation and write the cpp stuff directly in the sphinx source files. what could be possible is python to grab comments from cpp - with the comments consisting of stuff ready to just drop into sphinx source files - bypassing anything to do with doxygen...
 
 181228
 
