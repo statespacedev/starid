@@ -5,7 +5,7 @@ import math, pprint
 sys.path.append('build/cmake/libstarid')
 import libstarid
 
-class LibstaridPy():
+class PyLibstarid():
     """handles calls to libstarid.cpp"""
     def __init__(self):
         self.dirsky = './data/'
@@ -17,7 +17,7 @@ class LibstaridPy():
         self.api.read_sky(self.dirsky + self.namesky)
 
     def plot(self, targetndx):
-        """plots a sky image for q target star"""
+        """plots a sky image for a target star"""
         imgdict = self.api.image_generator(targetndx)
         info = imgdict['info'] # use info to generate a 28 by 28 image pixel matrix
         image = np.zeros((28,28))
