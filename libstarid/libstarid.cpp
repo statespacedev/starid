@@ -3,10 +3,18 @@
 #include <fstream>
 #include <cereal/archives/binary.hpp>
 
+/*
+ * class Libstarid:
+ *    '''Entry point for calls from python.'''
+ * */
 Libstarid::Libstarid() {
     return;
 }
 
+/*
+ *    def read_sky(self):
+ *       '''todo'''
+ * */
 void Libstarid::read_sky(std::string pathsky) {
     std::ifstream is1(pathsky);
     cereal::BinaryInputArchive iarchive1(is1);
