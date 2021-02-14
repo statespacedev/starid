@@ -22,3 +22,7 @@ libstarid.cpp
     .. cpp:function:: write_sky(std::string pathsky, std::string pathcat)
 
         todo
+
+    .. cpp:function:: read_starpairs(std::string pathstarpairs)
+
+        todo
