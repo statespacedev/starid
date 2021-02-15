@@ -1,11 +1,15 @@
 #include "startriangles.h"
 
-starid::startriangles::startriangles(starid::starpairs &starpairs) : starpairs(starpairs) {
+/*
+ * class Startriangles:
+ *    '''work with the stars as triangles.'''
+ * */
+starid::Startriangles::Startriangles(starid::starpairs &starpairs) : starpairs(starpairs) {
     double epsilon = 0.0;
     tolerance = (2.0 * std::sqrt(500.0 * 500.0 + 500.00 * 500.0) + epsilon) * starid::arcseconds_to_radians;
 }
 
-int starid::startriangles::identify(Eigen::MatrixXd &pixels, int teststar) {
+int starid::Startriangles::identify(Eigen::MatrixXd &pixels, int teststar) {
     starvecs = starid::pixels_to_starvecs(pixels);
     std::vector<startriangleside> abs;
     for (ndxb = 1; ndxb < starvecs.rows(); ++ndxb) {
@@ -46,7 +50,7 @@ int starid::startriangles::identify(Eigen::MatrixXd &pixels, int teststar) {
     return -1;
 }
 
-bool starid::startriangles::get_angs_d() {
+bool starid::Startriangles::get_angs_d() {
     if (ndxd == ndxb || ndxd == ndxc) return false;
     bool angsok = true;
     angs_d = angs_c;
@@ -63,7 +67,7 @@ bool starid::startriangles::get_angs_d() {
     return angsok;
 }
 
-bool starid::startriangles::get_angs_c() {
+bool starid::Startriangles::get_angs_c() {
     if (ndxc == ndxb) return false;
     bool angsok = true;
     angs_c.clear();

@@ -19,3 +19,8 @@ libstarid.cpp
 .. automodule:: libstariddocs.libstarid
     :members:
 
+startriangles.cpp
+==================
+
+.. automodule:: libstariddocs.startriangles
+    :members:

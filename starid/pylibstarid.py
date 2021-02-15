@@ -6,18 +6,21 @@ sys.path.append('build/cmake/libstarid')
 import libstarid
 
 class PyLibstarid():
-    """handles calls to libstarid.cpp"""
+    """handle calls to libstarid.cpp."""
     def __init__(self):
         self.dirsky = './data/'
         self.namecat = 'cat'
         self.namesky = 'sky'
         self.api = libstarid.Libstarid()
-        if not os.path.exists(self.dirsky + self.namesky):
-            self.api.write_sky(self.dirsky + self.namesky, self.dirsky + self.namecat)
+        self.sky()
+
+    def sky(self):
+        '''start the sky object. if the sky data file is missing, generate it first - this can take a while, tens of seconds?'''
+        if not os.path.exists(self.dirsky + self.namesky): self.api.write_sky(self.dirsky + self.namesky, self.dirsky + self.namecat)
         self.api.read_sky(self.dirsky + self.namesky)
 
     def plot(self, targetndx):
-        """plots a sky image for a target star"""
+        """plot a sky image for a target star."""
         imgdict = self.api.image_generator(targetndx)
         info = imgdict['info'] # use info to generate a 28 by 28 image pixel matrix
         image = np.zeros((28,28))

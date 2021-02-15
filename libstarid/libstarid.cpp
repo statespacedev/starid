@@ -13,7 +13,7 @@ Libstarid::Libstarid() {
 
 /*
  *    def read_sky(self):
- *       '''todo'''
+ *       '''read the sky data file.'''
  * */
 void Libstarid::read_sky(std::string pathsky) {
     std::ifstream is1(pathsky);
@@ -21,6 +21,10 @@ void Libstarid::read_sky(std::string pathsky) {
     iarchive1(sky);
 }
 
+/*
+ *    def write_sky(self):
+ *       '''generate a sky object and write the sky data file. generating sky data can take a while - tens of seconds?'''
+ * */
 void Libstarid::write_sky(std::string pathsky, std::string pathcat) {
     sky.start(std::string(pathcat));
     std::ofstream os1(pathsky);
@@ -52,7 +56,7 @@ std::map<std::string, Eigen::MatrixXd> Libstarid::angle_generator(int starndx) {
 }
 
 int Libstarid::startriangles(Eigen::MatrixXd pixels) {
-    starid::startriangles st(starpairs);
+    starid::Startriangles st(starpairs);
     return st.identify(pixels);
 }
 
