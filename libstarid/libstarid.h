@@ -10,7 +10,7 @@
 class Libstarid {
 public:
     Libstarid();
-    starid::sky sky;
+    starid::Sky sky;
     starid::starpairs starpairs;
     void read_sky(std::string pathsky);
     void write_sky(std::string pathsky, std::string pathcat);

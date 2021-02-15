@@ -47,14 +47,15 @@ namespace starid {
         }
     };
     
-    class skymap {
+    class Skymap {
     public:
-        explicit skymap(std::string pathcat);
+        explicit Skymap(std::string pathcat);
         std::vector<skymaprec> records;
     };
 
-    class sky {
+    class Sky {
     public:
+        Sky();
         void start(std::string pathin);
         std::vector<star> stars;
         std::vector<std::string> catalog_lines;

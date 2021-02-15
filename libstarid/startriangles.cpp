@@ -233,7 +233,7 @@ bool starid::startriangleside::check_teststar(int starndx) {
     return true;
 }
 
-void starid::starpairs::start(starid::sky &sky) {
+void starid::starpairs::start(starid::Sky &sky) {
     int pairndx = 0;
     for (auto star : sky.stars) {
         std::vector<int> starndxs = sky.stars_near_point(star.x, star.y, star.z);

@@ -6,7 +6,11 @@ std::random_device r;
 std::default_random_engine e1(r());
 std::uniform_real_distribution<double> unitscatter(0, 1);
 
-starid::skymap::skymap(std::string pathcat) {
+/*
+ * class Skymap:
+ *    '''nasa skymap sky2000 v5r4 star catalog.'''
+ * */
+starid::Skymap::Skymap(std::string pathcat) {
     std::ifstream catfile(pathcat);
     if (catfile.is_open()) {
         std::string line;
@@ -47,11 +51,18 @@ starid::skymap::skymap(std::string pathcat) {
     }
 }
 
-void starid::sky::start(std::string pathin) {
+/*
+ * class Sky:
+ *    '''model the sky, based on the skymap object.'''
+ * */
+starid::Sky::Sky() {
+}
+
+void starid::Sky::start(std::string pathin) {
     pathcat = pathin;
     t = 0.0;
     star star;
-    starid::skymap skymap(pathcat);
+    starid::Skymap skymap(pathcat);
     int starndx = 0;
     for (auto rec : skymap.records) {
         star.starndx = starndx;
@@ -76,7 +87,7 @@ void starid::sky::start(std::string pathin) {
     zndxer.sort();
 }
 
-std::map<std::string, Eigen::MatrixXd> starid::sky::image_generator(int starndx) {
+std::map<std::string, Eigen::MatrixXd> starid::Sky::image_generator(int starndx) {
     using namespace Eigen;
     MatrixXd pixels = MatrixXd::Zero(28, 28);
     MatrixXd info = MatrixXd::Zero(100, 6);
@@ -125,7 +136,7 @@ std::map<std::string, Eigen::MatrixXd> starid::sky::image_generator(int starndx)
     return result;
 }
 
-std::map<std::string, Eigen::MatrixXd> starid::sky::angle_generator(int starndx) {
+std::map<std::string, Eigen::MatrixXd> starid::Sky::angle_generator(int starndx) {
     using namespace Eigen;
     MatrixXd angles = MatrixXd::Zero(36, 1);
     MatrixXd info = MatrixXd::Zero(100, 6);
@@ -181,7 +192,7 @@ std::map<std::string, Eigen::MatrixXd> starid::sky::angle_generator(int starndx)
     return result;
 }
 
-std::vector<int> starid::sky::stars_near_point(double x, double y, double z) {
+std::vector<int> starid::Sky::stars_near_point(double x, double y, double z) {
     double max_ang = 1.4 * starid::image_radius_radians;
     std::vector<int> xring = stars_in_ring(x, max_ang, xndxer);
     std::vector<int> yring = stars_in_ring(y, max_ang, yndxer);
@@ -197,7 +208,7 @@ std::vector<int> starid::sky::stars_near_point(double x, double y, double z) {
     return ndxs;
 }
 
-std::vector<int> starid::sky::stars_in_ring(double p, double radius, starid::range_of_floats_indexer &table) {
+std::vector<int> starid::Sky::stars_in_ring(double p, double radius, starid::range_of_floats_indexer &table) {
     double pmin, pmax;
     if (p >= cos(radius)) {
         pmin = p * cos(radius) - sqrt(1 - (p * p)) * sin(radius);
