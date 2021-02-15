@@ -2,6 +2,8 @@
    :maxdepth: 2
    :caption: Contents:
 
+.. contents:: Table of Contents
+
 introduction
 =============
 
