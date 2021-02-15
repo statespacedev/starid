@@ -17,7 +17,7 @@ ideally, a lot can be done in python without knowing much about the underlying c
 starid.py
 ------------------------------------------------------------------------------------------------------------------
 
-this file contains the python starid object making all of the lower-level stuff available - it's the interface between python and the underlying cpp. the starid object is in some sense 'a singleton' - there should be only one. on the other hand, it's possible to imagine paths where this is no longer true... imagine using two sets of stars from the star catalog - one including fainter stars. in short, two skies. we could have two starid objects at the same time, one for each sky.
+python starid object making all of the lower-level stuff available - it's the interface between python and the underlying cpp. the starid object could in some sense be a singleton - there should be only one. on the other hand, it's possible to imagine paths where this is no longer true... imagine using two sets of stars from the star catalog - one including fainter stars. in short, two skies. we could have two starid objects at the same time, one for each sky.
 
 .. automodule:: starid.starid
     :members:
@@ -26,6 +26,8 @@ this file contains the python starid object making all of the lower-level stuff 
 
 libstarid cpp - lower-level
 ==================================================================================================================
+
+fast inner loops for working with star triangles. also useful for working with lots of three dimensional star pointing vectors, though this is probably ok in python as well. in any case, hardware acceleration of vectorized computations, matrix and vector math via eigen, blas, and lapack. when computations become heavy, move them from python into cpp.
 
 libstarid.cpp
 ------------------------------------------------------------------------------------------------------------------
