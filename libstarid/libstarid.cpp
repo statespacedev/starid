@@ -13,7 +13,7 @@ Libstarid::Libstarid() {
 
 /*
  *    def read_sky(self):
- *       '''read the sky data file.'''
+ *       '''start a sky object from a sky data file.'''
  * */
 void Libstarid::read_sky(std::string pathsky) {
     std::ifstream is1(pathsky);
@@ -23,7 +23,7 @@ void Libstarid::read_sky(std::string pathsky) {
 
 /*
  *    def write_sky(self):
- *       '''generate a sky object and write the sky data file. generating sky data can take a while - tens of seconds?'''
+ *       '''generate a sky object and write a sky data file. generating a sky object from scratch can take a while - tens of seconds?'''
  * */
 void Libstarid::write_sky(std::string pathsky, std::string pathcat) {
     sky.start(std::string(pathcat));
