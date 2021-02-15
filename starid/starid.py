@@ -5,7 +5,7 @@ import math, pprint
 sys.path.append('build/cmake/libstarid')
 import libstarid
 
-class PyLibstarid():
+class Starid():
     """handle calls to libstarid.cpp."""
     def __init__(self):
         self.dirsky = './data/'

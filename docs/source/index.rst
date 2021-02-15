@@ -3,19 +3,19 @@
    :caption: Contents:
 
 introduction
-=============
+==================================================================================================================
 
 this documentation is still in initial stages - while this notification is here, it's for sure not usable. 2021-02-15
 
 starid python - user-level
 ==================================================================================================================
 
-user-level stuff is meant to happen in python.
+ideally users can work in python and shouldn't need to know much about the underlying cpp. probably what matters most at the users level is that there's a model of the sky, a toolbox for working with the sky, and it's all available via starid.py.
 
-pylibstarid.py
+starid.py
 ------------------------------------------------------------------------------------------------------------------
 
-.. automodule:: starid.pylibstarid
+.. automodule:: starid.starid
     :members:
 
 libstarid cpp - low-level

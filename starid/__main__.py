@@ -1,8 +1,8 @@
 import argparse
 
 def demo():
-    from pylibstarid import PyLibstarid
-    pylib = PyLibstarid()
+    from starid import Starid
+    pylib = Starid()
     pylib.plot(targetndx=3)
 
 if __name__ == '__main__':
