@@ -1,5 +1,6 @@
 import os, sys
 sys.path.insert(0, os.path.abspath('../..'))
+sys.path.insert(0, os.path.abspath('../'))
 project = 'Starid'
 copyright = '2021, Noah Smith'
 author = 'Noah Smith'

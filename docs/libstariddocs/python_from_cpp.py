@@ -1,6 +1,6 @@
 import os
 dirin = './libstarid/'
-dirout = './libstariddocs/'
+dirout = './docs/libstariddocs/'
 files = ['api', 'sky', 'startriangles']
 
 for file in files:
