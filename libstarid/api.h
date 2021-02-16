@@ -7,9 +7,9 @@
 #include "sky.h"
 #include "startriangles.h"
 
-class Libstarid {
+class Api {
 public:
-    Libstarid();
+    Api();
     starid::Sky sky;
     starid::starpairs starpairs;
     void read_sky(std::string pathsky);
@@ -22,15 +22,15 @@ public:
 };
 
 PYBIND11_MODULE(libstarid, m) {
-    pybind11::class_<Libstarid>(m, "Libstarid")
+    pybind11::class_<Api>(m, "Api")
             .def(pybind11::init<>())
-            .def("write_sky", &Libstarid::write_sky, pybind11::arg("pathsky"), pybind11::arg("pathcat"))
-            .def("write_starpairs", &Libstarid::write_starpairs, pybind11::arg("pathstarpairs"))
-            .def("read_sky", &Libstarid::read_sky, pybind11::arg("pathsky"))
-            .def("read_starpairs", &Libstarid::read_starpairs, pybind11::arg("pathstarpairs"))
-            .def("image_generator", &Libstarid::image_generator)
-            .def("angle_generator", &Libstarid::angle_generator)
-            .def("startriangles", &Libstarid::startriangles, pybind11::arg("pixels"));
+            .def("write_sky", &Api::write_sky, pybind11::arg("pathsky"), pybind11::arg("pathcat"))
+            .def("write_starpairs", &Api::write_starpairs, pybind11::arg("pathstarpairs"))
+            .def("read_sky", &Api::read_sky, pybind11::arg("pathsky"))
+            .def("read_starpairs", &Api::read_starpairs, pybind11::arg("pathstarpairs"))
+            .def("image_generator", &Api::image_generator)
+            .def("angle_generator", &Api::angle_generator)
+            .def("startriangles", &Api::startriangles, pybind11::arg("pixels"));
 }
 
 #endif

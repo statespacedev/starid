@@ -9,7 +9,7 @@ this documentation is still in initial stages - while this notification is here,
 
 ------------------------------------------------------------------------------------------------------------------
 
-starid python - higher-level
+starid python
 ==================================================================================================================
 
 ideally, a lot can be done in python without knowing much about the underlying cpp - there's a model of the sky, a toolbox for working with it, and it's available via starid.py.
@@ -24,15 +24,17 @@ python starid object making all of the lower-level stuff available - it's the in
 
 ------------------------------------------------------------------------------------------------------------------
 
-libstarid cpp - lower-level
+libstarid cpp
 ==================================================================================================================
 
 fast inner loops for working with star triangles. also useful for working with lots of three dimensional star pointing vectors, though this is probably ok in python as well. in any case, hardware acceleration of vectorized computations, matrix and vector math via eigen, blas, and lapack. when computations become heavy, move them from python into cpp.
 
-libstarid.cpp
+api.cpp
 ------------------------------------------------------------------------------------------------------------------
 
-.. automodule:: libstariddocs.libstarid
+provides the services used by higher-level python code. starid.py is a collection of calls to the api - a collection that happens to be able to make things happen and get things done. there's no reason other collections of call from python couldn't evolve as well.
+
+.. automodule:: libstariddocs.api
     :members:
 
 sky.cpp
