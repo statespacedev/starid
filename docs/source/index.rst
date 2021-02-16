@@ -9,7 +9,7 @@ this documentation is still in initial stages - while this notification is here,
 
 ------------------------------------------------------------------------------------------------------------------
 
-starid python
+starid
 ==================================================================================================================
 
 ideally, a lot can be done in python without knowing much about the underlying cpp - there's a model of the sky, a toolbox for working with it, and it's available via starid.py.
@@ -24,10 +24,10 @@ python starid object making all of the lower-level stuff available - it's the in
 
 ------------------------------------------------------------------------------------------------------------------
 
-libstarid cpp
+libstarid
 ==================================================================================================================
 
-fast inner loops for working with star triangles. also useful for working with lots of three dimensional star pointing vectors, though this is probably ok in python as well. in any case, hardware acceleration of vectorized computations, matrix and vector math via eigen, blas, and lapack. when computations become heavy, move them from python into cpp.
+fast inner loops for working with star triangles. also useful for working with lots of three dimensional star pointing vectors, though this is probably reasonable in python as well. in any case, hardware acceleration of vectorized computations, matrix and vector math via eigen. when computations become heavier, move them from python into cpp.
 
 api.cpp
 ------------------------------------------------------------------------------------------------------------------

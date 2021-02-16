@@ -2,8 +2,8 @@ import argparse
 
 def demo():
     from starid import Starid
-    pylib = Starid()
-    pylib.plot(targetndx=3)
+    starid = Starid()
+    starid.plot(targetndx=3)
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser('starid')

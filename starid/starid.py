@@ -3,7 +3,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 import math, pprint
 sys.path.append('build/cmake/libstarid')
-import libstarid
 
 class Starid():
     """handle calls to libstarid.cpp."""
@@ -11,7 +10,8 @@ class Starid():
         self.dirsky = './data/'
         self.namecat = 'cat'
         self.namesky = 'sky'
-        self.api = libstarid.Libstarid()
+        import libstarid
+        self.api = libstarid.Api()
         self.sky()
 
     def sky(self):
@@ -41,4 +41,6 @@ class Starid():
         plt.pause(2)
         plt.close()
 
-
+if __name__ == '__main__':
+    starid = Starid()
+    starid.plot(targetndx=3)
