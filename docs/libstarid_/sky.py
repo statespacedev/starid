@@ -4,3 +4,9 @@ class Sky:
    '''model the sky, based on the skymap object. the key input parameter is the star brightness threshold - with visual magnitude 6.5 the sky is about 8000 stars, and that number grows exponentially as dimmer stars are included.'''
    def start(self, pathin):
       '''initializes the sky model. first generates a skymap model, and then picks out the information that is needed here - as well as enriching that info, in particular with three-dimensional vectors in the celestial reference frame.'''
+   def image_generator(self, starndx):
+      ''' '''
+   def stars_near_point(self, x, y, z):
+      ''' '''
+   def stars_in_ring(self, p, radius, table):
+      ''' '''
