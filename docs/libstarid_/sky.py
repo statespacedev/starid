@@ -3,10 +3,10 @@ class Skymap:
 class Sky:
    '''model the sky, based on the skymap object. the key input parameter is the star brightness threshold - with visual magnitude 6.5 the sky is about 8000 stars, and that number grows exponentially as dimmer stars are included.'''
    def start(self, pathin):
-      '''initializes the sky model. first generates a skymap object and then picks out the information needed here, with some enrichment - in particular with three-dimensional vectors in the celestial reference frame.'''
+      '''initialize the sky. first generates a skymap object and then picks out the information needed here, with some enrichment - in particular with three-dimensional vectors in the celestial reference frame.'''
    def image_generator(self, starndx):
       '''creates a standard image for the target star, ready for feeding into a star identifier. the format is 28 x 28 pixels - lo-fi, the way we like it. makes thing tougher on us. and also by no coincidence matching the classic mnist character recognition data set. the story behind that is a long one, discussed elsewhere in the project.'''
    def stars_near_point(self, x, y, z):
-      ''' '''
+      '''given a three-dimensional pointing vector in the celestial reference frame, return the identifiers for nearby stars. this is fundamental - we have to be able to call up the stars near a target on the sky. it's a rich problem we'll keep discussing throughout the project documentation. here we break the three-dimensional search space down into three one-dimensional search spaces, and create a map or hash-index into each of those. in a sense - it's a three-dimensional hash map into the sky.'''
    def stars_in_ring(self, p, radius, table):
       ''' '''
