@@ -17,8 +17,7 @@ public:
     void read_starpairs(std::string pathstarpairs);
     void write_starpairs(std::string pathstarpairs);
     std::map<std::string, Eigen::MatrixXd> image_generator(int starndx);
-    std::map<std::string, Eigen::MatrixXd> angle_generator(int starndx);
-    int startriangles(Eigen::MatrixXd pixels);
+    int startriangles_from_image(Eigen::MatrixXd pixels);
 };
 
 PYBIND11_MODULE(libstarid, m) {
@@ -29,8 +28,7 @@ PYBIND11_MODULE(libstarid, m) {
             .def("read_sky", &Api::read_sky, pybind11::arg("pathsky"))
             .def("read_starpairs", &Api::read_starpairs, pybind11::arg("pathstarpairs"))
             .def("image_generator", &Api::image_generator)
-            .def("angle_generator", &Api::angle_generator)
-            .def("startriangles", &Api::startriangles, pybind11::arg("pixels"));
+            .def("startriangles_from_image", &Api::startriangles_from_image, pybind11::arg("pixels"));
 }
 
 #endif

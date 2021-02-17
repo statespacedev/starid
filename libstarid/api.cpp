@@ -23,7 +23,7 @@ void Api::read_sky(std::string pathsky) {
 
 /*
  *    def write_sky(self):
- *       '''generate a sky object and write a sky data file using cereal. generating a sky object from scratch can take a while - tens of seconds?'''
+ *       '''generate a sky object and write a sky data file using cereal. generating a sky object from scratch can take a noticeable amount of time - a few seconds?'''
  * */
 void Api::write_sky(std::string pathsky, std::string pathcat) {
     sky.start(std::string(pathcat));
@@ -42,6 +42,10 @@ void Api::read_starpairs(std::string pathstarpairs) {
     iarchive1(starpairs);
 }
 
+/*
+ *    def write_starpairs(self):
+ *       '''generate star pairs for a given set of stars and write a starpair data file using cereal. this scales up quickly with star density on the sky - so with the brightness threshold we're using. including fainter stars increases the density exponentially, along with the computational cost of generating star pairs. for each star, we only care about its neighbors that can appear in the images we're using. bigger images mean more neighbors to generate star pairs for. our current baseline is visual magnitude 6.5 - the roughly eight thousand stars visible to the human eye - and an image size of eight by eight degrees, typical for a certain generation of star trackers.'''
+ * */
 void Api::write_starpairs(std::string pathstarpairs) {
     starpairs.start(sky);
     std::ofstream os2(pathstarpairs);
@@ -49,17 +53,20 @@ void Api::write_starpairs(std::string pathstarpairs) {
     oarchive2(starpairs);
 }
 
+/*
+ *    def image_generator(self, starndx):
+ *       '''for the star indicated by starndx, generate a standard lo-fi image, with the sky randomly rotated. this is an image for which we want to perform star identification. it's the input to the startriangle_from_image method, which performs identification and outputs the resulting id - if that matches the starndx, idenification was a success.'''
+ * */
 std::map<std::string, Eigen::MatrixXd> Api::image_generator(int starndx) {
     std::map<std::string, Eigen::MatrixXd> result = sky.image_generator(starndx);
     return result;
 }
 
-std::map<std::string, Eigen::MatrixXd> Api::angle_generator(int starndx) {
-    std::map<std::string, Eigen::MatrixXd> result = sky.angle_generator(starndx);
-    return result;
-}
-
-int Api::startriangles(Eigen::MatrixXd pixels) {
+/*
+ *    def startriangle_from_image(self, image_pixels):
+ *       '''performs identification and outputs an id - if that matches the starndx used by image_generator to create the image, identification was a success.'''
+ * */
+int Api::startriangles_from_image(Eigen::MatrixXd pixels) {
     starid::Startriangles st(starpairs);
     return st.identify(pixels);
 }

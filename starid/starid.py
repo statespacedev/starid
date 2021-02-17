@@ -15,7 +15,7 @@ class Starid():
         self.sky()
 
     def sky(self):
-        '''start a sky object. if the sky data file is missing, generate it first - this can take a while, tens of seconds?'''
+        '''start a sky object. if the sky data file is missing, generate it first - this can take a noticeable amount of time.'''
         if not os.path.exists(self.dirsky + self.namesky): self.api.write_sky(self.dirsky + self.namesky, self.dirsky + self.namecat)
         self.api.read_sky(self.dirsky + self.namesky)
 

@@ -27,7 +27,7 @@ python starid object making all of the lower-level stuff available - it's the in
 libstarid cpp
 ==================================================================================================================
 
-fast inner loops for working with star triangles. also useful for working with lots of three dimensional star pointing vectors, though this is probably reasonable in python as well. in any case, hardware acceleration of vectorized computations, matrix and vector math via eigen. when computations become heavier, move them from python into cpp.
+fast inner loops for working with star triangles. also useful for working with lots of three-dimensional star pointing vectors, though this is probably reasonable in python as well. in any case, hardware acceleration of vectorized computations, matrix and vector math via eigen. when computations become heavier, move them from python into cpp.
 
 api.cpp
 ------------------------------------------------------------------------------------------------------------------
