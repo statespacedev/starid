@@ -11,7 +11,7 @@ class Api {
 public:
     Api();
     starid::Sky sky;
-    starid::starpairs starpairs;
+    starid::Starpairs starpairs;
     void read_sky(std::string pathsky);
     void write_sky(std::string pathsky, std::string pathcat);
     void read_starpairs(std::string pathstarpairs);

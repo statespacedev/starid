@@ -14,7 +14,7 @@
 
 namespace starid {
 
-    class starpairs {
+    class Starpairs {
     public:
         void start(starid::Sky &sky);
         std::unordered_map<int, std::unordered_map<int, int>> pairsndxr(double angle, double tol_radius);
@@ -32,12 +32,12 @@ namespace starid {
 
     class Startriangles {
     public:
-        explicit Startriangles(starid::starpairs &pairs);
+        explicit Startriangles(starid::Starpairs &pairs);
         int identify(Eigen::MatrixXd &pixels, int teststar = -1);
     private:
         bool get_angs_c();
         bool get_angs_d();
-        starid::starpairs starpairs;
+        starid::Starpairs starpairs;
         Eigen::MatrixXd starvecs;
         double tolerance;
         double min_ang;
@@ -60,7 +60,7 @@ namespace starid {
         std::vector<bool> log_teststar;
         int teststar;
         bool has_teststar;
-        startriangleside(double ang, double tolerance, starid::starpairs &pairs, int teststar);
+        startriangleside(double ang, double tolerance, starid::Starpairs &pairs, int teststar);
         std::map<int, int> summary();
         bool check_teststar(int teststar);
         int pair_count();
@@ -72,14 +72,14 @@ namespace starid {
         void close_loops_abca();
         void close_loops_abda(std::vector<startriangle> &triangles);
         startriangle(double ang1, double ang2, double ang3, double tolerance,
-                     starid::starpairs &pairs, int teststar, Eigen::Vector3d vecstar3);
+                     starid::Starpairs &pairs, int teststar, Eigen::Vector3d vecstar3);
         starid::startriangleside side1;
         starid::startriangleside side2;
         starid::startriangleside side3;
         int loops_cnt;
         int teststar;
         double tolerance;
-        starid::starpairs &pairs;
+        starid::Starpairs &pairs;
         Eigen::Vector3d vecstar3;
     private:
     };

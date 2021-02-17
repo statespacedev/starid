@@ -4,7 +4,7 @@
  * class Startriangles:
  *    '''work with the stars as triangles.'''
  * */
-starid::Startriangles::Startriangles(starid::starpairs &starpairs) : starpairs(starpairs) {
+starid::Startriangles::Startriangles(starid::Starpairs &starpairs) : starpairs(starpairs) {
     double epsilon = 0.0;
     tolerance = (2.0 * std::sqrt(500.0 * 500.0 + 500.00 * 500.0) + epsilon) * starid::arcseconds_to_radians;
 }
@@ -85,7 +85,7 @@ bool starid::Startriangles::get_angs_c() {
     return angsok;
 }
 
-starid::startriangle::startriangle(double ang1, double ang2, double ang3, double tolerance, starid::starpairs &pairs,
+starid::startriangle::startriangle(double ang1, double ang2, double ang3, double tolerance, starid::Starpairs &pairs,
                            int teststar, Eigen::Vector3d vecin)
         : side1(ang1, tolerance, pairs, teststar), side2(ang2, tolerance, pairs, teststar), side3(ang3, tolerance, pairs, teststar),
           teststar(teststar), tolerance(tolerance), pairs(pairs), vecstar3(vecin) {
@@ -172,7 +172,7 @@ void starid::startriangle::close_loops_abca() {
     side3.trim_pairs();
 }
 
-starid::startriangleside::startriangleside(double ang, double tolerance, starid::starpairs &pairs, int starndx)
+starid::startriangleside::startriangleside(double ang, double tolerance, starid::Starpairs &pairs, int starndx)
         : teststar(starndx) {
     stars = pairs.pairsndxr(ang, tolerance);
 }
@@ -233,7 +233,7 @@ bool starid::startriangleside::check_teststar(int starndx) {
     return true;
 }
 
-void starid::starpairs::start(starid::Sky &sky) {
+void starid::Starpairs::start(starid::Sky &sky) {
     int pairndx = 0;
     for (auto star : sky.stars) {
         std::vector<int> starndxs = sky.stars_near_point(star.x, star.y, star.z);
@@ -259,7 +259,7 @@ void starid::starpairs::start(starid::Sky &sky) {
     angndxs.sort();
 }
 
-std::unordered_map<int, std::unordered_map<int, int>> starid::starpairs::pairsndxr(double angle, double tol_radius) {
+std::unordered_map<int, std::unordered_map<int, int>> starid::Starpairs::pairsndxr(double angle, double tol_radius) {
     std::unordered_map<int, std::unordered_map<int, int>> stars;
     double ang1 = angle - tol_radius;
     double ang2 = angle + tol_radius;
@@ -295,7 +295,7 @@ std::unordered_map<int, std::unordered_map<int, int>> starid::starpairs::pairsnd
     return stars;
 };
 
-std::string starid::starpairs::pairlabeler(int catndx1, int catndx2) {
+std::string starid::Starpairs::pairlabeler(int catndx1, int catndx2) {
     if (catndx1 > catndx2) {
         int tmp = catndx1;
         catndx1 = catndx2;
