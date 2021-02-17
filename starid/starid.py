@@ -20,7 +20,7 @@ class Starid():
         self.api.read_sky(self.dirsky + self.namesky)
 
     def plot(self, targetndx):
-        """plot a sky image for a target star."""
+        """plot a sky image for a target star. for the star indicated by targetndx, generate a standard lo-fi image, with the sky randomly rotated. this is an image for which we want to perform star identification."""
         imgdict = self.api.image_generator(targetndx)
         info = imgdict['info'] # use info to generate a 28 by 28 image pixel matrix
         image = np.zeros((28,28))
