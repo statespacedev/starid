@@ -60,7 +60,7 @@ starid::Sky::Sky() {
 
 /*
  *    def start(self, pathin):
- *       '''initializes the sky model. first generates a skymap model, and then picks out the information that is needed here - as well as enriching that info, in particular with three-dimensional vectors in the celestial reference frame.'''
+ *       '''initializes the sky model. first generates a skymap object and then picks out the information needed here, with some enrichment - in particular with three-dimensional vectors in the celestial reference frame.'''
  * */
 void starid::Sky::start(std::string pathin) {
     pathcat = pathin;
@@ -93,7 +93,7 @@ void starid::Sky::start(std::string pathin) {
 
 /*
  *    def image_generator(self, starndx):
- *       ''' '''
+ *       '''creates a standard image for the target star, ready for feeding into a star identifier. the format is 28 x 28 pixels - lo-fi, the way we like it. makes thing tougher on us. and also by no coincidence matching the classic mnist character recognition data set. the story behind that is a long one, discussed elsewhere in the project.'''
  * */
 std::map<std::string, Eigen::MatrixXd> starid::Sky::image_generator(int starndx) {
     using namespace Eigen;
