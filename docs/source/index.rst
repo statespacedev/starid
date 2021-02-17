@@ -34,7 +34,7 @@ api.cpp
 
 provides the services used by higher-level python code. starid.py is a collection of calls to this api - a collection that happens to be able to make things happen and get things done. there's no reason other collections of call from python couldn't evolve as well.
 
-.. automodule:: libstariddocs.api
+.. automodule:: libstarid_.api
     :members:
 
 sky.cpp
@@ -42,7 +42,7 @@ sky.cpp
 
 interactive model of the sky, based on a set of stars from the nasa skymap star catalog. the stars are defined by a brightness cutoff - all stars brighter than the cutoff. with a cutoff of visual magnitude 6.5, this means slightly more than all stars visible to human eyes - 8876 in total.
 
-.. automodule:: libstariddocs.sky
+.. automodule:: libstarid_.sky
     :members:
 
 startriangles.cpp
@@ -50,5 +50,5 @@ startriangles.cpp
 
 view the sky as triangles of stars. for the target star, it's a member of a set of triangles - eliminate candidate ids based on the geometry of these triangles. this is an iterative process and the inner loop is comparing triangle geometries. the overall speed depends on this inner loop, so the focus is on making it as efficient as possible.
 
-.. automodule:: libstariddocs.startriangles
+.. automodule:: libstarid_.startriangles
     :members:
