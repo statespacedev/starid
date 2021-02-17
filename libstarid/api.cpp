@@ -55,7 +55,7 @@ void Api::write_starpairs(std::string pathstarpairs) {
 
 /*
  *    def image_generator(self, starndx):
- *       '''for the star indicated by starndx, generate a standard lo-fi image, with the sky randomly rotated. this is an image for which we want to perform star identification. it's the input to the startriangle_from_image method, which performs identification and outputs the resulting id - if that matches the starndx, idenification was a success.'''
+ *       '''for the star indicated by starndx, generate a standard lo-fi image, with the sky randomly rotated. this is an image for which we want to perform star identification. it's the input to the image_identifier method, which performs identification and outputs the resulting id - if that matches the starndx, idenification was a success.'''
  * */
 std::map<std::string, Eigen::MatrixXd> Api::image_generator(int starndx) {
     std::map<std::string, Eigen::MatrixXd> result = sky.image_generator(starndx);
@@ -63,10 +63,10 @@ std::map<std::string, Eigen::MatrixXd> Api::image_generator(int starndx) {
 }
 
 /*
- *    def startriangle_from_image(self, image_pixels):
+ *    def image_identifier(self, image_pixels):
  *       '''performs identification and outputs an id - if that matches the starndx used by image_generator to create the image, identification was a success.'''
  * */
-int Api::startriangles_from_image(Eigen::MatrixXd pixels) {
+int Api::image_identifier(Eigen::MatrixXd pixels) {
     starid::Startriangles st(starpairs);
     return st.identify(pixels);
 }
