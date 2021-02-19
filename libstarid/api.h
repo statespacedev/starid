@@ -6,6 +6,7 @@
 #include <pybind11/stl.h>
 #include "sky.h"
 #include "startriangles.h"
+#include "starpairs.h"
 
 class Api {
 public:

@@ -45,6 +45,12 @@ interactive model of the sky, based on a set of stars from the nasa skymap star 
 .. automodule:: libstarid_.sky
     :members:
 
+starpairs.cpp
+------------------------------------------------------------------------------------------------------------------
+
+.. automodule:: libstarid_.starpairs
+    :members:
+
 startriangles.cpp
 ------------------------------------------------------------------------------------------------------------------
 

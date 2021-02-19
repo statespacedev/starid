@@ -11,33 +11,18 @@
 #include <map>
 #include "sky.h"
 #include "util.h"
+#include "starpairs.h"
 
 namespace starid {
 
-    class Starpairs {
+class Startriangles {
     public:
-        void start(starid::Sky &sky);
-        std::unordered_map<int, std::unordered_map<int, int>> pairsndxr(double angle, double tol_radius);
-    private:
-        starid::range_of_floats_indexer angndxs;
-        std::vector<std::tuple<double, int, int>> starpairs;
-        std::unordered_map<std::string, int> starpairsndxs;
-        std::string pairlabeler(int catndx1, int catndx2);
-        friend class cereal::access;
-        template<class Archive>
-        void serialize(Archive &ar) {
-            ar(starpairs, starpairsndxs, angndxs);
-        }
-    };
-
-    class Startriangles {
-    public:
-        explicit Startriangles(starid::Starpairs &pairs);
+        explicit Startriangles(Starpairs &pairs);
         int identify(Eigen::MatrixXd &pixels, int teststar = -1);
     private:
         bool get_angs_c();
         bool get_angs_d();
-        starid::Starpairs starpairs;
+        Starpairs starpairs;
         Eigen::MatrixXd starvecs;
         double tolerance;
         double min_ang;
@@ -60,7 +45,7 @@ namespace starid {
         std::vector<bool> log_teststar;
         int teststar;
         bool has_teststar;
-        Startriangleside(double ang, double tolerance, starid::Starpairs &pairs, int teststar);
+        Startriangleside(double ang, double tolerance, Starpairs &pairs, int teststar);
         std::map<int, int> summary();
         bool check_teststar(int teststar);
         int pair_count();
@@ -72,14 +57,14 @@ namespace starid {
         void close_loops_abca();
         void close_loops_abda(std::vector<Startriangle> &triangles);
         Startriangle(double ang1, double ang2, double ang3, double tolerance,
-                     starid::Starpairs &pairs, int teststar, Eigen::Vector3d vecstar3);
+                     Starpairs &pairs, int teststar, Eigen::Vector3d vecstar3);
         starid::Startriangleside side1;
         starid::Startriangleside side2;
         starid::Startriangleside side3;
         int loops_cnt;
         int teststar;
         double tolerance;
-        starid::Starpairs &pairs;
+        Starpairs &pairs;
         Eigen::Vector3d vecstar3;
     private:
     };

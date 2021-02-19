@@ -22,9 +22,3 @@ class Startriangleside:
       ''' '''
    def check_teststar(self, strndx):
       ''' '''
-class Starpairs:
-   ''' '''
-   def pairsndxr(self, angle, tol_radius):
-      ''' '''
-   def pairlabeler(self, catndx1, catndx2):
-      ''' '''
