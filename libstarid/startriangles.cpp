@@ -9,27 +9,31 @@ starid::Startriangles::Startriangles(starid::Starpairs &starpairs) : starpairs(s
     tolerance = (2.0 * std::sqrt(500.0 * 500.0 + 500.00 * 500.0) + epsilon) * starid::arcseconds_to_radians;
 }
 
+/*
+ *    def identify(self, pixels, teststar):
+ *       ''' '''
+ * */
 int starid::Startriangles::identify(Eigen::MatrixXd &pixels, int teststar) {
     starvecs = starid::pixels_to_starvecs(pixels);
-    std::vector<startriangleside> abs;
+    std::vector<Startriangleside> abs;
     for (ndxb = 1; ndxb < starvecs.rows(); ++ndxb) {
         uveca = starvecs.row(0);
         uvecb = starvecs.row(ndxb);
-        startriangleside ab(std::acos(uveca.transpose() * uvecb), tolerance, starpairs, teststar);
+        Startriangleside ab(std::acos(uveca.transpose() * uvecb), tolerance, starpairs, teststar);
         int prev_stars = 0;
         int repeatcnt = 0;
         bool converged = false;
         for (ndxc = 1; ndxc < starvecs.rows(); ++ndxc) {
             if (converged || !get_angs_c()) continue;
-            startriangle abca(angs_c[0], angs_c[1], angs_c[2], tolerance, starpairs, teststar, starvecs.row(ndxc).transpose());
+            Startriangle abca(angs_c[0], angs_c[1], angs_c[2], tolerance, starpairs, teststar, starvecs.row(ndxc).transpose());
             abca.side1.stars = ab.stars;
             abca.close_loops_abca();
             ab.append_iterations(abca.side1);
-            std::vector<startriangle> triangles;
+            std::vector<Startriangle> triangles;
             triangles.push_back(abca);
             for (ndxd = 1; ndxd < starvecs.rows(); ++ndxd) {
                 if (converged || !get_angs_d()) continue;
-                startriangle abda(angs_d[0], angs_d[4], angs_d[3], tolerance, starpairs, teststar, starvecs.row(ndxd).transpose());
+                Startriangle abda(angs_d[0], angs_d[4], angs_d[3], tolerance, starpairs, teststar, starvecs.row(ndxd).transpose());
                 abda.side1.stars = ab.stars;
                 abda.close_loops_abda(triangles);
                 ab.append_iterations(abda.side1);
@@ -50,6 +54,10 @@ int starid::Startriangles::identify(Eigen::MatrixXd &pixels, int teststar) {
     return -1;
 }
 
+/*
+ *    def get_angs_d(self):
+ *       ''' '''
+ * */
 bool starid::Startriangles::get_angs_d() {
     if (ndxd == ndxb || ndxd == ndxc) return false;
     bool angsok = true;
@@ -67,6 +75,10 @@ bool starid::Startriangles::get_angs_d() {
     return angsok;
 }
 
+/*
+ *    def get_angs_c(self):
+ *       ''' '''
+ * */
 bool starid::Startriangles::get_angs_c() {
     if (ndxc == ndxb) return false;
     bool angsok = true;
@@ -85,18 +97,26 @@ bool starid::Startriangles::get_angs_c() {
     return angsok;
 }
 
-starid::startriangle::startriangle(double ang1, double ang2, double ang3, double tolerance, starid::Starpairs &pairs,
-                           int teststar, Eigen::Vector3d vecin)
+/*
+ * class Startriangle:
+ *    ''' '''
+ * */
+starid::Startriangle::Startriangle(double ang1, double ang2, double ang3, double tolerance, starid::Starpairs &pairs,
+                                   int teststar, Eigen::Vector3d vecin)
         : side1(ang1, tolerance, pairs, teststar), side2(ang2, tolerance, pairs, teststar), side3(ang3, tolerance, pairs, teststar),
           teststar(teststar), tolerance(tolerance), pairs(pairs), vecstar3(vecin) {
     vecstar3 << vecin(0), vecin(1), vecin(2);
 }
 
-void starid::startriangle::close_loops_abda(std::vector<startriangle> &triangles) {
+/*
+ *    def close_loops_abda(self, triangles):
+ *       ''' '''
+ * */
+void starid::Startriangle::close_loops_abda(std::vector<Startriangle> &triangles) {
     int maxtriangles = triangles.size();
     for (int trianglendx = 0; trianglendx < maxtriangles; ++trianglendx) {
         double cdang = std::acos(vecstar3.transpose() * triangles[trianglendx].vecstar3);
-        startriangleside cd(cdang, tolerance, pairs, teststar);
+        Startriangleside cd(cdang, tolerance, pairs, teststar);
         loops_cnt = 0;
         for (auto it11 = side1.stars.begin(), end = side1.stars.end(); it11 != end; ++it11) {
             auto &pairs1 = it11->second;
@@ -143,7 +163,11 @@ void starid::startriangle::close_loops_abda(std::vector<startriangle> &triangles
     }
 }
 
-void starid::startriangle::close_loops_abca() {
+/*
+ *    def close_loops_abca(self):
+ *       ''' '''
+ * */
+void starid::Startriangle::close_loops_abca() {
     loops_cnt = 0;
     for (auto it11 = side1.stars.begin(), end = side1.stars.end(); it11 != end; ++it11) {
         auto &pairs1 = it11->second;
@@ -172,12 +196,20 @@ void starid::startriangle::close_loops_abca() {
     side3.trim_pairs();
 }
 
-starid::startriangleside::startriangleside(double ang, double tolerance, starid::Starpairs &pairs, int starndx)
+/*
+ * class Startriangleside:
+ *    ''' '''
+ * */
+starid::Startriangleside::Startriangleside(double ang, double tolerance, starid::Starpairs &pairs, int starndx)
         : teststar(starndx) {
     stars = pairs.pairsndxr(ang, tolerance);
 }
 
-void starid::startriangleside::append_iterations(startriangleside &side) {
+/*
+ *    def append_iterations(self, side):
+ *       ''' '''
+ * */
+void starid::Startriangleside::append_iterations(Startriangleside &side) {
     stars = side.stars;
     for (auto tmp : side.log_pair_count) log_pair_count.push_back(tmp);
     for (auto tmp : side.log_star_count) log_star_count.push_back(tmp);
@@ -185,7 +217,11 @@ void starid::startriangleside::append_iterations(startriangleside &side) {
     has_teststar = side.has_teststar;
 }
 
-void ::starid::startriangleside::trim_pairs() {
+/*
+ *    def trim_pairs(self):
+ *       ''' '''
+ * */
+void ::starid::Startriangleside::trim_pairs() {
     for (auto star1 = stars.begin(), end = stars.end(); star1 != end; ++star1) {
         auto &pairs = star1->second;
         for (auto star2 = pairs.begin(); star2 != pairs.end();) {
@@ -210,7 +246,11 @@ void ::starid::startriangleside::trim_pairs() {
     log_teststar.push_back(has_teststar);
 }
 
-int starid::startriangleside::pair_count() {
+/*
+ *    def pair_count(self):
+ *       ''' '''
+ * */
+int starid::Startriangleside::pair_count() {
     int result = 0;
     for (auto it1 = stars.begin(), end = stars.end(); it1 != end; ++it1) {
         result += it1->second.size();
@@ -218,7 +258,7 @@ int starid::startriangleside::pair_count() {
     return result;
 }
 
-std::map<int, int> starid::startriangleside::summary() {
+std::map<int, int> starid::Startriangleside::summary() {
     std::map<int, int> result;
     for (auto it = stars.begin(), end = stars.end(); it != end; ++it) {
         auto &inner = it->second;
@@ -227,12 +267,20 @@ std::map<int, int> starid::startriangleside::summary() {
     return result;
 }
 
-bool starid::startriangleside::check_teststar(int starndx) {
+/*
+ *    def check_teststar(self, strndx):
+ *       ''' '''
+ * */
+bool starid::Startriangleside::check_teststar(int starndx) {
     auto it = stars.find(starndx);
     if (it == stars.end()) return false;
     return true;
 }
 
+/*
+ * class Starpairs:
+ *    ''' '''
+ * */
 void starid::Starpairs::start(starid::Sky &sky) {
     int pairndx = 0;
     for (auto star : sky.stars) {
@@ -259,6 +307,10 @@ void starid::Starpairs::start(starid::Sky &sky) {
     angndxs.sort();
 }
 
+/*
+ *    def pairsndxr(self, angle, tol_radius):
+ *       ''' '''
+ * */
 std::unordered_map<int, std::unordered_map<int, int>> starid::Starpairs::pairsndxr(double angle, double tol_radius) {
     std::unordered_map<int, std::unordered_map<int, int>> stars;
     double ang1 = angle - tol_radius;
@@ -295,6 +347,10 @@ std::unordered_map<int, std::unordered_map<int, int>> starid::Starpairs::pairsnd
     return stars;
 };
 
+/*
+ *    def pairlabeler(self, catndx1, catndx2):
+ *       ''' '''
+ * */
 std::string starid::Starpairs::pairlabeler(int catndx1, int catndx2) {
     if (catndx1 > catndx2) {
         int tmp = catndx1;
@@ -304,3 +360,4 @@ std::string starid::Starpairs::pairlabeler(int catndx1, int catndx2) {
     std::string label = std::to_string(catndx1) + std::to_string(catndx2);
     return label;
 }
+

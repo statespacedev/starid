@@ -50,32 +50,32 @@ namespace starid {
         int ndxb, ndxc, ndxd;
     };
 
-    class startriangleside {
+    class Startriangleside {
     public:
         std::unordered_map<int, std::unordered_map<int, int>> stars;
         void trim_pairs();
-        void append_iterations(startriangleside &side);
+        void append_iterations(Startriangleside &side);
         std::vector<int> log_star_count;
         std::vector<int> log_pair_count;
         std::vector<bool> log_teststar;
         int teststar;
         bool has_teststar;
-        startriangleside(double ang, double tolerance, starid::Starpairs &pairs, int teststar);
+        Startriangleside(double ang, double tolerance, starid::Starpairs &pairs, int teststar);
         std::map<int, int> summary();
         bool check_teststar(int teststar);
         int pair_count();
     private:
     };
 
-    class startriangle {
+    class Startriangle {
     public:
         void close_loops_abca();
-        void close_loops_abda(std::vector<startriangle> &triangles);
-        startriangle(double ang1, double ang2, double ang3, double tolerance,
+        void close_loops_abda(std::vector<Startriangle> &triangles);
+        Startriangle(double ang1, double ang2, double ang3, double tolerance,
                      starid::Starpairs &pairs, int teststar, Eigen::Vector3d vecstar3);
-        starid::startriangleside side1;
-        starid::startriangleside side2;
-        starid::startriangleside side3;
+        starid::Startriangleside side1;
+        starid::Startriangleside side2;
+        starid::Startriangleside side3;
         int loops_cnt;
         int teststar;
         double tolerance;
