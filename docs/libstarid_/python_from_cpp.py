@@ -1,7 +1,7 @@
 import os
 dirin = './libstarid/'
 dirout = './docs/libstarid_/'
-files = ['api', 'sky', 'startriangles', 'starpairs']
+files = ['api', 'skymap', 'sky', 'startriangles', 'starpairs']
 
 for file in files:
     pathin = dirin + file + '.cpp'

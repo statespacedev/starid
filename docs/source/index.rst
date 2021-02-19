@@ -37,6 +37,12 @@ provides the services used by higher-level python code. starid.py is a collectio
 .. automodule:: libstarid_.api
     :members:
 
+skymap.cpp
+------------------------------------------------------------------------------------------------------------------
+
+.. automodule:: libstarid_.skymap
+    :members:
+
 sky.cpp
 ------------------------------------------------------------------------------------------------------------------
 
