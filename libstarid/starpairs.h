@@ -13,9 +13,10 @@
 namespace starid {
 
 class Starpairs {
-public:
-    void start(starid::Sky &sky);
 
+public:
+    Starpairs();
+    void generate(starid::Sky &sky);
     std::unordered_map<int, std::unordered_map<int, int>> pairsndxr(double angle, double tol_radius);
 
 private:

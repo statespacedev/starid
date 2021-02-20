@@ -523,7 +523,7 @@ private:
                     GetRange(current).next = r;
                 }
                 if (negate)
-                    GetRange(start).start |= kRangeNegationFlag;
+                    GetRange(start).generate |= kRangeNegationFlag;
                 *range = start;
                 return true;
 
@@ -659,7 +659,7 @@ private:
     }
 
     bool MatchRange(SizeType rangeIndex, unsigned codepoint) const {
-        bool yes = (GetRange(rangeIndex).start & kRangeNegationFlag) == 0;
+        bool yes = (GetRange(rangeIndex).generate & kRangeNegationFlag) == 0;
         while (rangeIndex != kRegexInvalidRange) {
             const Range& r = GetRange(rangeIndex);
             if (codepoint >= (r.start & ~kRangeNegationFlag) && codepoint <= r.end)

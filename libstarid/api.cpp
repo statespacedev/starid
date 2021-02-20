@@ -7,9 +7,7 @@
  * class Api:
  *    '''handles calls from python code, for example starid.py. where reading and writing of data files is done, the headers-only cereal library is used. this is the cpp version of the python pickle library. binary objects are moved directly to and from disk. binary data is more efficient - it's smaller and faster.'''
  * */
-Api::Api() {
-    return;
-}
+Api::Api() {}
 
 /*
  *    def read_sky(self):
@@ -47,7 +45,7 @@ void Api::read_starpairs(std::string pathstarpairs) {
  *       '''generate star pairs for a given set of stars and write a starpair data file using cereal. this scales up quickly with star density on the sky - so with the brightness threshold we're using. including fainter stars increases the density exponentially, along with the computational cost of generating star pairs. for each star, we only care about its neighbors that can appear in the images we're using. bigger images mean more neighbors to generate star pairs for. our current baseline is visual magnitude 6.5 - the roughly eight thousand stars visible to the human eye - and an image size of eight by eight degrees, typical for a certain generation of star trackers.'''
  * */
 void Api::write_starpairs(std::string pathstarpairs) {
-    starpairs.start(sky);
+    starpairs.generate(sky);
     std::ofstream os2(pathstarpairs);
     cereal::BinaryOutputArchive oarchive2(os2);
     oarchive2(starpairs);
@@ -67,7 +65,7 @@ std::map<std::string, Eigen::MatrixXd> Api::image_generator(int starndx) {
  *       '''performs identification and outputs an id - if that matches the starndx used by image_generator to create the image, identification was a success.'''
  * */
 int Api::image_identifier(Eigen::MatrixXd pixels) {
-    starid::Startriangles st(starpairs);
+    starid::StartriangleStarid st(starpairs);
     return st.identify(pixels);
 }
 

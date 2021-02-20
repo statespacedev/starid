@@ -57,10 +57,25 @@ starpairs.cpp
 .. automodule:: libstarid_.starpairs
     :members:
 
-startriangles.cpp
+startriangleside.cpp
+------------------------------------------------------------------------------------------------------------------
+
+.. automodule:: libstarid_.startriangleside
+    :members:
+
+startriangle.cpp
+------------------------------------------------------------------------------------------------------------------
+
+.. automodule:: libstarid_.startriangle
+    :members:
+
+startrianglestarid.cpp
 ------------------------------------------------------------------------------------------------------------------
 
 view the sky as triangles of stars. for the target star, it's a member of a set of triangles - eliminate candidate ids based on the geometry of these triangles. this is an iterative process and the inner loop is comparing triangle geometries. the overall speed depends on this inner loop, so the focus is on making it as efficient as possible.
 
 .. automodule:: libstarid_.startriangles
     :members:
+
+
+

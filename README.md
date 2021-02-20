@@ -18,7 +18,7 @@ pypi pip-install is mostly a placeholder for now, gitlab-repo clone-install is t
 
 [sky](https://gitlab.com/noahhsmith/starid/blob/master/libstarid/sky.h) generates three-dimensional sky models and two-dimensional images from the nasa Skymap star catalog. finds stars near arbitrary points on the sky.
 
-[star triangles](https://gitlab.com/noahhsmith/starid/blob/master/libstarid/Startriangles.h) sets aside stars that disagree geometrically until one remains.
+[star triangles](https://gitlab.com/noahhsmith/starid/blob/master/libstarid/StartriangleStarid.h) sets aside stars that disagree geometrically until one remains.
 
 [data](https://gitlab.com/noahhsmith/starid/blob/master/data/) the full NASA SKYMAP2000 V5R4 star catalog.
 
