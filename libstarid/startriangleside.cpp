@@ -6,7 +6,7 @@
  * */
 starid::Startriangleside::Startriangleside(double ang, double tolerance, starid::Starpairs &pairs, int starndx)
         : teststar(starndx) {
-    stars = pairs.pairsndxr(ang, tolerance);
+    stars = pairs.pairs_indexer(ang, tolerance);
 }
 
 /*

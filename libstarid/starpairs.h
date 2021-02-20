@@ -18,14 +18,14 @@ class Starpairs {
 public:
     Starpairs();
     void generate(starid::Sky &sky);
-    std::unordered_map<int, std::unordered_map<int, int>> pairsndxr(double angle, double tol_radius);
+    std::unordered_map<int, std::unordered_map<int, int>> pairs_indexer(double angle, double tol_radius);
 
 private:
     starid::range_of_floats_indexer angndxs;
     std::vector <std::tuple<double, int, int>> starpairs;
     std::unordered_map<std::string, int> starpairsndxs;
 
-    std::string pairlabeler(int catndx1, int catndx2);
+    std::string pair_labeler(int catndx1, int catndx2);
 
     friend class cereal::access;
 
