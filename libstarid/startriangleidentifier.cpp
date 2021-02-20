@@ -44,7 +44,7 @@ int starid::StartriangleIdentifier::identify(Eigen::MatrixXd &pixels, int testst
 
 /*
  *    def get_angs_d(self):
- *       ''' '''
+ *       '''examine a candidate for star d before using it to form triangle abda. we want the angles from stars a, b, and c to be appreciable. the angles remain in angs_d for later use'''
  * */
 bool starid::StartriangleIdentifier::get_angs_d() {
     if (ndxd == ndxb || ndxd == ndxc) return false;
@@ -65,9 +65,10 @@ bool starid::StartriangleIdentifier::get_angs_d() {
 
 /*
  *    def get_angs_c(self):
- *       ''' '''
+ *       '''examine a candidate for star c before using it to form triangle abca. we want the angles between stars a, b, and c to be appreciable. the angles remain in angs_c for later use.'''
  * */
 bool starid::StartriangleIdentifier::get_angs_c() {
+    min_ang = 3000.0 * starid::arcseconds_to_radians;
     if (ndxc == ndxb) return false;
     bool angsok = true;
     angs_c.clear();
@@ -75,7 +76,6 @@ bool starid::StartriangleIdentifier::get_angs_c() {
     angs_c.push_back(std::acos(uveca.transpose() * uvecb));
     angs_c.push_back(std::acos(uvecb.transpose() * uvecc));
     angs_c.push_back(std::acos(uvecc.transpose() * uveca));
-    min_ang = 3000.0 * starid::arcseconds_to_radians;
     if (angs_c[0] < min_ang) angsok = false; // ab
     if (angs_c[1] < min_ang) angsok = false; // bc
     if (angs_c[2] < min_ang) angsok = false; // ca
