@@ -1,5 +1,9 @@
 #ifndef STARID_STARTRIANGLESIDE_H
 #define STARID_STARTRIANGLESIDE_H
+#include <unordered_map>
+#include <map>
+#include <vector>
+#include "starpairs.h"
 
 namespace starid {
 

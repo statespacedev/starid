@@ -9,6 +9,7 @@
 #include <cereal/types/unordered_map.hpp>
 #include <unordered_map>
 #include <map>
+#include "sky.h"
 
 namespace starid {
 
