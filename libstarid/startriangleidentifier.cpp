@@ -24,21 +24,21 @@ int starid::StartriangleIdentifier::identify(Eigen::MatrixXd &pixels, int testst
         for (ndxc = 1; ndxc < starvecs.rows(); ++ndxc) {
             if (converged || !get_angs_c()) continue; std::vector<Startriangle> triangles;
             Startriangle abca(angs_c[0], angs_c[1], angs_c[2], tolerance, starpairs, teststar, starvecs.row(ndxc).transpose());
-            abca.side1.stars = abside.stars; abca.close_loops_abca();
-            abside.append_iterations(abca.side1); triangles.push_back(abca);
+            abca.side1.stars = abside.stars; abca.close_loops_abca(); abside.update(abca.side1);
+            triangles.push_back(abca);
 
             for (ndxd = 1; ndxd < starvecs.rows(); ++ndxd) {
                 if (converged || !get_angs_d()) continue;
                 Startriangle abda(angs_d[0], angs_d[4], angs_d[3], tolerance, starpairs, teststar, starvecs.row(ndxd).transpose());
-                abda.side1.stars = abside.stars; abda.close_loops_abda(triangles);
-                abside.append_iterations(abda.side1); triangles.push_back(abda);
+                abda.side1.stars = abside.stars; abda.close_loops_abda(triangles); abside.update(abda.side1);
+                triangles.push_back(abda);
 
                 if (prev_stars == abside.stars.size()) ++repeatcnt; else repeatcnt = 0;
                 if (repeatcnt > 3) converged = true;
                 prev_stars = abside.stars.size();
                 if (abside.stars.size() == 1) break; }
             if (abside.stars.size() == 1) break; }
-        if (abside.stars.size() == 1) { auto starsit = abside.stars.begin(); return starsit->first; } // only one abside star pair remains
+        if (abside.stars.size() == 1) { auto starsit = abside.stars.begin(); return starsit->first; } // only one candidate abside star pair remains
         absides.push_back(abside); }
     return -1; }
 

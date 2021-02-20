@@ -3,7 +3,7 @@
 
 /*
  * class Startriangle:
- *    ''' '''
+ *    '''act as the triangles abca and abda within the star triangle identifier inner loops. their are three triangle sides - representing three star pairs, each with an angular separation. each side is acted by a star triangle side object.'''
  * */
 starid::Startriangle::Startriangle(double ang1, double ang2, double ang3, double tolerance, starid::Starpairs &pairs,
                                    int teststar, Eigen::Vector3d vecin)
@@ -14,7 +14,7 @@ starid::Startriangle::Startriangle(double ang1, double ang2, double ang3, double
 
 /*
  *    def close_loops_abda(self, triangles):
- *       ''' '''
+ *       '''test candidate star pairs for the sides of an abda triangle.'''
  * */
 void starid::Startriangle::close_loops_abda(std::vector<Startriangle> &triangles) {
     int maxtriangles = triangles.size();
@@ -48,28 +48,18 @@ void starid::Startriangle::close_loops_abda(std::vector<Startriangle> &triangles
                             auto pairsaccit = pairsacc.find(pairscdcit->first);
                             if (pairsaccit != pairsacc.end()) {
                                 dok = true;
-                                break;
-                            }
-                        }
-                    }
+                                break; } } }
                     if (!dok) continue;
                     pairs1it->second = 1;
                     pairs2it->second = 1;
                     star3side3->second = 1;
-                    ++loops_cnt;
-                }
-            }
-        }
-        side1.trim_pairs();
-        side2.trim_pairs();
-        side3.trim_pairs();
-        if (side1.stars.size() == 1) break;
-    }
-}
+                    ++loops_cnt; } } }
+        side1.trim_pairs(); side2.trim_pairs(); side3.trim_pairs();
+        if (side1.stars.size() == 1) break; } }
 
 /*
  *    def close_loops_abca(self):
- *       ''' '''
+ *       '''test candidate star pairs for the sides of an abca triangle.'''
  * */
 void starid::Startriangle::close_loops_abca() {
     loops_cnt = 0;
@@ -91,11 +81,5 @@ void starid::Startriangle::close_loops_abca() {
                 pairs1it->second = 1;
                 pairs2it->second = 1;
                 star3side3->second = 1;
-                ++loops_cnt;
-            }
-        }
-    }
-    side1.trim_pairs();
-    side2.trim_pairs();
-    side3.trim_pairs();
-}
+                ++loops_cnt; } } }
+    side1.trim_pairs(); side2.trim_pairs(); side3.trim_pairs(); }

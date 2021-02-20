@@ -13,7 +13,7 @@ public:
 
     void trim_pairs();
 
-    void append_iterations(Startriangleside &side);
+    void update(Startriangleside &side);
 
     std::vector<int> log_star_count;
     std::vector<int> log_pair_count;
@@ -22,8 +22,6 @@ public:
     bool has_teststar;
 
     Startriangleside(double ang, double tolerance, starid::Starpairs &pairs, int teststar);
-
-    std::map<int, int> summary();
 
     bool check_teststar(int teststar);
 

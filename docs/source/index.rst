@@ -5,7 +5,7 @@
 introduction
 ==================================================================================================================
 
-this documentation is still in initial stages - while this notification is here, it's for sure not usable. 2021-02-15
+code is split into two folders, with the starid folder playing a special role as a python package for release on the pypi package repo.
 
 starid python
 ------------------------------------------------------------------------------------------------------------------
