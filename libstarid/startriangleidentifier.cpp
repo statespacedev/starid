@@ -3,7 +3,7 @@
 
 /*
  * class StartriangleIdentifier:
- *    '''identifies the target star of a star image, using the triangles formed by neighboring stars within the image. the fundemental particles are actually pairs of stars - in a sense individual stars don't exist here, what exists are pairs of stars, acting as sides of triangles. so a key object handed to the identifier in its constructor is a starpairs object, containing all of the relevant pairs.'''
+ *    '''identifies the target of a star image, using the triangles formed by neighboring stars within the image. the fundemental particles are actually pairs of stars - in a sense individual stars don't exist here, what exists are pairs of stars, acting as sides of triangles - so a key object handed to the identifier in its constructor is a starpairs object, containing all of the relevant pairs. when possible, the starpairs object was loaded from a cerealized starpairs file, rather than generated at run-time.'''
  * */
 starid::StartriangleIdentifier::StartriangleIdentifier(Starpairs &starpairs) : starpairs(starpairs) {
     double epsilon = 0.0;
@@ -12,48 +12,35 @@ starid::StartriangleIdentifier::StartriangleIdentifier(Starpairs &starpairs) : s
 
 /*
  *    def identify(self, pixels, teststar):
- *       ''' '''
+ *       '''recognizes the target of a star image, received as image pixels. the focus is on triangles that contain the target star - these are the absides, where star a is the target star, star b is a neighbor star, and an abside is a star pair and triangle side with the target as the first member of the pair. in the inner loops, two additional stars are involved - star c and star d. they form two star triangles - triangle abca, and triangle abda. when we reach an abside such that abca and abda eliminate all but one star pair possibility, we've recognized the target star.'''
  * */
 int starid::StartriangleIdentifier::identify(Eigen::MatrixXd &pixels, int teststar) {
-    starvecs = starid::pixels_to_starvecs(pixels);
-    std::vector<Startriangleside> abs;
+    starvecs = starid::pixels_to_starvecs(pixels); std::vector<Startriangleside> absides;
+
     for (ndxb = 1; ndxb < starvecs.rows(); ++ndxb) {
-        uveca = starvecs.row(0);
-        uvecb = starvecs.row(ndxb);
-        Startriangleside ab(std::acos(uveca.transpose() * uvecb), tolerance, starpairs, teststar);
-        int prev_stars = 0;
-        int repeatcnt = 0;
-        bool converged = false;
+        uveca = starvecs.row(0); uvecb = starvecs.row(ndxb); int prev_stars = 0; int repeatcnt = 0; bool converged = false;
+        Startriangleside abside(std::acos(uveca.transpose() * uvecb), tolerance, starpairs, teststar); // abside to investigate
+
         for (ndxc = 1; ndxc < starvecs.rows(); ++ndxc) {
-            if (converged || !get_angs_c()) continue;
+            if (converged || !get_angs_c()) continue; std::vector<Startriangle> triangles;
             Startriangle abca(angs_c[0], angs_c[1], angs_c[2], tolerance, starpairs, teststar, starvecs.row(ndxc).transpose());
-            abca.side1.stars = ab.stars;
-            abca.close_loops_abca();
-            ab.append_iterations(abca.side1);
-            std::vector<Startriangle> triangles;
-            triangles.push_back(abca);
+            abca.side1.stars = abside.stars; abca.close_loops_abca();
+            abside.append_iterations(abca.side1); triangles.push_back(abca);
+
             for (ndxd = 1; ndxd < starvecs.rows(); ++ndxd) {
                 if (converged || !get_angs_d()) continue;
                 Startriangle abda(angs_d[0], angs_d[4], angs_d[3], tolerance, starpairs, teststar, starvecs.row(ndxd).transpose());
-                abda.side1.stars = ab.stars;
-                abda.close_loops_abda(triangles);
-                ab.append_iterations(abda.side1);
-                triangles.push_back(abda);
-                if (prev_stars == ab.stars.size()) ++repeatcnt; else repeatcnt = 0;
+                abda.side1.stars = abside.stars; abda.close_loops_abda(triangles);
+                abside.append_iterations(abda.side1); triangles.push_back(abda);
+
+                if (prev_stars == abside.stars.size()) ++repeatcnt; else repeatcnt = 0;
                 if (repeatcnt > 3) converged = true;
-                prev_stars = ab.stars.size();
-                if (ab.stars.size() == 1) break;
-            }
-            if (ab.stars.size() == 1) break;
-        }
-        if (ab.stars.size() == 1) {
-            auto starsit = ab.stars.begin();
-            return starsit->first;
-        }
-        abs.push_back(ab);
-    }
-    return -1;
-}
+                prev_stars = abside.stars.size();
+                if (abside.stars.size() == 1) break; }
+            if (abside.stars.size() == 1) break; }
+        if (abside.stars.size() == 1) { auto starsit = abside.stars.begin(); return starsit->first; } // only one abside star pair remains
+        absides.push_back(abside); }
+    return -1; }
 
 /*
  *    def get_angs_d(self):

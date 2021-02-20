@@ -39,7 +39,7 @@ void starid::Starpairs::generate(starid::Sky &sky) {
 
 /*
  *    def pairs_indexer(self, angle, tol_radius):
- *       '''creates the representation of stars used in star triangles. there, a star is a collection of associations with its near neighbors - its essential feature is its membership in pairs and triangle sides. what we do here is look at each star in turn, and for each ask the question - what pairings do we care about for the star triangle representation of the sky we're going to use? the tuning parameters representing the answer to that question are the angle between pair members and a measure of tolerance or sensitivity.'''
+ *       '''creates the representation of stars used in star triangles. there, a star is a collection of associations with its near neighbors - its essential feature is its membership in pairs and triangle sides. what we do here is look at each star in turn, asking the question - what pairings do we care about for the star triangle representation of the sky we're going to use? the tuning parameters representing the answer to that question are the angle between pair members and a measure of tolerance or sensitivity.'''
  * */
 std::unordered_map<int, std::unordered_map<int, int>> starid::Starpairs::pairs_indexer(double angle, double tol_radius) {
     std::unordered_map<int, std::unordered_map<int, int>> stars;

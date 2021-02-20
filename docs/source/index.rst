@@ -17,7 +17,7 @@ libstarid cpp
 
 fast inner loops for working with star triangles. also useful for working with lots of three-dimensional star pointing vectors, though this is probably reasonable in python as well. in any case, hardware acceleration of vectorized computations, matrix and vector math via eigen. when computations become heavier, move them from python into cpp.
 
-high level
+higher-level
 ==================================================================================================================
 
 starid.py
@@ -64,10 +64,12 @@ starpairs.cpp
 identification
 ==================================================================================================================
 
-startriangleside.cpp
+startriangleidentifier.cpp
 ------------------------------------------------------------------------------------------------------------------
 
-.. automodule:: libstarid_.startriangleside
+view the sky as triangles of stars. for the target star, it's a member of a set of triangles - eliminate candidate ids based on the geometry of these triangles. this is an iterative process and the inner loop is comparing triangle geometries. the overall speed depends on this inner loop, so the focus is on making it as efficient as possible.
+
+.. automodule:: libstarid_.startriangleidentifier
     :members:
 
 startriangle.cpp
@@ -76,12 +78,10 @@ startriangle.cpp
 .. automodule:: libstarid_.startriangle
     :members:
 
-startriangleidentifier.cpp
+startriangleside.cpp
 ------------------------------------------------------------------------------------------------------------------
 
-view the sky as triangles of stars. for the target star, it's a member of a set of triangles - eliminate candidate ids based on the geometry of these triangles. this is an iterative process and the inner loop is comparing triangle geometries. the overall speed depends on this inner loop, so the focus is on making it as efficient as possible.
-
-.. automodule:: libstarid_.startriangleidentifier
+.. automodule:: libstarid_.startriangleside
     :members:
 
 
