@@ -40,6 +40,8 @@ provides the services used by higher-level python code. starid.py is a collectio
 skymap.cpp
 ------------------------------------------------------------------------------------------------------------------
 
+handles the file format of the skymap catalog - just the skeleton of this format points to some of the ways this catalog is useful.
+
 .. automodule:: libstarid_.skymap
     :members:
 
