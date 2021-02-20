@@ -78,7 +78,7 @@ std::unordered_map<int, std::unordered_map<int, int>> starid::Starpairs::pairs_i
 }
 
 /*
- *    def pairlabeler(self, catndx1, catndx2):
+ *    def pair_labeler(self, catndx1, catndx2):
  *       '''returns a unique string for the pair, consisting of the catalog ids for the member stars - a useful identifier for the pair.'''
  * */
 std::string starid::Starpairs::pair_labeler(int catndx1, int catndx2) {

@@ -1,5 +1,5 @@
 class Sky:
-   '''model the sky, based on the skymap object. the key input parameter is the star brightness threshold - with visual magnitude 6.5 the sky is about 8000 stars, and that number grows exponentially as dimmer stars are included.'''
+   '''model the sky, based on the skymap object. the key input parameter is the star brightness threshold - with visual magnitude 6.5 the sky is about nine thousand stars, and that number grows exponentially as dimmer stars are included.'''
    def start(self, pathin):
       '''initialize the sky. first generates a skymap object and then picks out the information needed here, with some enrichment - in particular with three-dimensional vectors in the celestial reference frame.'''
    def image_generator(self, starndx):
