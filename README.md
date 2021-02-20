@@ -16,7 +16,7 @@ pypi pip-install is mostly a placeholder for now, gitlab-repo clone-install is t
     pip3 install .
     python3 starid --demo
 
-[sky](https://gitlab.com/noahhsmith/starid/blob/master/libstarid/sky.h) generates three-dimensional sky models and two-dimensional images from the nasa Skymap star catalog. finds stars near arbitrary points on the sky.
+[sky](https://gitlab.com/noahhsmith/starid/blob/master/libstarid/sky.h) generates three-dimensional sky models and two-dimensional images from the nasa skymap star catalog. finds stars near arbitrary points on the sky.
 
 [star triangles](https://gitlab.com/noahhsmith/starid/blob/master/libstarid/StartriangleIdentifier.h) sets aside stars that disagree geometrically until one remains.
 
@@ -210,11 +210,11 @@ with contemplation and reading over a two week vacation, there's an overall pict
 
 next step is to get the information needed for creating two languages available in python. this will come from the cpp stars app via libstarid and pybind11.
 
-here's a quick memory refresh on the baseline sky. it's the 8876 stars brighter than visual magnitude 6.5. the Skymap catalog rows for these stars are in the Skymap text file. we've now added a Skymap ods spreadsheet with some basic parsing of the fixed width text file, so the hd, hr, and common name identifiers are easily accessible. for example starndx 3, used for many of the starid example images, is the fourth row. cg andromeda, hd 224801, hr 9080.
+here's a quick memory refresh on the baseline sky. it's the 8876 stars brighter than visual magnitude 6.5. the skymap catalog rows for these stars are in the skymap text file. we've now added a skymap ods spreadsheet with some basic parsing of the fixed width text file, so the hd, hr, and common name identifiers are easily accessible. for example starndx 3, used for many of the starid example images, is the fourth row. cg andromeda, hd 224801, hr 9080.
 
     SKY2000 J000043.63+451512.0	114	224801	53568	 BD+44	4538	9080	42458			CG    And 
 
-there'll be something like an image_info(target_starndx) function in libstarid, returning an image info matrix for the target starndx. by default the image will have random yaw rotation. there'll be at least three columns. image matrix row, image matrix column, starndx. these are the pixels activated in the image. here's three rows of an info for starndx 3, showing starndxs 69, 91, and 97, and a plot of all pixels. last three columns are Skymap number, ra degrees, dec degrees.
+there'll be something like an image_info(target_starndx) function in libstarid, returning an image info matrix for the target starndx. by default the image will have random yaw rotation. there'll be at least three columns. image matrix row, image matrix column, starndx. these are the pixels activated in the image. here's three rows of an info for starndx 3, showing starndxs 69, 91, and 97, and a plot of all pixels. last three columns are skymap number, ra degrees, dec degrees.
 
      [  4.00000000e+00   2.10000000e+01   6.90000000e+01   1.10134000e+05   2.99618791e+00   4.81523964e+01]
      [  2.00000000e+01   2.30000000e+01   9.10000000e+01   1.60054000e+05   4.08970500e+00   4.35950492e+01]
@@ -457,7 +457,7 @@ mnist viewer. a bit of python code in data/mnist_viewer to see what's in the mni
 
 170115
 
-new school images are now in mnist and tfrecords files, and learning is working. using the first ten Skymap stars and a few minutes of training
+new school images are now in mnist and tfrecords files, and learning is working. using the first ten skymap stars and a few minutes of training
 
     /usr/bin/python3.5 /home/noah/dev/starid/learning-based/predict.py
     0.778 correct
@@ -553,7 +553,7 @@ ideally the frontend will quickly have an end to end demo acting as a system lev
 
 161222
 
-ten star subset of Skymap catalog with brightness cutoff at mv 6.5 Skymap gives
+ten star subset of skymap catalog with brightness cutoff at mv 6.5 skymap gives
 
     stars 8876, dim stars 290585, error_stars 0.
 
@@ -561,7 +561,7 @@ ten of these 8876 are used for testing
 
     starndxs 800, 1600, 3200, ... 8000.
 
-there's now a subset of the Skymap catalog for faster initialization, containing just these ten. when using this subset - star 800 becomes star 0, star 1600 becomes star 1, ... star 8000 becomes star 9. also added a subset for the 8876 stars.
+there's now a subset of the skymap catalog for faster initialization, containing just these ten. when using this subset - star 800 becomes star 0, star 1600 becomes star 1, ... star 8000 becomes star 9. also added a subset for the 8876 stars.
 
 161218
 
@@ -955,11 +955,11 @@ unix and j2000 timestamps
 
 160324
 
-star pairs class and angle lookup. star pair angle lookup seems to be the clearest terminology for what is needed to search the star catalog. early objectives are a Skymap star catalog class and a star pair class with angle lookup
+star pairs class and angle lookup. star pair angle lookup seems to be the clearest terminology for what is needed to search the star catalog. early objectives are a skymap star catalog class and a star pair class with angle lookup
 
 160320
 
-catalog class and Skymap records. a Skymap record is 523 bytes long, including two control bytes at the end. this matlab code picks out certain useful values. more are available as shown in the Skymap specification.
+catalog class and skymap records. a skymap record is 523 bytes long, including two control bytes at the end. this matlab code picks out certain useful values. more are available as shown in the skymap specification.
 
 160318
 
@@ -967,5 +967,5 @@ a nice statement of the problem from mortari, 2004. The star polygon geometric s
 
 160316
 
-Skymap catalog binary text file. a curious thing about the Skymap catalog - it is a type of binary text file. each line contains a specified number of bytes per field, and each field has a type (int, string, etc). it's strongly-typed. it's exact memory layout is defined. it could be equated to serialized objects of a cpp class. probably the quicker approach for initial implementation is to view it just from a string handling perspective, but a later deserialization approach would be interesting.
+skymap catalog binary text file. a curious thing about the skymap catalog - it is a type of binary text file. each line contains a specified number of bytes per field, and each field has a type (int, string, etc). it's strongly-typed. it's exact memory layout is defined. it could be equated to serialized objects of a cpp class. probably the quicker approach for initial implementation is to view it just from a string handling perspective, but a later deserialization approach would be interesting.
 

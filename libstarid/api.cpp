@@ -65,7 +65,7 @@ std::map<std::string, Eigen::MatrixXd> Api::image_generator(int starndx) {
  *       '''performs identification and outputs an id - if that matches the starndx used by image_generator to create the image, identification was a success.'''
  * */
 int Api::image_identifier(Eigen::MatrixXd pixels) {
-    starid::StartriangleIdentifier st(starpairs);
-    return st.identify(pixels);
+    starid::StartriangleIdentifier stidentifier(starpairs);
+    return stidentifier.identify(pixels);
 }
 

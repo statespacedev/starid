@@ -1,4 +1,4 @@
-nasa Skymap sky2000 is the foundation here and it's got some interesting history. back in the day i interacted with some of the people involved and learned a bit. there were roughly two phases of Skymap's history - before hubble, and after. nasa still had power in those days, and when it turned out after launch that star catalogs were among hubble's problems, resources were allocated to improve Skymap. serious work was done in the 90s to make it the baseline catalog for spacecraft star trackers.
+nasa skymap sky2000 is the foundation here and it's got some interesting history. back in the day i interacted with some of the people involved and learned a bit. there were roughly two phases of skymap's history - before hubble, and after. nasa still had power in those days, and when it turned out after launch that star catalogs were among hubble's problems, resources were allocated to improve skymap. serious work was done in the 90s to make it the baseline catalog for spacecraft star trackers.
 
 here are some notes from back in the day, these are floating around on the net and turn up with a quick googling. details about the hubble events, and an interesting read, are in
 
@@ -18,7 +18,7 @@ The SKY2000 Version 5 Revision 4 Master Catalog differs from Revision 3 in that 
 
 ## note
 
-V/77 Skymap Star Catalog - Version 3.7 (Slater+ 1992), Skymap, Revision 3 - Update 1 (version 3.7), Slater M., and Hashmall J., NASA/Goddard Space Flight Center Document 554-FDD-89/001R3UD1 (1992)
+V/77 skymap Star Catalog - Version 3.7 (Slater+ 1992), skymap, Revision 3 - Update 1 (version 3.7), Slater M., and Hashmall J., NASA/Goddard Space Flight Center Document 554-FDD-89/001R3UD1 (1992)
 
 The SKYMAP system was developed to provide an accurate and complete catalog of all stars with blue or visual magnitudes brighter than 9.0 for use by attitude determination programs. The catalog contains approximately 248560 stars. Because for this use, completeness is more important than high accuracy, many quantities are little more than good guesses. The catalog contains data for the following four purposes:
 
