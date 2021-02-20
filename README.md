@@ -420,9 +420,7 @@ after a weekend of experimentation, the method for reducing the number of candid
 
 170206
 
-<a name="triangles">
 with stars brighter than 6.5 and pairs up to four degrees, triangle sides begin with tens of thousands of candidate pairs. with loose contraints because of position quantization, there are a lot of false positives in such a large number of candidates. multiple triangles are needed to improve the constraints. the following sketches some important components.
-</a>
 
 ![triangle](https://gitlab.com/noahhsmith/starid/raw/master/docs/images/triangleb.jpg)
 
