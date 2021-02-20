@@ -76,7 +76,7 @@ startrianglestarid.cpp
 
 view the sky as triangles of stars. for the target star, it's a member of a set of triangles - eliminate candidate ids based on the geometry of these triangles. this is an iterative process and the inner loop is comparing triangle geometries. the overall speed depends on this inner loop, so the focus is on making it as efficient as possible.
 
-.. automodule:: libstarid_.startriangles
+.. automodule:: libstarid_.startrianglestarid
     :members:
 
 
