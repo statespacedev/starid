@@ -5,9 +5,9 @@
 
 namespace starid {
 
-class StartriangleStarid {
+class StartriangleIdentifier {
     public:
-        explicit StartriangleStarid(Starpairs &pairs);
+        explicit StartriangleIdentifier(Starpairs &pairs);
         int identify(Eigen::MatrixXd &pixels, int teststar = -1);
     private:
         bool get_angs_c();

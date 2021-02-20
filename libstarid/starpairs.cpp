@@ -1,4 +1,4 @@
-#include "startrianglestarid.h"
+#include "startriangleidentifier.h"
 #include "starpairs.h"
 
 /*
