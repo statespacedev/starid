@@ -3,7 +3,8 @@ import argparse
 def demo():
     from starid import Starid
     starid = Starid()
-    starid.plot(targetndx=3)
+    starid.sky()
+    starid.plot(starndx=3)
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser('starid')

@@ -7,25 +7,23 @@ sys.path.append('build/cmake/libstarid')
 class Starid():
     """handle calls to libstarid.cpp."""
     def __init__(self):
-        self.dirsky = './data/'
-        self.namecat = 'cat'
-        self.namesky = 'sky'
+        self.dirdata = './data/'
+        self.filecat = 'cat'
+        self.filesky = 'sky'
+        self.filestarpairs = 'starpairs'
         import libstarid
         self.api = libstarid.Api()
-        self.sky()
+        if not os.path.exists(self.dirdata + self.filesky): self.api.write_sky(self.dirdata + self.filesky, self.dirdata + self.filecat)
+        self.api.read_sky(self.dirdata + self.filesky)
+        if not os.path.exists(self.dirdata + self.filestarpairs): self.api.write_starpairs(self.dirdata + self.filestarpairs)
+        self.api.read_starpairs(self.dirdata + self.filestarpairs)
 
-    def sky(self):
-        '''start a sky object. if the sky data file is missing, generate it first - this can take a noticeable amount of time.'''
-        if not os.path.exists(self.dirsky + self.namesky): self.api.write_sky(self.dirsky + self.namesky, self.dirsky + self.namecat)
-        self.api.read_sky(self.dirsky + self.namesky)
-
-    def plot(self, targetndx):
-        """plot a sky image for a target star. for the star indicated by targetndx, generate a standard lo-fi image, with the sky randomly rotated. this is an image for which we want to perform star identification."""
-        imgdict = self.api.image_generator(targetndx)
+    def plot(self, starndx):
+        """generate a standard lo-fi image for starndx, with the sky randomly rotated. this is an image for which we could perform star identification."""
+        imgdict = self.api.image_generator(starndx)
         info = imgdict['info'] # use info to generate a 28 by 28 image pixel matrix
-        image = np.zeros((28,28))
-        for rowndx in range(len(info)):
-            image[int(info[rowndx, 0]), int(info[rowndx, 1])] = 1.0
+        image = np.zeros((28, 28))
+        for rowndx in range(len(info)): image[int(info[rowndx, 0]), int(info[rowndx, 1])] = 1.0
         starlist = [] # info ready for writing nouns, verbs, and sentences
         for row in info:
             if row[0] == 0: continue
@@ -37,10 +35,16 @@ class Starid():
         starlist = sorted(starlist, key=lambda x: x[5])
         pprint.pprint(starlist)
         plt.matshow(-1 * image, cmap='Greys', interpolation='nearest')
-        plt.draw()
-        plt.pause(2)
-        plt.close()
+        plt.show()
+
+    def identify(self, starndx):
+        '''generate a star image for starndx and give it to the identifier. the resulting id from the identifier should be the same as starndx.'''
+        img = self.api.image_generator(starndx)
+        id = self.api.image_identifier(img['pixels'])
+        print('identify starndx %i, result %i' % (starndx, id))
 
 if __name__ == '__main__':
     starid = Starid()
-    starid.plot(targetndx=3)
+    starid.identify(starndx=3)
+    starid.plot(starndx=3)
+    pass
