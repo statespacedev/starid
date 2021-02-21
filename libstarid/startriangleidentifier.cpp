@@ -11,23 +11,31 @@ starid::StartriangleIdentifier::StartriangleIdentifier(Starpairs &starpairs) : s
 }
 
 /*
- *    def identify(self, pixels, teststar):
- *       '''recognizes the target of a star image, received as image pixels. the focus is on triangles that contain the target star - these are the absides, where star a is the target star, star b is a neighbor star, and an abside is a star pair and triangle side with the target as the first member of the pair. in the inner loops, two additional stars are involved - star c and star d. they form two star triangles - triangle abca, and triangle abda. when we reach an abside such that abca and abda eliminate all but one star pair possibility, we've recognized the target star.'''
+ *    def NOMAD(self, pixels, teststar):
+ *       '''star recognition with the NOMAD algorithm.'''
  * */
-int starid::StartriangleIdentifier::identify(Eigen::MatrixXd &pixels, int teststar) {
+int starid::StartriangleIdentifier::NOMAD(Eigen::MatrixXd &pixels) {
+    starvecs = starid::pixels_to_starvecs(pixels);
+    return -1; }
+
+/*
+ *    def SETTLER(self, pixels, teststar):
+ *       '''star recognition with the SETTLER algorith. the focus is on triangles that contain the target star - these are the absides, where star a is the target star, star b is a neighbor star, and an abside is a star pair and triangle side with the target as the first member of the pair. in the inner loops, additional stars c and d are involved. first an abca triangle is formed. this constrains the abside. then for an abca triangle, a sequence of abda triangles are formed, further constraining the abside. when we reach an abda that eliminates all but one star pair possibility for the abside, we've recognized the target star. until that happens, we continue picking new absides, with new abca triangles, with new abda triangles. the name SETTLER comes from the idea that we never move away the target star, we're farming and settling about it.'''
+ * */
+int starid::StartriangleIdentifier::SETTLER(Eigen::MatrixXd &pixels, int teststar) {
     starvecs = starid::pixels_to_starvecs(pixels); std::vector<Startriangleside> absides;
 
-    for (ndxb = 1; ndxb < starvecs.rows(); ++ndxb) {
+    for (ndxb = 1; ndxb < starvecs.rows(); ++ndxb) { // absides
         uveca = starvecs.row(0); uvecb = starvecs.row(ndxb); int prev_stars = 0; int repeatcnt = 0; bool converged = false;
         Startriangleside abside(std::acos(uveca.transpose() * uvecb), tolerance, starpairs, teststar); // abside to investigate
 
-        for (ndxc = 1; ndxc < starvecs.rows(); ++ndxc) {
+        for (ndxc = 1; ndxc < starvecs.rows(); ++ndxc) { // abca triangles
             if (converged || !get_angs_c()) continue; std::vector<Startriangle> triangles;
             Startriangle abca(angs_c[0], angs_c[1], angs_c[2], tolerance, starpairs, teststar, starvecs.row(ndxc).transpose());
             abca.side1.stars = abside.stars; abca.close_loops_abca(); abside.update(abca.side1);
             triangles.push_back(abca);
 
-            for (ndxd = 1; ndxd < starvecs.rows(); ++ndxd) {
+            for (ndxd = 1; ndxd < starvecs.rows(); ++ndxd) { // abda triangles
                 if (converged || !get_angs_d()) continue;
                 Startriangle abda(angs_d[0], angs_d[4], angs_d[3], tolerance, starpairs, teststar, starvecs.row(ndxd).transpose());
                 abda.side1.stars = abside.stars; abda.close_loops_abda(triangles); abside.update(abda.side1);
@@ -36,8 +44,8 @@ int starid::StartriangleIdentifier::identify(Eigen::MatrixXd &pixels, int testst
                 if (prev_stars == abside.stars.size()) ++repeatcnt; else repeatcnt = 0;
                 if (repeatcnt > 3) converged = true;
                 prev_stars = abside.stars.size();
-                if (abside.stars.size() == 1) break; }
-            if (abside.stars.size() == 1) break; }
+                if (abside.stars.size() == 1) break; } // abda stop
+            if (abside.stars.size() == 1) break; } // abca stop
         if (abside.stars.size() == 1) { auto starsit = abside.stars.begin(); return starsit->first; } // only one candidate abside star pair remains
         absides.push_back(abside); }
     return -1; }

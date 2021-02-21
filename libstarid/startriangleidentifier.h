@@ -8,7 +8,11 @@ namespace starid {
 class StartriangleIdentifier {
     public:
         explicit StartriangleIdentifier(Starpairs &pairs);
-        int identify(Eigen::MatrixXd &pixels, int teststar = -1);
+
+        int NOMAD(Eigen::MatrixXd &pixels);
+
+        int SETTLER(Eigen::MatrixXd &pixels, int teststar = -1);
+
     private:
         bool get_angs_c();
         bool get_angs_d();

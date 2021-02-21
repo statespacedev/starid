@@ -66,6 +66,6 @@ std::map<std::string, Eigen::MatrixXd> Api::image_generator(int starndx) {
  * */
 int Api::image_identifier(Eigen::MatrixXd pixels) {
     starid::StartriangleIdentifier stidentifier(starpairs);
-    return stidentifier.identify(pixels);
+    return stidentifier.SETTLER(pixels);
 }
 
