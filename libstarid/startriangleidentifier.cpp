@@ -11,16 +11,17 @@ starid::StartriangleIdentifier::StartriangleIdentifier(Starpairs &starpairs) : s
 }
 
 /*
- *    def NOMAD(self, pixels, teststar):
- *       '''star recognition focused on a sequence of triangles connected through their basestars and basesides. triangle0 has the targetstar as basestar0 of baseside0. the other star in baseside0 is basestar1 of baseside1 of triangle1. the other star in baseside1 is basestar2 of baseside2 of triangle2. etc. as triangles are added, constraints increase on the basestars. when all but one possibility for basestar0 has been eliminated, we've recognized the target star. the name NOMAD comes from the idea that we wander away from the target star until we've constrained the basesides and basestars.'''
+ *    def NOMAD(self, pixels):
+ *       '''star recognition focused on a sequence of triangles connected through their basestars and basepairs. triangle0 has the targetstar as basestar0 of basepair0 - the other star in basepair0 is basestar1 of basepair1 of triangle1. the other star in basepair1 is basestar2 of basepair2 of triangle2. etc. as triangles are added, constraints increase on the basestars. when all but one possibility for basestar0 has been eliminated, we've recognized the target star. the name NOMAD comes from the idea that we wander away from the target star until we've constrained the basepairs and basestars.'''
  * */
 int starid::StartriangleIdentifier::NOMAD(Eigen::MatrixXd &pixels) {
     starvecs = starid::pixels_to_starvecs(pixels);
+
     return -1; }
 
 /*
  *    def SETTLER(self, pixels, teststar):
- *       '''star recognition focused on triangles that contain the target star - star a is always the target star, star b is a neighbor star, and an abside is a star pair and triangle side with the target as the first member of the pair. in the inner loops, additional stars c and d are involved. first an abca triangle is formed. this constrains the abside. then for an abca triangle, a sequence of abda triangles are formed, further constraining the abside. when we reach an abda that eliminates all but one star pair possibility for the abside, we've recognized the target star. until that happens, we continue picking new absides, with new abca triangles, with new abda triangles. the name SETTLER comes from the idea that we never move away the target star, we're farming and settling about it.'''
+ *       '''star recognition focused on triangles that contain the target star - star a is always the target star, star b is a neighbor star, and an abside is a star pair and triangle side with the target as the first member of the pair. in the inner loops, additional stars c and d are involved. first an abca triangle is formed. this constrains the abside. then for an abca triangle, a sequence of abda triangles are formed, further constraining the abside. when we reach an abda that eliminates all but one star pair possibility for the abside, we've recognized the target star. until that happens, we continue picking new absides, with new abca triangles, with new abda triangles. the name SETTLER comes from the idea that we never move away the target star, we're settling around it.'''
  * */
 int starid::StartriangleIdentifier::SETTLER(Eigen::MatrixXd &pixels, int teststar) {
     starvecs = starid::pixels_to_starvecs(pixels); std::vector<Startriangleside> absides;
