@@ -12,11 +12,13 @@ starid::StartriangleIdentifier::StartriangleIdentifier(Starpairs &starpairs) : s
 
 /*
  *    def NOMAD(self, pixels):
- *       '''star recognition focused on a sequence of triangles connected through their basestars and basepairs. triangle0 has the targetstar as basestar0 of basepair0 - the other star in basepair0 is basestar1 of basepair1 of triangle1. the other star in basepair1 is basestar2 of basepair2 of triangle2. etc. as triangles are added, constraints increase on the basestars. when all but one possibility for basestar0 has been eliminated, we've recognized the target star. the name NOMAD comes from the idea that we wander away from the target star until we've constrained the basepairs and basestars.'''
+ *       '''star recognition focused on a sequence of triangles connected through their basestars and basesides. triangle0 has the targetstar as basestar0 of baseside0 - the other star in baseside0 is basestar1 of baseside1 of triangle1. the other star in baseside1 is basestar2 of baseside2 of triangle2. etc. as triangles are added, constraints increase on the basestars. when all but one possibility for basestar0 has been eliminated, we've recognized the target star. the name NOMAD comes from the idea that we wander away from the target star until we've constrained the basesides and basestars.'''
  * */
 int starid::StartriangleIdentifier::NOMAD(Eigen::MatrixXd &pixels) {
     starvecs = starid::pixels_to_starvecs(pixels);
-
+    starid::Startriangle test = starid::Startriangle(0, starvecs);
+    std::vector<starid::Startriangle> triangles;
+    triangles.emplace_back(test); // triangle0 with targetstar as basestar
     return -1; }
 
 /*
@@ -39,7 +41,7 @@ int starid::StartriangleIdentifier::SETTLER(Eigen::MatrixXd &pixels, int teststa
             for (ndxd = 1; ndxd < starvecs.rows(); ++ndxd) { // abda triangles
                 if (converged || !get_angs_d()) continue;
                 Startriangle abda(angs_d[0], angs_d[4], angs_d[3], tolerance, starpairs, teststar, starvecs.row(ndxd).transpose());
-                abda.side1.stars = abside.stars; abda.close_loops_abda(triangles); abside.update(abda.side1);
+                abda.side1.stars = abside.stars; abda.close_loops_abda(triangles, starpairs); abside.update(abda.side1);
                 triangles.push_back(abda);
 
                 if (prev_stars == abside.stars.size()) ++repeatcnt; else repeatcnt = 0;

@@ -23,6 +23,8 @@ public:
 
     Startriangleside(double ang, double tolerance, starid::Starpairs &pairs, int teststar);
 
+    Startriangleside();
+
     bool check_teststar(int teststar);
 
     int pair_count();

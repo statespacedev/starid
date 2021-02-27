@@ -59,3 +59,5 @@ bool starid::Startriangleside::check_teststar(int starndx) {
     if (it == stars.end()) return false;
     return true;
 }
+
+starid::Startriangleside::Startriangleside() {}

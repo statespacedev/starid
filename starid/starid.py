@@ -37,14 +37,21 @@ class Starid():
         plt.matshow(-1 * image, cmap='Greys', interpolation='nearest')
         plt.show()
 
-    def identify(self, starndx):
-        '''generate a star image for starndx and give it to the identifier. the resulting id from the identifier should be the same as starndx.'''
+    def SETTLER(self, starndx):
+        '''generate a star image for starndx and give it to SETTLER. the resulting id from the identifier should be the same as starndx.'''
         img = self.api.image_generator(starndx)
-        id = self.api.image_identifier(img['pixels'])
-        print('identify starndx %i, result %i' % (starndx, id))
+        id = self.api.SETTLER(img['pixels'])
+        print('SETTLER, starndx %i, result %i' % (starndx, id))
+
+    def NOMAD(self, starndx):
+        '''generate a star image for starndx and give it to NOMAD. the resulting id from the identifier should be the same as starndx.'''
+        img = self.api.image_generator(starndx)
+        id = self.api.NOMAD(img['pixels'])
+        print('NOMAD, starndx %i, result %i' % (starndx, id))
 
 if __name__ == '__main__':
     starid = Starid()
-    starid.identify(starndx=3)
+    starid.SETTLER(starndx=3)
+    starid.NOMAD(starndx=3)
     starid.plot(starndx=3)
     pass

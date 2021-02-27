@@ -18,7 +18,8 @@ public:
     void read_starpairs(std::string pathstarpairs);
     void write_starpairs(std::string pathstarpairs);
     std::map<std::string, Eigen::MatrixXd> image_generator(int starndx);
-    int image_identifier(Eigen::MatrixXd pixels);
+    int SETTLER(Eigen::MatrixXd pixels);
+    int NOMAD(Eigen::MatrixXd pixels);
 };
 
 PYBIND11_MODULE(libstarid, m) {
@@ -29,7 +30,8 @@ PYBIND11_MODULE(libstarid, m) {
             .def("read_sky", &Api::read_sky, pybind11::arg("pathsky"))
             .def("read_starpairs", &Api::read_starpairs, pybind11::arg("pathstarpairs"))
             .def("image_generator", &Api::image_generator, pybind11::arg("starndx"))
-            .def("image_identifier", &Api::image_identifier, pybind11::arg("pixels"));
+            .def("SETTLER", &Api::SETTLER, pybind11::arg("pixels"))
+            .def("NOMAD", &Api::NOMAD, pybind11::arg("pixels"));
 }
 
 #endif

@@ -61,11 +61,19 @@ std::map<std::string, Eigen::MatrixXd> Api::image_generator(int starndx) {
 }
 
 /*
- *    def image_identifier(self, image_pixels):
+ *    def SETTLER(self, image_pixels):
  *       '''performs identification and outputs an id - if that matches the starndx used by image_generator to create the image, identification was a success.'''
  * */
-int Api::image_identifier(Eigen::MatrixXd pixels) {
+int Api::SETTLER(Eigen::MatrixXd pixels) {
     starid::StartriangleIdentifier stidentifier(starpairs);
     return stidentifier.SETTLER(pixels);
 }
 
+/*
+ *    def NOMAD(self, image_pixels):
+ *       '''performs identification and outputs an id - if that matches the starndx used by image_generator to create the image, identification was a success.'''
+ * */
+int Api::NOMAD(Eigen::MatrixXd pixels) {
+    starid::StartriangleIdentifier stidentifier(starpairs);
+    return stidentifier.NOMAD(pixels);
+}
