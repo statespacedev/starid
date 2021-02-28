@@ -17,15 +17,10 @@ public:
 
     std::vector<int> log_star_count;
     std::vector<int> log_pair_count;
-    std::vector<bool> log_teststar;
-    int teststar;
-    bool has_teststar;
 
-    Startriangleside(double ang, double tolerance, starid::Starpairs &pairs, int teststar);
+    Startriangleside(double ang, double tolerance, starid::Starpairs &pairs);
 
     Startriangleside();
-
-    bool check_teststar(int teststar);
 
     int pair_count();
 

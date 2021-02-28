@@ -1,34 +1,30 @@
-#include "startriangleidentifier.h"
 #include "startriangle.h"
 
 /*
- * class Startriangle:
- *    '''constuctor for a SETTLER triangle. act as the triangles abca and abda within the star triangle identifier inner loops. their are three triangle sides - representing three star pairs, each with an angular separation. each side is acted by a star triangle side object.'''
+ * class StartriangleNOMAD:
+ *    '''NOMAD triangle.'''
  * */
-starid::Startriangle::Startriangle(double ang1, double ang2, double ang3, double tolerance, starid::Starpairs &pairs,
-                                   int teststar, Eigen::Vector3d vecin)
-        : side1(ang1, tolerance, pairs, teststar), side2(ang2, tolerance, pairs, teststar), side3(ang3, tolerance, pairs, teststar),
-          teststar(teststar), tolerance(tolerance), vecstar3(vecin) {
-    vecstar3 << vecin(0), vecin(1), vecin(2);
-}
+starid::StartriangleNOMAD::StartriangleNOMAD() {
+    a = 1; ++a; }
 
 /*
- * class Startriangle:
- *    '''constructor for a NOMAD triangle.'''
+ * class StartriangleSETTLER:
+ *    '''SETTLER triangle. acts as the triangles abca and abda within the star triangle identifier inner loops. their are three triangle sides - representing three star pairs, each with an angular separation. each side is acted by a star triangle side object.'''
  * */
-starid::Startriangle::Startriangle(int basestarndx, Eigen::MatrixXd &starvecs) {
-    int a = 1;
+starid::StartriangleSETTLER::StartriangleSETTLER(double ang1, double ang2, double ang3, double tolerance, starid::Starpairs &pairs, Eigen::Vector3d vecin)
+    : side1(ang1, tolerance, pairs), side2(ang2, tolerance, pairs), side3(ang3, tolerance, pairs), tolerance(tolerance), vecstar3(vecin) {
+    vecstar3 << vecin(0), vecin(1), vecin(2);
 }
 
 /*
  *    def close_loops_abda(self, triangles):
  *       '''test candidate star pairs for the sides of an abda triangle.'''
  * */
-void starid::Startriangle::close_loops_abda(std::vector<Startriangle> &triangles, starid::Starpairs &pairs) {
+void starid::StartriangleSETTLER::close_loops_abda(std::vector<StartriangleSETTLER> &triangles, starid::Starpairs &pairs) {
     int maxtriangles = triangles.size();
     for (int trianglendx = 0; trianglendx < maxtriangles; ++trianglendx) {
         double cdang = acos(vecstar3.transpose() * triangles[trianglendx].vecstar3);
-        starid::Startriangleside cd(cdang, tolerance, pairs, teststar);
+        starid::Startriangleside cd(cdang, tolerance, pairs);
         loops_cnt = 0;
         for (auto it11 = side1.stars.begin(), end = side1.stars.end(); it11 != end; ++it11) {
             auto &pairs1 = it11->second;
@@ -69,7 +65,7 @@ void starid::Startriangle::close_loops_abda(std::vector<Startriangle> &triangles
  *    def close_loops_abca(self):
  *       '''test candidate star pairs for the sides of an abca triangle.'''
  * */
-void starid::Startriangle::close_loops_abca() {
+void starid::StartriangleSETTLER::close_loops_abca() {
     loops_cnt = 0;
     for (auto it11 = side1.stars.begin(), end = side1.stars.end(); it11 != end; ++it11) {
         auto &pairs1 = it11->second;

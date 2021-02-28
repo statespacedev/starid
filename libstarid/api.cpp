@@ -65,8 +65,8 @@ std::map<std::string, Eigen::MatrixXd> Api::image_generator(int starndx) {
  *       '''performs identification and outputs an id - if that matches the starndx used by image_generator to create the image, identification was a success.'''
  * */
 int Api::SETTLER(Eigen::MatrixXd pixels) {
-    starid::StartriangleIdentifier stidentifier(starpairs);
-    return stidentifier.SETTLER(pixels);
+    starid::SETTLER settler(starpairs);
+    return settler.run(pixels);
 }
 
 /*
@@ -74,6 +74,7 @@ int Api::SETTLER(Eigen::MatrixXd pixels) {
  *       '''performs identification and outputs an id - if that matches the starndx used by image_generator to create the image, identification was a success.'''
  * */
 int Api::NOMAD(Eigen::MatrixXd pixels) {
-    starid::StartriangleIdentifier stidentifier(starpairs);
-    return stidentifier.NOMAD(pixels);
+    starid::NOMAD nomad;
+    nomad.run();
+    return 1;
 }

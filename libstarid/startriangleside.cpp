@@ -4,8 +4,7 @@
  * class Startriangleside:
  *    '''act as one of the three triangle sides within a parent star triangle object. here stars is a representation of candidate star pairs that could belong to the side. ultimately - when we've recognized the target star, all but one candidate star pair is eliminated.'''
  * */
-starid::Startriangleside::Startriangleside(double ang, double tolerance, starid::Starpairs &pairs, int starndx)
-        : teststar(starndx) {
+starid::Startriangleside::Startriangleside(double ang, double tolerance, starid::Starpairs &pairs) {
     stars = pairs.pairs_indexer(ang, tolerance); }
 
 /*
@@ -15,9 +14,7 @@ starid::Startriangleside::Startriangleside(double ang, double tolerance, starid:
 void starid::Startriangleside::update(Startriangleside &side) {
     stars = side.stars;
     for (auto tmp : side.log_pair_count) log_pair_count.push_back(tmp);
-    for (auto tmp : side.log_star_count) log_star_count.push_back(tmp);
-    for (auto tmp : side.log_teststar) log_teststar.push_back(tmp);
-    has_teststar = side.has_teststar; }
+    for (auto tmp : side.log_star_count) log_star_count.push_back(tmp); }
 
 /*
  *    def trim_pairs(self):
@@ -33,11 +30,8 @@ void ::starid::Startriangleside::trim_pairs() {
         auto &pairs = star1->second;
         if (pairs.empty()) star1 = stars.erase(star1);
         else ++star1; }
-    has_teststar = check_teststar(teststar);
     log_star_count.push_back(stars.size());
-    log_pair_count.push_back(pair_count());
-    log_teststar.push_back(has_teststar);
-}
+    log_pair_count.push_back(pair_count()); }
 
 /*
  *    def pair_count(self):
@@ -48,16 +42,6 @@ int starid::Startriangleside::pair_count() {
     for (auto it1 = stars.begin(), end = stars.end(); it1 != end; ++it1) {
         result += it1->second.size(); }
     return result;
-}
-
-/*
- *    def check_teststar(self, strndx):
- *       '''is the test star in the side.'''
- * */
-bool starid::Startriangleside::check_teststar(int starndx) {
-    auto it = stars.find(starndx);
-    if (it == stars.end()) return false;
-    return true;
 }
 
 starid::Startriangleside::Startriangleside() {}

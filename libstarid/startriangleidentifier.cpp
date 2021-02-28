@@ -1,46 +1,45 @@
 #include "startriangleidentifier.h"
-#include "startriangle.h"
 
 /*
- * class StartriangleIdentifier:
+ * class NOMAD:
+ *    '''star recognition focused on a sequence of triangles connected through their basestars and basesides. triangle0 has the targetstar as basestar0 of baseside0 - the other star in baseside0 is basestar1 of baseside1 of triangle1. the other star in baseside1 is basestar2 of baseside2 of triangle2. etc. as triangles are added, constraints increase on the basestars. when all but one possibility for basestar0 has been eliminated, we've recognized the target star. the name NOMAD comes from the idea that we wander away from the target star until we've constrained the basesides and basestars.'''
+ * */
+starid::NOMAD::NOMAD() {}
+
+void starid::NOMAD::run() {
+//    StartriangleNOMAD test1;
+    hello = 123;
+}
+
+/*
+ * class SETTLER:
  *    '''identifies the target of a star image, using the triangles formed by neighboring stars within the image. the fundemental particles are actually pairs of stars - in a sense individual stars don't exist here, what exists are pairs of stars, acting as sides of triangles - so a key object handed to the identifier in its constructor is a starpairs object, containing all of the relevant pairs. when possible, the starpairs object was loaded from a cerealized starpairs file, rather than generated at run-time.'''
  * */
-starid::StartriangleIdentifier::StartriangleIdentifier(Starpairs &starpairs) : starpairs(starpairs) {
+starid::SETTLER::SETTLER(Starpairs &starpairs) : starpairs(starpairs) {
     double epsilon = 0.0;
     tolerance = (2.0 * std::sqrt(500.0 * 500.0 + 500.00 * 500.0) + epsilon) * starid::arcseconds_to_radians;
 }
 
 /*
- *    def NOMAD(self, pixels):
- *       '''star recognition focused on a sequence of triangles connected through their basestars and basesides. triangle0 has the targetstar as basestar0 of baseside0 - the other star in baseside0 is basestar1 of baseside1 of triangle1. the other star in baseside1 is basestar2 of baseside2 of triangle2. etc. as triangles are added, constraints increase on the basestars. when all but one possibility for basestar0 has been eliminated, we've recognized the target star. the name NOMAD comes from the idea that we wander away from the target star until we've constrained the basesides and basestars.'''
- * */
-int starid::StartriangleIdentifier::NOMAD(Eigen::MatrixXd &pixels) {
-    starvecs = starid::pixels_to_starvecs(pixels);
-    starid::Startriangle test = starid::Startriangle(0, starvecs);
-    std::vector<starid::Startriangle> triangles;
-    triangles.emplace_back(test); // triangle0 with targetstar as basestar
-    return -1; }
-
-/*
- *    def SETTLER(self, pixels, teststar):
+ *    def run(self, pixels):
  *       '''star recognition focused on triangles that contain the target star - star a is always the target star, star b is a neighbor star, and an abside is a star pair and triangle side with the target as the first member of the pair. in the inner loops, additional stars c and d are involved. first an abca triangle is formed. this constrains the abside. then for an abca triangle, a sequence of abda triangles are formed, further constraining the abside. when we reach an abda that eliminates all but one star pair possibility for the abside, we've recognized the target star. until that happens, we continue picking new absides, with new abca triangles, with new abda triangles. the name SETTLER comes from the idea that we never move away the target star, we're settling around it.'''
  * */
-int starid::StartriangleIdentifier::SETTLER(Eigen::MatrixXd &pixels, int teststar) {
-    starvecs = starid::pixels_to_starvecs(pixels); std::vector<Startriangleside> absides;
+int starid::SETTLER::run(Eigen::MatrixXd &pixels) {
+    starvecs = pixels_to_starvecs(pixels); std::vector<Startriangleside> absides;
 
     for (ndxb = 1; ndxb < starvecs.rows(); ++ndxb) { // absides
         uveca = starvecs.row(0); uvecb = starvecs.row(ndxb); int prev_stars = 0; int repeatcnt = 0; bool converged = false;
-        Startriangleside abside(std::acos(uveca.transpose() * uvecb), tolerance, starpairs, teststar); // abside to investigate
+        Startriangleside abside(std::acos(uveca.transpose() * uvecb), tolerance, starpairs); // abside to investigate
 
         for (ndxc = 1; ndxc < starvecs.rows(); ++ndxc) { // abca triangles
-            if (converged || !get_angs_c()) continue; std::vector<Startriangle> triangles;
-            Startriangle abca(angs_c[0], angs_c[1], angs_c[2], tolerance, starpairs, teststar, starvecs.row(ndxc).transpose());
+            if (converged || !get_angs_c()) continue; std::vector<StartriangleSETTLER> triangles;
+            StartriangleSETTLER abca(angs_c[0], angs_c[1], angs_c[2], tolerance, starpairs, starvecs.row(ndxc).transpose());
             abca.side1.stars = abside.stars; abca.close_loops_abca(); abside.update(abca.side1);
             triangles.push_back(abca);
 
             for (ndxd = 1; ndxd < starvecs.rows(); ++ndxd) { // abda triangles
                 if (converged || !get_angs_d()) continue;
-                Startriangle abda(angs_d[0], angs_d[4], angs_d[3], tolerance, starpairs, teststar, starvecs.row(ndxd).transpose());
+                StartriangleSETTLER abda(angs_d[0], angs_d[4], angs_d[3], tolerance, starpairs, starvecs.row(ndxd).transpose());
                 abda.side1.stars = abside.stars; abda.close_loops_abda(triangles, starpairs); abside.update(abda.side1);
                 triangles.push_back(abda);
 
@@ -57,7 +56,7 @@ int starid::StartriangleIdentifier::SETTLER(Eigen::MatrixXd &pixels, int teststa
  *    def get_angs_d(self):
  *       '''examine a candidate for star d before using it to form triangle abda. we want the angles from stars a, b, and c to be appreciable. the angles remain in angs_d for later use'''
  * */
-bool starid::StartriangleIdentifier::get_angs_d() {
+bool starid::SETTLER::get_angs_d() {
     if (ndxd == ndxb || ndxd == ndxc) return false;
     bool angsok = true;
     angs_d = angs_c;
@@ -78,7 +77,7 @@ bool starid::StartriangleIdentifier::get_angs_d() {
  *    def get_angs_c(self):
  *       '''examine a candidate for star c before using it to form triangle abca. we want the angles between stars a, b, and c to be appreciable. the angles remain in angs_c for later use.'''
  * */
-bool starid::StartriangleIdentifier::get_angs_c() {
+bool starid::SETTLER::get_angs_c() {
     min_ang = 3000.0 * starid::arcseconds_to_radians;
     if (ndxc == ndxb) return false;
     bool angsok = true;

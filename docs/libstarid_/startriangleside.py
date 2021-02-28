@@ -6,5 +6,3 @@ class Startriangleside:
       '''eliminate candidate star pairs from the side.'''
    def pair_count(self):
       '''how many candidate star pairs remain in the side.'''
-   def check_teststar(self, strndx):
-      '''is the test star in the side.'''
