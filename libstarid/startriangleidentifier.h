@@ -9,7 +9,7 @@ namespace starid {
 class NOMAD {
     public:
         NOMAD();
-        int run();
+        int run(Eigen::MatrixXd &pixels);
 };
 
 class SETTLER {

@@ -19,7 +19,7 @@ public:
     void write_starpairs(std::string pathstarpairs);
     std::map<std::string, Eigen::MatrixXd> image_generator(int starndx);
     int SETTLER(Eigen::MatrixXd pixels);
-    int NOMAD();
+    int NOMAD(Eigen::MatrixXd pixels);
 };
 
 PYBIND11_MODULE(libstarid, m) {
@@ -31,7 +31,7 @@ PYBIND11_MODULE(libstarid, m) {
             .def("read_starpairs", &Api::read_starpairs, pybind11::arg("pathstarpairs"))
             .def("image_generator", &Api::image_generator, pybind11::arg("starndx"))
             .def("SETTLER", &Api::SETTLER, pybind11::arg("pixels"))
-            .def("NOMAD", &Api::NOMAD);
+            .def("NOMAD", &Api::NOMAD, pybind11::arg("pixels"));
 }
 
 #endif

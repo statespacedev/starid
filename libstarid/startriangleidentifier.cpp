@@ -6,17 +6,11 @@
  * */
 starid::NOMAD::NOMAD() {}
 
-int starid::NOMAD::run() {
-    int hello = 123;
-    int a = 2;
-    float b = 3;
-    ++a;
-    std::vector<StartriangleNOMAD> huh;
-    StartriangleNOMAD gughu;
-    huh.push_back(gughu);
-    std::vector<int> hellohello;
-    hellohello.push_back(a);
-    return hellohello[0];
+int starid::NOMAD::run(Eigen::MatrixXd &pixels) {
+    std::vector<StartriangleNOMAD> triangles;
+    StartriangleNOMAD triangle;
+    triangles.push_back(triangle);
+    return -1;
 }
 
 /*
