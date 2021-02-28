@@ -43,15 +43,15 @@ class Starid():
         id = self.api.SETTLER(img['pixels'])
         print('SETTLER, starndx %i, result %i' % (starndx, id))
 
-    def NOMAD(self, starndx):
+    def NOMAD(self):
         '''generate a star image for starndx and give it to NOMAD. the resulting id from the identifier should be the same as starndx.'''
-        img = self.api.image_generator(starndx)
-        id = self.api.NOMAD(img['pixels'])
-        print('NOMAD, starndx %i, result %i' % (starndx, id))
+        # img = self.api.image_generator(starndx)
+        id = self.api.NOMAD()
+        print('NOMAD, result %i' % (id))
 
 if __name__ == '__main__':
     starid = Starid()
     starid.SETTLER(starndx=3)
-    starid.NOMAD(starndx=3)
+    starid.NOMAD()
     starid.plot(starndx=3)
     pass

@@ -7,11 +7,9 @@
 namespace starid {
 
 class NOMAD {
-public:
-    NOMAD();
-    void run();
-    StartriangleNOMAD triangle;
-    int hello;
+    public:
+        NOMAD();
+        int run();
 };
 
 class SETTLER {
