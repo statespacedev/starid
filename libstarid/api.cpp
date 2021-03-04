@@ -74,6 +74,6 @@ int Api::SETTLER(Eigen::MatrixXd pixels) {
  *       '''performs identification and outputs an id - if that matches the starndx used by image_generator to create the image, identification was a success.'''
  * */
 int Api::NOMAD(Eigen::MatrixXd pixels) {
-    starid::NOMAD nomad;
+    starid::NOMAD nomad(starpairs);
     return nomad.run(pixels);
 }

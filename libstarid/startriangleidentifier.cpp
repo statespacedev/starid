@@ -4,12 +4,13 @@
  * class NOMAD:
  *    '''star recognition focused on a sequence of triangles connected through their basestars and basesides. triangle0 has the targetstar as basestar0 of baseside0 - the other star in baseside0 is basestar1 of baseside1 of triangle1. the other star in baseside1 is basestar2 of baseside2 of triangle2. etc. as triangles are added, constraints increase on the basestars. when all but one possibility for basestar0 has been eliminated, we've recognized the target star. the name NOMAD comes from the idea that we wander away from the target star until we've constrained the basesides and basestars.'''
  * */
-starid::NOMAD::NOMAD() {}
+starid::NOMAD::NOMAD(Starpairs &starpairs) : starpairs(starpairs) {
+}
 
 int starid::NOMAD::run(Eigen::MatrixXd &pixels) {
-    std::vector<StartriangleNOMAD> triangles;
-    StartriangleNOMAD triangle;
-    triangles.push_back(triangle);
+    starvecs = pixels_to_starvecs(pixels);
+    triangles.push_back(StartriangleNOMAD(0, starvecs));
+    triangles.push_back(StartriangleNOMAD(triangles.back().starb, starvecs));
     return -1;
 }
 

@@ -2,10 +2,12 @@
 
 /*
  * class StartriangleNOMAD:
- *    '''NOMAD triangle.'''
+ *    '''NOMAD triangle. focus is on the basestar and baseside - nomad is about a chain of basesides, each increasing the constraints on the preceding basestars. closing the loop around a triangle for each baseside speeds up that process.'''
  * */
-starid::StartriangleNOMAD::StartriangleNOMAD() {
-    a = 1; ++a; }
+starid::StartriangleNOMAD::StartriangleNOMAD(int basestar, Eigen::MatrixXd &starvecs)
+    : basestar(basestar), starb(0), starc(0) {
+    return;
+}
 
 /*
  * class StartriangleSETTLER:

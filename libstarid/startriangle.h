@@ -6,8 +6,8 @@ namespace starid {
 
 class StartriangleNOMAD {
 public:
-    StartriangleNOMAD();
-    int a;
+    StartriangleNOMAD(int basestar, Eigen::MatrixXd &starvecs);
+    int basestar, starb, starc;
 };
 
 class StartriangleSETTLER {
