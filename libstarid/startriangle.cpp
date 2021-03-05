@@ -10,6 +10,15 @@ starid::StartriangleNOMAD::StartriangleNOMAD(int basestar, Eigen::MatrixXd &star
 }
 
 /*
+ *    def isrecognized(self):
+ *       '''true if basestars and basesides have been constrained to the point where only one possible basestar remains.'''
+ * */
+bool starid::StartriangleNOMAD::isrecognized() {
+    return false;
+}
+
+
+/*
  * class StartriangleSETTLER:
  *    '''SETTLER triangle. acts as the triangles abca and abda within the star triangle identifier inner loops. their are three triangle sides - representing three star pairs, each with an angular separation. each side is acted by a star triangle side object.'''
  * */

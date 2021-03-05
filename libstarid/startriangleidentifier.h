@@ -14,6 +14,7 @@ private:
     Starpairs starpairs;
     Eigen::MatrixXd starvecs;
     std::vector<StartriangleNOMAD> triangles;
+    int maxtriangles;
 };
 
 class SETTLER {

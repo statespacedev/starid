@@ -7,6 +7,7 @@ namespace starid {
 class StartriangleNOMAD {
 public:
     StartriangleNOMAD(int basestar, Eigen::MatrixXd &starvecs);
+    bool isrecognized();
     int basestar, starb, starc;
 };
 
