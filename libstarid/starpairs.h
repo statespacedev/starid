@@ -18,7 +18,7 @@ class Starpairs {
 public:
     Starpairs();
     void generate(starid::Sky &sky);
-    std::unordered_map<int, std::unordered_map<int, int>> pairs_indexer(double angle, double tol_radius);
+    std::unordered_map<int, std::unordered_map<int, int>> pairs_for_angle(double angle, double tol_radius);
 
 private:
     starid::range_of_floats_indexer angndxs;

@@ -1,5 +1,11 @@
 #include "util.h"
 
+double starid::pairangle(Eigen::MatrixXd &starvecs, int ndxa, int ndxb) {
+    Eigen::Vector3d uvec1 = starvecs.row(ndxa);
+    Eigen::Vector3d uvec2 = starvecs.row(ndxb);
+    return std::acos(uvec1.transpose() * uvec2);
+}
+
 void starid::range_of_floats_indexer::add_pair(double newfloat, int newndx) {
     std::pair<double, int> pair{newfloat, newndx};
     float_ndx.push_back(pair);

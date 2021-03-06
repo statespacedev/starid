@@ -9,20 +9,15 @@ namespace starid {
 
 class Startriangleside {
 public:
-    std::unordered_map<int, std::unordered_map<int, int>> stars;
-
+    Startriangleside(double ang, starid::Starpairs &pairs);
+    Startriangleside();
     void trim_pairs();
-
     void update(Startriangleside &side);
-
+    int pair_count();
+    std::unordered_map<int, std::unordered_map<int, int>> stars;
     std::vector<int> log_star_count;
     std::vector<int> log_pair_count;
-
-    Startriangleside(double ang, double tolerance, starid::Starpairs &pairs);
-
-    Startriangleside();
-
-    int pair_count();
+    double angtol;
 
 private:
 };

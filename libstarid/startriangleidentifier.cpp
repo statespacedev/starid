@@ -1,19 +1,19 @@
 #include "startriangleidentifier.h"
+#include "util.h"
 
 /*
  * class NOMAD:
  *    '''star recognition focused on a sequence of triangles connected through their basestars and basesides. triangle0 has the targetstar as basestar0 of baseside0 - the other star in baseside0 is basestar1 of baseside1 of triangle1. the other star in baseside1 is basestar2 of baseside2 of triangle2. etc. as triangles are added, constraints increase on the basestars. when all but one possibility for basestar0 has been eliminated, we've recognized the target star. the name NOMAD comes from the idea that we wander away from the target star until we've constrained the basesides and basestars.'''
  * */
-starid::NOMAD::NOMAD(Starpairs &starpairs) : starpairs(starpairs), maxtriangles(20) {
-}
+starid::NOMAD::NOMAD(Starpairs &starpairs) : starpairs(starpairs), maxtriangles(20) {}
 
 int starid::NOMAD::run(Eigen::MatrixXd &pixels) {
     starvecs = pixels_to_starvecs(pixels);
-    triangles.push_back(StartriangleNOMAD(0, starvecs)); int cnt = 1;
+    triangles.emplace_back(StartriangleNOMAD(0, starvecs, starpairs)); int cnt = 1;
     while (cnt < maxtriangles && !triangles[0].isrecognized()) {
-        triangles.push_back(StartriangleNOMAD(triangles.back().starb, starvecs));
-        ++cnt;
-    }
+        triangles.emplace_back(StartriangleNOMAD(triangles.back().starb, starvecs, starpairs));
+        for (int ndx = (int)triangles.size() - 1; ndx > 0; --ndx) triangles[ndx-1].update(triangles[ndx].side1);
+        ++cnt; }
     return -1;
 }
 
@@ -21,10 +21,7 @@ int starid::NOMAD::run(Eigen::MatrixXd &pixels) {
  * class SETTLER:
  *    '''identifies the target of a star image, using the triangles formed by neighboring stars within the image. the fundemental particles are actually pairs of stars - in a sense individual stars don't exist here, what exists are pairs of stars, acting as sides of triangles - so a key object handed to the identifier in its constructor is a starpairs object, containing all of the relevant pairs. when possible, the starpairs object was loaded from a cerealized starpairs file, rather than generated at run-time.'''
  * */
-starid::SETTLER::SETTLER(Starpairs &starpairs) : starpairs(starpairs) {
-    double epsilon = 0.0;
-    tolerance = (2.0 * std::sqrt(500.0 * 500.0 + 500.00 * 500.0) + epsilon) * starid::arcseconds_to_radians;
-}
+starid::SETTLER::SETTLER(Starpairs &starpairs) : starpairs(starpairs) {}
 
 /*
  *    def run(self, pixels):
@@ -35,18 +32,20 @@ int starid::SETTLER::run(Eigen::MatrixXd &pixels) {
 
     for (ndxb = 1; ndxb < starvecs.rows(); ++ndxb) { // absides
         uveca = starvecs.row(0); uvecb = starvecs.row(ndxb); int prev_stars = 0; int repeatcnt = 0; bool converged = false;
-        Startriangleside abside(std::acos(uveca.transpose() * uvecb), tolerance, starpairs); // abside to investigate
+        Startriangleside abside(std::acos(uveca.transpose() * uvecb), starpairs); // abside to investigate
 
         for (ndxc = 1; ndxc < starvecs.rows(); ++ndxc) { // abca triangles
             if (converged || !get_angs_c()) continue; std::vector<StartriangleSETTLER> triangles;
-            StartriangleSETTLER abca(angs_c[0], angs_c[1], angs_c[2], tolerance, starpairs, starvecs.row(ndxc).transpose());
-            abca.side1.stars = abside.stars; abca.close_loops_abca(); abside.update(abca.side1);
+            StartriangleSETTLER abca(angs_c[0], angs_c[1], angs_c[2], starpairs, starvecs.row(ndxc).transpose());
+            abca.side1.stars = abside.stars;
+            abca.constrain_abca(); abside.update(abca.side1);
             triangles.push_back(abca);
 
             for (ndxd = 1; ndxd < starvecs.rows(); ++ndxd) { // abda triangles
                 if (converged || !get_angs_d()) continue;
-                StartriangleSETTLER abda(angs_d[0], angs_d[4], angs_d[3], tolerance, starpairs, starvecs.row(ndxd).transpose());
-                abda.side1.stars = abside.stars; abda.close_loops_abda(triangles, starpairs); abside.update(abda.side1);
+                StartriangleSETTLER abda(angs_d[0], angs_d[4], angs_d[3], starpairs, starvecs.row(ndxd).transpose());
+                abda.side1.stars = abside.stars;
+                abda.constrain_abda(triangles, starpairs); abside.update(abda.side1);
                 triangles.push_back(abda);
 
                 if (prev_stars == abside.stars.size()) ++repeatcnt; else repeatcnt = 0;

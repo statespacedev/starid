@@ -3,7 +3,7 @@
 #include <Eigen/Core>
 #include "starpairs.h"
 #include "startriangle.h"
-
+#include <set>
 namespace starid {
 
 class NOMAD {
@@ -26,7 +26,7 @@ private:
     bool get_angs_d();
     Starpairs starpairs;
     Eigen::MatrixXd starvecs;
-    double tolerance, min_ang;
+    double min_ang;
     std::vector<double> angs_c, angs_d;
     Eigen::Vector3d uveca, uvecb, uvecc, uvecd;
     int ndxb, ndxc, ndxd;
