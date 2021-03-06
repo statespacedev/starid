@@ -3,16 +3,20 @@
 
 /*
  * class NOMAD:
- *    '''star recognition focused on a sequence of triangles connected through their basestars and basesides. triangle0 has the targetstar as basestar0 of baseside0 - the other star in baseside0 is basestar1 of baseside1 of triangle1. the other star in baseside1 is basestar2 of baseside2 of triangle2. etc. as triangles are added, constraints increase on the basestars. when all but one possibility for basestar0 has been eliminated, we've recognized the target star. the name NOMAD comes from the idea that we wander away from the target star until we've constrained the basesides and basestars.'''
+ *    '''star recognition focused on a sequence of triangles connected through their basestars and basesides.'''
  * */
-starid::NOMAD::NOMAD(Starpairs &starpairs) : starpairs(starpairs), maxtriangles(20) {}
+starid::NOMAD::NOMAD(Starpairs &starpairs) : starpairs(starpairs), maxtriangles(90) {}
 
+/*
+ *    def run(self, pixels):
+ *       '''triangle0 has the targetstar as basestar0 of baseside0 - the other star in baseside0 is basestar1 of baseside1 of triangle1. the other star in baseside1 is basestar2 of baseside2 of triangle2. etc. as triangles are added, constraints flow backwards through preceding basesides and basestars. when all but one possibility for basestar0 has been eliminated, we've recognized the target star. the name NOMAD comes from the idea that we wander away from the target star until we've constrained the basesides and basestars.'''
+ * */
 int starid::NOMAD::run(Eigen::MatrixXd &pixels) {
     starvecs = pixels_to_starvecs(pixels);
     triangles.emplace_back(StartriangleNOMAD(0, starvecs, starpairs)); int cnt = 1;
-    while (cnt < maxtriangles && !triangles[0].isrecognized()) {
-        triangles.emplace_back(StartriangleNOMAD(triangles.back().starb, starvecs, starpairs));
-        for (int ndx = (int)triangles.size() - 1; ndx > 0; --ndx) triangles[ndx-1].update(triangles[ndx].side1);
+    while (cnt < maxtriangles && !triangles[0].stop()) {
+        triangles.emplace_back(StartriangleNOMAD(triangles.back().side2, triangles.back().starb, triangles.back().starc, starvecs, starpairs));
+        for (int ndx = (int)triangles.size() - 1; ndx > 0; --ndx) triangles[ndx - 1].feedback(triangles[ndx].side1);
         ++cnt; }
     return -1;
 }

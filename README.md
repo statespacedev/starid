@@ -26,6 +26,13 @@ pypi pip-install is mostly a placeholder for now, gitlab-repo clone-install is t
 
 [about](https://docs.google.com/document/d/1x9GSXXt31vQgR15UQpeO5mcmyg4WYv6mEDPBZ_qwCjY/edit?usp=sharing) some of the story so far.
 
+210307
+
+nomad is go! nomad has recognized a star for the first time.
+
+![](https://gitlab.com/noahhsmith/starid/raw/master/docs/images/nomad-go.png)
+
+
 210213
 
 vectorization and eigen are back on the front burner. looking into libstarid, there's probably some solid improvements possible just from catching up after the last several years - and it would be an opportunity to improve the documentation of what's here... i've been liking the style of documentation at readthedocs.io over the last few years - it seems to have grown up along with python. from some quick reading, readthedocs is a particular style applied to python comments by compilers such as sphinx and mkdocs. this is parallel with cpp comments compiled using doxygen - but readthedocs feels less dusty than doxygen. 

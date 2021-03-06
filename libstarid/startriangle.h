@@ -7,9 +7,10 @@ namespace starid {
 class StartriangleNOMAD {
 public:
     StartriangleNOMAD(int basestar, Eigen::MatrixXd &, starid::Starpairs &);
+    StartriangleNOMAD(starid::Startriangleside &, int prevstarb, int prevstarc, Eigen::MatrixXd &, starid::Starpairs &);
+    void feedback(starid::Startriangleside &next);
     void constrain();
-    void update(starid::Startriangleside &);
-    bool isrecognized();
+    bool stop();
     starid::Startriangleside side1, side2, side3;
     int stara, starb, starc;
 };

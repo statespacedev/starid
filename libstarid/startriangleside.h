@@ -11,15 +11,13 @@ class Startriangleside {
 public:
     Startriangleside(double ang, starid::Starpairs &pairs);
     Startriangleside();
-    void trim_pairs();
+    void drops(bool dolog = true);
     void update(Startriangleside &side);
-    int pair_count();
+    int countpairs();
     std::unordered_map<int, std::unordered_map<int, int>> stars;
     std::vector<int> log_star_count;
     std::vector<int> log_pair_count;
     double angtol;
-
-private:
 };
 
 }

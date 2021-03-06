@@ -8,8 +8,10 @@ starid::Startriangleside::Startriangleside(double ang, starid::Starpairs &pairs)
     angtol = 2.0 * std::sqrt(500.0 * 500.0 + 500.00 * 500.0) * arcseconds_to_radians;
     stars = pairs.pairs_for_angle(ang, angtol);
     log_star_count.push_back(stars.size());
-    log_pair_count.push_back(pair_count());
+    log_pair_count.push_back(countpairs());
 }
+
+starid::Startriangleside::Startriangleside() {}
 
 /*
  *    def update(self, side):
@@ -21,10 +23,10 @@ void starid::Startriangleside::update(Startriangleside &side) {
     for (auto tmp : side.log_star_count) log_star_count.push_back(tmp); }
 
 /*
- *    def trim_pairs(self):
- *       '''eliminate candidate star pairs from the side.'''
+ *    def drops(self):
+ *       '''there's a pairhalf1 -> pairhalf -> 0 or 1 concept. 0 is the default and means drop this particular pair. here we drop all pairs that have not been set to 1, and reset all that remain to 0.'''
  * */
-void ::starid::Startriangleside::trim_pairs() {
+void ::starid::Startriangleside::drops(bool dolog) {
     for (auto star1 = stars.begin(), end = stars.end(); star1 != end; ++star1) {
         auto &pairs = star1->second;
         for (auto star2 = pairs.begin(); star2 != pairs.end();) {
@@ -34,18 +36,16 @@ void ::starid::Startriangleside::trim_pairs() {
         auto &pairs = star1->second;
         if (pairs.empty()) star1 = stars.erase(star1);
         else ++star1; }
-    log_star_count.push_back(stars.size());
-    log_pair_count.push_back(pair_count()); }
+    if (dolog) { log_star_count.push_back(stars.size()); log_pair_count.push_back(countpairs()); } }
 
 /*
- *    def pair_count(self):
+ *    def countpairs(self):
  *       '''how many candidate star pairs remain in the side.'''
  * */
-int starid::Startriangleside::pair_count() {
+int starid::Startriangleside::countpairs() {
     int result = 0;
     for (auto it1 = stars.begin(), end = stars.end(); it1 != end; ++it1) {
         result += it1->second.size(); }
     return result;
 }
 
-starid::Startriangleside::Startriangleside() {}
