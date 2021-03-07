@@ -17,6 +17,19 @@ libstarid cpp
 
 fast inner loops for working with star triangles. also useful for working with lots of three-dimensional star pointing vectors, though this is probably reasonable in python as well. in any case, hardware acceleration of vectorized computations, matrix and vector math via eigen. when computations become heavier, move them from python into cpp.
 
+install
+------------------------------------------------------------------------------------------------------------------
+
+pypi pip-install is mostly a placeholder for now, gitlab-repo clone-install is the baseline. the following should work on ubuntu.
+
+    sudo apt install cmake libeigen3-dev
+    git clone git@gitlab.com:noahhsmith/starid.git starid
+    cd starid
+    python3 -m venv venv
+    . venv/bin/activate
+    pip3 install .
+    python3 starid --demo
+
 higher-level
 ==================================================================================================================
 

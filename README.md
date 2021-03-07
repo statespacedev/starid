@@ -6,16 +6,6 @@ lo-fi star identification
 [![pypi](https://img.shields.io/badge/pypi-latest-brightgreen.svg)](https://pypi.org/project/starid/)
 [![readthedocs](https://readthedocs.org/projects/starid/badge/?version=latest)](https://starid.readthedocs.io/en/latest/?badge=latest)
 
-pypi pip-install is mostly a placeholder for now, gitlab-repo clone-install is the baseline. the following should work on ubuntu. 
-
-    sudo apt install cmake libeigen3-dev
-    git clone git@gitlab.com:noahhsmith/starid.git starid
-    cd starid
-    python3 -m venv venv
-    . venv/bin/activate
-    pip3 install .
-    python3 starid --demo
-
 [sky](https://gitlab.com/noahhsmith/starid/blob/master/libstarid/sky.h) generates three-dimensional sky models and two-dimensional images from the nasa skymap star catalog. finds stars near arbitrary points on the sky.
 
 [star triangles](https://gitlab.com/noahhsmith/starid/blob/master/libstarid/startriangleidentifier.h) sets aside stars that disagree geometrically until one remains.
@@ -32,7 +22,7 @@ SETTLER star recognition. the target star ia always star a. star b is a neighbor
 
 210307
 
-nomad is go! nomad has recognized a star for the first time.
+nomad is go! screenshot below is the first identification with nomad. to celebrate, bumping version from 1.3 to 1.4.
 
 ![nomadgo](https://gitlab.com/noahhsmith/starid/raw/master/docs/images/noamdgo.png)
 

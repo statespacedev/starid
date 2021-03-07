@@ -1,7 +1,7 @@
 #ifndef STARID_STARTRIANGLE_H
 #define STARID_STARTRIANGLE_H
 #include "startriangleside.h"
-#include <set>
+
 namespace starid {
 
 class StartriangleNOMAD {
