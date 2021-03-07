@@ -40,7 +40,7 @@ void ::starid::Startriangleside::drops(bool dolog) {
 
 /*
  *    def countpairs(self):
- *       '''how many candidate star pairs remain in the side.'''
+ *       '''how many candidate star pairs remain in this side.'''
  * */
 int starid::Startriangleside::countpairs() {
     int result = 0;

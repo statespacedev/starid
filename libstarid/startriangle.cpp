@@ -3,7 +3,7 @@
 
 /*
  * class StartriangleNOMAD:
- *    '''NOMAD triangle. focus is on the basestar and baseside - nomad is about a chain of basesides, each increasing the constraints on the preceding basestars. closing the loop around a triangle for each baseside speeds up that process.'''
+ *    '''NOMAD triangle. focus is on the basestar and baseside - nomad is about a chain of basesides, each increasing the constraints on the preceding basestars. first constructor here is for the initial triangle and has the target star as basestar. second constructor is for following triangles. each takes side2 from its predecessor and uses that as its baseside. the chain of triangles is a train of baseides - side2 of each triangle is the baseside of the following triangle. during feedback, these shared side2 -> baseside pairs are the path for information to flow backwards, all the way backward from latest triangle to the initial triangle - increasing the constraints on the initial triangle baseside and basestar.'''
  * */
 starid::StartriangleNOMAD::StartriangleNOMAD(int basestar, Eigen::MatrixXd &starvecs, starid::Starpairs &starpairs)
     : stara(basestar), starb(basestar), starc(basestar) {
@@ -42,7 +42,7 @@ void starid::StartriangleNOMAD::constrain() {
 
 /*
  *    def feedback(self):
- *       '''increase the constraints on the baseside in the prev triangle, using the baseside of the next triangle in the chain. as triangles are added, constraints flow backwards through preceding basesides and basestars.'''
+ *       '''increase the constraints on the baseside in the prev triangle, using the baseside of the following triangle in the chain. as triangles are added, constraints flow backwards through preceding basesides and basestars. the chain of triangles is a train of baseides - side2 of each triangle is the baseside of the following triangle. during feedback, these shared side2 -> baseside pairs are the path for information to flow backwards, all the way backward from latest triangle to the initial triangle - increasing the constraints on the initial triangle baseside and basestar.'''
  * */
 void starid::StartriangleNOMAD::feedback(starid::Startriangleside &nextside1) {
     side2.stars = nextside1.stars;
@@ -60,7 +60,7 @@ bool starid::StartriangleNOMAD::stop() {
 
 /*
  * class StartriangleSETTLER:
- *    '''SETTLER triangle. acts as the triangles abca and abda within the star triangle identifier inner loops. their are three triangle sides - representing three star pairs, each with an angular separation. each side is acted by a star triangle side object.'''
+ *    '''SETTLER triangle. acts as the triangles abca and abda within the star triangle identifier inner loops. their are three triangle sides - representing three star pairs, each with an angular separation. each side is acted by a star triangle side object. star recognition focused on triangles that contain the target star - star a is always the target star, star b is a neighbor star, and an abside is a star pair and triangle side with the target as the first member of the pair. in the inner loops, additional stars c and d are involved. first an abca triangle is formed. this constrains the abside. then for an abca triangle, a sequence of abda triangles are formed, further constraining the abside. when we reach an abda that eliminates all but one star pair possibility for the abside, we've recognized the target star. until that happens, we continue picking new absides, with new abca triangles, with new abda triangles. the name SETTLER comes from the idea that we never move away the target star, we're settling around it.'''
  * */
 starid::StartriangleSETTLER::StartriangleSETTLER(double ang1, double ang2, double ang3, starid::Starpairs &pairs, Eigen::Vector3d vecin)
     : side1(ang1, pairs), side2(ang2, pairs), side3(ang3, pairs), vecstar3(vecin) {

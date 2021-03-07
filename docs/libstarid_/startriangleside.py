@@ -5,4 +5,4 @@ class Startriangleside:
    def drops(self):
       '''there's a pairhalf1 -> pairhalf -> 0 or 1 concept. 0 is the default and means drop this particular pair. here we drop all pairs that have not been set to 1, and reset all that remain to 0.'''
    def countpairs(self):
-      '''how many candidate star pairs remain in the side.'''
+      '''how many candidate star pairs remain in this side.'''
