@@ -48,10 +48,11 @@ if os.path.exists('__version__'):
 with open('requirements.txt') as fin:
     required = fin.read().splitlines()
 with open('README.md', 'r', encoding="utf-8") as fh:
-    long_description = ''
-    for line in fh:
-        if '[sky]' in line: break
-        long_description += line
+    long_description = fh.read()
+    # long_description = ''
+    # for line in fh:
+    #     if '[sky]' in line: break
+    #     long_description += line
 
 setup(
     name='starid',
