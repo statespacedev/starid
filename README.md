@@ -182,7 +182,7 @@ for writing nouns deterministically, stars can be ordered by distance from the i
      [8808, 11, 23, 9.5, 2.5, 9.83],
      [8834, 16, 23, 9.5, -2.5, 9.83],
 
-<img src="docs/images/starndx3_nouns.png" align="center" width="240" height="240"/>
+![starndx3_nouns](https://gitlab.com/noahhsmith/starid/raw/master/docs/images/starndx3_nouns.png)
 
 171101
 
