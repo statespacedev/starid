@@ -6,9 +6,7 @@ lo-fi star identification
 [![pypi](https://img.shields.io/badge/pypi-latest-brightgreen.svg)](https://pypi.org/project/starid/)
 [![readthedocs](https://readthedocs.org/projects/starid/badge/?version=latest)](https://starid.readthedocs.io/en/latest/?badge=latest)
 
-[data](https://gitlab.com/noahhsmith/starid/blob/master/data/) the full NASA SKYMAP2000 V5R4 star catalog.
-
-[sky](https://gitlab.com/noahhsmith/starid/blob/master/libstarid/sky.h) generates three-dimensional sky models and two-dimensional images from the nasa skymap star catalog. finds stars near arbitrary points on the sky.
+[sky](https://gitlab.com/noahhsmith/starid/blob/master/libstarid/sky.h) generates three-dimensional sky models and two-dimensional images from the nasa skymap star catalog. finds stars near arbitrary points on the sky. [data](https://gitlab.com/noahhsmith/starid/blob/master/data/) the full NASA SKYMAP2000 V5R4 star catalog.
 
 [star triangles](https://gitlab.com/noahhsmith/starid/blob/master/libstarid/startriangleidentifier.h) sets aside stars that disagree geometrically until one remains. in NOMAD star recognition there's a chain of triangles and basesides. side2 of each triangle is the baseside of the following triangle. during feedback, these shared side2 and baseside pairs are the path for information to flow backwards, increasing the constraints on the initial triangle baseside and basestar. the name NOMAD relates to how the chain of triangles wanders away from the target star and initial triangle. in SETTLER star recognition the target star ia always star a. star b is a neighbor star. in the inner loops, additional stars c and d are involved. first an abca triangle is formed. this constrains the abside. then for an abca triangle, a sequence of abda triangles are formed, further constraining the abside. when we reach an abda that eliminates all but one star pair possibility for the abside, we've recognized the target star. the name SETTLER comes from the idea that we never move away the target star, we're settling around it.
 
@@ -16,7 +14,7 @@ lo-fi star identification
 
 210307
 
-nomad is go! screenshot below is the first identification with nomad. to celebrate, bumping version from 1.3 to 1.4.
+screenshot below is the first identification with nomad. to celebrate, bumping version from 1.3 to 1.4.
 
 ![nomadgo](https://gitlab.com/noahhsmith/starid/raw/master/docs/images/noamdgo.png)
 
