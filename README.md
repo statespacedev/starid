@@ -18,7 +18,11 @@ pypi pip-install is mostly a placeholder for now, gitlab-repo clone-install is t
 
 [sky](https://gitlab.com/noahhsmith/starid/blob/master/libstarid/sky.h) generates three-dimensional sky models and two-dimensional images from the nasa skymap star catalog. finds stars near arbitrary points on the sky.
 
-[star triangles](https://gitlab.com/noahhsmith/starid/blob/master/libstarid/StartriangleIdentifier.h) sets aside stars that disagree geometrically until one remains.
+[star triangles](https://gitlab.com/noahhsmith/starid/blob/master/libstarid/startriangleIdentifier.h) sets aside stars that disagree geometrically until one remains.
+
+NOMAD star recognition. focused on a chain of triangles and basesides - side2 of each triangle is the baseside of the following triangle. during feedback, these shared side2 -> baseside pairs are the path for information to flow backwards - increasing the constraints on the initial triangle baseside and basestar. the name NOMAD relates to how the chain of triangles wanders away from the target star and initial triangle.
+
+SETTLER star recognition. the target star ia always star a. star b is a neighbor star, and an abside is a star pair and triangle side with the target as the first member of the pair. in the inner loops, additional stars c and d are involved. first an abca triangle is formed. this constrains the abside. then for an abca triangle, a sequence of abda triangles are formed, further constraining the abside. when we reach an abda that eliminates all but one star pair possibility for the abside, we've recognized the target star. the name SETTLER comes from the idea that we never move away the target star, we're settling around it.
 
 [data](https://gitlab.com/noahhsmith/starid/blob/master/data/) the full NASA SKYMAP2000 V5R4 star catalog.
 

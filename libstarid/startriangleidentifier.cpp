@@ -3,7 +3,7 @@
 
 /*
  * class NOMAD:
- *    '''star recognition focused on a chain of triangles and baseides - side2 of each triangle is the baseside of the following triangle. during feedback, these shared side2 -> baseside pairs are the path for information to flow backwards - increasing the constraints on the initial triangle baseside and basestar.'''
+ *    '''star recognition focused on a chain of triangles and basesides - side2 of each triangle is the baseside of the following triangle. during feedback, these shared side2 -> baseside pairs are the path for information to flow backwards - increasing the constraints on the initial triangle baseside and basestar. the name NOMAD relates to how the chain of triangles wanders away from the target star and initial triangle.'''
  * */
 starid::NOMAD::NOMAD(Starpairs &starpairs) : starpairs(starpairs), maxtriangles(90) {}
 
@@ -23,7 +23,7 @@ int starid::NOMAD::run(Eigen::MatrixXd &pixels) {
 
 /*
  * class SETTLER:
- *    '''identifies the target of a star image, using the triangles formed by neighboring stars within the image. the fundemental particles are actually pairs of stars - in a sense individual stars don't exist here, what exists are pairs of stars, acting as sides of triangles - so a key object handed to the identifier in its constructor is a starpairs object, containing all of the relevant pairs. when possible, the starpairs object was loaded from a cerealized starpairs file, rather than generated at run-time.'''
+ *    '''the target star ia always star a. star b is a neighbor star, and an abside is a star pair and triangle side with the target as the first member of the pair. in the inner loops, additional stars c and d are involved. first an abca triangle is formed. this constrains the abside. then for an abca triangle, a sequence of abda triangles are formed, further constraining the abside. when we reach an abda that eliminates all but one star pair possibility for the abside, we've recognized the target star. the name SETTLER comes from the idea that we never move away the target star, we're settling around it.'''
  * */
 starid::SETTLER::SETTLER(Starpairs &starpairs) : starpairs(starpairs) {}
 
