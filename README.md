@@ -18,7 +18,7 @@ pypi pip-install is mostly a placeholder for now, gitlab-repo clone-install is t
 
 [sky](https://gitlab.com/noahhsmith/starid/blob/master/libstarid/sky.h) generates three-dimensional sky models and two-dimensional images from the nasa skymap star catalog. finds stars near arbitrary points on the sky.
 
-[star triangles](https://gitlab.com/noahhsmith/starid/blob/master/libstarid/startriangleIdentifier.h) sets aside stars that disagree geometrically until one remains.
+[star triangles](https://gitlab.com/noahhsmith/starid/blob/master/libstarid/startriangleidentifier.h) sets aside stars that disagree geometrically until one remains.
 
 NOMAD star recognition. focused on a chain of triangles and basesides - side2 of each triangle is the baseside of the following triangle. during feedback, these shared side2 -> baseside pairs are the path for information to flow backwards - increasing the constraints on the initial triangle baseside and basestar. the name NOMAD relates to how the chain of triangles wanders away from the target star and initial triangle.
 
