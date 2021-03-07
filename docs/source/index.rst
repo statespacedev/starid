@@ -22,6 +22,8 @@ install
 
 pypi pip-install is mostly a placeholder for now, gitlab-repo clone-install is the baseline. the following should work on ubuntu.
 
+.. code-block:: bash
+
     sudo apt install cmake libeigen3-dev
     git clone git@gitlab.com:noahhsmith/starid.git starid
     cd starid

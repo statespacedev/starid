@@ -3,7 +3,7 @@
 #include <Eigen/Core>
 #include "starpairs.h"
 #include "startriangle.h"
-#include <set>
+
 namespace starid {
 
 class NOMAD {
