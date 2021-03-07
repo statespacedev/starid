@@ -30,7 +30,7 @@ pypi pip-install is mostly a placeholder for now, gitlab-repo clone-install is t
 
 nomad is go! nomad has recognized a star for the first time.
 
-![](https://gitlab.com/noahhsmith/starid/raw/master/docs/images/nomad-go.png)
+![nomadgo](https://gitlab.com/noahhsmith/starid/raw/master/docs/images/nomadgo.png)
 
 
 210213
