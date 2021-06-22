@@ -13,7 +13,7 @@ build:
     - apt-get -qq update -qy
     - apt-get -qq install -y python3.8 python3-setuptools python3-venv python3-pip
     - apt-get -qq install -y cmake
-    - apt-get -qq install -y libeigen3-dev
+    - apt-get -qq install -y libeigen3-dev intel-mkl-full
     - python3 -m venv venv
     - . venv/bin/activate
     - python3 setup.py build_ext
