@@ -17,4 +17,4 @@ add_subdirectory( pybind11 )
 
 pybind11_add_module( libstarid api.cpp skymap.cpp sky.cpp starpairs.cpp startriangle.cpp startriangleside.cpp startriangleidentifier.cpp util.cpp )
 
-target_link_libraries( libstarid PRIVATE blas lapack )
+#target_link_libraries( libstarid PRIVATE blas lapack )
