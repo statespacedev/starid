@@ -2,7 +2,7 @@ image: ubuntu:bionic
 
 stages:
   - build
-  - deploy
+#  - deploy
 
 build:
   stage: build
@@ -42,7 +42,7 @@ deploy_staging:
     - . venv/bin/activate
     - pip install -r requirements.txt
     - pip install twine
-    - twine upload --repository-url $TESTPYPI_URL dist/*
+#    - twine upload --repository-url $TESTPYPI_URL dist/*
 
 deploy_production:
   stage: deploy
