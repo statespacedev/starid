@@ -12,6 +12,8 @@ lo-fi star identification
 
 thanks to [jetbrains](https://www.jetbrains.com/) for their support ![](https://gitlab.com/noahhsmith/starid/raw/master/docs/images/jetbrains.svg)
 
+210721 adding a thanks to jetbrains for their support, and happy to do so. great stuff!
+
 210616 need to [cleanup test.pypi.org](https://pypi.org/project/pypi-cleanup/)
 
 210307 screenshot of the first identification with nomad. to celebrate, bumping version from 1.3 to 1.4. noticed a funny coincidence - the initial algorithm, now termed settler, started working almost exactly four years ago - 170305. there's a screenshot from that further below.
