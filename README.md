@@ -12,7 +12,7 @@ lo-fi star identification
 
 thanks to [jetbrains](https://www.jetbrains.com/) for their support [![](https://gitlab.com/noahhsmith/starid/raw/master/docs/images/jetbrains.svg)](https://www.jetbrains.com/)
 
-220320 preparing for working container-based. on a new ubuntu20 install and ran into a problem after installing eigen3 like so
+220320 preparing for working container-based. on a new ubuntu20 install and ran into a problem after installing eigen3
 
     sudo apt install libeigen3-dev
 
@@ -24,7 +24,7 @@ also needed the following for matplotlib
 
     sudo apt install python3-tk
 
-after these bumps, working again
+working locally
 
 210721 adding a thanks to jetbrains for their support, and happy to do so. great stuff!
 
