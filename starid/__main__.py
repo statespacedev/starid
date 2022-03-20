@@ -1,10 +1,12 @@
 import argparse
 
+
 def demo():
-    from starid import Starid
+    from staridclass import Starid
     starid = Starid()
-    starid.sky()
+    # starid.sky()
     starid.plot(starndx=3)
+
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser('starid')

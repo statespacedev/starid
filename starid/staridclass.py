@@ -1,10 +1,12 @@
+"""handle calls to libstarid.cpp."""
 import sys, os
 import numpy as np
 import matplotlib.pyplot as plt
 import math, pprint
-sys.path.append('build/cmake/libstarid')
+sys.path.append('cmake-build-debug/libstarid')
 
-class Starid():
+
+class Starid:
     """handle calls to libstarid.cpp."""
     def __init__(self):
         self.dirdata = './data/'
@@ -48,6 +50,7 @@ class Starid():
         img = self.api.image_generator(starndx)
         id = self.api.NOMAD(img['pixels'])
         print('NOMAD, starndx %i, result %i' % (starndx, id))
+
 
 if __name__ == '__main__':
     starid = Starid()

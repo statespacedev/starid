@@ -12,6 +12,20 @@ lo-fi star identification
 
 thanks to [jetbrains](https://www.jetbrains.com/) for their support [![](https://gitlab.com/noahhsmith/starid/raw/master/docs/images/jetbrains.svg)](https://www.jetbrains.com/)
 
+220320 preparing for working container-based. on a new ubuntu20 install and ran into a problem after installing eigen3 like so
+
+    sudo apt install libeigen3-dev
+
+evidently recent eigens made changes - temporary workaround is
+
+    sudo ln -s /usr/include/eigen3/Eigen /usr/include/Eigen
+
+also needed the following for matplotlib
+
+    sudo apt install python3-tk
+
+after these bumps, working again
+
 210721 adding a thanks to jetbrains for their support, and happy to do so. great stuff!
 
 210616 need to [cleanup test.pypi.org](https://pypi.org/project/pypi-cleanup/)
