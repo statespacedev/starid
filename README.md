@@ -24,7 +24,7 @@ also needed the following for matplotlib
 
     sudo apt install python3-tk
 
-working locally
+working locally 
 
 210721 adding a thanks to jetbrains for their support, and happy to do so. great stuff!
 
