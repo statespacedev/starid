@@ -1,1 +1,0 @@
-/usr/bin/c++  -Werror -Wall -g -Wextra -Wshadow -pedantic -Wold-style-cast  -g  -rdynamic -coverage CMakeFiles/coverage_portable_binary_archive.dir/portable_binary_archive.cpp.o  -o ../../../coverage/coverage_portable_binary_archive 

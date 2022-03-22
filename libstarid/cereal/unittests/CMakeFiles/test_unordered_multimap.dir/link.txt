@@ -1,1 +1,0 @@
-/usr/bin/c++  -Werror -Wall -g -Wextra -Wshadow -pedantic -Wold-style-cast  -g  -rdynamic CMakeFiles/test_unordered_multimap.dir/unordered_multimap.cpp.o  -o test_unordered_multimap 

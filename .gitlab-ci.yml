@@ -1,4 +1,4 @@
-image: ubuntu:bionic
+image: ubuntu:focal
 
 stages:
   - build
@@ -11,9 +11,9 @@ build:
       - dist/
   script:
     - apt-get -qq update -qy
-    - apt-get -qq install -y python3.8 python3-setuptools python3-venv python3-pip
     - apt-get -qq install -y cmake
     - apt-get -qq install -y libeigen3-dev
+    - apt-get -qq install -y python3.8 python3-setuptools python3-venv python3-pip
     - python3 -m venv venv
     - . venv/bin/activate
     - python -m pip install pip==19.3.1

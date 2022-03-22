@@ -1,1 +1,0 @@
-/usr/bin/c++  -Werror -Wall -g -Wextra -Wshadow -pedantic -Wold-style-cast  -g  -rdynamic -coverage CMakeFiles/coverage_map.dir/map.cpp.o  -o ../../../coverage/coverage_map 

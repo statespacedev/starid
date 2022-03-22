@@ -1,1 +1,0 @@
-/usr/bin/c++  -Werror -Wall -g -Wextra -Wshadow -pedantic -Wold-style-cast  -g  -rdynamic -m32 CMakeFiles/test_user_data_adapters_32.dir/user_data_adapters.cpp.o  -o test_user_data_adapters_32 

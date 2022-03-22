@@ -4,10 +4,12 @@ import subprocess
 from setuptools import setup, Extension, find_packages
 from setuptools.command.build_ext import build_ext
 
+
 class CMakeExtension(Extension):
     def __init__(self, name, sourcedir=''):
         Extension.__init__(self, name, sources=[])
         self.sourcedir = os.path.abspath(sourcedir)
+
 
 class CMakeBuild(build_ext):
     def run(self):
@@ -31,6 +33,7 @@ class CMakeBuild(build_ext):
         subprocess.check_call(['cmake', ext.sourcedir] + cmake_args, cwd=self.build_temp, env=env)
         subprocess.check_call(['cmake', '--build', '.'] + build_args, cwd=self.build_temp)
         print()
+
 
 __version__ = None
 if os.environ.get('CI_COMMIT_TAG'):

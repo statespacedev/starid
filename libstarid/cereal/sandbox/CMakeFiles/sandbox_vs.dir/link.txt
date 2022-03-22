@@ -1,1 +1,0 @@
-/usr/bin/c++  -Werror -Wall -g -Wextra -Wshadow -pedantic -Wold-style-cast  -g  -rdynamic CMakeFiles/sandbox_vs.dir/sandbox_vs.cpp.o  -o sandbox_vs -Wl,-rpath,/home/noah/starid/libstarid/cereal-1.2.2/sandbox/sandbox_shared_lib sandbox_shared_lib/libsandbox_vs_dll.so 
