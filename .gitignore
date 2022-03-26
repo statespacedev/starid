@@ -22,3 +22,8 @@ lang-sentences*
 /venv38/
 /docs/build/
 /data/starpairs
+/build/
+/venv/
+/dist/
+/cmake-build-debug/
+/starid.egg-info/

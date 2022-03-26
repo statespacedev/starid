@@ -31,4 +31,4 @@ RUN cd ${HOME} && \
     python3 setup.py build_ext && \
     python3 setup.py build_py && \
     python3 setup.py sdist && \
-    pip3 install -e .
+    pip3 install --editable .

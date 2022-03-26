@@ -12,11 +12,11 @@ lo-fi star identification
 
 thanks to [jetbrains](https://www.jetbrains.com/) for their support [![](https://gitlab.com/noahhsmith/starid/raw/master/docs/images/jetbrains.svg)](https://www.jetbrains.com/)
 
-220326 container build and test are working - from here onward, can either work in the container, or work in a local environment matching with the container environment. dockerfile shows what's needed. in addition, runtime data is expected in /tmp, so for local do
+220326 container build and test are working - from here onward, can either work in the container, or work in a local environment matching with the container environment. dockerfile shows what's needed. in addition, runtime data is expected in /tmp, so in local environment need to do
 
     cp -r data /tmp
 
-the effects of all this are a bit mind-bending - gitlab ci/cd pipelines become somewhat obsolete. deployment can now be as both a docker image on docker hub and a pypi package. both deployments can happen from local, rather than gitlab pipelines. need to work out how versioning should work for docker hub and pypi rolling forward.
+the effects of all this are a bit mind-bending - gitlab ci/cd pipelines become somewhat obsolete - deployment can now be as both a docker image on docker hub and a pypi package. both deployments can happen from local, rather than gitlab pipelines. need to work out how versioning should work for docker hub and pypi rolling forward.
 
 210721 adding a thanks to jetbrains for their support, and happy to do so. great stuff!
 
