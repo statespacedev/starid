@@ -10,17 +10,7 @@ build:
     paths:
       - dist/
   script:
-    - apt-get -qq update -qy
-    - apt-get -qq install -y cmake
-    - apt-get -qq install -y libeigen3-dev
-    - apt-get -qq install -y python3.8 python3-setuptools python3-venv python3-pip
-    - python3 -m venv venv
-    - . venv/bin/activate
-    - python -m pip install pip==19.3.1
-    - python3 setup.py build_ext
-    - python3 setup.py build_py
-    - python3 setup.py sdist
-    - pip install -e .
+    - echo "build"
 
 deploy_staging:
   stage: deploy
@@ -37,13 +27,8 @@ deploy_staging:
   except:
     - tags
   script:
-    - apt-get -qq update -qy
-    - apt-get -qq install -y python3.8 python3-setuptools python3-venv python3-pip
-    - python3 -m venv venv
-    - . venv/bin/activate
-    - python -m pip install pip==19.3.1
-    - pip install -r requirements.txt
-    - pip install twine
+    - echo "deploy staging"
+#    - pip install twine
 #    - twine upload --repository-url $TESTPYPI_URL dist/*
 
 deploy_production:
@@ -61,12 +46,7 @@ deploy_production:
   except:
     - branches
   script:
-    - apt-get -qq update -qy
-    - apt-get -qq install -y python3.8 python3-setuptools python3-venv python3-pip
-    - python3 -m venv venv
-    - . venv/bin/activate
-    - python -m pip install pip==19.3.1
-    - pip install -r requirements.txt
-    - pip install twine
-    - twine upload dist/*
+    - echo "deploy production"
+#    - pip install twine
+#    - twine upload dist/*
 
