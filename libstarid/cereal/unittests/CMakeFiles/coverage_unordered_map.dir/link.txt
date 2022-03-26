@@ -1,1 +1,0 @@
-/usr/bin/c++  -Werror -Wall -g -Wextra -Wshadow -pedantic -Wold-style-cast  -g  -rdynamic -coverage CMakeFiles/coverage_unordered_map.dir/unordered_map.cpp.o  -o ../../../coverage/coverage_unordered_map 

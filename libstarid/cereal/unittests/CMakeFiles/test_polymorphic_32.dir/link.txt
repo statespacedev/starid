@@ -1,1 +1,0 @@
-/usr/bin/c++  -Werror -Wall -g -Wextra -Wshadow -pedantic -Wold-style-cast  -g  -rdynamic -m32 CMakeFiles/test_polymorphic_32.dir/polymorphic.cpp.o  -o test_polymorphic_32 

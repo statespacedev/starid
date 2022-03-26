@@ -1,1 +1,0 @@
-/usr/bin/c++  -Werror -Wall -g -Wextra -Wshadow -pedantic -Wold-style-cast  -g  -rdynamic CMakeFiles/sandbox_json.dir/sandbox_json.cpp.o  -o sandbox_json 

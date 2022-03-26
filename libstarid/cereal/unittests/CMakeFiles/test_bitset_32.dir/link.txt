@@ -1,1 +1,0 @@
-/usr/bin/c++  -Werror -Wall -g -Wextra -Wshadow -pedantic -Wold-style-cast  -g  -rdynamic -m32 CMakeFiles/test_bitset_32.dir/bitset.cpp.o  -o test_bitset_32 

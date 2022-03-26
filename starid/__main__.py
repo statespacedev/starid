@@ -2,8 +2,8 @@ import argparse
 
 
 def demo():
-    from staridclass import Starid
-    starid = Starid()
+    from starid.demo import Demo
+    starid = Demo()
     # starid.sky()
     starid.plot(starndx=3)
 

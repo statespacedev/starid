@@ -1,1 +1,0 @@
-/usr/bin/c++  -Werror -Wall -g -Wextra -Wshadow -pedantic -Wold-style-cast  -g  -rdynamic -m32 CMakeFiles/test_priority_queue_32.dir/priority_queue.cpp.o  -o test_priority_queue_32 

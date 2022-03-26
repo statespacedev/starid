@@ -1,1 +1,0 @@
-/usr/bin/c++  -Werror -Wall -g -Wextra -Wshadow -pedantic -Wold-style-cast  -g  -rdynamic -m32 CMakeFiles/test_structs_minimal_32.dir/structs_minimal.cpp.o  -o test_structs_minimal_32 

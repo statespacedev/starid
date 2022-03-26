@@ -1,1 +1,0 @@
-/usr/bin/c++  -Werror -Wall -g -Wextra -Wshadow -pedantic -Wold-style-cast  -g  -rdynamic -coverage CMakeFiles/coverage_chrono.dir/chrono.cpp.o  -o ../../../coverage/coverage_chrono 
