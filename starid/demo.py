@@ -1,14 +1,17 @@
 """handle calls to libstarid.cpp."""
-import sys, os
+import sys
+import os
 import numpy as np
 import matplotlib.pyplot as plt
-import math, pprint
+import math
+import pprint
 sys.path.append('/tmp/cmake-build-debug/libstarid')
 sys.path.append('./cmake-build-debug/libstarid')
 
 
 class Demo:
     """handle calls to libstarid.cpp."""
+
     def __init__(self):
         self.dirdata = '/tmp/data/'
         self.filecat = 'cat'
@@ -22,6 +25,11 @@ class Demo:
         if not os.path.exists(self.dirdata + self.filestarpairs):
             self.api.write_starpairs(self.dirdata + self.filestarpairs)
         self.api.read_starpairs(self.dirdata + self.filestarpairs)
+
+    def check_data(self):
+        if not os.path.exists(self.dirdata + self.filesky): return False
+        if not os.path.exists(self.dirdata + self.filestarpairs): return False
+        return True
 
     def plot(self, starndx):
         """generate a standard lo-fi image for starndx, with the sky randomly rotated. this is an image for which we could perform star identification."""

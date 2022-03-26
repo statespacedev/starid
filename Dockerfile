@@ -31,4 +31,5 @@ RUN cd ${HOME} && \
     python3 setup.py build_ext && \
     python3 setup.py build_py && \
     python3 setup.py sdist && \
-    pip3 install --editable .
+    pip3 install --editable . && \
+    pytest starid

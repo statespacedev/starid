@@ -4,15 +4,6 @@ include MANIFEST.in
 include README.md
 include setup.py
 include requirements.txt
-include version
-
-recursive-include data *
-recursive-include starid *
-recursive-include libstarid *
-
-recursive-exclude docs *
-exclude data/pairs
-exclude data/sky
-exclude date/SKYMAP*
-
-
+graft data
+graft starid
+graft libstarid
