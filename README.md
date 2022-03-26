@@ -12,26 +12,11 @@ lo-fi star identification
 
 thanks to [jetbrains](https://www.jetbrains.com/) for their support [![](https://gitlab.com/noahhsmith/starid/raw/master/docs/images/jetbrains.svg)](https://www.jetbrains.com/)
 
-220326 # https://ddanilov.me/dockerized-cpp-build
-docker build -t starid/build:1.0 -f Dockerfile .
-docker run -it --rm --name=starid --mount type=bind,source=${PWD},target=/starid starid/build:1.0 bash
-cmake -B /tmp/cmake-build-debug --target /starid -DCMAKE_BUILD_TYPE=Debug && cd /tmp/cmake-build-debug && make
+220326 container build and test are working - from here onward, can either work in the container, or work in a local environment matching with the container environment. dockerfile shows what's needed. in addition, runtime data is expected in /tmp, so for local do
 
-220320 preparing for working container-based. on a new ubuntu20 install and ran into a problem after installing eigen3
+    cp -r data /tmp
 
-    sudo apt install libeigen3-dev
-
-evidently recent eigens made changes - temporary workaround is
-
-    sudo ln -s /usr/include/eigen3/Eigen /usr/include/Eigen
-
-also needed the following for matplotlib
-
-    sudo apt install python3-tk
-
-working locally. switching to scikit-build along with pybind11, added to python requirements. moving pybind11 to separately cloned repo. moving cereal includes out of repo.
-
-    ~/Downloads/cereal-1.3.2/include$ sudo cp -r cereal /usr/local/include
+the effects of all this are a bit mind-bending - gitlab ci/cd pipelines become somewhat obsolete. deployment can now be as both a docker image on docker hub and a pypi package. both deployments can happen from local, rather than gitlab pipelines. need to work out how versioning should work for docker hub and pypi rolling forward.
 
 210721 adding a thanks to jetbrains for their support, and happy to do so. great stuff!
 

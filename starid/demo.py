@@ -4,6 +4,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import math, pprint
 sys.path.append('/tmp/cmake-build-debug/libstarid')
+sys.path.append('./cmake-build-debug/libstarid')
 
 
 class Demo:
@@ -15,9 +16,11 @@ class Demo:
         self.filestarpairs = 'starpairs'
         import libstarid
         self.api = libstarid.Api()
-        if not os.path.exists(self.dirdata + self.filesky): self.api.write_sky(self.dirdata + self.filesky, self.dirdata + self.filecat)
+        if not os.path.exists(self.dirdata + self.filesky):
+            self.api.write_sky(self.dirdata + self.filesky, self.dirdata + self.filecat)
         self.api.read_sky(self.dirdata + self.filesky)
-        if not os.path.exists(self.dirdata + self.filestarpairs): self.api.write_starpairs(self.dirdata + self.filestarpairs)
+        if not os.path.exists(self.dirdata + self.filestarpairs):
+            self.api.write_starpairs(self.dirdata + self.filestarpairs)
         self.api.read_starpairs(self.dirdata + self.filestarpairs)
 
     def plot(self, starndx):

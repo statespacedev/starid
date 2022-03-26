@@ -3,9 +3,8 @@ import argparse
 
 def demo():
     from starid.demo import Demo
-    starid = Demo()
-    # starid.sky()
-    starid.plot(starndx=3)
+    demo = Demo()
+    demo.plot(starndx=3)
 
 
 if __name__ == '__main__':
