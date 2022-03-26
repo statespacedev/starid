@@ -5,6 +5,7 @@ lo-fi star identification
 [![pipeline](https://gitlab.com/noahhsmith/starid/badges/master/pipeline.svg)](https://gitlab.com/noahhsmith/starid/pipelines)
 [![pypi](https://img.shields.io/badge/pypi-latest-brightgreen.svg)](https://pypi.org/project/starid/)
 [![readthedocs](https://readthedocs.org/projects/starid/badge/?version=latest)](https://starid.readthedocs.io/en/latest/?badge=latest)
+[![docker](https://img.shields.io/docker/v/noahhsmith/starid)](https://hub.docker.com/repository/docker/noahhsmith/starid)
 
 [sky](https://gitlab.com/noahhsmith/starid/blob/master/libstarid/sky.h) - generates three-dimensional sky models and two-dimensional images from the nasa skymap star catalog. finds stars near arbitrary points on the sky. [data](https://gitlab.com/noahhsmith/starid/blob/master/data/) - the full NASA SKYMAP2000 V5R4 star catalog. [references](https://gitlab.com/noahhsmith/starid/blob/master/docs/references.md) - articles relating to star identification. [about](https://docs.google.com/document/d/1x9GSXXt31vQgR15UQpeO5mcmyg4WYv6mEDPBZ_qwCjY/edit?usp=sharing) - some of the background story.
 
