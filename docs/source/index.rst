@@ -20,17 +20,7 @@ fast inner loops for working with star triangles. also useful for working with l
 install
 ------------------------------------------------------------------------------------------------------------------
 
-pypi pip-install is mostly a placeholder for now, gitlab-repo clone-install is the baseline. the following should work on ubuntu.
-
-.. code-block:: bash
-
-    sudo apt install cmake libeigen3-dev
-    git clone git@gitlab.com:noahhsmith/starid.git starid
-    cd starid
-    python3 -m venv venv
-    . venv/bin/activate
-    pip3 install .
-    python3 starid --demo
+have switched to a container build environment - reproducible using the dockerfile. everything needed is there and can be reproduced for a local environment. docker image is available on docker hub.
 
 higher-level
 ==================================================================================================================
