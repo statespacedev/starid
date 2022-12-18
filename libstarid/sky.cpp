@@ -114,7 +114,7 @@ std::vector<int> starid::Sky::stars_near_point(double x, double y, double z) {
     std::vector<int> xyz;
     std::set_intersection(xy.begin(), xy.end(), zring.begin(), zring.end(), std::back_inserter(xyz));
     std::vector<int> ndxs;
-    for (uint i = 0; i < xyz.size(); ++i) {
+    for (size_t i = 0; i < xyz.size(); ++i) {
         ndxs.push_back(xyz[i]);
     }
     return ndxs;

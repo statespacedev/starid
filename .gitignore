@@ -28,3 +28,5 @@ lang-sentences*
 /cmake-build-debug/
 /starid.egg-info/
 /.pytest_cache/
+/etc/
+/tmp/

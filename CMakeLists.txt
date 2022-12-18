@@ -1,6 +1,6 @@
 
-cmake_minimum_required( VERSION 3.0 )
+cmake_minimum_required(VERSION 3.12)
 
-project( starid )
+project(starid)
 
-add_subdirectory( libstarid )
+add_subdirectory(libstarid)

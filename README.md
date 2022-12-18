@@ -13,6 +13,10 @@ lo-fi star identification
 
 thanks to [jetbrains](https://www.jetbrains.com/) for their support [![](https://gitlab.com/noahhsmith/starid/raw/master/docs/images/jetbrains.svg)](https://www.jetbrains.com/)
 
+221212 picking back up the build topics, now on macbook instead of ubuntu.
+
+first discovery is that /usr/bin/ is just apple clang stuff. we want to use gcc and it gets put in /usr/local/bin/ by that apple open source thing, so need to configure the ide with the paths to the gcc stuff. https://stackoverflow.com/a/65040225/5716954
+
 220326 container build and test are working - from here onward, can either work in the container, or work in a local environment matching with the container environment. dockerfile shows what's needed. in addition, runtime data is expected in /tmp, so in local environment need to do
 
     cp -r data /tmp
