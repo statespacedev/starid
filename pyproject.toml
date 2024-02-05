@@ -1,0 +1,17 @@
+# setuptools via pyproject, https://setuptools.pypa.io/en/latest/userguide/pyproject_config.html
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "starid"
+version = "1.5.2"
+readme = "readme.md"
+requires-python = ">=3.10.0"
+dependencies = ["pybind11", "numpy", "matplotlib"]
+
+[tool.setuptools]
+packages = ['starid']
+
+# ... other project metadata fields as specified in:
+#     https://packaging.python.org/en/latest/specifications/declaring-project-metadata/

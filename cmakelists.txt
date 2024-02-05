@@ -1,0 +1,11 @@
+cmake_minimum_required(VERSION 3.12)
+
+project(starid)
+
+# find_package(PythonInterp 3.11 REQUIRED)
+# cmake cli options to connect pybind and python. first one should work.
+# -DPYBIND11_FINDPYTHON=ON  # should be enough
+# -DPYBIND11_PYTHON_VERSION=3.10
+# -DPYTHON_EXECUTABLE:FILEPATH=C:\Users\i28144\CLionProjects\starid\venv\Scripts\python.exe
+
+add_subdirectory(libstarid)

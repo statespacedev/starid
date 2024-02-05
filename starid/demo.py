@@ -5,20 +5,19 @@ import numpy as np
 import matplotlib.pyplot as plt
 import math
 import pprint
+from starid.util import get_project_root
 
-# sys.path.append('/tmp/cmake-build-debug/libstarid')
-sys.path.append('./cmake-build-debug/libstarid')
-
-
-# # -DPYBIND11_FINDPYTHON=ON  # initial cmake options on macbook
-# # -DPYBIND11_PYTHON_VERSION=3.10  # final cmake options on macbook
+dirext = get_project_root() + '/cmake-build-debug/libstarid'
+print(dirext)
+sys.path.append(dirext)
+os.add_dll_directory(dirext)
 
 # noinspection PyUnresolvedReferences
 class Demo:
     """handle calls to libstarid.cpp."""
 
     def __init__(self):
-        self.dirdata = './tmp/data/'
+        self.dirdata = get_project_root() + '/tmp'
         self.filecat = 'cat'
         self.filesky = 'sky'
         self.filestarpairs = 'starpairs'

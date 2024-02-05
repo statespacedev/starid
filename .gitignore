@@ -30,3 +30,4 @@ lang-sentences*
 /.pytest_cache/
 /etc/
 /tmp/
+/.python-version
