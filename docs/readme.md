@@ -2,11 +2,11 @@
 
 we'd like to have three parallel and sometimes independent workflows.
 
-- cpp - pure cpp, cpp ide and tools
+- cpp - pure cpp, cpp ide and tools, basically the libstarid-debug folder
 
-- py - pure py, py ide and tools
+- py - pure py, py ide and tools, basically the starid folder
 
-- ext - cpp extension for py, blend of the first two
+- ext - cpp extension for py, blend of the first two, basically the libstarid folder
 
 # to do what?
 
