@@ -1,12 +1,12 @@
-# what are we doing?
+# what's the idea?
 
 we'd like to have three parallel and sometimes independent workflows.
 
-- cpp - pure cpp, cpp ide and tools, basically the libstarid-debug folder
+- cpp - pure cpp, cpp ide and tools, folder /libstarid-debug
 
-- py - pure py, py ide and tools, basically the starid folder
+- py - pure py, py ide and tools, folder /starid
 
-- ext - cpp extension for py, blend of the first two, basically the libstarid folder
+- pyext - python extension in cpp, folder /libstarid
 
 # to do what?
 

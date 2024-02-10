@@ -7,24 +7,16 @@ std::random_device r;
 std::default_random_engine e1(r());
 std::uniform_real_distribution<double> unitscatter(0, 1);
 
-/*
- * class Sky:
- *    '''model the sky, based on the skymap object. the key input parameter is the star brightness threshold - with visual magnitude 6.5 the sky is about nine thousand stars, and that number grows exponentially as dimmer stars are included.'''
- * */
 starid::Sky::Sky() {
 }
 
-/*
- *    def start(self, pathin):
- *       '''initialize the sky. first generates a skymap object and then picks out the information needed here, with some enrichment - in particular with three-dimensional vectors in the celestial reference frame.'''
- * */
-void starid::Sky::start(std::string pathin) {
-    pathcat = pathin;
+void starid::Sky::start(std::string pathskymap_) {
+    pathskymap = pathskymap_;
     t = 0.0;
-    star star;
-    Skymap skymap(pathcat);
+    Star star;
+    Skymap skymap(pathskymap);
     int starndx = 0;
-    for (auto rec : skymap.records) {
+    for (auto rec: skymap.records) {
         star.starndx = starndx;
         star.skymap_number = rec.skymap_number;
         star.mv = rec.mv1;
@@ -45,6 +37,7 @@ void starid::Sky::start(std::string pathin) {
     xndxer.sort();
     yndxer.sort();
     zndxer.sort();
+    return;
 }
 
 /*
@@ -62,7 +55,7 @@ std::map<std::string, Eigen::MatrixXd> starid::Sky::image_generator(int starndx)
     MatrixXd pvecs = MatrixXd::Zero(100, 3);
     MatrixXd ndxs = MatrixXd::Zero(100, 4);
     int pvecsndx = 0;
-    for (auto ndx : starndxs) {
+    for (auto ndx: starndxs) {
         pvecs.row(pvecsndx) << stars[ndx].x, stars[ndx].y, stars[ndx].z;
         ndxs.row(pvecsndx)
                 << stars[ndx].starndx, stars[ndx].skymap_number, stars[ndx].ra_degrees, stars[ndx].dec_degrees;

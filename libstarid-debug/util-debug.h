@@ -4,8 +4,8 @@
 #include "starpairs.h"
 #include "sky.h"
 
-starid::Sky read_sky(std::string &pathsky, std::string &pathcat);
+starid::Sky sky_util(std::string &pathsky, std::string &pathskymap);
 
-starid::Starpairs read_starpairs(starid::Sky &sky, std::string &pathstarpairs);
+starid::Starpairs starpairs_util(starid::Sky &sky, std::string &pathstarpairs);
 
 #endif //STARID_UTIL_DEBUG_H

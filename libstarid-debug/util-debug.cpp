@@ -2,14 +2,14 @@
 #include <fstream>
 #include "util-debug.h"
 
-starid::Sky read_sky(std::string &pathsky, std::string &pathcat) {
+starid::Sky sky_util(std::string &pathsky, std::string &pathskymap) {
     starid::Sky sky;
     try {
         std::ifstream is1(pathsky, std::ios::binary);
         cereal::BinaryInputArchive iarchive1(is1);
         iarchive1(sky);
     } catch (...) {
-        sky.start(pathcat);
+        sky.start(pathskymap);
         std::ofstream os1(pathsky, std::ios::binary);
         cereal::BinaryOutputArchive oarchive1(os1);
         oarchive1(sky);
@@ -18,7 +18,7 @@ starid::Sky read_sky(std::string &pathsky, std::string &pathcat) {
 }
 
 
-starid::Starpairs read_starpairs(starid::Sky &sky, std::string &pathstarpairs) {
+starid::Starpairs starpairs_util(starid::Sky &sky, std::string &pathstarpairs) {
     starid::Starpairs starpairs;
     try {
         std::ifstream is2(pathstarpairs, std::ios::binary);
