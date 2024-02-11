@@ -68,7 +68,7 @@ class Demo:
 
 if __name__ == '__main__':
     starid = Demo()
+    starid.plot(starndx=3)
     starid.SETTLER(starndx=3)
     starid.NOMAD(starndx=3)
-    starid.plot(starndx=3)
     pass

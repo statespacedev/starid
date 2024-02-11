@@ -1,5 +1,6 @@
 #ifndef PROJECT_UTIL_H
 #define PROJECT_UTIL_H
+
 #include <Eigen/Core>
 #include <cereal/access.hpp>
 #include <cereal/types/utility.hpp>
@@ -15,14 +16,19 @@ namespace starid {
     const double pi = 3.14159265358979323846;
     const double arcseconds_to_radians = starid::pi / 648000.0;
 
-class FloatsIndexer {
+    class FloatsIndexer {
     public:
         void add_pair(double newfloat, int newndx);
+
         void sort();
+
         std::vector<int> findndxs(double lofloat, double hifloat);
+
     private:
         std::vector<std::pair<double, int>> float_ndx;
+
         friend class cereal::access;
+
         template<class Archive>
         void serialize(Archive &ar) {
             ar(float_ndx);
@@ -30,8 +36,11 @@ class FloatsIndexer {
     };
 
     double pairangle(Eigen::MatrixXd &, int, int);
+
     Eigen::MatrixXd pixels_to_starvecs(Eigen::MatrixXd &imgs);
+
     Eigen::Matrix3d rotation_matrix(Eigen::Vector3d &pointing);
+
     Eigen::Vector3d crossprod(Eigen::Vector3d &u, Eigen::Vector3d &v);
 }
 

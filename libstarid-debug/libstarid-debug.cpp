@@ -11,7 +11,7 @@ static std::string pathstarpairs = dirtmp + "starpairs.cereal";
 int main() {
     auto sky = sky_util(pathsky, pathskymap);
     auto starpairs = starpairs_util(sky, pathstarpairs);
-    auto image = sky.image_generator(2);
+    auto image = sky.image_generator(13);
     starid::SETTLER settler(starpairs);
     auto id1 = settler.run(image["pixels"]);
     starid::NOMAD nomad(starpairs);

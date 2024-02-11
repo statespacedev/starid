@@ -46,6 +46,7 @@ std::map<std::string, Eigen::MatrixXd> starid::Sky::image_generator(int starndx)
     MatrixXd info = MatrixXd::Zero(100, 6);
     MatrixXd targets = MatrixXd::Zero(50, 1);
     Vector3d pointing;
+    auto star = stars[starndx];
     pointing << stars[starndx].x, stars[starndx].y, stars[starndx].z;
     std::vector<int> starndxs = stars_near_point(pointing(0), pointing(1), pointing(2));
     MatrixXd pvecs = MatrixXd::Zero(100, 3);

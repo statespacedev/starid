@@ -2,8 +2,9 @@
 a brightness cutoff - all stars brighter than the cutoff. with a cutoff of visual magnitude 6.5, this means slightly
 more than all stars visible to human eyes - 8876 in total."""
 from math import pi, cos, sin
-from starid.skymap import Skymap
-from starid.util import FloatsIndexer
+from starid.sky.skymap import Skymap
+from starid.sky.geometry import FloatsIndexer
+
 
 class Sky:
     """model the sky, based on the skymap object. the key input parameter is the star brightness threshold - with
@@ -40,12 +41,32 @@ class Sky:
         self.zndxer.sort()
         return
 
-    def image_generator(self):
+    def show_image_of_target_star(self, starndx):
+        """generate a standard lo-fi image for starndx, with the sky randomly rotated. this is an image for which we
+        could perform star identification. """
+        imgdict = self.image_generator(starndx)
+        info = imgdict['info']  # use info to generate a 28 by 28 image pixel matrix
+        image = np.zeros((28, 28))
+        for rowndx in range(len(info)): image[int(info[rowndx, 0]), int(info[rowndx, 1])] = 1.0
+        starlist = []  # info ready for writing nouns, verbs, and sentences
+        for row in info:
+            if row[0] == 0: continue
+            starndx = int(row[2])
+            x = row[1] - 13.5
+            y = 13.5 - row[0]
+            r = math.ceil(math.sqrt(x ** 2 + y ** 2) * 100.) / 100.
+            starlist.append([starndx, int(row[0]), int(row[1]), x, y, r])
+        starlist = sorted(starlist, key=lambda a: a[5])
+        pprint.pprint(starlist)
+        plt.matshow(-1 * image, cmap='Greys', interpolation='nearest')
+        plt.show()
+
+    def image_generator(self, starndx):
         """creates a standard image for the target star, ready for feeding into a star identifier. the
         format is 28 x 28 pixels - lo-fi, the way we like it. makes thing tougher on us. and also by no coincidence
         matching the classic mnist character recognition data set. the story behind that is a long one,
         discussed elsewhere in the project."""
-        pass
+        return starndx
 
     def stars_near_point(self):
         """given a three-dimensional pointing vector in the celestial reference frame, return the
