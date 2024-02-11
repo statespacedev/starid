@@ -1,3 +1,4 @@
+import pprint
 from starid.definitions import star_brightness_limit
 
 class Skymap:
@@ -9,7 +10,7 @@ class Skymap:
         self.records = []
         for line in open(pathskymap, 'rt'):
             rec = Rec()
-            rec.fileline = line
+            # rec.fileline = line
             rec.mv1 = float(line[232:238])
             if rec.mv1 > star_brightness_limit: continue
             rec.iau_identifier = line[0:27].strip()
@@ -20,22 +21,21 @@ class Skymap:
             rec.sao_intnumber = int(line[43:50]) if line[43:50].strip() else None
             rec.dm_number = line[50:63].strip()
             rec.hr_number = int(line[63:67]) if line[63:67].strip() else None
-            # try { rec.wds_number = std::stoi(line.substr(67, 6)); } catch (...) {}
-            # try { rec.ppm_number = std::stoi(line.substr(83, 7)); } catch (...) {}
-            # try { rec.blended_position = std::stoi(line.substr(146, 1)); } catch (...) {}
-            # rec.rah = std::stof(line.substr(118, 2));
-            # rec.ram = std::stof(line.substr(120, 2));
-            # rec.ras = std::stof(line.substr(122, 7));
-            # rec.decd = std::stof(line.substr(130, 2));
-            # rec.decm = std::stof(line.substr(132, 2));
-            # rec.decs = std::stof(line.substr(134, 6));
-            # rec.pmra_arcsec_per_year = 15.0 * std::stof(line.substr(149, 8));
-            # rec.pmdec_arcsec_per_year = std::stof(line.substr(158, 7));
-            # rec.decsign = 1.0;
-            # rec.pmdecsign = 1.0;
-            # if (line.substr(129, 1).compare("-") == 0) rec.decsign = -1.0;
-            # if (line.substr(157, 1).compare("-") == 0) rec.pmdecsign = -1.0;
-            self.records.append([rec])
+            # rec.wds_number = int(line[67:73]) if line[67:73].strip() else None
+            rec.ppm_number = int(line[83:90]) if line[83:90].strip() else None
+            # rec.blended_position = int(line[146:147]) if line[146:147].strip() else None
+            rec.rah = float(line[118:120])
+            rec.ram = float(line[120:122])
+            rec.ras = float(line[122:129])
+            rec.decd = float(line[130:132])
+            rec.decm = float(line[132:134])
+            rec.decs = float(line[134:140])
+            rec.pmra_arcsec_per_year = 15.0 * float(line[149:157])
+            rec.pmdec_arcsec_per_year = float(line[158:165])
+            rec.decsign = -1.0 if line[129] == '-' else 1.0;
+            rec.pmdecsign = -1.0 if line[157] == '-' else 1.0;
+            self.records.append(rec)
+            # pprint.pprint(vars(rec))
 
 class Rec:
     fileline = None

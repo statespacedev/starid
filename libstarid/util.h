@@ -15,7 +15,7 @@ namespace starid {
     const double pi = 3.14159265358979323846;
     const double arcseconds_to_radians = starid::pi / 648000.0;
 
-class range_of_floats_indexer {
+class FloatsIndexer {
     public:
         void add_pair(double newfloat, int newndx);
         void sort();

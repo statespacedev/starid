@@ -21,7 +21,7 @@ public:
     std::unordered_map<int, std::unordered_map<int, int>> pairs_for_angle(double angle, double tol_radius);
 
 private:
-    starid::range_of_floats_indexer angndxs;
+    starid::FloatsIndexer angndxs;
     std::vector <std::tuple<double, int, int>> starpairs;
     std::unordered_map<std::string, int> starpairsndxs;
 

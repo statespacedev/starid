@@ -39,11 +39,11 @@ namespace starid {
     private:
         double t;
         std::string pathskymap;
-        starid::range_of_floats_indexer xndxer;
-        starid::range_of_floats_indexer yndxer;
-        starid::range_of_floats_indexer zndxer;
+        starid::FloatsIndexer xndxer;
+        starid::FloatsIndexer yndxer;
+        starid::FloatsIndexer zndxer;
 
-        std::vector<int> stars_in_ring(double p, double radius, starid::range_of_floats_indexer &table);
+        std::vector<int> stars_in_ring(double p, double radius, starid::FloatsIndexer &table);
 
         friend class cereal::access;
 

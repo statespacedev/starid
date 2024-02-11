@@ -117,7 +117,7 @@ std::vector<int> starid::Sky::stars_near_point(double x, double y, double z) {
  *    def stars_in_ring(self, p, radius, table):
  *       '''when we break the skies three-dimensional search space down into three one-dimensional search spaces, the one-dimensional spaces represent rings on the sky. we have three rings, and the stars we're interested in are in their intersection. this intersection of three rings is in some sense a three-dimensional hash map into the sky.'''
  * */
-std::vector<int> starid::Sky::stars_in_ring(double p, double radius, starid::range_of_floats_indexer &table) {
+std::vector<int> starid::Sky::stars_in_ring(double p, double radius, starid::FloatsIndexer &table) {
     double pmin, pmax;
     if (p >= cos(radius)) {
         pmin = p * cos(radius) - sqrt(1 - (p * p)) * sin(radius);

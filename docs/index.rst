@@ -27,40 +27,25 @@ higher-level
 
 python starid object making all of the lower-level stuff available - it's the interface between python and the underlying cpp. the starid object could in some sense be a singleton - there should be only one. on the other hand, it's possible to imagine paths where this is no longer true... imagine using two sets of stars from the star catalog - one including fainter stars. in short, two skies. we could have two starid objects at the same time, one for each sky.
 
-starid.py
-------------------------------------------------------------------------------------------------------------------
-
-.. automodule:: starid.starid
-    :members:
-
-api.cpp
-------------------------------------------------------------------------------------------------------------------
-
-.. automodule:: libstarid_.api
-    :members:
-
 sky model
 ==================================================================================================================
 
 interactive model of the sky, based on a set of stars from the nasa skymap star catalog. the stars are defined by a brightness cutoff - all stars brighter than the cutoff. with a cutoff of visual magnitude 6.5, this means slightly more than all stars visible to human eyes - 8876 in total.
 
-skymap.cpp
+skymap
 ------------------------------------------------------------------------------------------------------------------
 
-.. automodule:: libstarid_.skymap
+.. automodule:: starid.skymap
     :members:
 
-sky.cpp
+sky
 ------------------------------------------------------------------------------------------------------------------
 
-.. automodule:: libstarid_.sky
+.. automodule:: starid.sky
     :members:
 
-starpairs.cpp
+starpairs
 ------------------------------------------------------------------------------------------------------------------
-
-.. automodule:: libstarid_.starpairs
-    :members:
 
 identification
 ==================================================================================================================
@@ -69,23 +54,18 @@ view the sky as triangles of stars. for the target star, it's a member of a set 
 
 identifies the target of a star image, using the triangles formed by neighboring stars within the image. the fundemental particles are actually pairs of stars - in a sense individual stars don't exist here, what exists are pairs of stars, acting as sides of triangles - so a key object handed to the identifier in its constructor is a starpairs object, containing all of the relevant pairs. when possible, the starpairs object was loaded from a cerealized starpairs file, rather than generated at run-time.
 
-startriangleidentifier.cpp
+startriangleidentifier
 ------------------------------------------------------------------------------------------------------------------
 
-.. automodule:: libstarid_.startriangleidentifier
-    :members:
-
-startriangle.cpp
+startriangle
 ------------------------------------------------------------------------------------------------------------------
 
-.. automodule:: libstarid_.startriangle
-    :members:
-
-startriangleside.cpp
+startriangleside
 ------------------------------------------------------------------------------------------------------------------
 
-.. automodule:: libstarid_.startriangleside
+util
+==================================================================================================================
+
+.. automodule:: starid.util
     :members:
-
-
-
+    
