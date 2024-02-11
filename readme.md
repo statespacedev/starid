@@ -1,10 +1,10 @@
-<img src="https://gitlab.com/noahhsmith/starid/raw/master/docs/images/nouns%20and%20verbs%20level0.png" align="center" width="426" height="202"/>
+<img src="https://github.com/statespacedev/starid/raw/master/docs/images/nouns%20and%20verbs%20level0.png" align="center" width="426" height="202"/>
 
 lo-fi star identification
 
-[sky](https://gitlab.com/noahhsmith/starid/blob/master/libstarid/sky.h) - generates three-dimensional sky models and two-dimensional images from the nasa skymap star catalog. finds stars near arbitrary points on the sky. [data](https://gitlab.com/noahhsmith/starid/blob/master/data/) - the full NASA SKYMAP2000 V5R4 star catalog. [references](https://gitlab.com/noahhsmith/starid/blob/master/docs/references.md) - articles relating to star identification. [about](https://docs.google.com/document/d/1x9GSXXt31vQgR15UQpeO5mcmyg4WYv6mEDPBZ_qwCjY/edit?usp=sharing) - some of the background story.
+[sky](https://github.com/statespacedev/starid/blob/master/libstarid/sky.h) - generates three-dimensional sky models and two-dimensional images from the nasa skymap star catalog. finds stars near arbitrary points on the sky. [data](https://github.com/statespacedev/starid/blob/master/data/) - the full NASA SKYMAP2000 V5R4 star catalog. [references](https://github.com/statespacedev/starid/blob/master/docs/references.md) - articles relating to star identification. [about](https://docs.google.com/document/d/1x9GSXXt31vQgR15UQpeO5mcmyg4WYv6mEDPBZ_qwCjY/edit?usp=sharing) - some of the background story.
 
-[star triangles](https://gitlab.com/noahhsmith/starid/blob/master/libstarid/startriangleidentifier.h) - in NOMAD star recognition, there's a chain of triangles and basesides. side2 of each triangle is the baseside of the following triangle. during feedback, these shared side2 and baseside pairs are the path for information to flow backwards, increasing the constraints on the initial triangle baseside and basestar. the name NOMAD relates to how the chain of triangles wanders away from the target star and initial triangle. in SETTLER star recognition, the target star is always star a. star b is a neighbor star. in the inner loops, additional stars c and d are involved. first an abca triangle is formed. this constrains the abside. then for an abca triangle, a sequence of abda triangles are formed, further constraining the abside. when we reach an abda that eliminates all but one star pair possibility for the abside, we've recognized the target star. the name SETTLER comes from the idea that we never move away the target star, we're settling around it.
+[star triangles](https://github.com/statespacedev/starid/blob/master/libstarid/startriangleidentifier.h) - in NOMAD star recognition, there's a chain of triangles and basesides. side2 of each triangle is the baseside of the following triangle. during feedback, these shared side2 and baseside pairs are the path for information to flow backwards, increasing the constraints on the initial triangle baseside and basestar. the name NOMAD relates to how the chain of triangles wanders away from the target star and initial triangle. in SETTLER star recognition, the target star is always star a. star b is a neighbor star. in the inner loops, additional stars c and d are involved. first an abca triangle is formed. this constrains the abside. then for an abca triangle, a sequence of abda triangles are formed, further constraining the abside. when we reach an abda that eliminates all but one star pair possibility for the abside, we've recognized the target star. the name SETTLER comes from the idea that we never move away the target star, we're settling around it.
 
 20240205 now on windows clion - following on from linux qt, linux clion, macos clion. bringing include code inside the project and trying to get down to minimalistic platform independence.
 
@@ -24,7 +24,7 @@ the effects of all this are a bit mind-bending - gitlab ci/cd pipelines become s
 
 20210307 screenshot of the first identification with nomad. to celebrate, bumping version from 1.3 to 1.4. noticed a funny coincidence - the initial algorithm, now termed settler, started working almost exactly four years ago - 170305. there's a screenshot from that further below.
 
-![nomadgo](https://gitlab.com/noahhsmith/starid/raw/master/docs/images/noamdgo.png)
+![nomadgo](https://github.com/statespacedev/starid/raw/master/docs/images/noamdgo.png)
 
 20210213 vectorization and eigen are back on the front burner. looking into libstarid, there's probably some solid improvements possible just from catching up after the last several years - and it would be an opportunity to improve the documentation of what's here... i've been liking the style of documentation at readthedocs.io over the last few years - it seems to have grown up along with python. from some quick reading, readthedocs is a particular style applied to python comments by compilers such as sphinx and mkdocs. this is parallel with cpp comments compiled using doxygen - but readthedocs feels less dusty than doxygen. 
 
@@ -53,7 +53,7 @@ we want to use standard nmt, extending where needed for dynamically generated se
     input: <start> 2 7 7 4 3 5 , 9 4 8 4 7 10 . <end>
     translation: 37 56 8865 4 3 5 2 , 9 4 8 8825 8823 8 . <end> 
 
-![nmt1](https://gitlab.com/noahhsmith/starid/raw/master/docs/images/nmt1.png)
+![nmt1](https://github.com/statespacedev/starid/raw/master/docs/images/nmt1.png)
 
 20181223 lost-in-space star images are inherently dynamic and attempts at stabilizing them are compromises - approaches based on static patterns are inherently at a disadvantage. going forward we're dropping the cnn and basic-rnn stuff in favor of sequence-to-sequence, neural machine translation, dynamic-language based paths, focusing on robustness to arbitrary image-rotation.
 
@@ -141,7 +141,7 @@ initial vocabularies for ten stars are ready, with on the order of a thousand wo
      [8808, 11, 23, 9.5, 2.5, 9.83],
      [8834, 16, 23, 9.5, -2.5, 9.83],
 
-![starndx3_nouns](https://gitlab.com/noahhsmith/starid/raw/master/docs/images/starndx3_nouns.png)
+![starndx3_nouns](https://github.com/statespacedev/starid/raw/master/docs/images/starndx3_nouns.png)
 
 20171101 implementing a python class languages_starimg focused on writing sentences about star images using various custom languages, lang1, lang2, lang3, lang4, etc. initial objective is to evolve a language pair, for example lang37 and lang51, that are effective at representing geometric structure and star identifiers on the encoder and decoder sides of neural machine translation.
 
@@ -161,7 +161,7 @@ there'll be something like an image_info(target_starndx) function in libstarid, 
      [  2.00000000e+01   2.30000000e+01   9.10000000e+01   1.60054000e+05   4.08970500e+00   4.35950492e+01]
      [  5.00000000e+00   2.40000000e+01   9.70000000e+01   1.70028000e+05   4.28768208e+00   4.79474053e+01]
 
-after a bit of experimenting, turns out [orion's too big](https://gitlab.com/noahhsmith/starid/raw/master/docs/images/orion.svg) for our eight by eight degree field of view. at most, we can only see the belt together, mintaka, alnilam, and alnitak. it's worth noting this field of view was a default, to match standard ninties era star trackers. and it did in fact accidentally have some nice properties once we also defaulted to low resolution 28 by 28 pixel images to match the mnist dataset, resulting in 1000 arcsecond pixels. last two columns here are hd number and starndx.
+after a bit of experimenting, turns out [orion's too big](https://github.com/statespacedev/starid/raw/master/docs/images/orion.svg) for our eight by eight degree field of view. at most, we can only see the belt together, mintaka, alnilam, and alnitak. it's worth noting this field of view was a default, to match standard ninties era star trackers. and it did in fact accidentally have some nice properties once we also defaulted to low resolution 28 by 28 pixel images to match the mnist dataset, resulting in 1000 arcsecond pixels. last two columns here are hd number and starndx.
 
     betelgeuse, alpha, 39801, 2062
     rigel, beta, 34085, 1719
@@ -173,7 +173,7 @@ after a bit of experimenting, turns out [orion's too big](https://gitlab.com/noa
 
 20171012 on the encoder side, here's an example of generating symbols representing nouns, blue, and verbs, green. we can build symbols from numerical lengths. for a noun with sides 2.3, 5.1, 4.9 we could have the symbol 235149. on the decoder side, symbols are built from numerical starids.
 
-<img src="https://gitlab.com/noahhsmith/starid/raw/master/docs/images/nouns-and-verbs.png"/>
+<img src="https://github.com/statespacedev/starid/raw/master/docs/images/nouns-and-verbs.png"/>
 
 20171008 the more one thinks about it, the more attractive a star identification encoder decoder with an attentional interface approach grows. let's start sketching out some thoughts about the two halves.
 
@@ -230,7 +230,7 @@ a slow, noisy, overheating, six year old laptop learning to recognize a thousand
     plt.matshow(-1  image, cmap='Greys', interpolation='nearest')
     plt.show()
 
-![image](https://gitlab.com/noahhsmith/starid/raw/master/docs/images/image.png)
+![image](https://github.com/statespacedev/starid/raw/master/docs/images/image.png)
 
 20170414 underlying cpp classes are refactored and updated in preparation for the tensorflow op. they're ready to output eigen matrices representing star images directly into tensorflow graphs. the switch from armadillo to eigen is complete. here's an example of creating an image of star number 13, with random image yaw, then identifying it from the image.
 
@@ -257,25 +257,25 @@ convnet can identify ten stars, triangles can identify all stars, or at least fo
 
 20170325 basic triangles method is complete. the following is for a typical image. we're identifying the star at the center and there are 8876 possibilities. there are thirty other stars and for each an attempt is made to discard incorrect ids. in each attempt, the ideal is that the possible ids drop quickly to one. here are results using the most naive approach. in one attempt possible ids drop to ninety.
 
-<img src="https://gitlab.com/noahhsmith/starid/raw/master/docs/images/ab1.png"/>
+<img src="https://github.com/statespacedev/starid/raw/master/docs/images/ab1.png"/>
 
 next to most naive approach. an adjustment to extract more information from the image. many attempts are now dropping to twenty or less possibilities, several to five.
 
-<img src="https://gitlab.com/noahhsmith/starid/raw/master/docs/images/ab2.png"/> 
+<img src="https://github.com/statespacedev/starid/raw/master/docs/images/ab2.png"/> 
 
 another adjustment.
 
-<img src="https://gitlab.com/noahhsmith/starid/raw/master/docs/images/ab3.png"/> 
+<img src="https://github.com/statespacedev/starid/raw/master/docs/images/ab3.png"/> 
 
 final adjustment.
 
-<img src="https://gitlab.com/noahhsmith/starid/raw/master/docs/images/ab4.png"/> 
+<img src="https://github.com/statespacedev/starid/raw/master/docs/images/ab4.png"/> 
 
 20170306 next two weeks will pretty much be about vacation, so time for a bit of planning. r2017a with parallel image input into lb and rb is first. this heads towards a cpp kernel for dynamically generating images within tensorflow.
 
 20170305 triangle based identification is now working for mnist style images. this was really a challenge. here's an image of the eureka moment. nice convergence over nineteen triangles.
 
-<img src="https://gitlab.com/noahhsmith/starid/raw/master/docs/images/itworks.png"/>
+<img src="https://github.com/statespacedev/starid/raw/master/docs/images/itworks.png"/>
 
 20170227 triangle processing is now doing a decent job of handling deep cycles and iterations - tracing star pairs down through multiple layers of linked triangles. what this is revealing is just how tough the problem is for low angular resolution mnist style images. at such low resolution each star triangle contains a relatively small amount of information, or inversely a relatively large amount of uncertainty. to gather enough information to identify a star, you need a lot of low res triangles.
 
@@ -293,7 +293,7 @@ the focus now seems headed towards directly using higher level geometrical struc
 
 20170206 with stars brighter than 6.5 and pairs up to four degrees, triangle sides begin with tens of thousands of candidate pairs. with loose contraints because of position quantization, there are a lot of false positives in such a large number of candidates. multiple triangles are needed to improve the constraints. the following sketches some important components.
 
-![triangle](https://gitlab.com/noahhsmith/starid/raw/master/docs/images/triangleb.jpg)
+![triangle](https://github.com/statespacedev/starid/raw/master/docs/images/triangleb.jpg)
 
 20170123 the point in this discussion of uncertainty and triangle methods - with mnist style images a rules based approach becomes harder. previously the image was from a spacecraft grade star tracker. now it's from a childrens toy. it's a useful challenge...
 
@@ -306,15 +306,15 @@ arcseconds. the position uncertainty of a star is half this, and triangle side t
 
 20170120 triangle logic
 
-![triangle](https://gitlab.com/noahhsmith/starid/raw/master/docs/images/triangle.jpg)
+![triangle](https://github.com/statespacedev/starid/raw/master/docs/images/triangle.jpg)
 
 20170119 concepts for image and triangle
 
-![concepts](https://gitlab.com/noahhsmith/starid/raw/master/docs/images/concepts.jpg)
+![concepts](https://github.com/statespacedev/starid/raw/master/docs/images/concepts.jpg)
 
 20170116 mnist viewer. a bit of python code in data/mnist_viewer to see what's in the mnist style data files. this is bare minimum functionality for now. two examples for star 4. these demonstrate axjndx axindx plane. variations of relative positions because of quantization are clear - relative positions vibrate as yaw varies, creating inherent uncertainties in the mnist images...
 
-![imgndx3](https://gitlab.com/noahhsmith/starid/raw/master/docs/images/star4a.png) ![imgndx13](https://gitlab.com/noahhsmith/starid/raw/master/docs/images/star4b.png)
+![imgndx3](https://github.com/statespacedev/starid/raw/master/docs/images/star4a.png) ![imgndx13](https://github.com/statespacedev/starid/raw/master/docs/images/star4b.png)
 
 20170115 new school images are now in mnist and tfrecords files, and learning is working. using the first ten skymap stars and a few minutes of training
 

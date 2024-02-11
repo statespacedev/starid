@@ -5,49 +5,33 @@
 introduction
 ==================================================================================================================
 
-code is split into two folders, with the starid folder playing a special role as a python package for release on the pypi package repo.
+# what's the idea?
 
-starid python
-------------------------------------------------------------------------------------------------------------------
+we'd like to have three parallel and sometimes independent workflows.
 
-ideally, a lot can be done in python without knowing much about the underlying cpp - there's a model of the sky, a toolbox for working with it, and it's available via starid.py.
+- cpp - pure cpp, cpp ide and tools, folder /libstarid-debug
 
-libstarid cpp
-------------------------------------------------------------------------------------------------------------------
+- py - pure py, py ide and tools, folder /starid
 
-fast inner loops for working with star triangles. also useful for working with lots of three-dimensional star pointing vectors, though this is probably reasonable in python as well. in any case, hardware acceleration of vectorized computations, matrix and vector math via eigen. when computations become heavier, move them from python into cpp.
+- pyext - python extension in cpp, folder /libstarid
 
-install
-------------------------------------------------------------------------------------------------------------------
+# to do what?
 
-have switched to a container build environment - reproducible using the dockerfile. everything needed is there and can be reproduced for a local environment. docker image is available on docker hub.
-
-higher-level
-==================================================================================================================
-
-python starid object making all of the lower-level stuff available - it's the interface between python and the underlying cpp. the starid object could in some sense be a singleton - there should be only one. on the other hand, it's possible to imagine paths where this is no longer true... imagine using two sets of stars from the star catalog - one including fainter stars. in short, two skies. we could have two starid objects at the same time, one for each sky.
-
-sky model
-==================================================================================================================
-
-interactive model of the sky, based on a set of stars from the nasa skymap star catalog. the stars are defined by a brightness cutoff - all stars brighter than the cutoff. with a cutoff of visual magnitude 6.5, this means slightly more than all stars visible to human eyes - 8876 in total.
-
-skymap
-------------------------------------------------------------------------------------------------------------------
-
-.. automodule:: starid.skymap
-    :members:
+- sky - generate three-dimensional sky models and two-dimensional images from the nasa skymap star catalog. finds stars near arbitrary points on the sky. generate 'old school mnist style' 28x28 images of target stars to pass onward to 'star identification'.
 
 sky
-------------------------------------------------------------------------------------------------------------------
+==================================================================================================================
 
 .. automodule:: starid.sky
     :members:
 
-starpairs
-------------------------------------------------------------------------------------------------------------------
+.. automodule:: starid.skymap
+    :members:
 
-identification
+star pairs
+==================================================================================================================
+
+star identification
 ==================================================================================================================
 
 view the sky as triangles of stars. for the target star, it's a member of a set of triangles - eliminate candidate ids based on the geometry of these triangles. this is an iterative process and the inner loop is comparing triangle geometries. the overall speed depends on this inner loop, so the focus is on making it as efficient as possible.

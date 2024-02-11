@@ -40,10 +40,6 @@ void starid::Sky::start(std::string pathskymap_) {
     return;
 }
 
-/*
- *    def image_generator(self, starndx):
- *       '''creates a standard image for the target star, ready for feeding into a star identifier. the format is 28 x 28 pixels - lo-fi, the way we like it. makes thing tougher on us. and also by no coincidence matching the classic mnist character recognition data set. the story behind that is a long one, discussed elsewhere in the project.'''
- * */
 std::map<std::string, Eigen::MatrixXd> starid::Sky::image_generator(int starndx) {
     using namespace Eigen;
     MatrixXd pixels = MatrixXd::Zero(28, 28);
@@ -93,10 +89,6 @@ std::map<std::string, Eigen::MatrixXd> starid::Sky::image_generator(int starndx)
     return result;
 }
 
-/*
- *    def stars_near_point(self, x, y, z):
- *       '''given a three-dimensional pointing vector in the celestial reference frame, return the identifiers for nearby stars. this is fundamental - we have to be able to call up the stars near a target on the sky. it's a rich problem we'll be discussing throughout the project documentation. here we break the three-dimensional search space down into three one-dimensional search spaces, and create a map or hash-index into each of those. in a sense - it's a three-dimensional hash map into the sky.'''
- * */
 std::vector<int> starid::Sky::stars_near_point(double x, double y, double z) {
     double max_ang = 1.4 * starid::image_radius_radians;
     std::vector<int> xring = stars_in_ring(x, max_ang, xndxer);
@@ -113,10 +105,6 @@ std::vector<int> starid::Sky::stars_near_point(double x, double y, double z) {
     return ndxs;
 }
 
-/*
- *    def stars_in_ring(self, p, radius, table):
- *       '''when we break the skies three-dimensional search space down into three one-dimensional search spaces, the one-dimensional spaces represent rings on the sky. we have three rings, and the stars we're interested in are in their intersection. this intersection of three rings is in some sense a three-dimensional hash map into the sky.'''
- * */
 std::vector<int> starid::Sky::stars_in_ring(double p, double radius, starid::FloatsIndexer &table) {
     double pmin, pmax;
     if (p >= cos(radius)) {

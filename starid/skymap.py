@@ -1,3 +1,9 @@
+"""nasa skymap sky2000 is the foundation here and it's got some interesting history. back in the day i interacted
+with some of the people involved and learned a bit. there were roughly two phases of skymap's history - before
+hubble, and after. nasa still had power in those days, and when it turned out after launch that star catalogs were
+among hubble's problems, resources were allocated to improve skymap. serious work was done in the 90s to make it the
+baseline catalog for spacecraft star trackers. `more here
+<https://github.com/statespacedev/starid/tree/master/data>`__"""
 import pprint
 from starid.definitions import star_brightness_limit
 
