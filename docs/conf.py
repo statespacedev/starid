@@ -1,6 +1,5 @@
 """use sphinx options -a -E"""
-import os
-from starid.util import get_project_root
+from starid.util.get_project_root import get_project_root
 import sys
 sys.path.append(get_project_root() + '../starid/')
 sys.path.append(get_project_root() + '../docs/')

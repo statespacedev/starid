@@ -2,6 +2,7 @@
 a brightness cutoff - all stars brighter than the cutoff. with a cutoff of visual magnitude 6.5, this means slightly
 more than all stars visible to human eyes - 8876 in total."""
 from math import pi, cos, sin
+import numpy as np
 from starid.sky.skymap import Skymap
 from starid.sky.geometry import FloatsIndexer
 
@@ -19,9 +20,9 @@ class Sky:
     def start(self, pathskymap):
         """initialize the sky. first generates a skymap object and then picks out the information needed here,
         with some enrichment - in particular with three-dimensional vectors in the celestial reference frame."""
-        star = Star()
         skymap = Skymap(pathskymap)
         for ndx, rec in enumerate(skymap.records):
+            star = Star()
             star.starndx = ndx
             star.skymap_number = rec.skymap_number
             star.mv = rec.mv1
@@ -66,6 +67,8 @@ class Sky:
         format is 28 x 28 pixels - lo-fi, the way we like it. makes thing tougher on us. and also by no coincidence
         matching the classic mnist character recognition data set. the story behind that is a long one,
         discussed elsewhere in the project."""
+        star = self.stars[starndx]
+        pointing = np.array([[star.x, star.y, star.z]]).T
         return starndx
 
     def stars_near_point(self):

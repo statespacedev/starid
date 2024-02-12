@@ -42,6 +42,7 @@ class Skymap:
             rec.pmdecsign = -1.0 if line[157] == '-' else 1.0;
             self.records.append(rec)
             # pprint.pprint(vars(rec))
+        return
 
 class Rec:
     fileline = None

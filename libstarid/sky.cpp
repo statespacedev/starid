@@ -13,10 +13,10 @@ starid::Sky::Sky() {
 void starid::Sky::start(std::string pathskymap_) {
     pathskymap = pathskymap_;
     t = 0.0;
-    Star star;
     Skymap skymap(pathskymap);
     int starndx = 0;
     for (auto rec: skymap.records) {
+        Star star;
         star.starndx = starndx;
         star.skymap_number = rec.skymap_number;
         star.mv = rec.mv1;
@@ -47,7 +47,7 @@ std::map<std::string, Eigen::MatrixXd> starid::Sky::image_generator(int starndx)
     MatrixXd targets = MatrixXd::Zero(50, 1);
     Vector3d pointing;
     auto star = stars[starndx];
-    pointing << stars[starndx].x, stars[starndx].y, stars[starndx].z;
+    pointing << star.x, star.y, star.z;
     std::vector<int> starndxs = stars_near_point(pointing(0), pointing(1), pointing(2));
     MatrixXd pvecs = MatrixXd::Zero(100, 3);
     MatrixXd ndxs = MatrixXd::Zero(100, 4);
