@@ -14,3 +14,8 @@ class FloatsIndexer:
     def sort(self):
         """sort based on the float values along an axis, so we can grab all stars between some min and max."""
         self.float_ndx.sort()
+
+    def findndxs(self, lofloat, hifloat):
+        """get all the (float, starndx) pairs between lofloat and hifloat. we want those starndxs."""
+        starndxs = [x[1] for x in self.float_ndx if lofloat <= x[0] <= hifloat]
+        return sorted(starndxs)

@@ -1,11 +1,11 @@
 """interactive model of the sky, based on a set of stars from the nasa skymap star catalog. the stars are defined by
 a brightness cutoff - all stars brighter than the cutoff. with a cutoff of visual magnitude 6.5, this means slightly
 more than all stars visible to human eyes - 8876 in total."""
-from math import pi, cos, sin
+from math import pi, cos, sin, sqrt
 import numpy as np
 from starid.sky.skymap import Skymap
 from starid.sky.geometry import FloatsIndexer
-
+from starid.definitions import image_radius_radians
 
 class Sky:
     """model the sky, based on the skymap object. the key input parameter is the star brightness threshold - with
@@ -14,7 +14,8 @@ class Sky:
 
     def __init__(self):
         self.stars = []
-        self.xndxer, self.yndxer, self.zndxer = FloatsIndexer(), FloatsIndexer(), FloatsIndexer()
+        self.axes = [FloatsIndexer(), FloatsIndexer(), FloatsIndexer()]
+        self.max_ang = 1.4 * image_radius_radians
         pass
 
     def start(self, pathskymap):
@@ -33,13 +34,11 @@ class Sky:
             star.x = cos(ra) * cos(dec)
             star.y = sin(ra) * cos(dec)
             star.z = sin(dec)
-            self.xndxer.add_pair(star.x, ndx);
-            self.yndxer.add_pair(star.y, ndx);
-            self.zndxer.add_pair(star.z, ndx);
+            self.axes[0].add_pair(star.x, ndx);
+            self.axes[1].add_pair(star.y, ndx);
+            self.axes[2].add_pair(star.z, ndx);
             self.stars.append(star)
-        self.xndxer.sort()
-        self.yndxer.sort()
-        self.zndxer.sort()
+        for axis in self.axes: axis.sort()
         return
 
     def show_image_of_target_star(self, starndx):
@@ -69,22 +68,35 @@ class Sky:
         discussed elsewhere in the project."""
         star = self.stars[starndx]
         pointing = np.array([[star.x, star.y, star.z]]).T
-        return starndx
+        starndxs = self.stars_near_point(pointing)
+        return starndxs
 
-    def stars_near_point(self):
+    def stars_near_point(self, pointing):
         """given a three-dimensional pointing vector in the celestial reference frame, return the
         identifiers for nearby stars. this is fundamental - we have to be able to call up the stars near a target on
         the sky. it's a rich problem we'll be discussing throughout the project documentation. here we break the
         three-dimensional search space down into three one-dimensional search spaces, and create a map or hash-index
         into each of those. in a sense - it's a three-dimensional hash map into the sky."""
-        pass
+        xring = self.stars_in_ring(pointing[0, 0], 0)
+        yring = self.stars_in_ring(pointing[1, 0], 1)
+        zring = self.stars_in_ring(pointing[2, 0], 2)
+        return xring
 
-    def stars_in_ring(self):
+    def stars_in_ring(self, p, n):
         """when we break the skies three-dimensional search space down into three one-dimensional search
         spaces, the one-dimensional spaces represent rings on the sky. we have three rings, and the stars we're
         interested in are in their intersection. this intersection of three rings is in some sense a
         three-dimensional hash map into the sky."""
-        pass
+        if p >= cos(self.max_ang):
+            pmin = p * cos(self.max_ang) - sqrt(1 - (p * p)) * sin(self.max_ang)
+            pmax = 1.0
+        elif p <= -cos(self.max_ang):
+            pmin = -1.0
+            pmax = p * cos(self.max_ang) + sqrt(1 - (p * p)) * sin(self.max_ang)
+        else:
+            pmin = p * cos(self.max_ang) - sqrt(1 - (p * p)) * sin(self.max_ang)
+            pmax = p * cos(self.max_ang) + sqrt(1 - (p * p)) * sin(self.max_ang)
+        return self.axes[n].findndxs(pmin, pmax)
 
 class Star:
     starndx = 0
