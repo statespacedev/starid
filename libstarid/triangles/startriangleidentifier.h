@@ -1,8 +1,8 @@
 #ifndef STARTRIANGLES_H
 #define STARTRIANGLES_H
-#include <Eigen/Core>
-#include "starpairs.h"
-#include "startriangle.h"
+#include "include/Eigen/Core"
+#include "triangles/starpairs.h"
+#include "triangles/startriangle.h"
 
 namespace starid {
 

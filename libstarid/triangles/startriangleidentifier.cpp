@@ -1,5 +1,5 @@
 #include "startriangleidentifier.h"
-#include "util.h"
+#include "../sky/geometry.h"
 
 /*
  * class NOMAD:

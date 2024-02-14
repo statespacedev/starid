@@ -1,5 +1,5 @@
 #include "util-debug.h"
-#include "startriangleidentifier.h"
+#include "triangles/startriangleidentifier.h"
 
 // use approprate path formatting, on windows C:\\Users\\i28144\\CLionProjects\\starid\\data\\skymap.txt
 static std::string dirdata = "C:\\Users\\i28144\\CLionProjects\\starid\\data\\";
@@ -10,8 +10,9 @@ static std::string pathstarpairs = dirtmp + "starpairs.cereal";
 
 int main() {
     auto sky = sky_util(pathsky, pathskymap);
+    auto image = sky.image_generator(3);
+
     auto starpairs = starpairs_util(sky, pathstarpairs);
-    auto image = sky.image_generator(13);
     starid::SETTLER settler(starpairs);
     auto id1 = settler.run(image["pixels"]);
     starid::NOMAD nomad(starpairs);

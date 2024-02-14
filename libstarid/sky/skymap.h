@@ -1,7 +1,7 @@
 #ifndef STARID_SKYMAP_H
 #define STARID_SKYMAP_H
 
-#include "util.h"
+#include "geometry.h"
 
 namespace starid {
 

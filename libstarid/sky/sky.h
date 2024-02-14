@@ -1,9 +1,9 @@
 #ifndef SKY_H
 #define SKY_H
 
-#include <Eigen/Core>
+#include "include/Eigen/Core"
 #include <map>
-#include "util.h"
+#include "geometry.h"
 
 namespace starid {
 

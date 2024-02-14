@@ -4,9 +4,9 @@
 #include <pybind11/pybind11.h>
 #include <pybind11/eigen.h>
 #include <pybind11/stl.h>
-#include "sky.h"
-#include "startriangleidentifier.h"
-#include "starpairs.h"
+#include "sky/sky.h"
+#include "triangles/startriangleidentifier.h"
+#include "triangles/starpairs.h"
 
 class Api {
 public:

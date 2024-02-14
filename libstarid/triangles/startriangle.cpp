@@ -1,5 +1,5 @@
 #include "startriangle.h"
-#include "util.h"
+#include "../sky/geometry.h"
 
 /*
  * class StartriangleNOMAD:

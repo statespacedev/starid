@@ -4,7 +4,7 @@ more than all stars visible to human eyes - 8876 in total."""
 from math import pi, cos, sin, sqrt
 import numpy as np
 from starid.sky.skymap import Skymap
-from starid.sky.geometry import FloatsIndexer
+from starid.sky.geometry import FloatsIndexer, rotation_matrix
 from starid.definitions import image_radius_radians
 
 class Sky:
@@ -66,9 +66,14 @@ class Sky:
         format is 28 x 28 pixels - lo-fi, the way we like it. makes thing tougher on us. and also by no coincidence
         matching the classic mnist character recognition data set. the story behind that is a long one,
         discussed elsewhere in the project."""
-        star = self.stars[starndx]
-        pointing = np.array([[star.x, star.y, star.z]]).T
+        sts = self.stars
+        target = sts[starndx]
+        pointing = np.array([[target.x, target.y, target.z]]).T
         starndxs = self.stars_near_point(pointing)
+        pvecs = np.asarray([[sts[n].x, sts[n].y, sts[n].z] for n in starndxs])
+        ndxs = [[sts[n].starndx, sts[n].skymap_number, sts[n].ra_degrees, sts[n].dec_degrees] for n in starndxs]
+        attitude = rotation_matrix(pointing)
+        pvecs = (attitude.T @ pvecs.T).T
         return starndxs
 
     def stars_near_point(self, pointing):
@@ -80,7 +85,8 @@ class Sky:
         xring = self.stars_in_ring(pointing[0, 0], 0)
         yring = self.stars_in_ring(pointing[1, 0], 1)
         zring = self.stars_in_ring(pointing[2, 0], 2)
-        return xring
+        starndxs = sorted(list(set(xring).intersection(set(yring)).intersection(set(zring))))
+        return starndxs
 
     def stars_in_ring(self, p, n):
         """when we break the skies three-dimensional search space down into three one-dimensional search

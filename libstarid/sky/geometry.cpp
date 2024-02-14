@@ -1,4 +1,4 @@
-#include "util.h"
+#include "geometry.h"
 
 double starid::pairangle(Eigen::MatrixXd &starvecs, int ndxa, int ndxb) {
     Eigen::Vector3d uvec1 = starvecs.row(ndxa);

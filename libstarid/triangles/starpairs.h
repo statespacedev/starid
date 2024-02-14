@@ -1,15 +1,15 @@
 #ifndef STARID_STARPAIRS_H
 #define STARID_STARPAIRS_H
 
-#include <Eigen/Core>
-#include <cereal/access.hpp>
-#include <cereal/types/vector.hpp>
-#include <cereal/types/string.hpp>
-#include <cereal/types/tuple.hpp>
-#include <cereal/types/unordered_map.hpp>
+#include "include/Eigen/Core"
+#include "include/cereal/access.hpp"
+#include "include/cereal/types/vector.hpp"
+#include "include/cereal/types/string.hpp"
+#include "include/cereal/types/tuple.hpp"
+#include "include/cereal/types/unordered_map.hpp"
 #include <unordered_map>
 #include <map>
-#include "sky.h"
+#include "sky/sky.h"
 
 namespace starid {
 
