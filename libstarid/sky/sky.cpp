@@ -44,10 +44,9 @@ std::map<std::string, Eigen::MatrixXd> starid::Sky::image_generator(int starndx)
     using namespace Eigen;
     MatrixXd pixels = MatrixXd::Zero(28, 28);
     MatrixXd info = MatrixXd::Zero(100, 6);
-    MatrixXd targets = MatrixXd::Zero(50, 1);
     Vector3d pointing;
-    auto star = stars[starndx];
-    pointing << star.x, star.y, star.z;
+    auto target = stars[starndx];
+    pointing << target.x, target.y, target.z;
     std::vector<int> starndxs = stars_near_point(pointing(0), pointing(1), pointing(2));
     MatrixXd pvecs = MatrixXd::Zero(100, 3);
     MatrixXd ndxs = MatrixXd::Zero(100, 4);
@@ -64,13 +63,13 @@ std::map<std::string, Eigen::MatrixXd> starid::Sky::image_generator(int starndx)
     double yaw = unitscatter(e1) * 2 * starid::pi;
     int imgindx = 0;
     for (int ndx = 0; ndx < pvecsndx; ++ndx) {
+        if (ndxs(ndx, 0) == starndx) continue; // target star is implicit in the results
         double x = std::cos(yaw) * pvecs(ndx, 0) - std::sin(yaw) * pvecs(ndx, 1);
         double y = std::sin(yaw) * pvecs(ndx, 0) + std::cos(yaw) * pvecs(ndx, 1);
         double axi = x + starid::image_radius_unit_vector_plane;
         double axj = -y + starid::image_radius_unit_vector_plane;
         int axindx = std::floor(axi / starid::image_pixel_unit_vector_plane);
         int axjndx = std::floor(axj / starid::image_pixel_unit_vector_plane);
-        if (ndxs(ndx, 0) == starndx) continue;
         if (axjndx < 0 || axjndx > 27) continue;
         if (axindx < 0 || axindx > 27) continue;
         pixels(axjndx, axindx) = 1.0;
@@ -82,12 +81,10 @@ std::map<std::string, Eigen::MatrixXd> starid::Sky::image_generator(int starndx)
         info(imgindx, 5) = ndxs(ndx, 3); // dec
         ++imgindx;
     }
-    targets(0, 0) = starndx;
-    std::map<std::string, Eigen::MatrixXd> result;
-    result["pixels"] = pixels;
-    result["info"] = info;
-    result["stars"] = targets;
-    return result;
+    std::map<std::string, Eigen::MatrixXd> imgdata;
+    imgdata["pixels"] = pixels;
+    imgdata["info"] = info;
+    return imgdata;
 }
 
 std::vector<int> starid::Sky::stars_near_point(double x, double y, double z) {

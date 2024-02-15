@@ -33,6 +33,7 @@ def rotation_matrix(bodyz):
     return np.hstack((bodyx, bodyy, normalized(bodyz, axis=0)))
 
 def normalized(a, axis=-1, order=2):
+    """standard unit vector. vector length/magnitude is one. L2 norm in math jargon."""
     l2 = np.atleast_1d(np.linalg.norm(a, order, axis))
     l2[l2==0] = 1
     return a / np.expand_dims(l2, axis)

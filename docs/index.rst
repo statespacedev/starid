@@ -13,7 +13,7 @@ we'd like to have three parallel and sometimes/often independent workflows.
 
 - pyext - python extension in cpp, folder libstarid
 
-we're using classic vector and matrix representations so things look like what's in the literature. this means lots of single letter variables, with capital letters for matrices and lower case letters for vectors. literature >> code. here's what numpy wants for row and column vectors.
+where possible, we're using classic vector and matrix representations so things look like what's in the literature. literature >> code. here's what numpy wants for row and column vectors.
 
 .. code-block:: python
 
@@ -25,7 +25,7 @@ column vectors are used here - so the dot product of x with itself is xTx - or x
 starid
 ==================================================================================================================
 
-.. automodule:: starid.main
+.. automodule:: starid.entrypoint_main
     :members:
 
 sky

@@ -1,11 +1,13 @@
 """interactive model of the sky, based on a set of stars from the nasa skymap star catalog. the stars are defined by
 a brightness cutoff - all stars brighter than the cutoff. with a cutoff of visual magnitude 6.5, this means slightly
 more than all stars visible to human eyes - 8876 in total."""
-from math import pi, cos, sin, sqrt
+import random
+from math import pi, cos, sin, sqrt, floor
 import numpy as np
+import matplotlib.pyplot as plt
 from starid.sky.skymap import Skymap
 from starid.sky.geometry import FloatsIndexer, rotation_matrix
-from starid.definitions import image_radius_radians
+from starid.definitions import image_radius_radians, image_radius_unit_vector_plane, image_pixel_unit_vector_plane
 
 class Sky:
     """model the sky, based on the skymap object. the key input parameter is the star brightness threshold - with
@@ -43,21 +45,9 @@ class Sky:
 
     def show_image_of_target_star(self, starndx):
         """generate a standard lo-fi image for starndx, with the sky randomly rotated. this is an image for which we
-        could perform star identification. """
-        imgdict = self.image_generator(starndx)
-        info = imgdict['info']  # use info to generate a 28 by 28 image pixel matrix
-        image = np.zeros((28, 28))
-        for rowndx in range(len(info)): image[int(info[rowndx, 0]), int(info[rowndx, 1])] = 1.0
-        starlist = []  # info ready for writing nouns, verbs, and sentences
-        for row in info:
-            if row[0] == 0: continue
-            starndx = int(row[2])
-            x = row[1] - 13.5
-            y = 13.5 - row[0]
-            r = math.ceil(math.sqrt(x ** 2 + y ** 2) * 100.) / 100.
-            starlist.append([starndx, int(row[0]), int(row[1]), x, y, r])
-        starlist = sorted(starlist, key=lambda a: a[5])
-        pprint.pprint(starlist)
+        could perform star identification."""
+        imgdata, image = self.image_generator(starndx), np.zeros((28, 28))
+        for info in imgdata['info']: image[info[0], info[1]] = 1.0
         plt.matshow(-1 * image, cmap='Greys', interpolation='nearest')
         plt.show()
 
@@ -74,7 +64,23 @@ class Sky:
         ndxs = [[sts[n].starndx, sts[n].skymap_number, sts[n].ra_degrees, sts[n].dec_degrees] for n in starndxs]
         attitude = rotation_matrix(pointing)
         pvecs = (attitude.T @ pvecs.T).T
-        return starndxs
+        yaw = random.uniform(0., 2 * pi)
+        imgdata, pixels, info = dict(), np.zeros((28, 28)), []
+        for ndx, pvec in enumerate(pvecs):
+            if ndxs[ndx][0] == starndx: continue  # target star is implicit in the results
+            x = cos(yaw) * pvec[0] - sin(yaw) * pvec[1]
+            y = sin(yaw) * pvec[0] + cos(yaw) * pvec[1]
+            axi = x + image_radius_unit_vector_plane
+            axj = -y + image_radius_unit_vector_plane;
+            axindx = floor(axi / image_pixel_unit_vector_plane)
+            axjndx = floor(axj / image_pixel_unit_vector_plane)
+            if axjndx < 0 or axjndx > 27: continue
+            if axindx < 0 or axindx > 27: continue
+            pixels[axjndx, axindx] = 1.0
+            info += [[axjndx, axindx, *ndxs[ndx]]]
+        imgdata['pixels'] = pixels
+        imgdata['info'] = info
+        return imgdata
 
     def stars_near_point(self, pointing):
         """given a three-dimensional pointing vector in the celestial reference frame, return the

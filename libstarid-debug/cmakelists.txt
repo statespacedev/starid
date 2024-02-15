@@ -4,4 +4,4 @@ project(libstarid-debug)
 
 include_directories(../libstarid ../libstarid/include)
 
-add_executable(libstarid-debug libstarid-debug.cpp util-debug.cpp ../libstarid/sky/skymap.cpp ../libstarid/sky/sky.cpp ../libstarid/triangles/starpairs.cpp ../libstarid/triangles/startriangle.cpp ../libstarid/triangles/startriangleside.cpp ../libstarid/triangles/startriangleidentifier.cpp ../libstarid/sky/geometry.cpp)
+add_executable(libstarid-debug entrypoint_main.cpp ../libstarid/sky/skymap.cpp ../libstarid/sky/sky.cpp ../libstarid/triangles/starpairs.cpp ../libstarid/triangles/startriangle.cpp ../libstarid/triangles/startriangleside.cpp ../libstarid/triangles/startriangleidentifier.cpp ../libstarid/sky/geometry.cpp)
