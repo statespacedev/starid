@@ -27,7 +27,7 @@ namespace starid {
     public:
         Sky();
 
-        void start(std::string pathskymap_);
+        void generate(std::string pathskymap_);
 
         std::vector<Star> stars;
         std::vector<std::string> catalog_lines;

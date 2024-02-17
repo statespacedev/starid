@@ -35,7 +35,7 @@ starid::Sky sky_util(std::string &pathsky_, std::string &pathskymap_) {
         cereal::BinaryInputArchive iarchive1(is1);
         iarchive1(sky);
     } catch (...) {
-        sky.start(pathskymap_);
+        sky.generate(pathskymap_);
         std::ofstream os1(pathsky_, std::ios::binary);
         cereal::BinaryOutputArchive oarchive1(os1);
         oarchive1(sky);

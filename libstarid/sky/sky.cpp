@@ -10,7 +10,7 @@ std::uniform_real_distribution<double> unitscatter(0, 1);
 starid::Sky::Sky() {
 }
 
-void starid::Sky::start(std::string pathskymap_) {
+void starid::Sky::generate(std::string pathskymap_) {
     pathskymap = pathskymap_;
     t = 0.0;
     Skymap skymap(pathskymap);

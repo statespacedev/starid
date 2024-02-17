@@ -20,7 +20,7 @@ class Sky:
         self.max_ang = 1.4 * image_radius_radians
         pass
 
-    def start(self, pathskymap):
+    def generate(self, pathskymap):
         """initialize the sky. first generates a skymap object and then picks out the information needed here,
         with some enrichment - in particular with three-dimensional vectors in the celestial reference frame."""
         skymap = Skymap(pathskymap)
