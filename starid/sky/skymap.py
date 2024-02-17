@@ -5,7 +5,7 @@ among hubble's problems, resources were allocated to improve skymap. serious wor
 baseline catalog for spacecraft star trackers. `more here
 <https://github.com/statespacedev/starid/tree/master/data>`__"""
 import pprint
-from starid.definitions import star_brightness_limit
+from starid.sky.geometry import star_brightness_limit
 
 class Skymap:
     """bring the nasa skymap sky2000 v5r4 star catalog in. there are peculiarities to this catalog, and they should

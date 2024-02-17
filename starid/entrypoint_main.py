@@ -19,6 +19,7 @@ def main():
     # sky.show_image_of_target_star(3)
 
     starpairs = starpairs_util(sky, pathstarpairs)
+
     return
 
 def sky_util(pathsky_, pathskymap_):

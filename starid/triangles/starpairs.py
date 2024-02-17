@@ -10,7 +10,7 @@ starpairs file, rather than generated at run-time."""
 import numpy as np
 from math import acos
 from starid.sky.geometry import FloatsIndexer
-from starid.definitions import star_pair_angle_limit
+from starid.sky.geometry import star_pair_angle_limit
 
 class Starpairs:
     """foundation for star triangles - a star pair is a triangle-side - it's the fundamental particle of a triangle

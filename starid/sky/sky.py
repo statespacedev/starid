@@ -7,7 +7,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from starid.sky.skymap import Skymap
 from starid.sky.geometry import FloatsIndexer, rotation_matrix
-from starid.definitions import image_radius_radians, image_radius_unit_vector_plane, image_pixel_unit_vector_plane
+from starid.sky.geometry import image_radius_radians, image_radius_unit_vector_plane, image_pixel_unit_vector_plane
 
 class Sky:
     """model the sky, based on the skymap object. the key input parameter is the star brightness threshold - with

@@ -1,8 +1,8 @@
 """use sphinx options -a -E"""
 from starid.util.get_project_root import get_project_root
 import sys
-sys.path.append(get_project_root() + '../starid/')
-sys.path.append(get_project_root() + '../docs/')
+sys.path.append(get_project_root() + '/starid/')
+sys.path.append(get_project_root() + '/docs/')
 
 project = "starid"
 copyright = "2024, noah smith"
