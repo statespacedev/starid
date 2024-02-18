@@ -1,4 +1,3 @@
-#include "startriangleidentifier.h"
 #include "starpairs.h"
 
 starid::Starpairs::Starpairs() {}
@@ -39,8 +38,8 @@ std::unordered_map<int, std::unordered_map<int, int>> starid::Starpairs::pairs_f
     if (ang1 >= starid::star_pair_angle_limit - epsilon * tol_radius)
         ang1 = starid::star_pair_angle_limit - epsilon * tol_radius;
     if (ang2 >= starid::star_pair_angle_limit) ang2 = starid::star_pair_angle_limit;
-    std::vector<int> intsFromTable = angndxs.findndxs(ang1, ang2);
-    for (auto ndx : intsFromTable) {
+    std::vector<int> pairndxs = angndxs.findndxs(ang1, ang2);
+    for (auto ndx : pairndxs) {
         int star1 = std::get<1>(starpairs[ndx]);
         int star2 = std::get<2>(starpairs[ndx]);
         auto it1 = stars.find(star1);

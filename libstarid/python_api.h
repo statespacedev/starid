@@ -5,7 +5,7 @@
 #include <pybind11/eigen.h>
 #include <pybind11/stl.h>
 #include "sky/sky.h"
-#include "triangles/startriangleidentifier.h"
+#include "triangles/nomad.h"
 #include "triangles/starpairs.h"
 
 class Api {

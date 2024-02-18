@@ -9,3 +9,6 @@ sky
 
 .. automodule:: starid.sky.geometry
     :members:
+
+.. automodule:: starid.sky.image
+    :members:

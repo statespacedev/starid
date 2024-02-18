@@ -3,7 +3,7 @@
   :hidden:
 
   sky
-  starpairs
+  triangles
   notes
 
 starid

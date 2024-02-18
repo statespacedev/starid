@@ -2,7 +2,8 @@
 #include <fstream>
 #include "sky/sky.h"
 #include "triangles/starpairs.h"
-#include "triangles/startriangleidentifier.h"
+#include "triangles/settler.h"
+#include "triangles/nomad.h"
 
 // use approprate path formatting, on windows C:\\Users\\i28144\\CLionProjects\\starid\\data\\skymap.txt
 static std::string dirdata = R"(C:\Users\i28144\CLionProjects\starid\data\)";

@@ -5,6 +5,7 @@ import pickle
 from starid.util.get_project_root import get_project_root
 from starid.sky.sky import Sky
 from starid.triangles.starpairs import Starpairs
+from starid.triangles.settler import SETTLER
 
 dirdata = get_project_root() + '/data/'
 dirtmp = get_project_root() + '/tmp/'
@@ -16,9 +17,13 @@ if not os.path.exists(dirtmp): os.makedirs(dirtmp)
 def main():
     """directly comparable with main() of libstatid-debug/entrypoint_main.cp"""
     sky = sky_util(pathsky, pathskymap)
-    # sky.show_image_of_target_star(3)
+    image = sky.image_of_target(3)
+    # image.plot()
 
     starpairs = starpairs_util(sky, pathstarpairs)
+
+    settler = SETTLER(starpairs)
+    settler.run(image)
 
     return
 

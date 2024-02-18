@@ -33,14 +33,12 @@ def rotation_matrix(bodyz):
     """standard three dimensional rotation matrix representing the baseline attitude of our 'camera's body' in space.
     the z axis is along the camera's optical axis and 'yaw' is around this axis. for the baseline attitude,
     yaw is zero. to randomize the two dimensional sky images we create, we'll later apply random yaws."""
-    rm = np.eye(3)
     icrfz = np.asarray([[0., 0., 1.]]).T
-    bodyx = normalized(np.cross(bodyz, icrfz, axisa=0, axisb=0).T, axis=0)
-    bodyy = normalized(np.cross(bodyz, bodyx, axisa=0, axisb=0).T, axis=0)
-    return np.hstack((bodyx, bodyy, normalized(bodyz, axis=0)))
+    bodyx = normalized(np.cross(bodyz, icrfz, axisa=0, axisb=0).T)
+    bodyy = normalized(np.cross(bodyz, bodyx, axisa=0, axisb=0).T)
+    return np.hstack((bodyx, bodyy, normalized(bodyz)))
 
-def normalized(a, axis=-1, order=2):
-    """standard unit vector. vector length/magnitude is one. L2 norm in math jargon."""
-    l2 = np.atleast_1d(np.linalg.norm(a, order, axis))
-    l2[l2==0] = 1
-    return a / np.expand_dims(l2, axis)
+def normalized(a):
+    """standard unit vector. vector length/magnitude is one. L2 norm."""
+    b = a / np.linalg.norm(a)
+    return b

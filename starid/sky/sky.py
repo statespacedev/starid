@@ -1,13 +1,11 @@
 """interactive model of the sky, based on a set of stars from the nasa skymap star catalog. the stars are defined by
 a brightness cutoff - all stars brighter than the cutoff. with a cutoff of visual magnitude 6.5, this means slightly
 more than all stars visible to human eyes - 8876 in total."""
-import random
 from math import pi, cos, sin, sqrt, floor
 import numpy as np
-import matplotlib.pyplot as plt
 from starid.sky.skymap import Skymap
-from starid.sky.geometry import FloatsIndexer, rotation_matrix
-from starid.sky.geometry import image_radius_radians, image_radius_unit_vector_plane, image_pixel_unit_vector_plane
+from starid.sky.geometry import FloatsIndexer, rotation_matrix, normalized
+from starid.sky.image import Image
 
 class Sky:
     """model the sky, based on the skymap object. the key input parameter is the star brightness threshold - with
@@ -43,15 +41,7 @@ class Sky:
         for axis in self.axes: axis.sort()
         return
 
-    def show_image_of_target_star(self, starndx):
-        """generate a standard lo-fi image for starndx, with the sky randomly rotated. this is an image for which we
-        could perform star identification."""
-        imgdata, image = self.image_generator(starndx), np.zeros((28, 28))
-        for info in imgdata['info']: image[info[0], info[1]] = 1.0
-        plt.matshow(-1 * image, cmap='Greys', interpolation='nearest')
-        plt.show()
-
-    def image_generator(self, starndx):
+    def image_of_target(self, starndx):
         """creates a standard image for the target star, ready for feeding into a star identifier. the
         format is 28 x 28 pixels - lo-fi, the way we like it. makes thing tougher on us. and also by no coincidence
         matching the classic mnist character recognition data set. the story behind that is a long one,
@@ -59,30 +49,14 @@ class Sky:
         sts = self.stars
         target = sts[starndx]
         pointing = np.array([[target.x, target.y, target.z]]).T
-        starndxs = self.stars_near_point(pointing)
+        starndxs = self.stars_near_point(pointing, starndx)
         pvecs = np.asarray([[sts[n].x, sts[n].y, sts[n].z] for n in starndxs])
-        ndxs = [[sts[n].starndx, sts[n].skymap_number, sts[n].ra_degrees, sts[n].dec_degrees] for n in starndxs]
+        info = [[sts[n].starndx, sts[n].skymap_number, sts[n].ra_degrees, sts[n].dec_degrees] for n in starndxs]
         attitude = rotation_matrix(pointing)
         pvecs = (attitude.T @ pvecs.T).T
-        yaw = random.uniform(0., 2 * pi)
-        imgdata, pixels, info = dict(), np.zeros((28, 28)), []
-        for ndx, pvec in enumerate(pvecs):
-            if ndxs[ndx][0] == starndx: continue  # target star is implicit in the results
-            x = cos(yaw) * pvec[0] - sin(yaw) * pvec[1]
-            y = sin(yaw) * pvec[0] + cos(yaw) * pvec[1]
-            axi = x + image_radius_unit_vector_plane
-            axj = -y + image_radius_unit_vector_plane;
-            axindx = floor(axi / image_pixel_unit_vector_plane)
-            axjndx = floor(axj / image_pixel_unit_vector_plane)
-            if axjndx < 0 or axjndx > 27: continue
-            if axindx < 0 or axindx > 27: continue
-            pixels[axjndx, axindx] = 1.0
-            info += [[axjndx, axindx, *ndxs[ndx]]]
-        imgdata['pixels'] = pixels
-        imgdata['info'] = info
-        return imgdata
+        return Image(pvecs, info)
 
-    def stars_near_point(self, pointing):
+    def stars_near_point(self, pointing, targndx):
         """given a three-dimensional pointing vector in the celestial reference frame, return the
         identifiers for nearby stars. this is fundamental - we have to be able to call up the stars near a target on
         the sky. it's a rich problem we'll be discussing throughout the project documentation. here we break the
@@ -92,6 +66,7 @@ class Sky:
         yring = self.stars_in_ring(pointing[1, 0], 1)
         zring = self.stars_in_ring(pointing[2, 0], 2)
         starndxs = sorted(list(set(xring).intersection(set(yring)).intersection(set(zring))))
+        starndxs = [x for x in starndxs if not x == targndx]  # target star is implicit
         return starndxs
 
     def stars_in_ring(self, p, n):
