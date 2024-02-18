@@ -1,9 +1,5 @@
 #include "startriangleside.h"
 
-/*
- * class Startriangleside:
- *    '''act as one of the three triangle sides within a parent star triangle object. here stars is a representation of candidate star pairs that could belong to the side. ultimately - when we've recognized the target star, all but one candidate star pair is eliminated.'''
- * */
 starid::Startriangleside::Startriangleside(double ang, starid::Starpairs &pairs) {
     angtol = 2.0 * std::sqrt(500.0 * 500.0 + 500.00 * 500.0) * arcseconds_to_radians;
     stars = pairs.pairs_for_angle(ang, angtol);
@@ -38,10 +34,6 @@ void ::starid::Startriangleside::drops(bool dolog) {
         else ++star1; }
     if (dolog) { log_star_count.push_back(stars.size()); log_pair_count.push_back(countpairs()); } }
 
-/*
- *    def countpairs(self):
- *       '''how many candidate star pairs remain in this side.'''
- * */
 int starid::Startriangleside::countpairs() {
     int result = 0;
     for (auto it1 = stars.begin(), end = stars.end(); it1 != end; ++it1) {

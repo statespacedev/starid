@@ -60,7 +60,7 @@ std::map<std::string, Eigen::MatrixXd> starid::Sky::image_generator(int starndx)
     pvecs.conservativeResize(pvecsndx, 3);
     Matrix3d attitude = rotation_matrix(pointing);
     pvecs = (attitude.transpose() * pvecs.transpose()).transpose();
-    double yaw = unitscatter(e1) * 2 * starid::pi;
+    double yaw = 0; // todo unitscatter(e1) * 2 * starid::pi;
     int imgindx = 0;
     for (int ndx = 0; ndx < pvecsndx; ++ndx) {
         if (ndxs(ndx, 0) == starndx) continue; // target star is implicit in the results

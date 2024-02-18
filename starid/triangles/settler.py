@@ -4,6 +4,9 @@ involved. first an abca triangle is formed. this constrains the abside. then for
 abda triangles are formed, further constraining the abside. when we reach an abda that eliminates all but one
 star pair possibility for the abside, we've recognized the target star. the name SETTLER comes from the idea that
 we never move away the target star, we're settling around it."""
+import numpy as np
+from math import acos
+from starid.triangles.star_triangle_side import StarTriangleSide
 
 class SETTLER:
     """recognize target star from triangles where the target star is always star a."""
@@ -13,8 +16,10 @@ class SETTLER:
 
     def run(self, image):
         """recognize target star from the image pixels."""
-        starvecs, absides = image.img_to_pvecs(), []
-        for starvec in starvecs:
+        starvecs, absides = image.starvecs(), []
+        starveca = np.array([[0., 0., 1.]]).T  # target star
+        for starvecb in starvecs:
+            abside = StarTriangleSide(acos(starveca.T @ starvecb), self.starpairs)
             pass
 
     # std::vector<Startriangleside> absides;

@@ -41,20 +41,20 @@ class Sky:
         for axis in self.axes: axis.sort()
         return
 
-    def image_of_target(self, starndx):
+    def image_of_target(self, starndx, doyaw=True):
         """creates a standard image for the target star, ready for feeding into a star identifier. the
         format is 28 x 28 pixels - lo-fi, the way we like it. makes thing tougher on us. and also by no coincidence
         matching the classic mnist character recognition data set. the story behind that is a long one,
         discussed elsewhere in the project."""
-        sts = self.stars
-        target = sts[starndx]
+        s = self.stars
+        target = s[starndx]
         pointing = np.array([[target.x, target.y, target.z]]).T
         starndxs = self.stars_near_point(pointing, starndx)
-        pvecs = np.asarray([[sts[n].x, sts[n].y, sts[n].z] for n in starndxs])
-        info = [[sts[n].starndx, sts[n].skymap_number, sts[n].ra_degrees, sts[n].dec_degrees] for n in starndxs]
+        starvecs = np.asarray([[s[n].x, s[n].y, s[n].z] for n in starndxs])
+        info = [[s[n].starndx, s[n].skymap_number, s[n].ra_degrees, s[n].dec_degrees] for n in starndxs]
         attitude = rotation_matrix(pointing)
-        pvecs = (attitude.T @ pvecs.T).T
-        return Image(pvecs, info)
+        starvecs = (attitude.T @ starvecs.T).T
+        return Image(starvecs, info, doyaw=doyaw)
 
     def stars_near_point(self, pointing, targndx):
         """given a three-dimensional pointing vector in the celestial reference frame, return the

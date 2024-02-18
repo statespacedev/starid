@@ -44,20 +44,25 @@ class Starpairs:
                     self.angndxs.add_pair(angle, pairndx)
                     pairndx += 1
 
-    def pairs_for_angles(self, angle, tol_radius):
+    def pairs_for_angle(self, angle, tol_radius):
         """for an angle, what are the candidate star pairs? creates the representation of stars used in star
         triangles. there, a star is a collection of associations with its near neighbors - its essential feature is
         its membership in pairs and triangle sides. what we do here is look at each star in turn, asking the question
         - what pairings do we care about for the star triangle representation of the sky we're going to use? the
         tuning parameters representing the answer to that question are the angle between pair members and a measure
         of tolerance or sensitivity."""
-        stars, ang1, ang2, epsilon = set(), angle - tol_radius, angle + tol_radius, 1.
+        stars, ang1, ang2, epsilon = dict(), angle - tol_radius, angle + tol_radius, 1.
         if ang1 <= 0.: ang1 = 0.
         if ang2 <= epsilon * tol_radius: ang2 = epsilon * tol_radius
         if ang1 >= star_pair_angle_limit - epsilon * tol_radius: ang1 = star_pair_angle_limit - epsilon * tol_radius
         if ang2 >= star_pair_angle_limit: ang2 = star_pair_angle_limit
         pairndxs = self.angndxs.findndxs(ang1, ang2)
-        for pairndx in pairndxs: stars.update([self.starpairs[pairndx][1], self.starpairs[pairndx][2]])
+        for pairndx in pairndxs:
+            star1, star2 = self.starpairs[pairndx][1], self.starpairs[pairndx][2]
+            if star1 not in stars: stars[star1] = set()
+            if star2 not in stars: stars[star2] = set()
+            stars[star1].add(star2)
+            stars[star2].add(star1)
         return stars
 
     @staticmethod

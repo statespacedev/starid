@@ -17,7 +17,7 @@ if not os.path.exists(dirtmp): os.makedirs(dirtmp)
 def main():
     """directly comparable with main() of libstatid-debug/entrypoint_main.cp"""
     sky = sky_util(pathsky, pathskymap)
-    image = sky.image_of_target(3)
+    image = sky.image_of_target(3, doyaw=False)
     # image.plot()
 
     starpairs = starpairs_util(sky, pathstarpairs)
