@@ -12,7 +12,7 @@ from math import acos
 from starid.sky.geometry import FloatsIndexer
 from starid.sky.geometry import star_pair_angle_limit
 
-class Starpairs:
+class StarPairs:
     """foundation for star triangles - a star pair is a triangle-side - it's the fundamental particle of a triangle
     view of the sky. every triangle is made of three starpairs. in a starpair object, for each star, the starpairs
     with each of its near neighbors are represented, pre-computed and ready for use. computing this object is

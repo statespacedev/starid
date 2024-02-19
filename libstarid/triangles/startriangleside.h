@@ -3,7 +3,8 @@
 #include <unordered_map>
 #include <map>
 #include <vector>
-#include "triangles/starpairs.h"
+#include "starpairs.h"
+#include "../sky/geometry.h"
 
 namespace starid {
 

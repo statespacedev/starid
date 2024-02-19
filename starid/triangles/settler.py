@@ -7,35 +7,63 @@ we never move away the target star, we're settling around it."""
 import numpy as np
 from math import acos
 from starid.triangles.star_triangle_side import StarTriangleSide
-
+from starid.sky.geometry import arcseconds_to_radians
+from starid.triangles.settler_triangle import SETTLERTriangle
 class SETTLER:
     """recognize target star from triangles where the target star is always star a."""
 
     def __init__(self, starpairs):
         self.starpairs = starpairs
+        self.min_ang = 3000. * arcseconds_to_radians
 
     def run(self, image):
-        """recognize target star from the image pixels."""
+        """recognize target star from the starvecs of image pixels."""
         starvecs, absides = image.starvecs(), []
-        starveca = np.array([[0., 0., 1.]]).T  # target star
-        for starvecb in starvecs:
-            abside = StarTriangleSide(acos(starveca.T @ starvecb), self.starpairs)
+        sva = np.array([[0., 0., 1.]]).T  # target star
+
+        for ndxb, svb in enumerate(starvecs):  # abside
+            prev_stars, repeatcnt, converged = 0, 0, False
+            abside = StarTriangleSide(acos(sva.T @ svb), self.starpairs)
+
+            for ndxc, svc in enumerate(starvecs):  # abca triangle
+                triangles = []
+                if converged or ndxc == ndxb: continue
+                ok, angsc = self.angsc(sva, svb, svc)
+                if not ok: continue
+                abca = SETTLERTriangle(svc, angsc[0], angsc[1], angsc[2], self.starpairs)
+                abca.side1.stars = abside.stars
+                abca.constrain_abca()
+                # abside.update(abca.side1);
+                # triangles.push_back(abca);
+
+                for ndxd, svd in enumerate(starvecs):  # abda triangle
+                    if converged or ndxd == ndxc or ndxd == ndxb: continue
+                    ok, angsd = self.angsd(sva, svb, svc, svd, angsc)
+                    if not ok: continue
+                    abda = SETTLERTriangle(svd, angsd[0], angsd[4], angsd[3], self.starpairs)
+                    # abda.side1.stars = abside.stars;
+                    # abda.constrain_abda(triangles, starpairs);
+                    # abside.update(abda.side1);
+                    # triangles.push_back(abda);
+
             pass
 
-    # std::vector<Startriangleside> absides;
-    # for (ndxb = 1; ndxb < starvecs.rows(); ++ndxb) { // absides
-    #     uveca = starvecs.row(0);
-    #     uvecb = starvecs.row(ndxb);
-    #     int prev_stars = 0;
-    #     int repeatcnt = 0;
-    #     bool converged = false;
-    #     Startriangleside abside(std::acos(uveca.transpose() * uvecb), starpairs); // abside to investigate
-
-
-    def get_angs_d(self):
+    def angsd(self, sva, svb, svc, svd, angsc):
         """examine a candidate for star d before using it to form triangle abda. we want the angles from stars a, b,
         and c to be appreciable. the angles remain in angs_d for later use"""
+        ok, angsd = True, [*angsc, acos(svd.T @ sva), acos(svd.T @ svb), acos(svd.T @ svc)]
+        if any(ang < self.min_ang for ang in angsd): ok = False
+        if abs(angsd[4] - angsd[3]) < self.min_ang: ok = False  # db-da
+        if abs(angsd[4] - angsd[0]) < self.min_ang: ok = False  # db-ab
+        if abs(angsd[4] - angsd[5]) < self.min_ang: ok = False  # db-dc
+        return ok, angsd
 
-    def get_angs_c(self):
+    def angsc(self, sva, svb, svc):
         """examine a candidate for star c before using it to form triangle abca. we want the angles between stars a,
         b, and c to be appreciable. the angles remain in angs_c for later use."""
+        ok, angsc = True, [acos(sva.T @ svb), acos(svb.T @ svc), acos(svc.T @ sva)]
+        if any(ang < self.min_ang for ang in angsc): ok = False
+        if abs(angsc[0] - angsc[1]) < self.min_ang: ok = False  # ab-bc
+        if abs(angsc[0] - angsc[2]) < self.min_ang: ok = False  # ab-ca
+        if abs(angsc[1] - angsc[2]) < self.min_ang: ok = False  # bc-ca
+        return ok, angsc

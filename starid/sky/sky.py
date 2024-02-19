@@ -56,7 +56,7 @@ class Sky:
         starvecs = (attitude.T @ starvecs.T).T
         return Image(starvecs, info, doyaw=doyaw)
 
-    def stars_near_point(self, pointing, targndx):
+    def stars_near_point(self, pointing, targndx=None):
         """given a three-dimensional pointing vector in the celestial reference frame, return the
         identifiers for nearby stars. this is fundamental - we have to be able to call up the stars near a target on
         the sky. it's a rich problem we'll be discussing throughout the project documentation. here we break the
@@ -66,7 +66,7 @@ class Sky:
         yring = self.stars_in_ring(pointing[1, 0], 1)
         zring = self.stars_in_ring(pointing[2, 0], 2)
         starndxs = sorted(list(set(xring).intersection(set(yring)).intersection(set(zring))))
-        starndxs = [x for x in starndxs if not x == targndx]  # target star is implicit
+        if targndx: starndxs = [x for x in starndxs if not x == targndx]  # target star is implicit
         return starndxs
 
     def stars_in_ring(self, p, n):

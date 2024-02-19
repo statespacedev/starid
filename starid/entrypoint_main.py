@@ -4,7 +4,7 @@ import os
 import pickle
 from starid.util.get_project_root import get_project_root
 from starid.sky.sky import Sky
-from starid.triangles.starpairs import Starpairs
+from starid.triangles.star_pairs import StarPairs
 from starid.triangles.settler import SETTLER
 
 dirdata = get_project_root() + '/data/'
@@ -42,7 +42,7 @@ def starpairs_util(sky_, pathstarpairs_):
     try:
         starpairs = pickle.load(open(pathstarpairs_, 'rb'))
     except (Exception,):
-        starpairs = Starpairs()
+        starpairs = StarPairs()
         starpairs.generate(sky_)
         pickle.dump(starpairs, open(pathstarpairs_, 'wb'))
     return starpairs
