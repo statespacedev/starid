@@ -1,5 +1,5 @@
-#ifndef STARID_STARPAIRS_H
-#define STARID_STARPAIRS_H
+#ifndef STARID_STAR_PAIRS_H
+#define STARID_STAR_PAIRS_H
 
 #include "include/Eigen/Core"
 #include "include/cereal/access.hpp"
@@ -37,4 +37,4 @@ private:
 
 }
 
-#endif //STARID_STARPAIRS_H
+#endif //STARID_STAR_PAIRS_H

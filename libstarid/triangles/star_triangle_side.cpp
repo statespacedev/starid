@@ -1,4 +1,4 @@
-#include "startriangleside.h"
+#include "star_triangle_side.h"
 
 starid::Startriangleside::Startriangleside(double ang, starid::Starpairs &pairs) {
     angtol = 2.0 * std::sqrt(500.0 * 500.0 + 500.00 * 500.0) * arcseconds_to_radians;

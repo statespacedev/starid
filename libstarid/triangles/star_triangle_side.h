@@ -1,10 +1,10 @@
-#ifndef STARID_STARTRIANGLESIDE_H
-#define STARID_STARTRIANGLESIDE_H
+#ifndef STARID_STAR_TRIANGLE_SIDE_H
+#define STARID_STAR_TRIANGLE_SIDE_H
 
 #include <unordered_map>
 #include <map>
 #include <vector>
-#include "starpairs.h"
+#include "star_pairs.h"
 #include "../sky/geometry.h"
 
 namespace starid {
@@ -30,4 +30,4 @@ namespace starid {
 }
 
 
-#endif //STARID_STARTRIANGLESIDE_H
+#endif //STARID_STAR_TRIANGLE_SIDE_H

@@ -1,4 +1,4 @@
-#include "starpairs.h"
+#include "star_pairs.h"
 
 starid::Starpairs::Starpairs() {}
 

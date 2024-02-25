@@ -1,7 +1,7 @@
-#ifndef STARID_STARTRIANGLE_H
-#define STARID_STARTRIANGLE_H
+#ifndef STARID_SETTLER_TRIANGLE_H
+#define STARID_SETTLER_TRIANGLE_H
 
-#include "startriangleside.h"
+#include "star_triangle_side.h"
 
 namespace starid {
 
@@ -37,4 +37,4 @@ namespace starid {
 
 }
 
-#endif //STARID_STARTRIANGLE_H
+#endif //STARID_SETTLER_TRIANGLE_H

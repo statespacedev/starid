@@ -34,7 +34,7 @@ class SETTLER:
                 if abs(angsc[1] - angsc[2]) < self.min_ang: continue  # bc-ca
                 abca = SETTLERTriangle(svc, angsc[0], angsc[1], angsc[2], self.starpairs)
                 abca.side1.stars = abside.stars
-                abca.constrain()
+                abca.chks1()
                 triangles = [abca]
                 abside.update_abside(abca.side1)
 
@@ -43,7 +43,7 @@ class SETTLER:
                     angsd = [*angsc, acos(svd.T @ sva), acos(svd.T @ svb), acos(svd.T @ svc)]
                     abda = SETTLERTriangle(svd, angsd[0], angsd[4], angsd[3], self.starpairs)
                     abda.side1.stars = abside.stars
-                    abda.constrain2(triangles, self.starpairs)
+                    abda.chks2(triangles, self.starpairs)
                     triangles.append(abda)
                     abside.update_abside(abda.side1)
                     if len(abside.starcnt) > 3 and len(set(abside.starcnt[-3:])) == 1: bypass = True

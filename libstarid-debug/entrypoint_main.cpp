@@ -1,7 +1,7 @@
 #include <cereal/archives/binary.hpp>
 #include <fstream>
 #include "sky/sky.h"
-#include "triangles/starpairs.h"
+#include "triangles/star_pairs.h"
 #include "triangles/settler.h"
 #include "triangles/nomad.h"
 
@@ -11,7 +11,9 @@ static std::string dirtmp = R"(C:\Users\i28144\CLionProjects\starid\tmp\)";
 static std::string pathskymap = dirdata + "skymap.txt";
 static std::string pathsky = dirtmp + "sky.cereal";
 static std::string pathstarpairs = dirtmp + "starpairs.cereal";
+
 starid::Sky sky_util(std::string &pathsky, std::string &pathskymap);
+
 starid::Starpairs starpairs_util(starid::Sky &sky, std::string &pathstarpairs);
 
 int main() {

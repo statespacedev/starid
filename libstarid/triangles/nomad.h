@@ -1,8 +1,8 @@
 #ifndef NOMAD_H
 #define NOMAD_H
 #include "include/Eigen/Core"
-#include "triangles/starpairs.h"
-#include "triangles/startriangle.h"
+#include "triangles/star_pairs.h"
+#include "triangles/settler_triangle.h"
 
 namespace starid {
 

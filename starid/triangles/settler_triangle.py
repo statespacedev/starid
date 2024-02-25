@@ -1,5 +1,5 @@
-"""SETTLER triangle. acts as the triangles abca and abda within the star triangle identifier inner loops. their are
-three triangle sides - representing three star pairs, each with an angular separation. each side is acted by a star
+"""SETTLER triangle. acts as the triangles abca and abda within the star triangle identifier inner loops. there are
+three triangle sides representing three star pairs, each with an angular separation. each side is acted by a star
 triangle side object. star recognition focused on triangles that contain the target star - star a is always the
 target star, star b is a neighbor star, and an abside is a star pair and triangle side with the target as the first
 member of the pair. in the inner loops, additional stars c and d are involved. first an abca triangle is formed. this
@@ -11,8 +11,8 @@ from math import acos
 from starid.triangles.star_triangle_side import StarTriangleSide
 
 class SETTLERTriangle:
-    """acts as the triangles abca and abda within the star triangle identifier inner loops. their are three triangle
-    sides - representing three star pairs, each with an angular separation."""
+    """acts as the triangles abca and abda within the star triangle identifier inner loops. there are three triangle
+    sides representing three star pairs, each with an angular separation."""
 
     def __init__(self, sv, ang1, ang2, ang3, starpairs):
         self.side1 = StarTriangleSide(ang1, starpairs)
@@ -21,8 +21,10 @@ class SETTLERTriangle:
         self.vecstar3 = sv
         pass
 
-    def constrain(self):
-        """test candidate star pairs for the sides of an abca triangle."""
+    def chks1(self):
+        """test candidate star pairs for the sides of an abca triangle. we first look 'backwards' in side3,
+        from star a to star c, and ask if star a is possible. then we look 'forwards' in side1 and side2 ask if star
+        b is possible. last we look 'forwards' at side2 and side3 and ask if star c is possible."""
         ok1, ok2, ok3 = set(), set(), set()
         for star1side1 in self.side1.stars:
             if star1side1 not in self.side3.stars: continue
@@ -38,8 +40,14 @@ class SETTLERTriangle:
         self.side3.update_side(ok3)
         return
 
-    def constrain2(self, triangles, starpairs):
-        """test candidate star pairs for the sides of an abda triangle."""
+    def chks2(self, triangles, starpairs):
+        """test candidate star pairs for the sides of an abda triangle. the added info and constraining possible here
+        with abda was the big discovery that first got settler really going. you can see it here around the set
+        intersection. the new question we're asking is essentially 'is the abda's star d even possible?' comparing
+        with some prior triangle, we've got a side cd connecting their 'third stars', stars c and d, and we've also
+        got the third side of the prior triangle, which we look at 'backwards', from a to c rather than 'forwards'
+        from c to a. we're forcing there to be overlap/intersection for 'star c' - star c has to be possible in both
+        cd and ac, this then implies 'ok, star d is possible'"""
         for triangle in triangles:
             cdang = acos(self.vecstar3.T @ triangle.vecstar3)
             cdside = StarTriangleSide(cdang, starpairs)
@@ -52,9 +60,9 @@ class SETTLERTriangle:
                         if star3side2 not in self.side3.stars[star1side1]: continue
                         if star3side2 not in cdside.stars: continue
                         if star1side1 not in triangle.side3.stars: continue
-                        pairscdc = cdside.stars[star3side2]
-                        pairsacc = triangle.side3.stars[star1side1]
-                        if len(set.intersection(pairscdc, pairsacc)) == 0: continue
+                        c_in_cd = cdside.stars[star3side2]
+                        c_in_ac = triangle.side3.stars[star1side1]
+                        if len(set.intersection(c_in_cd, c_in_ac)) == 0: continue
                         ok1.update([star1side1, star2side1])
                         ok2.update([star2side1, star3side2])
                         ok3.update([star3side2, star1side1])

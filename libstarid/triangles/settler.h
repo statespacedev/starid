@@ -2,8 +2,8 @@
 #define SETTLER_H
 
 #include "Eigen/Core"
-#include "starpairs.h"
-#include "startriangle.h"
+#include "star_pairs.h"
+#include "settler_triangle.h"
 
 namespace starid {
 

@@ -1,4 +1,4 @@
-#include "startriangle.h"
+#include "settler_triangle.h"
 #include "../sky/geometry.h"
 
 starid::StartriangleNOMAD::StartriangleNOMAD(int basestar, Eigen::MatrixXd &starvecs, starid::Starpairs &starpairs)
