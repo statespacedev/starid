@@ -18,34 +18,32 @@ class SETTLER:
 
     def run(self, image):
         """recognize target star from the starvecs of image pixels."""
-        starvecs, absides = image.starvecs(), []
+        starvecs, acands = image.starvecs(), []
         sva = np.array([[0., 0., 1.]]).T  # target star
 
         for ndxb, svb in enumerate(starvecs):  # abside
-            prev_stars, repeatcnt, converged = 0, 0, False
             abside = StarTriangleSide(acos(sva.T @ svb), self.starpairs)
+            if acands: abside.update_acands(acands[-1])
 
             for ndxc, svc in enumerate(starvecs):  # abca triangle
-                triangles = []
-                if converged or ndxc == ndxb: continue
+                if ndxc == ndxb: continue
                 ok, angsc = self.angsc(sva, svb, svc)
                 if not ok: continue
                 abca = SETTLERTriangle(svc, angsc[0], angsc[1], angsc[2], self.starpairs)
-                abca.side1.stars = abside.stars
-                abca.constrain_abca()
-                # abside.update(abca.side1);
-                # triangles.push_back(abca);
+                abca.constrain()
+                triangles = [abca]
+                abside.update_abside(abca.side1)
 
                 for ndxd, svd in enumerate(starvecs):  # abda triangle
-                    if converged or ndxd == ndxc or ndxd == ndxb: continue
+                    if ndxd == ndxc or ndxd == ndxb: continue
                     ok, angsd = self.angsd(sva, svb, svc, svd, angsc)
                     if not ok: continue
                     abda = SETTLERTriangle(svd, angsd[0], angsd[4], angsd[3], self.starpairs)
-                    # abda.side1.stars = abside.stars;
-                    # abda.constrain_abda(triangles, starpairs);
-                    # abside.update(abda.side1);
-                    # triangles.push_back(abda);
+                    abda.constrain2(triangles, self.starpairs)
+                    triangles.append(abda)
+                    abside.update_abside(abda.side1)
 
+            acands.append(set(abside.stars.keys()))
             pass
 
     def angsd(self, sva, svb, svc, svd, angsc):

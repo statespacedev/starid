@@ -7,6 +7,7 @@ constrains the abside. then for an abca triangle, a sequence of abda triangles a
 abside. when we reach an abda that eliminates all but one star pair possibility for the abside, we've recognized the
 target star. until that happens, we continue picking new absides, with new abca triangles, with new abda triangles.
 the name SETTLER comes from the idea that we never move away the target star, we're settling around it."""
+from math import acos
 from starid.triangles.star_triangle_side import StarTriangleSide
 
 class SETTLERTriangle:
@@ -20,35 +21,44 @@ class SETTLERTriangle:
         self.vecstar3 = sv
         pass
 
-    def constrain_abca(self):
+    def constrain(self):
         """test candidate star pairs for the sides of an abca triangle."""
-        loops_cnt = 0
-        # for (auto it11 = side1.stars.begin(), end = side1.stars.end(); it11 != end; ++it11) {
-        #     auto &pairs1 = it11->second;
-        #     int star1side1 = it11->first;                     // star1 side1
-        #     auto star1side3 = side3.stars.find(star1side1);   // star1 side3
-        #     if (star1side3 == side3.stars.end()) continue;
-        #     auto &pairs3 = star1side3->second;
-        #     for (auto pairs1it = pairs1.begin(), end = pairs1.end(); pairs1it != end; ++pairs1it) {
-        #         int star2side1 = pairs1it->first;               // star2 side1
-        #         auto star2side2 = side2.stars.find(star2side1); // star2 side2
-        #         if (star2side2 == side2.stars.end()) continue;
-        #         auto &pairs2 = star2side2->second;
-        #         for (auto pairs2it = pairs2.begin(), end = pairs2.end(); pairs2it != end; ++pairs2it) {
-        #             int star3side2 = pairs2it->first;             // star3 side2
-        #             auto star3side3 = pairs3.find(star3side2);    // star3 side3
-        #             if (star3side3 == pairs3.end()) continue;
-        #             pairs1it->second = 1;
-        #             pairs2it->second = 1;
-        #             star3side3->second = 1;
-        #             ++loops_cnt;
-        #         }
-        #     }
-        # }
-        # side1.drops();
-        # side2.drops();
-        # side3.drops();
+        ok1, ok2, ok3 = set(), set(), set()
+        for star1side1 in self.side1.stars:
+            if star1side1 not in self.side3.stars: continue
+            for star2side1 in self.side1.stars[star1side1]:
+                if star2side1 not in self.side2.stars: continue
+                for star3side2 in self.side2.stars[star2side1]:
+                    if star3side2 not in self.side3.stars[star1side1]: continue
+                    ok1.update([star1side1, star2side1])
+                    ok2.update([star2side1, star3side2])
+                    ok3.update([star3side2, star1side1])
+        self.side1.update_side(ok1)
+        self.side2.update_side(ok2)
+        self.side3.update_side(ok3)
+        return
 
-    def constrain_abda(self, triangles):
+    def constrain2(self, triangles, starpairs):
         """test candidate star pairs for the sides of an abda triangle."""
-        pass
+        for triangle in triangles:
+            cdang = acos(self.vecstar3.T @ triangle.vecstar3)
+            cdside = StarTriangleSide(cdang, starpairs)
+            ok1, ok2, ok3 = set(), set(), set()
+            for star1side1 in self.side1.stars:
+                if star1side1 not in self.side3.stars: continue
+                for star2side1 in self.side1.stars[star1side1]:
+                    if star2side1 not in self.side2.stars: continue
+                    for star3side2 in self.side2.stars[star2side1]:
+                        if star3side2 not in self.side3.stars[star1side1]: continue
+                        if star3side2 not in cdside.stars: continue
+                        if star1side1 not in triangle.side3.stars: continue
+                        pairscdc = cdside.stars[star3side2]
+                        pairsacc = triangle.side3.stars[star1side1]
+                        if len(set.intersection(pairscdc, pairsacc)) == 0: continue
+                        ok1.update([star1side1, star2side1])
+                        ok2.update([star2side1, star3side2])
+                        ok3.update([star3side2, star1side1])
+            self.side1.update_side(ok1)
+            self.side2.update_side(ok2)
+            self.side3.update_side(ok3)
+        return
