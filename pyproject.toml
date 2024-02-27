@@ -5,10 +5,13 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "starid"
-version = "1.5.2"
+version = "2.0.0"
 readme = "readme.md"
 requires-python = ">=3.10.0"
 dependencies = ["pybind11", "numpy", "matplotlib"]
+
+[project.optional-dependencies]
+docs = ["sphinx", "sphinx-rtd-theme"]
 
 [tool.setuptools]
 packages = ['starid']

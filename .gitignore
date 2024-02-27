@@ -11,7 +11,6 @@ version
 *.so
 *.cbp
 a.out
-sky
 pairs
 Starpairs
 Makefile
@@ -31,3 +30,8 @@ lang-sentences*
 /etc/
 /tmp/
 /.python-version
+/cmake-build-debug-cygwin/
+/cmake-build-debug-mingw/
+/venv310/
+/cmake-build-debug-docker/
+/build-docs/
