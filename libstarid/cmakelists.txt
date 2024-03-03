@@ -3,5 +3,5 @@ cmake_minimum_required(VERSION 3.12)
 project(libstarid)
 
 add_subdirectory(include/pybind11)
-pybind11_add_module(libstarid python_api.cpp sky/skymap.cpp sky/sky.cpp triangles/star_pairs.cpp triangles/settler_triangle.cpp triangles/star_triangle_side.cpp triangles/nomad.cpp sky/geometry.cpp triangles/settler.cpp)
+pybind11_add_module(libstarid python_api.cpp sky/skymap.cpp sky/sky.cpp triangles/star_pairs.cpp triangles/settler_triangle.cpp triangles/star_triangle_side.cpp triangles/nomad.cpp sky/geometry.cpp triangles/settler.cpp triangles/nomad_triangle.cpp)
 target_include_directories(libstarid PRIVATE include)

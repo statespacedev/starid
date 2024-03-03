@@ -6,6 +6,7 @@ from starid.util.get_project_root import get_project_root
 from starid.sky.sky import Sky
 from starid.triangles.star_pairs import StarPairs
 from starid.triangles.settler import SETTLER
+from starid.triangles.nomad import NOMAD
 
 dirdata = get_project_root() + '/data/'
 dirtmp = get_project_root() + '/tmp/'
@@ -22,8 +23,11 @@ def main():
 
     starpairs = starpairs_util(sky, pathstarpairs)
 
-    settler = SETTLER(starpairs)
-    settler.run(image)
+    # settler = SETTLER(starpairs)
+    # settler.run(image)
+
+    nomad = NOMAD(starpairs)
+    nomad.run(image)
 
     return
 

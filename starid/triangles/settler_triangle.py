@@ -14,11 +14,11 @@ class SETTLERTriangle:
     """acts as the triangles abca and abda within the star triangle identifier inner loops. there are three triangle
     sides representing three star pairs, each with an angular separation."""
 
-    def __init__(self, sv, ang1, ang2, ang3, starpairs):
-        self.side1 = StarTriangleSide(ang1, starpairs)
-        self.side2 = StarTriangleSide(ang2, starpairs)
-        self.side3 = StarTriangleSide(ang3, starpairs)
-        self.vecstar3 = sv
+    def __init__(self, sv1, sv2, sv3, starpairs):
+        self.side1 = StarTriangleSide(sv1, sv2, starpairs)
+        self.side2 = StarTriangleSide(sv2, sv3, starpairs)
+        self.side3 = StarTriangleSide(sv3, sv1, starpairs)
+        self.vecstar3 = sv3
         pass
 
     def chks1(self):
@@ -49,8 +49,7 @@ class SETTLERTriangle:
         from c to a. we're forcing there to be overlap/intersection for 'star c' - star c has to be possible in both
         cd and ac, this then implies 'ok, star d is possible'"""
         for triangle in triangles:
-            cdang = acos(self.vecstar3.T @ triangle.vecstar3)
-            cdside = StarTriangleSide(cdang, starpairs)
+            cdside = StarTriangleSide(self.vecstar3, triangle.vecstar3, starpairs)
             ok1, ok2, ok3 = set(), set(), set()
             for star1side1 in self.side1.stars:
                 if star1side1 not in self.side3.stars: continue

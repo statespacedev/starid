@@ -2,14 +2,16 @@
 candidate star pairs that could belong to the side. ultimately - when we've recognized the target star, all but one
 candidate star pair is eliminated. each side has a 'forward' direction inherent in its starpairs object."""
 import math
-from math import sqrt
+from math import sqrt, acos
 from starid.sky.geometry import arcseconds_to_radians
 
 class StarTriangleSide:
 
-    def __init__(self, ang, starpairs):
-        angtol = 2. * sqrt(500. * 500. + 500. * 500.) * arcseconds_to_radians
-        self.stars = starpairs.pairs_for_angle(ang, angtol)
+    def __init__(self, sv1, sv2, starpairs, angtol=None):
+        self.sv1, self.sv2, self.ang = sv1, sv2, acos(sv1 @ sv2)
+        self.angtol = 2. * sqrt(500. * 500. + 500. * 500.) * arcseconds_to_radians
+        if angtol: self.angtol = angtol
+        self.stars = starpairs.pairs_for_angle(self.ang, self.angtol)
         self.starcnt = [len(self.stars)]
         self.paircnt = [self.count_pairs()]
         pass
