@@ -26,19 +26,18 @@ class SETTLERTriangle:
         from star a to star c, and ask if star a is possible. then we look 'forwards' in side1 and side2 ask if star
         b is possible. last we look 'forwards' at side2 and side3 and ask if star c is possible."""
         ok1, ok2, ok3 = set(), set(), set()
-        for star1side1 in self.side1.stars:
-            if star1side1 not in self.side3.stars: continue
-            for star2side1 in self.side1.stars[star1side1]:
-                if star2side1 not in self.side2.stars: continue
-                for star3side2 in self.side2.stars[star2side1]:
-                    if star3side2 not in self.side3.stars[star1side1]: continue
-                    ok1.update([star1side1, star2side1])
-                    ok2.update([star2side1, star3side2])
-                    ok3.update([star3side2, star1side1])
+        for a1 in self.side1.stars:
+            if a1 not in self.side3.stars: continue
+            for b1 in self.side1.stars[a1]:
+                if b1 not in self.side2.stars: continue
+                for c2 in self.side2.stars[b1]:
+                    if c2 not in self.side3.stars[a1]: continue
+                    ok1.update([a1, b1])
+                    ok2.update([b1, c2])
+                    ok3.update([c2, a1])
         self.side1.update_side(ok1)
         self.side2.update_side(ok2)
         self.side3.update_side(ok3)
-        return
 
     def chks2(self, triangles, starpairs):
         """test candidate star pairs for the sides of an abda triangle. the added info and constraining possible here
@@ -51,21 +50,18 @@ class SETTLERTriangle:
         for triangle in triangles:
             cdside = StarTriangleSide(self.vecstar3, triangle.vecstar3, starpairs)
             ok1, ok2, ok3 = set(), set(), set()
-            for star1side1 in self.side1.stars:
-                if star1side1 not in self.side3.stars: continue
-                for star2side1 in self.side1.stars[star1side1]:
-                    if star2side1 not in self.side2.stars: continue
-                    for star3side2 in self.side2.stars[star2side1]:
-                        if star3side2 not in self.side3.stars[star1side1]: continue
-                        if star3side2 not in cdside.stars: continue
-                        if star1side1 not in triangle.side3.stars: continue
-                        c_in_cd = cdside.stars[star3side2]
-                        c_in_ac = triangle.side3.stars[star1side1]
-                        if len(set.intersection(c_in_cd, c_in_ac)) == 0: continue
-                        ok1.update([star1side1, star2side1])
-                        ok2.update([star2side1, star3side2])
-                        ok3.update([star3side2, star1side1])
+            for a1 in self.side1.stars:
+                if a1 not in self.side3.stars: continue
+                for b1 in self.side1.stars[a1]:
+                    if b1 not in self.side2.stars: continue
+                    for c2 in self.side2.stars[b1]:
+                        if c2 not in self.side3.stars[a1]: continue
+                        if c2 not in cdside.stars: continue
+                        if a1 not in triangle.side3.stars: continue
+                        if len(set.intersection(cdside.stars[c2], triangle.side3.stars[a1])) == 0: continue
+                        ok1.update([a1, b1])
+                        ok2.update([b1, c2])
+                        ok3.update([c2, a1])
             self.side1.update_side(ok1)
             self.side2.update_side(ok2)
             self.side3.update_side(ok3)
-        return

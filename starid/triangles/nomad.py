@@ -31,4 +31,4 @@ class NOMAD:
                 ta.chk2(tb)
             print(len(self.triangles[0].acands))
         acands = self.triangles[0].acands
-        return
+        return acands

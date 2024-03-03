@@ -70,16 +70,13 @@ class NOMADTriangle:
                     if c2 not in self.side3.stars[a1]: continue
                     if c2 not in adside.stars: continue
                     if a1 not in adside.stars or c2 not in other.side2.stars: continue
-                    s1 = adside.stars[a1]
-                    s2 = other.side2.stars[c2]
-                    if len(set.intersection(s1, s2)) == 0: continue
+                    if len(set.intersection(adside.stars[a1], other.side2.stars[c2])) == 0: continue
                     ok1.update([a1, b1])
                     ok2.update([b1, c2])
                     ok3.update([c2, a1])
         self.side1.update_side(ok1)
         self.side2.update_side(ok2)
         self.side3.update_side(ok3)
-        return
 
     def stop(self):
         """stopping condition. true if basestars and basesides have been constrained to the point where only one

@@ -50,6 +50,7 @@ class SETTLER:
                     if len(abside.starcnt) > 3 and len(set(abside.starcnt[-3:])) == 1: bypass = True
 
             acands.append(set(abside.stars.keys()))
-            if len(acands[-1]) == 1:
-                pass
+            if not len(acands[-1]) > 1:
+                break
+        return acands[-1]
 
