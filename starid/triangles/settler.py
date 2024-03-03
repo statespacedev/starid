@@ -41,7 +41,7 @@ class SETTLER:
 
                 for ndxd, svd in enumerate(starvecs):  # abda triangle
                     if bypass or ndxd == ndxc or ndxd == ndxb: continue
-                    angsd = [*angsc, acos(svd @ sva), acos(svd @ svb), acos(svd @ svc)]
+                    # angsd = [*angsc, acos(svd @ sva), acos(svd @ svb), acos(svd @ svc)]
                     abda = SETTLERTriangle(sva, svb, svd, self.starpairs)
                     abda.side1.stars = abside.stars
                     abda.chks2(triangles, self.starpairs)
@@ -50,7 +50,7 @@ class SETTLER:
                     if len(abside.starcnt) > 3 and len(set(abside.starcnt[-3:])) == 1: bypass = True
 
             acands.append(set(abside.stars.keys()))
-            if not len(acands[-1]) > 1:
-                break
-        return acands[-1]
+            if not len(acands[-1]) > 1: break
+        result = acands[-1]
+        return result
 

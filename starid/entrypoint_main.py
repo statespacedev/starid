@@ -13,26 +13,29 @@ dirtmp = get_project_root() + '/tmp/'
 pathskymap = dirdata + "skymap.txt"
 pathsky = dirtmp + "sky.pickle"
 pathstarpairs = dirtmp + "starpairs.pickle"
-if not os.path.exists(dirtmp): os.makedirs(dirtmp)
+doyaw = False
+doplot = False
+target = 3
 
 def main():
     """directly comparable with main() of libstatid-debug/entrypoint_main.cp"""
     sky = sky_util(pathsky, pathskymap)
-    image = sky.image_of_target(3, doyaw=False)
-    # image.plot()
+    image = sky.image_of_target(target, doyaw=doyaw)
+    if doplot: image.plot()
 
     starpairs = starpairs_util(sky, pathstarpairs)
 
     settler = SETTLER(starpairs)
-    acands1 = settler.run(image)
+    result_settler = settler.run(image)
 
     nomad = NOMAD(starpairs)
-    acands2 = nomad.run(image)
+    result_nomad = nomad.run(image)
 
     return
 
 def sky_util(pathsky_, pathskymap_):
     """load sky object from disk. if not present, create and write."""
+    if not os.path.exists(dirtmp): os.makedirs(dirtmp)
     try:
         sky = pickle.load(open(pathsky_, 'rb'))
     except (Exception,):
@@ -43,6 +46,7 @@ def sky_util(pathsky_, pathskymap_):
 
 def starpairs_util(sky_, pathstarpairs_):
     """load starpairs object from disk. if not present, create and write."""
+    if not os.path.exists(dirtmp): os.makedirs(dirtmp)
     try:
         starpairs = pickle.load(open(pathstarpairs_, 'rb'))
     except (Exception,):

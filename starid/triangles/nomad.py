@@ -25,10 +25,10 @@ class NOMAD:
         while not self.triangles[0].stop():
             self.triangles.append(NOMADTriangle(starvecs, self.starpairs))
             ta, tb = self.triangles[-1], self.triangles[-2]
-            ta.from_previous(tb.side2, tb.starb, tb.starc)
+            ta.from_parent(tb.side2, tb.starb, tb.starc)
             for ndx in range(len(self.triangles) - 2, -1, -1):
                 ta, tb = self.triangles[ndx], self.triangles[ndx + 1]
                 ta.chk2(tb)
             print(len(self.triangles[0].acands))
-        acands = self.triangles[0].acands
-        return acands
+        result = self.triangles[0].acands
+        return result

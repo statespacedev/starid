@@ -58,7 +58,7 @@ class SETTLERTriangle:
                         if c2 not in self.side3.stars[a1]: continue
                         if c2 not in cdside.stars: continue
                         if a1 not in triangle.side3.stars: continue
-                        if len(set.intersection(cdside.stars[c2], triangle.side3.stars[a1])) == 0: continue
+                        if not set.intersection(cdside.stars[c2], triangle.side3.stars[a1]): continue
                         ok1.update([a1, b1])
                         ok2.update([b1, c2])
                         ok3.update([c2, a1])
