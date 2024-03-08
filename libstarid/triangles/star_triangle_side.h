@@ -27,6 +27,27 @@ namespace starid {
         double angtol;
     };
 
+    class Startriangleside2 {
+    public:
+        Startriangleside2(Eigen::Vector3d sv1_, Eigen::Vector3d sv2_, starid::Starpairs &starpairs);
+
+        Startriangleside2();
+
+//        void drops(bool dolog = true);
+
+//        void update(Startriangleside &side);
+
+        int countpairs();
+
+        Eigen::Vector3d sv1, sv2;
+        double ang;
+        std::unordered_map<int, std::unordered_map<int, int>> stars;
+        std::vector<int> log_star_count;
+        std::vector<int> log_pair_count;
+    private:
+        double angtol;
+    };
+
 }
 
 

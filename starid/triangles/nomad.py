@@ -20,8 +20,10 @@ class NOMAD:
     def run(self, image):
         """recognize target star from the starvecs of image pixels."""
         starvecs, acands = image.starvecs(), []
+
         self.triangles.append(NOMADTriangle(starvecs, self.starpairs))
         self.triangles[-1].first()
+
         while not self.triangles[0].stop():
             self.triangles.append(NOMADTriangle(starvecs, self.starpairs))
             ta, tb = self.triangles[-1], self.triangles[-2]

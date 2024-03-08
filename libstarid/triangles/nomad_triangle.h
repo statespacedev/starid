@@ -8,10 +8,11 @@ namespace starid {
 
     class StartriangleNOMAD {
     public:
-        StartriangleNOMAD(int basestar, Eigen::MatrixXd &, starid::Starpairs &);
+        StartriangleNOMAD();
 
-        StartriangleNOMAD(starid::Startriangleside &, int prevstarb, int prevstarc, Eigen::MatrixXd &,
-                          starid::Starpairs &);
+        void first(Eigen::MatrixXd &starvecs, Starpairs &starpairs);
+
+        void from_parent();
 
         void feedback(starid::Startriangleside &next);
 
@@ -19,8 +20,10 @@ namespace starid {
 
         bool stop();
 
-        starid::Startriangleside side1, side2, side3;
+        starid::Startriangleside2 side1, side2, side3;
         int stara, starb, starc;
+        Eigen::Vector3d sv1, sv2, sv3;
+
     };
 
 }

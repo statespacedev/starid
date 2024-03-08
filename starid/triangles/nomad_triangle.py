@@ -23,7 +23,7 @@ class NOMADTriangle:
 
     def first(self):
         """only used for the target star and initial triangle built on it. this is the ultimate parent triangle."""
-        while self.starc == self.stara or self.starc == self.starb: self.starc += 1
+        self.stara, self.starb, self.starc = -1, 1, 2
         self.sv1, self.sv2, self.sv3 = np.array([0., 0., 1.]), self.starvecs[self.starb], self.starvecs[self.starc]
         self.side1 = StarTriangleSide(self.sv1, self.sv2, self.starpairs, angtol=self.tol)
         self.side2 = StarTriangleSide(self.sv2, self.sv3, self.starpairs, angtol=self.tol)

@@ -25,11 +25,11 @@ def main():
 
     starpairs = starpairs_util(sky, pathstarpairs)
 
-    settler = SETTLER(starpairs)
-    result_settler = settler.run(image)
-
     nomad = NOMAD(starpairs)
     result_nomad = nomad.run(image)
+
+    settler = SETTLER(starpairs)
+    result_settler = settler.run(image)
 
     return
 
