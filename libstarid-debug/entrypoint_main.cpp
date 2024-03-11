@@ -6,8 +6,10 @@
 #include "triangles/nomad.h"
 
 // use approprate path formatting, on windows C:\\Users\\i28144\\CLionProjects\\starid\\data\\skymap.txt
-static std::string dirdata = R"(C:\Users\i28144\CLionProjects\starid\data\)";
-static std::string dirtmp = R"(C:\Users\i28144\CLionProjects\starid\tmp\)";
+//static std::string dirdata = R"(C:\Users\i28144\CLionProjects\starid\data\)";
+//static std::string dirtmp = R"(C:\Users\i28144\CLionProjects\starid\tmp\)";
+static std::string dirdata = "../../data/";
+static std::string dirtmp = "./";
 static std::string pathskymap = dirdata + "skymap.txt";
 static std::string pathsky = dirtmp + "sky.cereal";
 static std::string pathstarpairs = dirtmp + "starpairs.cereal";
