@@ -1,9 +1,10 @@
 #include "nomad.h"
 #include "nomad_triangle.h"
 
-starid::NOMAD::NOMAD(Starpairs &starpairs) : starpairs(starpairs), maxtriangles(90) {}
+starid::NOMAD::NOMAD() {}
 
-int starid::NOMAD::run(Eigen::MatrixXd &pixels) {
+int starid::NOMAD::run(Eigen::MatrixXd &pixels, Starpairs &starpairs_) {
+    starpairs = starpairs_;
     starvecs = pixels_to_starvecs(pixels);
 
     triangles.emplace_back(StartriangleNOMAD());

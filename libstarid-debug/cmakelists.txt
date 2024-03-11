@@ -2,6 +2,6 @@ cmake_minimum_required(VERSION 3.0)
 
 project(libstarid-debug)
 
-include_directories(../libstarid ../libstarid/include)
+include_directories(../libstarid ../libstarid/sky ../libstarid/triangles ../libstarid/include)
 
 add_executable(libstarid-debug entrypoint_main.cpp ../libstarid/sky/skymap.cpp ../libstarid/sky/sky.cpp ../libstarid/triangles/star_pairs.cpp ../libstarid/triangles/settler_triangle.cpp ../libstarid/triangles/star_triangle_side.cpp ../libstarid/triangles/nomad.cpp ../libstarid/sky/geometry.cpp ../libstarid/triangles/settler.cpp ../libstarid/triangles/nomad_triangle.cpp)

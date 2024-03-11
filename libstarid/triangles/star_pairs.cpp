@@ -4,18 +4,18 @@ starid::Starpairs::Starpairs() {}
 
 void starid::Starpairs::generate(starid::Sky &sky) {
     int pairndx = 0;
-    for (auto star : sky.stars) {
+    for (auto star: sky.stars) {
         std::vector<int> starndxs = sky.stars_near_point(star.x, star.y, star.z);
         starndxs.push_back(star.starndx);
-        for (auto starndx1 : starndxs) {
-            for (auto starndx2 : starndxs) {
+        for (auto starndx1: starndxs) {
+            for (auto starndx2: starndxs) {
                 if (starndx1 == starndx2) continue;
                 std::string key = pair_labeler(starndx1, starndx2);
                 auto search = starpairsndxs.find(key);
                 if (search != starpairsndxs.end()) continue; // check map that pair is unique
                 double angle = acos((sky.stars[starndx1].x * sky.stars[starndx2].x) +
-                                         (sky.stars[starndx1].y * sky.stars[starndx2].y) +
-                                         (sky.stars[starndx1].z * sky.stars[starndx2].z));
+                                    (sky.stars[starndx1].y * sky.stars[starndx2].y) +
+                                    (sky.stars[starndx1].z * sky.stars[starndx2].z));
                 if (std::abs(angle) > starid::star_pair_angle_limit) continue; // max pair angle
                 std::tuple<double, int, int> starpair{angle, starndx1, starndx2};
                 starpairs.push_back(starpair);
@@ -28,7 +28,8 @@ void starid::Starpairs::generate(starid::Sky &sky) {
     angndxs.sort();
 }
 
-std::unordered_map<int, std::unordered_map<int, int>> starid::Starpairs::pairs_for_angle(double angle, double tol_radius) {
+std::unordered_map<int, std::unordered_map<int, int>>
+starid::Starpairs::pairs_for_angle(double angle, double tol_radius) {
     std::unordered_map<int, std::unordered_map<int, int>> stars;
     double ang1 = angle - tol_radius;
     double ang2 = angle + tol_radius;
@@ -39,7 +40,7 @@ std::unordered_map<int, std::unordered_map<int, int>> starid::Starpairs::pairs_f
         ang1 = starid::star_pair_angle_limit - epsilon * tol_radius;
     if (ang2 >= starid::star_pair_angle_limit) ang2 = starid::star_pair_angle_limit;
     std::vector<int> pairndxs = angndxs.findndxs(ang1, ang2);
-    for (auto ndx : pairndxs) {
+    for (auto ndx: pairndxs) {
         int star1 = std::get<1>(starpairs[ndx]);
         int star2 = std::get<2>(starpairs[ndx]);
         auto it1 = stars.find(star1);

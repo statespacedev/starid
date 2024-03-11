@@ -7,8 +7,8 @@ void starid::StartriangleNOMAD::first(Eigen::MatrixXd &starvecs, starid::Starpai
     sv1 << 0., 0., 1.;
     sv2 = starvecs.row(starb);
     sv3 = starvecs.row(starc);
-    side1 = starid::Startriangleside2(sv1, sv2, starpairs);
-    return;
+    auto test = starid::Startriangleside2(sv1, sv2, starpairs);
+    stara = 0;
 //    side1 = starid::Startriangleside(starid::pairangle(starvecs, stara, starb), starpairs);
 //    side2 = starid::Startriangleside(starid::pairangle(starvecs, starb, starc), starpairs);
 //    side3 = starid::Startriangleside(starid::pairangle(starvecs, starc, stara), starpairs);
@@ -47,11 +47,11 @@ void starid::StartriangleNOMAD::constrain() {
 }
 
 void starid::StartriangleNOMAD::feedback(starid::Startriangleside &nextside1) {
-    side2.stars = nextside1.stars;
-    this->constrain();
+//    side2.stars = nextside1.stars;
+//    this->constrain();
 }
 
 bool starid::StartriangleNOMAD::stop() {
-    if (side1.stars.size() <= 1) return true;
+//    if (s12.stars.size() <= 1) return true;
     return false;
 }

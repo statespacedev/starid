@@ -10,15 +10,14 @@ namespace starid {
 
     class NOMAD {
     public:
-        NOMAD(Starpairs &pairs);
+        NOMAD();
 
-        int run(Eigen::MatrixXd &pixels);
+        int run(Eigen::MatrixXd &pixels, Starpairs &starpairs);
 
     private:
         Starpairs starpairs;
         Eigen::MatrixXd starvecs;
         std::vector<StartriangleNOMAD> triangles;
-        int maxtriangles;
     };
 
 }

@@ -50,7 +50,6 @@ starid::Startriangleside2::Startriangleside2(Eigen::Vector3d sv1_, Eigen::Vector
     stars = starpairs.pairs_for_angle(ang, angtol);
     log_star_count.push_back(stars.size());
     log_pair_count.push_back(countpairs());
-    return;
 }
 
 starid::Startriangleside2::Startriangleside2() {}

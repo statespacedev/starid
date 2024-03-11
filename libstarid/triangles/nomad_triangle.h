@@ -20,7 +20,7 @@ namespace starid {
 
         bool stop();
 
-        starid::Startriangleside2 side1, side2, side3;
+//        Startriangleside2 s12;
         int stara, starb, starc;
         Eigen::Vector3d sv1, sv2, sv3;
 
