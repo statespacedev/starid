@@ -24,8 +24,8 @@ int main() {
 
     auto starpairs = starpairs_util(sky, pathstarpairs);
 
-    starid::NOMAD nomad;
-    auto id2 = nomad.run(image["pixels"], starpairs);
+    starid::NOMAD nomad(starpairs);
+    auto id2 = nomad.run(image["pixels"]);
 
     starid::SETTLER settler(starpairs);
     auto id1 = settler.run(image["pixels"]);

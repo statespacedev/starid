@@ -1,6 +1,7 @@
 #ifndef STARID_NOMAD_TRIANGLE_H
 #define STARID_NOMAD_TRIANGLE_H
 
+#include "Eigen/Core"
 #include "../sky/geometry.h"
 #include "star_triangle_side.h"
 
@@ -19,8 +20,10 @@ namespace starid {
         void constrain();
 
         bool stop();
-
-//        Startriangleside2 s12;
+    private:
+//        Eigen::MatrixXd starvecs;
+        Starpairs starpairs;
+        Startriangleside2 side1;
         int stara, starb, starc;
         Eigen::Vector3d sv1, sv2, sv3;
 

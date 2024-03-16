@@ -29,7 +29,9 @@ namespace starid {
 
     class Startriangleside2 {
     public:
-        Startriangleside2(Eigen::Vector3d sv1_, Eigen::Vector3d sv2_, starid::Starpairs &starpairs);
+        Startriangleside2(Eigen::Vector3d sv1_, Eigen::Vector3d sv2_, starid::Starpairs &pairs);
+
+        void test(Eigen::Vector3d sv1_, Eigen::Vector3d sv2_, starid::Starpairs &pairs);
 
         Startriangleside2();
 

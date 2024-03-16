@@ -10,9 +10,9 @@ namespace starid {
 
     class NOMAD {
     public:
-        NOMAD();
+        explicit NOMAD(Starpairs &starpairs);
 
-        int run(Eigen::MatrixXd &pixels, Starpairs &starpairs);
+        int run(Eigen::MatrixXd &pixels);
 
     private:
         Starpairs starpairs;

@@ -45,9 +45,16 @@ int starid::Startriangleside::countpairs() {
     return result;
 }
 
-starid::Startriangleside2::Startriangleside2(Eigen::Vector3d sv1_, Eigen::Vector3d sv2_, starid::Starpairs &starpairs) {
+starid::Startriangleside2::Startriangleside2(Eigen::Vector3d sv1_, Eigen::Vector3d sv2_, starid::Starpairs &pairs) {
     angtol = .003; sv1 = sv1_; sv2 = sv2_; ang = std::acos(sv1.transpose() * sv2);
-    stars = starpairs.pairs_for_angle(ang, angtol);
+    stars = pairs.pairs_for_angle(ang, angtol);
+    log_star_count.push_back(stars.size());
+    log_pair_count.push_back(countpairs());
+}
+
+void starid::Startriangleside2::test(Eigen::Vector3d sv1_, Eigen::Vector3d sv2_, starid::Starpairs &pairs) {
+    angtol = .003; sv1 = sv1_; sv2 = sv2_; ang = std::acos(sv1.transpose() * sv2);
+    stars = pairs.pairs_for_angle(ang, angtol);
     log_star_count.push_back(stars.size());
     log_pair_count.push_back(countpairs());
 }
