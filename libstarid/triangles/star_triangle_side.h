@@ -31,7 +31,7 @@ namespace starid {
     public:
         Startriangleside2(Eigen::Vector3d sv1_, Eigen::Vector3d sv2_, starid::Starpairs &pairs);
 
-        void test(Eigen::Vector3d sv1_, Eigen::Vector3d sv2_, starid::Starpairs &pairs);
+        Startriangleside2& operator=(Startriangleside2 other);
 
         Startriangleside2();
 

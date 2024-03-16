@@ -7,7 +7,7 @@ void starid::StartriangleNOMAD::first(Eigen::MatrixXd &starvecs, starid::Starpai
     sv1 << 0., 0., 1.;
     sv2 = starvecs.row(starb);
     sv3 = starvecs.row(starc);
-    auto test = starid::Startriangleside2(sv1, sv2, starpairs);
+    side1 = starid::Startriangleside2(sv1, sv2, starpairs);
     stara = 0;
 //    side1 = starid::Startriangleside(starid::pairangle(starvecs, stara, starb), starpairs);
 //    side2 = starid::Startriangleside(starid::pairangle(starvecs, starb, starc), starpairs);
