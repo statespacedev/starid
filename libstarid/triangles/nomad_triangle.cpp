@@ -1,8 +1,13 @@
 #include "nomad_triangle.h"
 
-starid::StartriangleNOMAD::StartriangleNOMAD() {}
+starid::StartriangleNOMAD::StartriangleNOMAD(Eigen::MatrixXd &starvecs, starid::Starpairs &starpairs) :
+    side1{}, stara{0}, starb{0}, starc{0}, starvecs(starvecs), starpairs(starpairs) {
+    sv1 << 0., 0., 0.;
+    sv2 << 0., 0., 0.;
+    sv3 << 0., 0., 0.;
+}
 
-void starid::StartriangleNOMAD::first(Eigen::MatrixXd &starvecs, starid::Starpairs &starpairs) {
+void starid::StartriangleNOMAD::first() {
     stara = 0; starb = 2; starc = 3;
     sv1 << 0., 0., 1.;
     sv2 = starvecs.row(starb);

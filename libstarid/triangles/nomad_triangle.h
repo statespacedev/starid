@@ -9,9 +9,9 @@ namespace starid {
 
     class StartriangleNOMAD {
     public:
-        StartriangleNOMAD();
+        StartriangleNOMAD(Eigen::MatrixXd &starvecs, Starpairs &starpairs);
 
-        void first(Eigen::MatrixXd &starvecs, Starpairs &starpairs);
+        void first();
 
         void from_parent();
 
@@ -21,7 +21,7 @@ namespace starid {
 
         bool stop();
     private:
-//        Eigen::MatrixXd starvecs;
+        Eigen::MatrixXd starvecs;
         Starpairs starpairs;
         Startriangleside2 side1;
         int stara, starb, starc;

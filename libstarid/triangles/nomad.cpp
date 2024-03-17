@@ -6,8 +6,8 @@ starid::NOMAD::NOMAD(Starpairs &starpairs) : starpairs(starpairs) {}
 int starid::NOMAD::run(Eigen::MatrixXd &pixels) {
     starvecs = pixels_to_starvecs(pixels);
 
-    triangles.emplace_back(StartriangleNOMAD());
-    triangles[-1].first(starvecs, starpairs);
+    triangles.emplace_back(StartriangleNOMAD(starvecs, starpairs));
+    triangles[0].first();
 
 //    int cnt = 1;
 //    while (cnt < maxtriangles && !triangles[0].stop()) {

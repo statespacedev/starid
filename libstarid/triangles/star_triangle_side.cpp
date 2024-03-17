@@ -53,7 +53,7 @@ starid::Startriangleside2::Startriangleside2(Eigen::Vector3d sv1_, Eigen::Vector
 }
 
 starid::Startriangleside2::Startriangleside2() :
-    stars{{0, {{0, 0}}}}, ang{0}, angtol{0}, log_pair_count{}, log_star_count{} {
+    stars{{0, {{0, 0}}}}, ang{0}, angtol{0}, log_star_count{} {
 }
 
 int starid::Startriangleside2::countpairs() {
@@ -64,16 +64,13 @@ int starid::Startriangleside2::countpairs() {
     return result;
 }
 
-starid::Startriangleside2 &starid::Startriangleside2::operator=(starid::Startriangleside2 other) {
-    log_pair_count.clear();
-    log_pair_count.push_back(3);
-    log_pair_count = other.log_pair_count;
-    stars = other.stars;
-    ang = other.ang;
-    angtol = other.angtol;
-    sv1 = other.sv1;
-    sv2 = other.sv2;
-    log_star_count.clear();
-    log_star_count = other.log_star_count;
-    return *this;
-}
+//starid::Startriangleside2 &starid::Startriangleside2::operator=(starid::Startriangleside2 other) {
+//    log_pair_count = other.log_pair_count;
+//    log_star_count = other.log_star_count;
+//    stars = other.stars;
+//    ang = other.ang;
+//    angtol = other.angtol;
+//    sv1 = other.sv1;
+//    sv2 = other.sv2;
+//    return *this;
+//}
