@@ -6,6 +6,7 @@ import numpy as np
 from starid.sky.skymap import Skymap
 from starid.sky.geometry import FloatsIndexer, rotation_matrix, normalized
 from starid.sky.image import Image
+from starid.definitions import image_radius_radians
 
 class Sky:
     """model the sky, based on the skymap object. the key input parameter is the star brightness threshold - with
