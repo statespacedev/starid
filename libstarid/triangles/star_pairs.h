@@ -10,7 +10,9 @@
 #include <unordered_map>
 #include <map>
 #include "../sky/sky.h"
-
+using namespace Eigen;
+using namespace starid;
+using starsdict = std::unordered_map<int, std::unordered_map<int, int>>;
 namespace starid {
 
     class Starpairs {
@@ -18,12 +20,12 @@ namespace starid {
     public:
         Starpairs();
 
-        void generate(starid::Sky &sky);
+        void generate(Sky &sky);
 
-        std::unordered_map<int, std::unordered_map<int, int>> pairs_for_angle(double angle, double tol_radius);
+        starsdict pairs_for_angle(double angle, double tol_radius);
 
     private:
-        starid::FloatsIndexer angndxs;
+        FloatsIndexer angndxs;
         std::vector<std::tuple<double, int, int>> starpairs;
         std::unordered_map<std::string, int> starpairsndxs;
 

@@ -29,6 +29,7 @@ class NOMADTriangle:
         self.side2 = StarTriangleSide(self.sv2, self.sv3, self.starpairs, angtol=self.tol)
         self.side3 = StarTriangleSide(self.sv3, self.sv1, self.starpairs, angtol=self.tol)
         self.chk1()
+        return
 
     def from_parent(self, side2, starb, starc):
         """every triangle after the first is built on and extends its parent triangle. for a parent abca triangle,

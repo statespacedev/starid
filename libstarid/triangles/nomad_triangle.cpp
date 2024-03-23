@@ -1,62 +1,56 @@
+#include <set>
 #include "nomad_triangle.h"
 
-starid::StartriangleNOMAD::StartriangleNOMAD(Eigen::MatrixXd &starvecs, starid::Starpairs &starpairs) :
-    side1{}, stara{0}, starb{0}, starc{0}, starvecs(starvecs), starpairs(starpairs) {
+StartriangleNOMAD::StartriangleNOMAD(MatrixXd &starvecs, Starpairs &starpairs) :
+    stara{0}, starb{0}, starc{0}, starvecs(starvecs), starpairs(starpairs) {
     sv1 << 0., 0., 0.;
     sv2 << 0., 0., 0.;
     sv3 << 0., 0., 0.;
 }
 
-void starid::StartriangleNOMAD::first() {
+void StartriangleNOMAD::first() {
     stara = 0; starb = 2; starc = 3;
     sv1 << 0., 0., 1.;
     sv2 = starvecs.row(starb);
     sv3 = starvecs.row(starc);
-    side1 = starid::Startriangleside2(sv1, sv2, starpairs);
-    stara = 0;
-//    side1 = starid::Startriangleside(starid::pairangle(starvecs, stara, starb), starpairs);
-//    side2 = starid::Startriangleside(starid::pairangle(starvecs, starb, starc), starpairs);
-//    side3 = starid::Startriangleside(starid::pairangle(starvecs, starc, stara), starpairs);
-//    this->constrain();
+    side1 = Startriangleside2(sv1, sv2, starpairs);
+    side2 = Startriangleside2(sv2, sv3, starpairs);
+    side3 = Startriangleside2(sv3, sv1, starpairs);
+    this->chk1();
 }
 
-void starid::StartriangleNOMAD::from_parent() {
+void StartriangleNOMAD::from_parent() {
 //    while (starc == stara || starc == starb) starc = rand() % starvecs.rows();
-//    side2 = starid::Startriangleside(starid::pairangle(starvecs, starb, starc), starpairs);
-//    side3 = starid::Startriangleside(starid::pairangle(starvecs, starc, stara), starpairs);
+//    side2 = Startriangleside(pairangle(starvecs, starb, starc), starpairs);
+//    side3 = Startriangleside(pairangle(starvecs, starc, stara), starpairs);
 //    this->constrain();
 }
 
-void starid::StartriangleNOMAD::constrain() {
-//    for (auto STAR1side1 = side1.stars.begin(), end = side1.stars.end(); STAR1side1 != end; ++STAR1side1) {
-//        auto STAR1side3 = side3.stars.find(STAR1side1->first);
-//        if (STAR1side3 == side3.stars.end()) continue;
-//        auto &pairs3 = STAR1side3->second;
-//        auto &pairs1 = STAR1side1->second;
-//        for (auto pairs1it = pairs1.begin(), end = pairs1.end(); pairs1it != end; ++pairs1it) {
-//            auto STAR2side2 = side2.stars.find(pairs1it->first);
-//            if (STAR2side2 == side2.stars.end()) continue;
-//            auto &pairs2 = STAR2side2->second;
-//            for (auto pairs2it = pairs2.begin(), end = pairs2.end(); pairs2it != end; ++pairs2it) {
-//                auto STAR3side3 = pairs3.find(pairs2it->first);
-//                if (STAR3side3 == pairs3.end()) continue;
-//                pairs1it->second = 1;
-//                pairs2it->second = 1;
-//                STAR3side3->second = 1;
-//            }
-//        }
-//    } // keep these pairs
-//    side1.drops();
-//    side2.drops();
-//    side3.drops();
+void StartriangleNOMAD::chk1() {
+    std::set<int> ok1, ok2, ok3;
+    for (auto & a1 : side1.stars) {
+        if (!side3.stars.contains(a1.first)) continue;
+        for (auto & b1 : a1.second) {
+            if (!side2.stars.contains(b1)) continue;
+            for (auto & c2 : side2.stars[b1]) {
+                if (!side3.stars[a1.first].contains(c2)) continue;
+                ok1.insert(a1.first); ok1.insert(b1);
+                ok2.insert(b1); ok2.insert(c2);
+                ok3.insert(c2); ok3.insert(a1.first);
+            }
+        }
+    }
+    side1.update_side(ok1);
+    side2.update_side(ok2);
+    side3.update_side(ok3);
 }
 
-void starid::StartriangleNOMAD::feedback(starid::Startriangleside &nextside1) {
+void StartriangleNOMAD::feedback(Startriangleside &nextside1) {
 //    side2.stars = nextside1.stars;
 //    this->constrain();
 }
 
-bool starid::StartriangleNOMAD::stop() {
+bool StartriangleNOMAD::stop() {
 //    if (s12.stars.size() <= 1) return true;
     return false;
 }

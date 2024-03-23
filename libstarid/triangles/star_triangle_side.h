@@ -4,14 +4,20 @@
 #include <unordered_map>
 #include <map>
 #include <vector>
+#include <set>
 #include "star_pairs.h"
 #include "../sky/geometry.h"
+using namespace Eigen;
+using namespace starid;
+using starsdict = std::unordered_map<int, std::unordered_map<int, int>>;
+using starsdict2 = std::unordered_map<int, std::set<int>>;
+using intvec = std::vector<int>;
 
 namespace starid {
 
     class Startriangleside {
     public:
-        Startriangleside(double ang, starid::Starpairs &pairs);
+        Startriangleside(double, Starpairs&);
 
         Startriangleside();
 
@@ -21,31 +27,29 @@ namespace starid {
 
         int countpairs();
 
-        std::unordered_map<int, std::unordered_map<int, int>> stars;
-        std::vector<int> log_star_count;
-        std::vector<int> log_pair_count;
+        starsdict stars;
+        intvec log_star_count;
+        intvec log_pair_count;
         double angtol;
     };
 
     class Startriangleside2 {
     public:
-        Startriangleside2(Eigen::Vector3d sv1_, Eigen::Vector3d sv2_, starid::Starpairs &pairs);
-
-//        Startriangleside2& operator=(Startriangleside2 other);
+        Startriangleside2(Vector3d, Vector3d, Starpairs&, float angtol = .003);
 
         Startriangleside2();
 
-//        void drops(bool dolog = true);
+        void update_side(std::set<int>&);
 
 //        void update(Startriangleside &side);
 
         int countpairs();
 
-        Eigen::Vector3d sv1, sv2;
+        Vector3d sv1, sv2;
         double ang;
-        std::unordered_map<int, std::unordered_map<int, int>> stars;
-        std::vector<int> log_star_count;
-        std::vector<int> log_pair_count;
+        starsdict2 stars;
+        intvec log_star_count;
+        intvec log_pair_count;
     private:
         double angtol;
     };

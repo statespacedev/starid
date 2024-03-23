@@ -4,28 +4,30 @@
 #include "Eigen/Core"
 #include "../sky/geometry.h"
 #include "star_triangle_side.h"
+using namespace Eigen;
+using namespace starid;
 
 namespace starid {
 
     class StartriangleNOMAD {
     public:
-        StartriangleNOMAD(Eigen::MatrixXd &starvecs, Starpairs &starpairs);
+        StartriangleNOMAD(MatrixXd &starvecs, Starpairs &starpairs);
 
         void first();
 
         void from_parent();
 
-        void feedback(starid::Startriangleside &next);
+        void feedback(Startriangleside &next);
 
-        void constrain();
+        void chk1();
 
         bool stop();
     private:
-        Eigen::MatrixXd starvecs;
+        MatrixXd starvecs;
         Starpairs starpairs;
-        Startriangleside2 side1;
+        Startriangleside2 side1, side2, side3;
         int stara, starb, starc;
-        Eigen::Vector3d sv1, sv2, sv3;
+        Vector3d sv1, sv2, sv3;
 
     };
 
