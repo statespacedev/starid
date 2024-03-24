@@ -14,19 +14,13 @@ using starsdict2 = std::unordered_map<int, std::set<int>>;
 using intvec = std::vector<int>;
 
 namespace starid {
-
     class Startriangleside {
     public:
         Startriangleside(double, Starpairs&);
-
         Startriangleside();
-
         void drops(bool dolog = true);
-
         void update(Startriangleside &side);
-
         int countpairs();
-
         starsdict stars;
         intvec log_star_count;
         intvec log_pair_count;
@@ -36,24 +30,15 @@ namespace starid {
     class Startriangleside2 {
     public:
         Startriangleside2(Vector3d, Vector3d, Starpairs&, float angtol = .003);
-
         Startriangleside2();
-
         void update_side(std::set<int>&);
-
-//        void update(Startriangleside &side);
-
         int countpairs();
-
         Vector3d sv1, sv2;
         double ang;
         starsdict2 stars;
         intvec log_star_count;
         intvec log_pair_count;
-    private:
-        double angtol;
     };
-
 }
 
 

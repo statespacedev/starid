@@ -5,21 +5,20 @@
 #include "star_pairs.h"
 #include "settler_triangle.h"
 #include "nomad_triangle.h"
+using namespace Eigen;
+using namespace starid;
+using cands = std::set<int>;
 
 namespace starid {
-
     class NOMAD {
     public:
-        explicit NOMAD(Starpairs &starpairs);
-
-        int run(Eigen::MatrixXd &pixels);
-
+        explicit NOMAD(Starpairs&);
+        cands run(MatrixXd&);
     private:
         Starpairs starpairs;
-        Eigen::MatrixXd starvecs;
-        std::vector<StartriangleNOMAD> triangles;
+        MatrixXd starvecs;
+        std::vector<StartriangleNOMAD> tri;
     };
-
 }
 
 #endif

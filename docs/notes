@@ -1,0 +1,3 @@
+
+git commit --amend --date="now"
+git commit --amend --author="Noah Smith <noah@statespace.dev>"

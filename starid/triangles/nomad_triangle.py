@@ -53,12 +53,8 @@ class NOMADTriangle:
                 if b1 not in self.side2.stars: continue
                 for c2 in self.side2.stars[b1]:
                     if c2 not in self.side3.stars[a1]: continue
-                    ok1.update([a1, b1])
-                    ok2.update([b1, c2])
-                    ok3.update([c2, a1])
-        self.side1.update_side(ok1)
-        self.side2.update_side(ok2)
-        self.side3.update_side(ok3)
+                    ok1.update([a1, b1]); ok2.update([b1, c2]); ok3.update([c2, a1])
+        self.side1.update_side(ok1); self.side2.update_side(ok2); self.side3.update_side(ok3)
 
     def chk2(self, other):
         """test candidate star pairs for the sides of a two triangles sharing a common side. for a parent abca and
@@ -75,12 +71,8 @@ class NOMADTriangle:
                     if c2 not in adside.stars: continue
                     if a1 not in adside.stars or c2 not in other.side2.stars: continue
                     if not set.intersection(adside.stars[a1], other.side2.stars[c2]): continue
-                    ok1.update([a1, b1])
-                    ok2.update([b1, c2])
-                    ok3.update([c2, a1])
-        self.side1.update_side(ok1)
-        self.side2.update_side(ok2)
-        self.side3.update_side(ok3)
+                    ok1.update([a1, b1]); ok2.update([b1, c2]); ok3.update([c2, a1])
+        self.side1.update_side(ok1); self.side2.update_side(ok2); self.side3.update_side(ok3)
 
     def stop(self):
         """stopping condition. true if basestars and basesides have been constrained to the point where only one

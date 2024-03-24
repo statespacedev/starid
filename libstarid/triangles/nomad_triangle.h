@@ -6,30 +6,24 @@
 #include "star_triangle_side.h"
 using namespace Eigen;
 using namespace starid;
+using cands = std::set<int>;
 
 namespace starid {
-
     class StartriangleNOMAD {
     public:
-        StartriangleNOMAD(MatrixXd &starvecs, Starpairs &starpairs);
-
+        StartriangleNOMAD(MatrixXd&, Starpairs&);
         void first();
-
-        void from_parent();
-
-        void feedback(Startriangleside &next);
-
+        void from_parent(Startriangleside2&, int, int);
         void chk1();
-
+        void chk2(StartriangleNOMAD&);
         bool stop();
+        Startriangleside2 side1, side2, side3;
+        int stara, starb, starc;
+        cands acands;
     private:
         MatrixXd starvecs;
         Starpairs starpairs;
-        Startriangleside2 side1, side2, side3;
-        int stara, starb, starc;
         Vector3d sv1, sv2, sv3;
-
     };
-
 }
 #endif //STARID_NOMAD_TRIANGLE_H

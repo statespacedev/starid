@@ -14,23 +14,19 @@ class NOMAD:
     def __init__(self, starpairs):
         self.starpairs = starpairs
         self.min_ang = 3000. * arcseconds_to_radians
-        self.triangles = []
+        self.tri = []
         self.maxtriangles = 90
 
     def run(self, image):
         """recognize target star from the starvecs of image pixels."""
         starvecs, acands = image.starvecs(), []
-
-        self.triangles.append(NOMADTriangle(starvecs, self.starpairs))
-        self.triangles[-1].first()
-
-        while not self.triangles[0].stop():
-            self.triangles.append(NOMADTriangle(starvecs, self.starpairs))
-            ta, tb = self.triangles[-1], self.triangles[-2]
-            ta.from_parent(tb.side2, tb.starb, tb.starc)
-            for ndx in range(len(self.triangles) - 2, -1, -1):
-                ta, tb = self.triangles[ndx], self.triangles[ndx + 1]
-                ta.chk2(tb)
-            print(len(self.triangles[0].acands))
-        result = self.triangles[0].acands
+        self.tri.append(NOMADTriangle(starvecs, self.starpairs))
+        self.tri[-1].first()
+        while not self.tri[0].stop():
+            self.tri.append(NOMADTriangle(starvecs, self.starpairs))
+            self.tri[-1].from_parent(self.tri[-2].side2, self.tri[-2].starb, self.tri[-2].starc)
+            for ndx in range(len(self.tri) - 2, -1, -1):
+                self.tri[ndx].chk2(self.tri[ndx + 1])
+            print(len(self.tri[0].acands))
+        result = self.tri[0].acands
         return result
