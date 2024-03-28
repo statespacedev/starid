@@ -28,8 +28,7 @@ std::vector<int> starid::FloatsIndexer::findndxs(double lofloat, double hifloat)
 
 Eigen::MatrixXd starid::pixels_to_starvecs(Eigen::MatrixXd &imgs) {
     Eigen::MatrixXd pvecs = Eigen::MatrixXd::Zero(100, 3);
-    pvecs.row(0) << 0.0, 0.0, 1.0;
-    int pvecsndx = 1;
+    int pvecsndx = 0;
     for (int axjndx = 0; axjndx < 28; ++axjndx) {
         for (int axindx = 0; axindx < 28; ++axindx) {
             if (imgs(axjndx, axindx) > 0) { // there's a star inside axjndx, axindx

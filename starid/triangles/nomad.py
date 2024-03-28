@@ -4,29 +4,26 @@ backwards - increasing the constraints on the initial triangle baseside and base
 the chain of triangles wanders away from the target star and initial triangle."""
 import numpy as np
 from math import acos
-from starid.triangles.star_triangle_side import StarTriangleSide
+from starid.triangles.star_triangle_side import Startriangleside
 from starid.sky.geometry import arcseconds_to_radians
-from starid.triangles.nomad_triangle import NOMADTriangle
+from starid.triangles.nomad_triangle import StartriangleNOMAD
 
 class NOMAD:
     """recognize target star from triangles where the target star is the first basestar."""
 
     def __init__(self, starpairs):
         self.starpairs = starpairs
-        self.min_ang = 3000. * arcseconds_to_radians
-        self.tri = []
-        self.maxtriangles = 90
 
     def run(self, image):
         """recognize target star from the starvecs of image pixels."""
         starvecs, acands = image.starvecs(), []
-        self.tri.append(NOMADTriangle(starvecs, self.starpairs))
-        self.tri[-1].first()
-        while not self.tri[0].stop():
-            self.tri.append(NOMADTriangle(starvecs, self.starpairs))
-            self.tri[-1].from_parent(self.tri[-2].side2, self.tri[-2].starb, self.tri[-2].starc)
-            for ndx in range(len(self.tri) - 2, -1, -1):
-                self.tri[ndx].chk2(self.tri[ndx + 1])
-            print(len(self.tri[0].acands))
-        result = self.tri[0].acands
+        tri = [StartriangleNOMAD(starvecs, self.starpairs)]
+        tri[-1].first()
+        while not tri[0].stop():
+            tri.append(StartriangleNOMAD(starvecs, self.starpairs))
+            tri[-1].from_parent(tri[-2].side2, tri[-2].starb, tri[-2].starc)
+            for ndx in range(len(tri) - 2, -1, -1):
+                tri[ndx].chk2(tri[ndx + 1])
+            print(len(tri[0].acands))
+        result = tri[0].acands
         return result

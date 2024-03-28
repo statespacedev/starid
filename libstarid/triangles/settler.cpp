@@ -1,12 +1,10 @@
 #include "settler.h"
 #include "../sky/geometry.h"
 
-starid::SETTLER::SETTLER(Starpairs &starpairs) : starpairs(starpairs) {}
+SETTLER::SETTLER(Starpairs &starpairs) : starpairs(starpairs) {}
 
-int starid::SETTLER::run(Eigen::MatrixXd &pixels) {
+int SETTLER::run(MatrixXd &pixels) {
     starvecs = pixels_to_starvecs(pixels);
-    std::vector<Startriangleside> absides;
-
     for (ndxb = 1; ndxb < starvecs.rows(); ++ndxb) { // absides
         uveca = starvecs.row(0);
         uvecb = starvecs.row(ndxb);
@@ -48,7 +46,7 @@ int starid::SETTLER::run(Eigen::MatrixXd &pixels) {
     return -1;
 }
 
-bool starid::SETTLER::get_angs_d() {
+bool SETTLER::get_angs_d() {
     if (ndxd == ndxb || ndxd == ndxc) return false;
     bool angsok = true;
     angs_d = angs_c;
@@ -65,8 +63,8 @@ bool starid::SETTLER::get_angs_d() {
     return angsok;
 }
 
-bool starid::SETTLER::get_angs_c() {
-    min_ang = 3000.0 * starid::arcseconds_to_radians;
+bool SETTLER::get_angs_c() {
+    min_ang = 3000.0 * arcseconds_to_radians;
     if (ndxc == ndxb) return false;
     bool angsok = true;
     angs_c.clear();

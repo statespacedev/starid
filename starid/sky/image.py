@@ -32,13 +32,12 @@ class Image:
         plt.matshow(-1 * self.img, cmap='Greys', interpolation='nearest')
         plt.show()
 
-    def starvecs(self, nomad=False):
+    def starvecs(self):
         """convert image pixels to star pointing vectors / unit vectors in the 'camera frame'. these arent the 'real'
         hi-res starvecs we had when first creating the image. they're lo-res 'approximations' and have effectively lost
         or fuzzed out info during the transforms to and back from 28 x 28 pixels. several 'real' starvecs can end up as
         a single pixel."""
         starvecs = []
-        if nomad: starvecs.append([0., 0., 1.])
         for axjndx in range(28):
             for axindx in range(28):
                 if self.img[axjndx, axindx] > 0:

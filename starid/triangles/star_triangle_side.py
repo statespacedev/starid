@@ -5,11 +5,11 @@ import math
 from math import sqrt, acos
 from starid.sky.geometry import arcseconds_to_radians
 
-class StarTriangleSide:
+class Startriangleside:
 
     def __init__(self, sv1, sv2, starpairs, angtol=None):
         self.sv1, self.sv2, self.ang = sv1, sv2, acos(sv1 @ sv2)
-        self.angtol = 2. * sqrt(500. * 500. + 500. * 500.) * arcseconds_to_radians
+        self.angtol = .003 # 2. * sqrt(500. * 500. + 500. * 500.) * arcseconds_to_radians
         if angtol: self.angtol = angtol
         self.stars = starpairs.pairs_for_angle(self.ang, self.angtol)
         self.starcnt = [len(self.stars)]

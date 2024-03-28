@@ -7,9 +7,9 @@ information to flow backwards, all the way backward from latest triangle to the 
 constraints on the initial triangle baseside and basestar."""
 import numpy as np
 from math import acos
-from starid.triangles.star_triangle_side import StarTriangleSide
+from starid.triangles.star_triangle_side import Startriangleside
 
-class NOMADTriangle:
+class StartriangleNOMAD:
     """NOMAD triangle. focus is on the basestar and baseside"""
 
     def __init__(self, starvecs, starpairs):
@@ -25,9 +25,9 @@ class NOMADTriangle:
         """only used for the target star and initial triangle built on it. this is the ultimate parent triangle."""
         self.stara, self.starb, self.starc = -1, 1, 2
         self.sv1, self.sv2, self.sv3 = np.array([0., 0., 1.]), self.starvecs[self.starb], self.starvecs[self.starc]
-        self.side1 = StarTriangleSide(self.sv1, self.sv2, self.starpairs, angtol=self.tol)
-        self.side2 = StarTriangleSide(self.sv2, self.sv3, self.starpairs, angtol=self.tol)
-        self.side3 = StarTriangleSide(self.sv3, self.sv1, self.starpairs, angtol=self.tol)
+        self.side1 = Startriangleside(self.sv1, self.sv2, self.starpairs, angtol=self.tol)
+        self.side2 = Startriangleside(self.sv2, self.sv3, self.starpairs, angtol=self.tol)
+        self.side3 = Startriangleside(self.sv3, self.sv1, self.starpairs, angtol=self.tol)
         self.chk1()
         return
 
@@ -38,8 +38,8 @@ class NOMADTriangle:
         while self.starc == self.stara or self.starc == self.starb: self.starc += 1
         self.sv1, self.sv2, self.sv3 = self.starvecs[self.stara], self.starvecs[self.starb], self.starvecs[self.starc]
         self.side1 = side2
-        self.side2 = StarTriangleSide(self.sv2, self.sv3, self.starpairs, angtol=self.tol)
-        self.side3 = StarTriangleSide(self.sv3, self.sv1, self.starpairs, angtol=self.tol)
+        self.side2 = Startriangleside(self.sv2, self.sv3, self.starpairs, angtol=self.tol)
+        self.side3 = Startriangleside(self.sv3, self.sv1, self.starpairs, angtol=self.tol)
         self.chk1()
 
     def chk1(self):
@@ -60,7 +60,7 @@ class NOMADTriangle:
         """test candidate star pairs for the sides of a two triangles sharing a common side. for a parent abca and
         child bcdb, we've got a side ad connecting their 'third stars', stars a and d. star a has to be possible in
         both ad and ac, this then implies 'ok, star d is possible'"""
-        adside = StarTriangleSide(self.sv1, other.sv3, self.starpairs)
+        adside = Startriangleside(self.sv1, other.sv3, self.starpairs)
         ok1, ok2, ok3 = set(), set(), set()
         for a1 in self.side1.stars:
             if a1 not in self.side3.stars: continue

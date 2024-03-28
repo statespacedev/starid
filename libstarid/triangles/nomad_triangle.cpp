@@ -6,7 +6,7 @@ StartriangleNOMAD::StartriangleNOMAD(MatrixXd &starvecs, Starpairs &starpairs) :
 }
 
 void StartriangleNOMAD::first() {
-    stara = 0; starb = 2; starc = 3;
+    stara = 0; starb = 1; starc = 2;
     sv1 << 0., 0., 1.; sv2 = starvecs.row(starb); sv3 = starvecs.row(starc);
     side1 = Startriangleside2(sv1, sv2, starpairs);
     side2 = Startriangleside2(sv2, sv3, starpairs);
