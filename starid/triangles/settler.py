@@ -15,13 +15,14 @@ class SETTLER:
 
     def __init__(self, starpairs):
         self.starpairs = starpairs
+        self.acands = []
 
     def run(self, image):
         """recognize target star from the starvecs of image pixels."""
-        starvecs, acands = image.starvecs(), []
+        starvecs = image.starvecs()
         for b, svb in enumerate(starvecs):  # abside
             abside, bypass = Startriangleside(np.array([0., 0., 1.]), svb, self.starpairs), False
-            if acands: abside.update_acands(acands[-1])
+            if self.acands: abside.update_acands(self.acands[-1])
             for c, svc in enumerate(starvecs):  # abca triangle
                 if bypass or c == b: continue
                 tri = [StartriangleSETTLER(svb, svc, self.starpairs, abside)]
@@ -31,8 +32,8 @@ class SETTLER:
                     tri.append(StartriangleSETTLER(svb, svd, self.starpairs, abside))
                     tri[-1].chk2(tri[:-1])
                     if len(abside.starcnt) > 3 and len(set(abside.starcnt[-3:])) == 1: bypass = True
-            acands.append(set(abside.stars.keys()))
-            if not len(acands[-1]) > 1: break
-        result = acands[-1]
+            self.acands.append(set(abside.stars.keys()))
+            if not len(self.acands[-1]) > 1: break
+        result = self.acands[-1]
         return result
 

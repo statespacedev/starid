@@ -61,6 +61,28 @@ void Startriangleside2::update_side(std::set<int>& ok) {
     log_star_count.push_back(stars.size());
     log_pair_count.push_back(countpairs());}
 
+void Startriangleside2::update_abside(Startriangleside2& side) {
+    starsdict2 tmp;
+    for (auto& star : side.stars) {
+        if (!stars.contains(star.first)) continue;
+        std::set<int> tmp2;
+        std::set_intersection(stars[star.first].begin(), stars[star.first].end(),
+                              star.second.begin(), star.second.end(), std::inserter(tmp2, tmp2.begin()));
+        if (tmp2.empty()) continue;
+        tmp[star.first] = tmp2;
+    }
+    stars = tmp;
+    log_star_count.push_back(stars.size());
+    log_pair_count.push_back(countpairs());}
+
+void Startriangleside2::update_acands(std::set<int>& acands) {
+    std::vector<int> drops;
+    for (auto star : stars) {
+        if (!acands.contains(star.first)) drops.push_back(star.first);}
+    for (auto star : drops) stars.erase(star);
+    log_star_count.push_back(stars.size());
+    log_pair_count.push_back(countpairs());}
+
 int Startriangleside2::countpairs() {
     int result = 0;
     for (auto & star : stars) result += star.second.size();

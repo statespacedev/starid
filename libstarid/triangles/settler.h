@@ -6,6 +6,7 @@
 #include "settler_triangle.h"
 using namespace starid;
 using namespace Eigen;
+using cands = std::set<int>;
 
 namespace starid {
     class SETTLER {
@@ -13,14 +14,10 @@ namespace starid {
         explicit SETTLER(Starpairs &pairs);
         int run(MatrixXd &pixels);
     private:
-        bool get_angs_c();
-        bool get_angs_d();
         Starpairs starpairs;
         MatrixXd starvecs;
-        double min_ang;
-        std::vector<double> angs_c, angs_d;
-        Vector3d uveca, uvecb, uvecc, uvecd;
-        int ndxb, ndxc, ndxd;
+        Vector3d sva;
+        std::vector<std::set<int>> acands;
     };
 }
 

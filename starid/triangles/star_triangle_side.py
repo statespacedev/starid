@@ -42,17 +42,18 @@ class Startriangleside:
         new info."""
         tmp = dict()
         for acand in side.stars.keys():
-            if acand in self.stars: tmp[acand] = set.intersection(side.stars[acand], self.stars[acand])
+            if acand in self.stars:
+                tmp2 = set.intersection(side.stars[acand], self.stars[acand])
+                if not tmp2: continue
+                tmp[acand] = tmp2
         self.stars = tmp
         self.starcnt.append(len(self.stars))
         self.paircnt.append(self.count_pairs())
 
     def update_acands(self, acands):
         """this is an abside and we're given a 'new info' set of a stars. shrink our a star possibilities."""
-        tmp = dict()
-        for acand in acands:
-            if acand in self.stars: tmp[acand] = self.stars[acand]
-        self.stars = tmp
+        drops = [k for k in self.stars if k not in acands]
+        for k in drops: self.stars.pop(k, None)
         self.starcnt.append(len(self.stars))
         self.paircnt.append(self.count_pairs())
         return

@@ -32,6 +32,8 @@ namespace starid {
         Startriangleside2(Vector3d, Vector3d, Starpairs&, float angtol = .003);
         Startriangleside2();
         void update_side(std::set<int>&);
+        void update_abside(Startriangleside2&);
+        void update_acands(std::set<int>&);
         int countpairs();
         Vector3d sv1, sv2;
         double ang;
