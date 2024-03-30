@@ -12,12 +12,12 @@ namespace starid {
     class SETTLER {
     public:
         explicit SETTLER(Starpairs &pairs);
-        int run(MatrixXd &pixels);
+        cands run(MatrixXd &pixels);
     private:
         Starpairs starpairs;
         MatrixXd starvecs;
         Vector3d sva;
-        std::vector<std::set<int>> acands;
+        std::vector<cands> acands;
     };
 }
 

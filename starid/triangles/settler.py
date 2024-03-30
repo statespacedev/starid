@@ -29,11 +29,12 @@ class SETTLER:
                 tri[0].chk1()
                 for d, svd in enumerate(starvecs):  # abda triangle
                     if bypass or d == c or d == b: continue
-                    tri.append(StartriangleSETTLER(svb, svd, self.starpairs, abside))
-                    tri[-1].chk2(tri[:-1])
-                    if len(abside.starcnt) > 3 and len(set(abside.starcnt[-3:])) == 1: bypass = True
+                    tmp = StartriangleSETTLER(svb, svd, self.starpairs, abside)
+                    tmp.chk2(tri)
+                    tri.append(tmp)
+                    if abside.starcnt[-1] == abside.starcnt[-2]: bypass = True
             self.acands.append(set(abside.stars.keys()))
-            if not len(self.acands[-1]) > 1: break
+            if len(self.acands[-1]) <= 1: break
         result = self.acands[-1]
         return result
 

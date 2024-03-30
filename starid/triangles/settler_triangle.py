@@ -37,15 +37,11 @@ class StartriangleSETTLER:
                 if b1 not in self.side2.stars: continue
                 for c2 in self.side2.stars[b1]:
                     if c2 not in self.side3.stars[a1]: continue
-                    ok1.update([a1, b1])
-                    ok2.update([b1, c2])
-                    ok3.update([c2, a1])
-        self.side1.update_side(ok1)
-        self.side2.update_side(ok2)
-        self.side3.update_side(ok3)
+                    ok1.update([a1, b1]); ok2.update([b1, c2]); ok3.update([c2, a1])
+        self.side1.update_side(ok1); self.side2.update_side(ok2); self.side3.update_side(ok3)
         self.abside.update_abside(self.side1)
 
-    def chk2(self, triangles):
+    def chk2(self, tri):
         """test candidate star pairs for the sides of an abda triangle. the added info and constraining possible here
         with abda was the big discovery that first got settler really going. you can see it here around the set
         intersection. the new question we're asking is essentially 'is the abda's star d even possible?' comparing
@@ -53,8 +49,8 @@ class StartriangleSETTLER:
         got the third side of the prior triangle, which we look at 'backwards', from a to c rather than 'forwards'
         from c to a. we're forcing there to be overlap/intersection for 'star c' - star c has to be possible in both
         cd and ac, this then implies 'ok, star d is possible'"""
-        for triangle in triangles:
-            cdside = Startriangleside(self.vecstar3, triangle.vecstar3, self.starpairs, angtol=self.tol)
+        for other in tri:
+            cdside = Startriangleside(self.vecstar3, other.vecstar3, self.starpairs, angtol=self.tol)
             ok1, ok2, ok3 = set(), set(), set()
             for a1 in self.side1.stars:
                 if a1 not in self.side3.stars: continue
@@ -63,8 +59,8 @@ class StartriangleSETTLER:
                     for c2 in self.side2.stars[b1]:
                         if c2 not in self.side3.stars[a1]: continue
                         if c2 not in cdside.stars: continue
-                        if a1 not in triangle.side3.stars: continue
-                        if not set.intersection(cdside.stars[c2], triangle.side3.stars[a1]): continue
+                        if a1 not in other.side3.stars: continue
+                        if not set.intersection(cdside.stars[c2], other.side3.stars[a1]): continue
                         ok1.update([a1, b1])
                         ok2.update([b1, c2])
                         ok3.update([c2, a1])
