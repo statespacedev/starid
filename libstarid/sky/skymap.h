@@ -4,7 +4,6 @@
 #include "geometry.h"
 
 namespace starid {
-
     struct Skymaprec {
         double mv1;
         std::string iau_identifier;
@@ -22,10 +21,8 @@ namespace starid {
     class Skymap {
     public:
         explicit Skymap(std::string pathskymap);
-
         std::vector<Skymaprec> records;
     };
-
 }
 
 #endif //STARID_SKYMAP_H

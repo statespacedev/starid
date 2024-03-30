@@ -21,15 +21,10 @@ void Starpairs::generate(Sky &sky) {
                 starpairs.push_back(starpair);
                 starpairsndxs.insert({key, pairndx}); // update map of unique pairs
                 angndxs.add_pair(angle, pairndx);
-                ++pairndx;
-            }
-        }
-    }
-    angndxs.sort();
-}
+                ++pairndx;}}}
+    angndxs.sort();}
 
-starsdict Starpairs::pairs_for_angle(double angle, double tol_radius) {
-    starsdict stars;
+starsdict2 Starpairs::pairs_for_angle(double angle, double tol_radius) {
     double ang1 = angle - tol_radius;
     double ang2 = angle + tol_radius;
     double epsilon = 1.0;
@@ -39,39 +34,20 @@ starsdict Starpairs::pairs_for_angle(double angle, double tol_radius) {
         ang1 = star_pair_angle_limit - epsilon * tol_radius;
     if (ang2 >= star_pair_angle_limit) ang2 = star_pair_angle_limit;
     std::vector<int> pairndxs = angndxs.findndxs(ang1, ang2);
-    for (auto ndx: pairndxs) {
+    starsdict2 stars;
+    for (auto ndx : pairndxs) {
         int star1 = std::get<1>(starpairs[ndx]);
         int star2 = std::get<2>(starpairs[ndx]);
-        auto it1 = stars.find(star1);
-        if (it1 != stars.end()) {
-            auto &pairs1 = it1->second;
-            pairs1.emplace(std::make_pair(star2, 0)); // initial value for pair star key is 0
-        } else {
-            std::unordered_map<int, int> pairs1;
-            pairs1.emplace(std::make_pair(star2, 1));
-            stars.emplace(std::make_pair(star1, pairs1));
-        }
-        auto it2 = stars.find(star2);
-        if (it2 != stars.end()) {
-            auto &pairs2 = it2->second;
-            pairs2.emplace(std::make_pair(star1, 0)); // initial value for pair star key is 0
-        } else {
-            std::unordered_map<int, int> pairs2;
-            pairs2.emplace(std::make_pair(star1, 1));
-            stars.emplace(std::make_pair(star2, pairs2));
-        }
-    }
-    return stars;
-}
+        if (!stars.contains(star1)) stars.insert({star1, {star2}});
+        else stars[star1].insert(star2);
+        if (!stars.contains(star2)) stars.insert({star2, {star1}});
+        else stars[star2].insert(star1);}
+    return stars;}
 
 std::string Starpairs::pair_labeler(int catndx1, int catndx2) {
     if (catndx1 > catndx2) {
         int tmp = catndx1;
         catndx1 = catndx2;
-        catndx2 = tmp;
-    }
+        catndx2 = tmp;}
     std::string label = std::to_string(catndx1) + std::to_string(catndx2);
-    return label;
-}
-
-
+    return label;}

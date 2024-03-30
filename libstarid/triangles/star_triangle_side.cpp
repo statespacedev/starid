@@ -3,11 +3,7 @@
 
 Startriangleside2::Startriangleside2(Vector3d sv1, Vector3d sv2, Starpairs& pairs, float angtol) :
     sv1{sv1}, sv2{sv2}, ang{std::acos(sv1.transpose() * sv2)}, stars{} {
-    auto tmp = pairs.pairs_for_angle(ang, angtol);
-    for (auto & star1 : tmp) {
-        for (auto & star2 : star1.second) {
-            if (!stars.contains(star1.first)) stars.insert({star1.first, {star2.first}});
-            else stars[star1.first].insert(star2.first);}}
+    stars = pairs.pairs_for_angle(ang, angtol);
     starcnt.push_back(stars.size());
     paircnt.push_back(countpairs());}
 
@@ -34,12 +30,10 @@ void Startriangleside2::update_abside(Startriangleside2& side) {
         std::set_intersection(stars[star.first].begin(), stars[star.first].end(),
                               star.second.begin(), star.second.end(), std::inserter(tmp2, tmp2.begin()));
         if (tmp2.empty()) continue;
-        tmp[star.first] = tmp2;
-    }
+        tmp[star.first] = tmp2;}
     stars = tmp;
     starcnt.push_back(stars.size());
-    paircnt.push_back(countpairs());
-}
+    paircnt.push_back(countpairs());}
 
 void Startriangleside2::update_acands(cands& acands) {
     std::vector<int> drops;
@@ -52,8 +46,7 @@ void Startriangleside2::update_acands(cands& acands) {
 cands Startriangleside2::getcands() {
     cands cur;
     for (auto star : stars) cur.insert(star.first);
-    return cur;
-}
+    return cur;}
 
 int Startriangleside2::countpairs() {
     int result = 0;

@@ -20,8 +20,5 @@ starid::Skymap::Skymap(std::string pathskymap) {
             rec.decsign = 1.0;
             if (line.substr(129, 1).compare("-") == 0) rec.decsign = -1.0;
             rec.fileline = line;
-            records.push_back(rec);
-        }
-        catfile.close();
-    }
-}
+            records.push_back(rec);}
+        catfile.close();}}

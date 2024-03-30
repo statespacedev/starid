@@ -9,7 +9,6 @@
 #include "../sky/geometry.h"
 using namespace Eigen;
 using namespace starid;
-using starsdict = std::unordered_map<int, std::unordered_map<int, int>>;
 using starsdict2 = std::unordered_map<int, std::set<int>>;
 using intvec = std::vector<int>;
 using cands = std::set<int>;
