@@ -1,10 +1,14 @@
+nasa skymap sky2000 v5r4 star catalog
+-------------------------------------------
+
 nasa skymap sky2000 is the foundation here and it's got some interesting history. back in the day i interacted with some of the people involved and learned a bit. there were roughly two phases of skymap's history - before hubble, and after. nasa still had power in those days, and when it turned out after launch that star catalogs were among hubble's problems, resources were allocated to improve skymap. serious work was done in the 90s to make it the baseline catalog for spacecraft star trackers.
 
 here are some notes from back in the day, these are floating around on the net and turn up with a quick googling. details about the hubble events, and an interesting read, are in
 
 [The Hubble Wars: Astrophysics Meets Astropolitics in the Two-Billion-Dollar Struggle over the Hubble Space Telescope, Eric J. Chaisson](http://a.co/8E8tqBU)
 
-## note
+note1
+-----------------
 
 The SKYMAP Master Catalog, Myers J.R., Sande C.B., Miller A.C., Warren Jr. W.H., Tracewell D.A., Goddard Space Flight Center, Flight Dynamics Division (2002)
 
@@ -16,7 +20,8 @@ Version 4 of the SKY2000 Master Catalog was completed in April 2002; it marks th
 
 The SKY2000 Version 5 Revision 4 Master Catalog differs from Revision 3 in that MK and HD spectral types have been added from the Catalogue of Stellar Spectral Classifications (B. A. Skiff of Lowell Observatory, 2005), which has been assigned source code 50 in this process. 9622 entries now have MK types from this source, while 3976 entries have HD types from this source. SKY2000 V5 R4 also differs globally from preceding MC versions in that the Galactic coordinate computations performed by UPDATE have been increased in accuracy, so that differences from the same quantities from other sources are now typically in the last decimal places carried in the MC.
 
-## note
+note2
+-----------------
 
 V/77 skymap Star Catalog - Version 3.7 (Slater+ 1992), skymap, Revision 3 - Update 1 (version 3.7), Slater M., and Hashmall J., NASA/Goddard Space Flight Center Document 554-FDD-89/001R3UD1 (1992)
 
@@ -30,7 +35,8 @@ Introduction:
 
 The original version has been improved and updated with corrections several times. Version 3.7 incorporates known errors documented previously in SKYMAP Error Reports. Magnitude errors discovered in SKYMAP Version 3.6 were corrected. Other minor catalog corrections, including the deletion of five duplicate entries and the addition of two stars, were also performed. The original catalog was compiled by D. M. Gottlieb of Computer Sciences Corporation (CSC) under contract to NASA. The compilation and statistics of the catalog are described by Gottlieb (1978), while the source referenced above describes in detail the contents of the current version and the derivation of values not available observationally.
 
-## note
+note3
+-----------------
 
 interesting note about the catalogs used to generate the initial catalog for the gaia mission.
 

@@ -2,9 +2,13 @@
 
 lo-fi star identification
 
-[sky](https://github.com/statespacedev/starid/blob/dev/starid/sky/sky.h) - generates three-dimensional sky models and two-dimensional images from the nasa skymap star catalog. finds stars near arbitrary points on the sky. [data](https://github.com/statespacedev/starid/blob/dev/data/) - the full NASA SKYMAP2000 V5R4 star catalog. [references](https://github.com/statespacedev/starid/blob/dev/docs/readme.md) - articles relating to star identification.
+[background](https://statespacedev.github.io/starid/docs/readme.html) - background notes and photos 
 
-[star triangles](https://github.com/statespacedev/starid/blob/dev/libstarid/startriangleidentifier.h) - in NOMAD star recognition, there's a chain of triangles and basesides. side2 of each triangle is the baseside of the following triangle. during feedback, these shared side2 and baseside pairs are the path for information to flow backwards, increasing the constraints on the initial triangle baseside and basestar. the name NOMAD relates to how the chain of triangles wanders away from the target star and initial triangle. in SETTLER star recognition, the target star is always star a. star b is a neighbor star. in the inner loops, additional stars c and d are involved. first an abca triangle is formed. this constrains the abside. then for an abca triangle, a sequence of abda triangles are formed, further constraining the abside. when we reach an abda that eliminates all but one star pair possibility for the abside, we've recognized the target star. the name SETTLER comes from the idea that we never move away the target star, we're settling around it.
+[data](https://statespacedev.github.io/starid/data/readme.html) - the full nasa skymap sky2000 v5r4 star catalog
+
+[starid](https://statespacedev.github.io/starid/starid/readme.html) - python oriented code
+
+[libstarid](https://statespacedev.github.io/starid/libstarid/readme.html) - cpp oriented code
 
 20240317 switch back to github from gitlab is looking complete - github was first, 2016 to 2018 - switch to gitlab was about account troubles and comparing capabilities, 2018 to 2024 - switch back to github seems to effectively be about 'going default'. don't feel like thinking about it - go with default. with commit email address updated, and default project website activated, looks like 'third era' is rolling from today.
 
