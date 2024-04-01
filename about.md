@@ -1,5 +1,12 @@
+---
+layout: page
+title: "about"
+---
+
+this's been a hobby project for well over three decades now. here's some notes around how that all came about.
+
 the 'lost in space' problem - [photos](https://photos.app.goo.gl/ifuTJUNsaRJK21E79){:target="_blank" rel="noopener"}
-------------------------------
+--------------------------
 
 a vehicle in deep space accidentally tumbles out of control, losing power and shutting down. after a while, emergency systems regain power and stop the tumbling. the vehicle's star tracker snaps an image. what an onboard computer needs to do is match the stars in the image with entries in a star catalog. it's then straightforward to determine the vehicle's orientation in space.
 
@@ -23,11 +30,21 @@ reflected sunlight from asteroids is dim because of their small size and distanc
 1990 - [photos](https://photos.app.goo.gl/vKBxieTbwsbmshCg8){:target="_blank" rel="noopener"}
 -------------------------------------------------------------
 
-summer of ninety - the university of texas at austin astronomy department - in recent months the hubble space telescope had finally reached orbit, and the berlin wall had fallen - rent was less than two hundred a month, just a short walk north of campus - martha ann zively, the eighty-three year old landlady, lived directly overhead, and mobile phones, notebook computers, and the web were all somewhere over the horizon - home internet was a dialup modem into the universities access point. since the previous fall, work meant the hubble space telescope astrometry team - a group with members from the astronomy department, mcdonald observatory, the aerospace engineering department, the center for space research, and the european space agency and its hipparcos project - paul hemenway, an astronomer involved with all those organizations, was both mentor and friend. hubble was designed for very exact and stable pointing to minimize motion smear in its images - three optical interferometers were mounted on robotic arms in the hubble’s focal plane to provide feedback to the pointing control system - these fine guidance sensors were a cutting-edge solution given seventies and eighties technology, with its uneasy mix of the analog and digital eras. exact calibrations were needed on-orbit to make the whole complex system work as intended.
+summer of ninety - university of texas at austin astronomy department - recently the hubble space telescope had finally reached orbit and the berlin wall had fallen - rent was less than two hundred a month, just a short walk north of campus - martha ann zively, the eighty-three year old landlady, lived directly overhead, and mobile phones, notebook computers, and the web were all somewhere over the horizon - home internet was a dialup modem into a university access point. 
 
-asteroids were the calibration targets - mcdonald observatory and csr efforts for hubble fgs calibration became a component of the texas minor planet project. with group members in the astronomy and aerospace departments, asteroid orbit determinations were refined to the point where predicted positions and motions were exact enough to use as ground-truth references for comparison with hubble observations. primary tools were a dec vax/vms cluster at csr, the main astronomy department vax running bsd unix, various early sun workstations, and the eighty-two inch telescope at mcdonald. it could image asteroids onto glass photographic plates, given enough time - a data general nova minicomputer and the suitcase sized cassegrain camera were used for the long exposures needed to gather enough light from these dim objects. this was another complex piece of custom-made analog hardware - for locking on to and tracking a guide star, it used an image dissector, a large photomultiplier tube attached to the camera’s side that looked a bit like an oversized oil-filter. its circular field of view was divided into four quadrants - a guide star was manually positioned at the center and the closed-loop control system was activated - every second, with a loud mechanical knock, the system would bodily adjust the camera position and try to keep the guide star at the center - meanwhile, on a green phosphorescent screen, a fuzzy spot bounced about, now nearer the center of the cross hairs, now further out.
+since the previous fall, work meant the hubble space telescope astrometry team - a group with members from the astronomy department, mcdonald observatory, the aerospace engineering department, the center for space research, and the european space agency and its hipparcos project - paul hemenway, an astronomer involved with all those organizations, was mentor and friend. life on the top three floors of rlm, the physics math astronomy tower, was special. high above the green treetops of austin, looking west to the hill country, it was a quiet and mellow time. a hippy vibe permeated the scence. wheatsville food coop, a few blocks away, was still in the seventies, which weren't so long ago after all.
 
-an observing night began a few hours before sunset. down in the telescope control room, circling the building beneath the telescope floor, the minicomputer and its control programs had to be started - outside on the catwalk at the base of the dome was a spectacular view of the shadows growing out across the high desert from the mountains - various obsolete computers and mysterious bits of hardware crowded the corners of the control room - the curving walls, low ceiling, red leds, and glowing crt terminals completed the brooding sci-fi ambience. a stack of white envelopes, each containing a glass photographic plate, waited on a desk - to prepare, a control room terminal with a command line program on the nova generated telescope pointing information for a list of asteroids. using this mini was probably the last serious contact with the large eight-inch floppy disks - they were a vanishing breed by the late 80s. after jotting down notes for the planned observations, the plates were moved up into the dome, where it was pitch black except for clouds of stars in the open slit - the telescope loomed overhead in the darkness.
+hubble was designed for very exact and stable pointing to minimize motion smear in its images - three optical interferometers were mounted on robotic arms in the hubble’s focal plane to provide feedback to the pointing control system - these fine guidance sensors were a cutting-edge solution given seventies and eighties technology, with its uneasy mix of the analog and digital eras. exact calibrations were needed on-orbit to make the whole complex system work as intended.
+
+asteroids were the calibration targets - mcdonald observatory and csr efforts for hubble fgs calibration became a component of the texas minor planet project. with group members in the astronomy and aerospace departments, asteroid orbit determinations were refined to the point where predicted positions and motions were effective as ground-truth references for comparison with hubble observations. 
+
+the primary tools were a dec vax/vms cluster at csr, the main astronomy department vax running bsd unix, various early sun workstations, and the eighty-two inch telescope at mcdonald. it could image asteroids onto glass photographic plates, given enough time. a data general nova minicomputer and the suitcase sized cassegrain camera were used for the long exposures needed to gather enough light from these dim objects. 
+
+this was another complex piece of custom-made analog hardware - for locking on to and tracking a guide star, it used an image dissector, a large photomultiplier tube attached to the camera’s side that looked a bit like an oversized oil-filter. its circular field of view was divided into four quadrants - a guide star was manually positioned at the center and the closed-loop control system was activated - every second, with a loud mechanical knock, the system would bodily adjust the camera position and try to keep the guide star at the center - on a green phosphorescent screen, a fuzzy spot bounced about, now nearer the center of the cross hairs, now further out.
+
+an observing night began a few hours before sunset. down in the telescope control room, circling the building beneath the telescope floor, the minicomputer and its control programs had to be started - outside on the catwalk at the base of the dome was a spectacular view of the shadows growing out across the high desert from the mountains - various obsolete computers and mysterious bits of hardware crowded the dark corners of the control room - the curving walls, low ceiling, red leds, and glowing crt terminals completed the brooding sci-fi ambience. 
+
+a stack of white envelopes, each containing a glass photographic plate, waited on a desk - to prepare, a control room terminal with a command line program on the nova generated telescope pointing information for a list of asteroids. using this mini was probably the last serious contact with the large eight-inch floppy disks - they were a vanishing breed by the late 80s. after jotting down notes for the planned observations, the plates were moved up into the dome, where it was pitch black except for clouds of stars in the open slit - the telescope loomed overhead in the darkness.
 
 caution was required climbing up the stairs onto the circular telescope floor - it rose and descended in order to stay near the camera as the telescope moved - one could easily step off in the dark, high above the dome floor. the massive base of the telescope and attached camera hung at eye level - sliding out the plate holder cover opened a rectangular frame of stars, with the silhouette of the telescope secondary mirror housing and its support struts high above. mcdonald maintenance staff had mounted the camera and connected power cables, but fine tuning was always needed, and the telescope itself had to be focused - this meant adjusting the position of the secondary mirror. a rocker switch on the telescope hand controller activated a motor to move the secondary inward or outward - the exact determination of focus was old-school, using a knife-edge. in the telescope’s focal plane, all of the light from a star converges through a single point. when a knife-edge cuts through that point, the light from the star is cut off instantly - if the knife-edge dims the star gradually, then the secondary mirror position needs to be adjusted. the point of instant cut off needed to be where the photographic plates were held by the camera, so a special metal frame mounting a straight knife-edge was fastened into the plate holder, for adjusting the secondary mirror position while watching the knife-edge. if there was a bit of spare time, the metal frame could be replaced with another special frame holding the eyepiece, a glass lens heavy enough to require both hands to lift - peering inside, one saw directly a mysterious world of red or green nebulas or spiraling galaxies...
 
@@ -70,72 +87,72 @@ references
 
 <a name="anchor1"/>personal
 
-2017, Effect of sun shade performance on ICESat-2 laser reference sensor alignment estimation, Patel, Smith, Bae, Schutz, AAS advances in the astronautical sciences, [pdf](papers/2017%20aas.pdf)
+2017, effect of sun shade performance on icesat-2 laser reference sensor alignment estimation, patel, smith, bae, schutz, aas advances in the astronautical sciences, [pdf](papers/2017%20aas.pdf)
 
-2014, Laser reference sensor alignment tracking and star observations, Smith, Bae, Schutz, AIAA journal of spacecraft and rockets, [pdf](papers/2014%20jsr%20c.pdf)
+2014, laser reference sensor alignment tracking and star observations, smith, bae, schutz, aiaa journal of spacecraft and rockets, [pdf](papers/2014%20jsr%20c.pdf)
 
-2014, Laser reference sensor alignment estimation using star observations, Smith, Bae, Schutz, AIAA journal of spacecraft and rockets, [pdf](papers/2014%20jsr%20b.pdf)
+2014, laser reference sensor alignment estimation using star observations, smith, bae, schutz, aiaa journal of spacecraft and rockets, [pdf](papers/2014%20jsr%20b.pdf)
 
-2014, Laser reference sensor alignment estimation using reference signal observations, Smith, Bae, Schutz, AIAA journal of spacecraft and rockets, [pdf](papers/2014%20jsr%20a.pdf)
+2014, laser reference sensor alignment estimation using reference signal observations, smith, bae, schutz, aiaa journal of spacecraft and rockets, [pdf](papers/2014%20jsr%20a.pdf)
 
-2013, NASA ICESat 2 pointing knowledge, Smith, Bae, Schutz, NASA technical report, [pdf](papers/2014%20nasa%20icesat%20b.pdf)
+2013, nasa icesat 2 pointing knowledge, smith, bae, schutz, nasa technical report, [pdf](papers/2014%20nasa%20icesat%20b.pdf)
 
-2012, NASA ICESat 1 pointing knowledge, Bae, Smith, Schutz, NASA technical report, [pdf](papers/2014%20nasa%20icesat%20a.pdf)
+2012, nasa icesat 1 pointing knowledge, bae, smith, schutz, nasa technical report, [pdf](papers/2014%20nasa%20icesat%20a.pdf)
 
-2011, Improved star tracker instrument magnitude prediction from ICESat flight telemetry, Smith, Fowell, Bae, Schutz, AAS advances in the astronautical sciences, [pdf](papers/2011%20aas.pdf)
+2011, improved star tracker instrument magnitude prediction from icesat flight telemetry, smith, Fowell, bae, schutz, aas advances in the astronautical sciences, [pdf](papers/2011%20aas.pdf)
 
-2010, Biased star tracker measurements of forty-nine stars from flight data, Smith, Bae, Schutz, AIAA journal of spacecraft and rockets, [pdf](papers/2010%20jsr.pdf)
+2010, biased star tracker measurements of forty-nine stars from flight data, smith, bae, schutz, aiaa journal of spacecraft and rockets, [pdf](papers/2010%20jsr.pdf)
 
-2010, Forty-nine biased star positions from ICESat flight data, Smith, Bae, Schutz, AAS advances in the astronautical sciences, [pdf](papers/2010%20aas%20b.pdf)
+2010, forty-nine biased star positions from icesat flight data, smith, bae, schutz, aas advances in the astronautical sciences, [pdf](papers/2010%20aas%20b.pdf)
 
-2010, ICESat attitude and pointing correction using the laser reference sensor, Bae, Smith, Schutz, AAS advances in the astronautical sciences, [pdf](papers/2010%20aas%20a.pdf)
+2010, icesat attitude and pointing correction using the laser reference sensor, bae, smith, schutz, aas advances in the astronautical sciences, [pdf](papers/2010%20aas%20a.pdf)
 
-2009, Time tag issues in the star tracker and gyro data for ICESat precision attitude determination, Bae, Ricklefs, Smith, Schutz, AAS advances in the astronautical sciences, [pdf](papers/2009%20aas%20b.pdf)
+2009, time tag issues in the star tracker and gyro data for icesat precision attitude determination, bae, ricklefs, smith, schutz, aas advances in the astronautical sciences, [pdf](papers/2009%20aas%20b.pdf)
 
-2009, Bad stars, Fowell, Smith, Bae, Schutz, AAS advances in the astronautical sciences, [pdf](papers/2009%20aas%20a.pdf)
+2009, bad stars, fowell, smith, bae, schutz, aas advances in the astronautical sciences, [pdf](papers/2009%20aas%20a.pdf)
 
-2008, Precision orbit and attitude determination for ICESat, Schutz, Bae, Smith, Sirota, AAS advances in the astronautical sciences, [pdf](papers/2008%20aas.pdf)
+2008, precision orbit and attitude determination for icesat, schutz, bae, smith, Sirota, aas advances in the astronautical sciences, [pdf](papers/2008%20aas.pdf)
 
 <a name="anchor2"/>star identification
 
-1977, Star pattern recognition for real time attitude determination, Junkins, [pdf](papers/1977%20junkins.pdf)
+1977, star pattern recognition for real time attitude determination, junkins, [pdf](papers/1977%20junkins.pdf)
 
-1993, Pattern recognition of star constellations for spacecraft applications, Liebe, IEEE aerospace and electronic systems magazine, [pdf](papers/1993%20liebe.pdf)
+1993, pattern recognition of star constellations for spacecraft applications, liebe, ieee aerospace and electronic systems magazine, [pdf](papers/1993%20liebe.pdf)
 
-1997, A grid algorithm for autonomous star identification, Padgett, [pdf](papers/1997%20padgett.pdf)
+1997, a grid algorithm for autonomous star identification, padgett, [pdf](papers/1997%20padgett.pdf)
 
-1997, Star identification using neural networks, Lindblad, Lindsey, [pdf](papers/1997%20lindblad.pdf)
+1997, star identification using neural networks, lindblad, lindsey, [pdf](papers/1997%20lindblad.pdf)
 
-1999, Skymap specification, Sande, Ottenstein, NASA technical report, [pdf](papers/1999%20skymap%20a.pdf)
+1999, skymap specification, sande, ottenstein, nasa technical report, [pdf](papers/1999%20skymap%20a.pdf)
 
-2004, The pyramid star identification technique, Mortari, Samaan, Bruccoleri, Junkins, Advances in the astronautical sciences, [pdf](papers/2004%20mortari.pdf)
+2004, the pyramid star identification technique, mortari, samaan, bruccoleri, junkins, advances in the astronautical sciences, [pdf](papers/2004%20mortari.pdf)
 
-2006, Non dimensional star identification for uncalibrated star cameras, Samaan, [pdf](papers/2006%20samaan.pdf)
+2006, non dimensional star identification for uncalibrated star cameras, samaan, [pdf](papers/2006%20samaan.pdf)
 
-2008, An analytic approach to star identification reliability, Kumari, Mortari, [pdf](papers/2008%20kumari.pdf)
+2008, an analytic approach to star identification reliability, kumari, mortari, [pdf](papers/2008%20kumari.pdf)
 
-2009, A survey on star identification algorithms, Spratling, Mortari, [pdf](papers/2009%20spratling.pdf)
+2009, a survey on star identification algorithms, spratling, mortari, [pdf](papers/2009%20spratling.pdf)
 
-2012, An autonomous star identification algorithm based on the directed circularity pattern, Xie, [pdf](papers/2012%20xie.pdf)
+2012, an autonomous star identification algorithm based on the directed circularity pattern, xie, [pdf](papers/2012%20xie.pdf)
 
-2012, Star identification using delaunay triangulation and distributed neural networks, Miri, Shiri, [pdf](papers/2012%20miri.pdf)
+2012, star identification using delaunay triangulation and distributed neural networks, miri, shiri, [pdf](papers/2012%20miri.pdf)
 
-2013, Analysis of star identification algorithms due to uncompensated spatial distortion, Bratt, [pdf](papers/2013%20bratt.pdf)
+2013, analysis of star identification algorithms due to uncompensated spatial distortion, bratt, [pdf](papers/2013%20bratt.pdf)
 
-2014, A brightness referenced star identification algorithm for aps star trackers, Zhang, [pdf](papers/2014%20zhang.pdf)
+2014, a brightness referenced star identification algorithm for aps star trackers, zhang, [pdf](papers/2014%20zhang.pdf)
 
-2014, Stars a software application for the ebex autonomous daytime star cameras, Chaoman, [pdf](papers/2014%20chapman.pdf)
+2014, stars a software application for the ebex autonomous daytime star cameras, chaoman, [pdf](papers/2014%20chapman.pdf)
 
-2015, An autonomous star identification algortihm based on one dimensional vector pattern for star sensors, Luo, [pdf](papers/2015%20luo.pdf)
+2015, an autonomous star identification algortihm based on one dimensional vector pattern for star sensors, luo, [pdf](papers/2015%20luo.pdf)
 
 <a name="anchor3"/>spacecraft attitude
 
-2006, The quest for better attitudes, Shuster, [pdf](papers/2006%20shuster.pdf)
+2006, the quest for better attitudes, shuster, [pdf](papers/2006%20shuster.pdf)
 
 <a name="anchor4"/>texas minor planet project
 
-1986, The use of space telescope to tie the hipparcos reference frame to an extragalactic reference frame, Hemenway, Duncombe, Astrometric techniques, [pdf](papers/1986%20hemenway.pdf)
+1986, the use of space telescope to tie the hipparcos reference frame to an extragalactic reference frame, hemenway, duncombe, astrometric techniques, [pdf](papers/1986%20hemenway.pdf)
 
-1986, Apparent close encounters of minor planets, Pierce, Whipple, The astronomical journal, [pdf](papers/1986%20pierce.pdf)
+1986, apparent close encounters of minor planets, Pierce, Whipple, the astronomical journal, [pdf](papers/1986%20pierce.pdf)
 
-1987, Current developments in the texas minor planet project, Hemenway, Whipple, Duncombe, [pdf](papers/1987%20hemenway.pdf)
+1987, current developments in the texas minor planet project, hemenway, whipple, duncombe, [pdf](papers/1987%20hemenway.pdf)

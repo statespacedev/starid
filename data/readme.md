@@ -1,5 +1,4 @@
 nasa skymap sky2000 v5r4 star catalog
--------------------------------------------
 
 nasa skymap sky2000 is the foundation here and it's got some interesting history. back in the day i interacted with some of the people involved and learned a bit. there were roughly two phases of skymap's history - before hubble, and after. nasa still had power in those days, and when it turned out after launch that star catalogs were among hubble's problems, resources were allocated to improve skymap. serious work was done in the 90s to make it the baseline catalog for spacecraft star trackers.
 
@@ -44,7 +43,7 @@ Hipparcos (Perryman et al. 1997): The photometry from the original Hipparcos Cat
 
 Tycho-2 (Høg et al. 2000): This catalogue forms the backbone of all the major ground-based catalogues currently available. It was made from a combination of the Tycho star mapper observations on the Hipparcos satellite (Høg et al. 1997), the Astrographic Catalogue, and 143 other ground-based catalogues.
 
-Sky2000 (Myers et al. 2001): The SKYMAP Star Catalogue System is a list of all stars with either measured Johnson blue or visual magnitudes brighter than 9.0. The version used here had 299 167 entries of which 212 were not in the combined Hipparcos + Tycho-2 catalogues. Sky2000 provides positions at J2000, proper motions, and a blue and visual magnitude. We assumed positions errors of 100 mas, proper motions error of 10 mas yr−1, and ASC magnitudes derived from Sky2000 entries to have errors of 0.6.
+Sky2000 (Myers et al. 2001): The SKYMAP Star Catalogue System is a list of all stars with either measured Johnson blue or visual magnitudes brighter than 9.0. The version used here had 299167 entries of which 212 were not in the combined Hipparcos + Tycho-2 catalogues. Sky2000 provides positions at J2000, proper motions, and a blue and visual magnitude. We assumed positions errors of 100 mas, proper motions error of 10masyr−1, and ASC magnitudes derived from Sky2000 entries to have errors of 0.6.
 
 UCAC4 (Zacharias et al. 2013): The USNO CCD Astrograph Catalogue version 4 was the most precise all-sky astrometric catalogue (at the time of constructing the catalogue) in the range V=10–16 mag currently available. There are no original standard magnitudes in this catalogue.
 

@@ -1,14 +1,8 @@
 <img src="https://github.com/statespacedev/starid/raw/master/docs/images/nouns%20and%20verbs%20level0.png" align="center" width="426" height="202"/>
 
-lo-fi star identification
+[about](https://statespacedev.github.io/starid/about.html) - background notes and photos 
 
-[background](https://statespacedev.github.io/starid/docs/readme.html) - background notes and photos 
-
-[data](https://statespacedev.github.io/starid/data/readme.html) - the full nasa skymap sky2000 v5r4 star catalog
-
-[starid](https://statespacedev.github.io/starid/starid/readme.html) - python oriented code
-
-[libstarid](https://statespacedev.github.io/starid/libstarid/readme.html) - cpp oriented code
+[website](https://statespacedev.github.io/starid) - project website and blog
 
 20240317 switch back to github from gitlab is looking complete - github was first, 2016 to 2018 - switch to gitlab was about account troubles and comparing capabilities, 2018 to 2024 - switch back to github seems to effectively be about 'going default'. don't feel like thinking about it - go with default. with commit email address updated, and default project website activated, looks like 'third era' is rolling from today.
 

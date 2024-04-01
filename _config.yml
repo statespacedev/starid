@@ -1,0 +1,7 @@
+title: starid
+author:
+  name: noah smith
+  email: noah@statespace.dev
+remote_theme: jekyll/minima
+minima:
+  skin: dark
