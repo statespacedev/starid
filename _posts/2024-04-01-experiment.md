@@ -1,3 +1,7 @@
+---
+layout: post
+title: experiment
+---
 time to try something a bit different. up till now, this project has mostly been about code - at first cpp, then mixed cpp and py, and recently all three side by side in parallel - py, cpp, and mixed. that could evolve and grow now to encompass something wider. part of what's bringing this about is a better understanding that there's two tools in hand now -
 
 - sphinx - this is about python. with python, it's standard to do docstrings within the py code files. sphinx is simply a way to convert those into a static html website.

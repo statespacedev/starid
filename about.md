@@ -1,6 +1,6 @@
 ---
 layout: page
-title: "about"
+title: about
 ---
 this has been a hobby project for well over three decades now. here's some notes around how that all came about.
 
