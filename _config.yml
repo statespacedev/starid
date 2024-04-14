@@ -1,4 +1,7 @@
+plugins:
+  - jekyll-feed
 title: state space dev / starid
+description: star identification, state space models
 author:
   name: noah smith
   email: noah@statespace.dev
