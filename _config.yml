@@ -1,10 +1,11 @@
 plugins:
   - jekyll-feed
 title: statespace.dev
-description: star identification, state space models
+description: night sky, kalman, particle
 author:
   name: noah smith
   email: noah@statespace.dev
+google_analytics: G-W7B7DSQKFD
 remote_theme: jekyll/minima
 minima:
   skin: dark
