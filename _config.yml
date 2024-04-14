@@ -1,6 +1,6 @@
 plugins:
   - jekyll-feed
-title: state space dev / starid
+title: state space dev | starid
 description: star identification, state space models
 author:
   name: noah smith
@@ -11,3 +11,6 @@ minima:
   social_links:
     - {platform: github, user_url: "https://github.com/statespacedev/starid"}
     - {platform: linkedin, user_url: "https://www.linkedin.com/in/noahhsmith/"}
+header_pages:
+  - docs/about.md
+  - docs/photos.md
