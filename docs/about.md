@@ -2,12 +2,12 @@
 layout: page
 title: about
 ---
-this has been a hobby project for well over three decades now. here's some notes around how that all came about.
+this has been a hobby project for well over three decades. the code in the github repository grew over time, as well as the discussions that are now becoming part of this website. the code was used with python sphinx, and recently it became apparent that github jekyll could convert that into a static website.  
 
 the 'lost in space' problem - [photos](https://photos.app.goo.gl/ifuTJUNsaRJK21E79){:target="_blank" rel="noopener"}
 --------------------------
 
-a vehicle in deep space accidentally tumbles out of control, losing power and shutting down. after a while, emergency systems regain power and stop the tumbling. the vehicle's star tracker snaps an image. what an onboard computer needs to do is match the stars in the image with entries in a star catalog. it's then straightforward to determine the vehicle's orientation in space.
+a vehicle in deep space accidentally tumbles out of control, loses power, and goes into a 'safety mode'. later, emergency systems regain power and stop the tumbling. the vehicle's star tracker snaps an image. what an onboard computer needs to do is match the stars in the image with entries in a star catalog. it's then straightforward to determine the vehicle's orientation in space.
 
 it turns out that the essence of the problem doesn't focus on two dimensional images. instead, the focus is on three dimensional unit vectors. true, for unit vectors one of the three coordinates is redundant. given the other two, the unit constraint determines the third. but each star is essentially 'purely a direction' in the star tracker's reference frame. purely a pointing vector. the image encodes a set of unit vectors pointing out of an origin in various directions. with appropriate knowledge of the star tracker's characteristics, a set of three dimensional unit vectors are immediately extracted from the image.
 
