@@ -5,7 +5,7 @@ categories: aerospace numerical
 ---
 this is an initial experiment with bringing some legacy 'blog style discussion' from python sphinx forward into website jekyll.
 
-some of the topics of interest for this project are the early generations of computing hardware, and what became known as software, as computing migrated from mechanical to digital systems. what the room-sized machines in the old film clips were actually doing, and how fortran become so influential. part of the answer is large scale linear algebra, so floating-point matrix and vector operations, the simplex algorithm, dantzig and von neumann, and operations research.
+some of the topics of interest for project statespacedev are the early generations of computing hardware, and what became known as software, as computing migrated from mechanical to digital systems. what the room-sized machines in the old film clips were actually doing, and how fortran become so influential. part of the answer is large scale linear algebra, so floating-point matrix and vector operations, the simplex algorithm, dantzig and von neumann, and operations research.
 
 one of the things kalman added to the picture was noncertainties, especially the classic covariance matrix quadratic form. covariance matrices appeared simultaneously in finance via markowitz portfolio theory, and this seems to have been a widespread result of increasing floating point operations and the ability to harness them via fortran. 
 
