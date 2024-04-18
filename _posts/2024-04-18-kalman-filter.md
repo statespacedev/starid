@@ -3,7 +3,7 @@ layout: post
 title: "kalman filter"
 categories: aerospace kalman
 ---
-as both intercontinental missiles and thermonucler weapons became practical in the mid fifties, one more technology became essential - self-contained guidance systems that could reliably get near enough to a spot on the other side of the globe. what was needed was an autonomous digital system for guidance and control of long range missiles. this was an important motivation behind the appearance, at the beginning of the sixties, of the kalman filter.   
+as both intercontinental missiles and thermonuclear weapons became practical in the mid fifties, one more technology became essential - self-contained guidance systems that could reliably get near enough to a spot on the other side of the globe. what was needed was an autonomous digital system for guidance and control of long range missiles. this was an important motivation behind the appearance, at the beginning of the sixties, of the kalman filter.   
 
 the kalman filter's role was to improve real-time guidance based on available sensors, preferably only onboard sensors with minimal external input. the ideal was unjammable inertial 'black-box' guidance. to achieve this, kalman introduced two explicit numerical models - one for the sensors and their uncertainties, the other for the system's dynamics and its uncertainties. 
 

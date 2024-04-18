@@ -7,7 +7,7 @@ this is an initial experiment with bringing some legacy 'blog style discussion' 
 
 some of the topics of interest for project statespacedev are the early generations of computing hardware, and what became known as software, as computing migrated from mechanical to digital systems. what the room-sized machines in the old film clips were actually doing, and how fortran become so influential. part of the answer is large scale linear algebra, so floating-point matrix and vector operations, the simplex algorithm, dantzig and von neumann, and operations research.
 
-one of the things kalman added to the picture was noncertainties, especially the classic covariance matrix quadratic form. covariance matrices appeared simultaneously in finance via markowitz portfolio theory, and this seems to have been a widespread result of increasing floating point operations and the ability to harness them via fortran. 
+one of the things kalman added to the picture was uncertainties, especially the classic covariance matrix quadratic form. covariance matrices appeared simultaneously in finance via markowitz portfolio theory, and this seems to have been a widespread result of increasing floating point operations and the ability to harness them via fortran. 
 
 with the early integrated circuitry for the apollo guidance computer and minuteman missile guidance system, adaptive digital control was becoming a reality, but things were definitely on the edge of possibility. quadratic forms blew up the numerical ranges, generating numerical instability. numerical values simply became too large or small, and there weren't enough bits in the floating point representations. 
 

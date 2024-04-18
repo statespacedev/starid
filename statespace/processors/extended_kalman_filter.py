@@ -1,22 +1,4 @@
-"""baseline extended kalman filters. both the standard textbook form, and the ud factorized form. 1957 - the space
-race was on for real - why? the ability to move roughly a ton from anywhere to anywhere on the globe in under thirty
-minutes. on top of that, add the capability to do it automatically, without human intervention - just in case - might
-not be anybody left around to do any intervening.
-
-a closed-loop system with its own internal sensors bringing data in from the outside world was needed - a black box -
-and it needed to make reasonable decisions based on its sensors, using a model of the sensor errors and the outside
-world. is a fully linear system going to work? no - it needs to adapt to nonlinearities in the models. a huge new
-thing here is representing the uncertainties - by simple analogy with 'variance' and its square-root 'sigma',
-at first, this is going to be a covariance matrix - a quadratic form ATAx with 'squared units' just like 'variance'.
-the same idea appeared in finance via markowitz portfolio theory at exactly the same time - would be fascinating to
-know how much direct contact between kalman and markowitz took place at the time? and all of this is only a few years
-after dantzig and von neumann - how much direct contact did this whole group have?
-
-the link between 'variance' and its square-root 'sigma' has already been mentioned - is that concept useful here?
-over time, into the 60s and 70s, it very much was so - the 'factorized', 'square-root' forms appeared. they played a
-crucial role in adapting to the then current hardware - the 16-bit apollo guidance computer required the
-'square-root' ekf. this drove the applied mathematicians and electrical engineers onward from matrix inversion toward
-a whole zoo of matrix factorizations - lu, qr, ud, svd, cholesky, etc."""
+"""kalman filter"""
 import numpy as np
 
 
