@@ -7,3 +7,4 @@ title: photos
 - [2016](https://photos.app.goo.gl/z54G7X9dEop1e81y6){:target="_blank" rel="noopener"}
 - [aerospace](https://photos.app.goo.gl/ifuTJUNsaRJK21E79){:target="_blank" rel="noopener"}
 - [computing](https://photos.app.goo.gl/rL5NTL2iFomFjedM6){:target="_blank" rel="noopener"}
+- [outside](https://photos.app.goo.gl/iHHyqwJ1uahpqHNx6){:target="_blank" rel="noopener"}
