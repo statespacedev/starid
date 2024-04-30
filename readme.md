@@ -1,9 +1,5 @@
 <img src="https://github.com/statespacedev/starid/raw/master/docs/images/nouns%20and%20verbs%20level0.png" align="center" width="426" height="202"/>
 
-[about](https://statespacedev.github.io/starid/about.html) - background notes and photos 
-
-[website](https://statespacedev.github.io/starid) - project website
-
 20240317 switch back to github from gitlab is looking complete - github was first, 2016 to 2018 - switch to gitlab was about account troubles and comparing capabilities, 2018 to 2024 - switch back to github seems to effectively be about 'going default'. don't feel like thinking about it - go with default. with commit email address updated, and default project website activated, looks like 'third era' is rolling from today.
 
 20240310 learned a lesson about working on windows laptop - especially for cpp. tracing back over the years, this cpp code has mostly been used on ubuntu. there was a bit of macos thrown in there along the way, involuntarily, but using gcc and things were 'close enough' to ubuntu that the impact was minimal. yesterday, for the first time was really working on cpp code on windows - and got bitten powerfully. windows clion defaults to mingw tools, 'minimal gnu for windows'. build and debug work deceptively well - enough so that the picture gradually builds up that everything's fine. huge mistake. was deep into creating and debugging some relatively intense code. suddenly got an error. this was especially uncool as had been cleaning up to finish for the day and the last change was a trivial nothing.  basically, couldn't believe what was happening, so hammered on it for a while getting more and more frustrated. did seem like a solid error had appeared 'from nowhere' - could detect some slight variation of the particular error, again for seemingly no reason, but was wondering 'what is wrong with windows' - had to just drop it and go for a long walk.
