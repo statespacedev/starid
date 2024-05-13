@@ -15,12 +15,12 @@ this parallels the nature of star catalogs. star catalogs are collections of thr
 
 so the lost in space problem is about matching a set of unit vectors in a sensor reference frame with a set of unit vectors in a star catalog reference frame. the unit vectors can point towards any patch of directions 'on the sky'. it's really about the whole sphere of the night sky, that's one of the core elements here.  
 
-for matching the two sets of unit vectors, the key characteristics are the angular separations. angular separations of unit vectors immediately connects with a core operation in numerical computing, the dot product, summing the products of unit vector components. and these angular separations concern the mutual relationships between pairs of unit vectors, so the focus becomes pairs of star vectors, and then triplets of pairs. it's a bit of linguistic abuse, but triplets of pairs as can be thought of as 'triangles', and pairs can be thought of as 'sides'.
+for matching the two sets of unit vectors, the key characteristics are the angular separations. angular separations of unit vectors immediately connects with a core operation in numerical computing, the dot product, summing the products of unit vector components. and these angular separations concern the mutual relationships between pairs of unit vectors, so the focus becomes pairs of star vectors, and then triplets of pairs. it's a bit of linguistic abuse, but triplets of pairs can be thought of as 'triangles', and pairs can be thought of as 'sides'.
 
 early history
 ------------------------------
 
-key elements of lost in space are an automated star tracker mounted on a vehicle, images of the night sky, star catalogs for interpreting the images, and computing to bring them all together. the earliest appearance of all these elements seems to be with project febe in 1948, immediately after ww2. it seems likely this was both the earliest date that the sensing and computing were available, and that there was sufficient motivation to make the attempt. the motivations concern inertial guidance and navigation and immediately connect with a range of fascinating topics. to reduce distractions, the focus will be kept on the lost in space problem here, as close to star trackers and the night sky as possible. inertial sensors generally mean forknowledge of what part of the sky is in view, which is the opposite of pure lost in space.
+key elements of lost in space are an automated star tracker mounted on a vehicle, images of the night sky, star catalogs for interpreting the images, and computing to bring them all together. the earliest appearance of all these elements seems to be with project febe in 1948, immediately after ww2. it seems likely this was both the earliest date that the sensing and computing were available, and that there was sufficient motivation to make the attempt. the motivations concern inertial guidance and navigation and immediately connect with a range of fascinating topics. to reduce distractions, the focus will be kept on the lost in space problem here, as close to star trackers and the night sky as possible. inertial sensors generally mean foreknowledge of what part of the sky is in view, which is the opposite of pure lost in space.
 
 early systems, such as project febe, generally locked on to and tracked single stars. for true lost in space, an imaging star tracker with a ccd style pixelized sensor is needed, and those became available in the seventies and eighties. a related situation arose earlier though, namely, interpreting photographic plates from astronomical telescopes. here's an example that can be referred to as the 'asteroid problem'.
 
@@ -31,7 +31,7 @@ reflected sunlight from asteroids is dim because of their small size and distanc
 
 summer of ninety - university of texas at austin astronomy department - recently the hubble space telescope had finally reached orbit and the berlin wall had fallen - rent was less than two hundred a month, just a short walk north of campus - the eighty-three year old landlady and friend of lbj and john connally, mrs zively, lived directly overhead. mobile phones, notebook computers, and the web were all somewhere over the horizon - home internet was a dialup modem into a university access point. 
 
-since the previous fall, work meant the hubble space telescope astrometry team - a group with members from the astronomy department, mcdonald observatory, the aerospace engineering department, the center for space research, and the european space agency and its hipparcos project - paul hemenway, an astronomer involved with all those organizations, was mentor and friend. life on the top three floors of rlm, the physics math astronomy tower, was special. high above the green treetops of austin, looking west to the hill country, it was a quiet and mellow time. a hippy vibe permeated the scence. wheatsville food coop, a few blocks away, was still in the seventies, which weren't so long ago after all.
+since the previous fall, work meant the hubble space telescope astrometry team - a group with members from the astronomy department, mcdonald observatory, the aerospace engineering department, the center for space research, and the european space agency and its hipparcos project - paul hemenway, an astronomer involved with all those organizations, was mentor and friend. life on the top three floors of rlm, the physics math astronomy tower, was special. high above the green treetops of austin, looking west to the hill country, it was a quiet and mellow time. a hippy vibe permeated the scene. wheatsville food coop, a few blocks away, was still in the seventies, which weren't so long ago after all.
 
 hubble was designed for very exact and stable pointing to minimize motion smear in its images - three optical interferometers were mounted on robotic arms in the hubble’s focal plane to provide feedback to the pointing control system - these fine guidance sensors were a cutting-edge solution given seventies and eighties technology, with its uneasy mix of the analog and digital eras. exact calibrations were needed on-orbit to make the whole complex system work as intended.
 
@@ -39,7 +39,7 @@ asteroids were the calibration targets - mcdonald observatory and csr efforts fo
 
 the primary tools were a dec vax/vms cluster at csr, the main astronomy department vax running bsd unix, various early sun workstations, and the eighty-two inch telescope at mcdonald. it could image asteroids onto glass photographic plates, given enough time. a data general nova minicomputer and the suitcase sized cassegrain camera were used for the long exposures needed to gather enough light from these dim objects. 
 
-this was another complex piece of custom-made analog hardware - for locking on to and tracking a guide star, it used an image dissector, a large photomultiplier tube attached to the camera’s side that looked a bit like an oversized oil-filter. its circular field of view was divided into four quadrants - a guide star was manually positioned at the center and the closed-loop control system was activated - every second, with a loud mechanical knock, the system would bodily adjust the camera position and try to keep the guide star at the center - on a green phosphorescent screen, a fuzzy spot bounced about, now nearer the center of the cross hairs, now further out.
+this was another complex piece of custom-made analog hardware - for locking on to and tracking a guide star, it used an image dissector, a large photomultiplier tube attached to the camera’s side that looked a bit like an oil-filter. its circular field of view was divided into four quadrants - a guide star was manually positioned at the center and the closed-loop control system was activated - every second, with a loud mechanical knock, the system would bodily adjust the camera position and try to keep the guide star at the center - on a green phosphorescent screen, a fuzzy spot bounced about, now nearer the center of the cross hairs, now further out.
 
 an observing night began a few hours before sunset. down in the telescope control room, circling the building beneath the telescope floor, the minicomputer and its control programs had to be started - outside on the catwalk at the base of the dome was a spectacular view of the shadows growing out across the high desert from the mountains - various obsolete computers and mysterious bits of hardware crowded the dark corners of the control room - the curving walls, low ceiling, red leds, and glowing crt terminals completed the brooding sci-fi ambience. 
 
@@ -51,13 +51,13 @@ mcdonald maintenance staff had mounted the camera and connected power cables, bu
 
 in the telescope’s focal plane, all of the light from a star converges through a single point. when a knife-edge cuts through that point, the light from the star is cut off instantly - if the knife-edge dims the star gradually, then the secondary mirror position needs to be adjusted. the point of instant cut off needed to be where the photographic plates were held by the camera, so a special metal frame mounting a straight knife-edge was fastened into the plate holder, for adjusting the secondary mirror position while watching the knife-edge. 
 
-if there was a bit of spare time, the knife-edge frame could be replaced with a frame holding 'the eyepiece'. this was a glass lens about the size of a small flower vase and heavy enough to require both hands to lift. peering inside, the eye saw vivid red or green colors in nebulas - much like the popular photos.
+if there was a bit of spare time, the knife-edge frame could be replaced with a frame holding 'the eyepiece'. this was a glass lens about the size of a small flower vase and heavy enough to require both hands to lift. peering inside, the eye saw vivid red or green colors in nebula's - much like the popular photos.
 
 once the telescope was ready, camera configuration came next. with the small field of view of the telescope - effectively a high magnification - asteroids moved significantly, relative to the background stars, over an interval of around ten minutes - each asteroid was a bit different, and various orbital characteristics had to be taken into account - the direction and rate of relative motion had already been computed by the minicomputer - now the camera body was rotated in its mounting, relative to the telescope, and programmed to move at the apparent rate of the target asteroid, so it would appear to be motionless. 
 
 the rear-surface of the image dissector was a round crt screen divided by lines into four quadrants. light from a star, cascading down through the photomultiplier tube, formed a green glow on the screen. a guide-star was found near the asteroid and centered on the screen - with the tracking loop activated, the camera position was updated every few seconds with a mechanical click, keeping the star at the center of the screen. 
 
-an asteroid exposure usually began with guide-star tracking - then the steady clicking of the tracking loop would go silent for a period of asteroid tracking, with asteroid-light builing up a darker spot on the photograph plate - then the guide-star tracking would resume. the result was a dumbbell shape for stars, with two circular peaks connected by a trail - the asteroid was a trail with a circular peak at its midpoint. these peaks and trails became visible the next day when the plates were developed. each plate had many dumbbell shaped stellar trails - short or long, thick or thin - and at the center of the plate, a single ufo shaped asteroid-image.
+an asteroid exposure usually began with guide-star tracking - then the steady clicking of the tracking loop would go silent for a period of asteroid tracking, with asteroid-light building up a darker spot on the photograph plate - then the guide-star tracking would resume. the result was a dumbbell shape for stars, with two circular peaks connected by a trail - the asteroid was a trail with a circular peak at its midpoint. these peaks and trails became visible the next day when the plates were developed. each plate had many dumbbell shaped stellar trails - short or long, thick or thin - and at the center of the plate, a single ufo shaped asteroid-image.
 
 reducing the glass plates to digital data, and then improving the asteroid orbital parameters followed over the next weeks and months - this all took place back in austin, where the center for space research and department of aerospace engineering became involved - their expertise in orbit determination played an important role in the hubble astrometry team. the space age was roughly thirty years old at the time, and members of its first generation led the center for space research - ray duncombe, byron tapley, and bob schutz. 
 
@@ -81,7 +81,7 @@ the shift over the border from analog to digital took place in the seventies sty
 
 during that short walk, lightning struck - exactly which stars were on those plates? how could those stars really, in practice, be identified, in order to determine the position of the asteroid? was there a program on the astronomy or aerospace computers to do that? 
 
-the answer was, no. there wasn’t an easy or obvious solution, and helping to figure out a practical method of identifying those particular stars on those particular plates was ultimately the real job. not that an undergrad had any chance of finding a real solution. but just becoming aware of and recognizing the magnitude of the problem was a huge step forward. how are stars recognized? humans could do it, but could an eighties computer system?
+the answer was, no. there wasn't an easy or obvious solution, and helping to figure out a practical method of identifying those particular stars on those particular plates was ultimately the real job. not that an undergrad had any chance of finding a real solution. but just becoming aware of and recognizing the magnitude of the problem was a huge step forward. how are stars recognized? humans could do it, but could an eighties computer system?
 
 2003 - [photos](https://photos.app.goo.gl/ng8Nbxra2RYrbeWA7){:target="_blank" rel="noopener"}
 -------------------------------------------------------------
@@ -127,11 +127,11 @@ cultural differences between aerospace and computer science quickly became appar
 
 standard nineties star tracker images were eight degrees by eight degrees - 28,000 arcseconds per side, roughly sixteen times the apparent diameter of the moon. the hello world problem in networks, mnist, was standardized in the late nineties using data files and images with 28 pixels per side. adapting those standards resulted in star images with thousand-arcsecond pixels. at first, actual mnist data files were simply overwritten with star images, then fed into standard network processors. gradually, additional advantages became apparent, beyond data file format compatibility. 
 
-the effects go much deeper than mearly nice rounding properties. they effectively mean low resolution, at the level of a toy camera or blurry mobile phone photo. by comparison, real star tracker images can involve sub-arcsecond resolutions. in the lingo of austin's nineties garage-rock punk scence, these mnist style star images are 'lo-fi'. usually a good thing - keeping it real.
+the effects go much deeper than merely nice rounding properties. they effectively mean low resolution, at the level of a toy camera or blurry mobile phone photo. by comparison, real star tracker images can involve sub-arcsecond resolutions. in the lingo of austin's nineties garage-rock punk scene, these mnist style star images are 'lo-fi'. usually a good thing - keeping it real.
 
 low resolution makes the star identification problem more challenging and interesting. it forces use of global structures and patterns within an image, rather than localized features and heuristics. there’s simply less information available and more has to be done with less. it even suggests questions about how the human brain recognizes stars. for example, a typical high-resolution aerospace algorithm might focus on the exact separation between a pair of stars, along with the angle to a third star. that’s clearly not how the brain works. so, what's the brain in fact doing?
 
-focusing on lo-fi mnist-like images led to a discovery. to recognize a particular star in an image, it's helpful to shift the star to the image-center and make its presence implicit. there’s no point in including it in the image, it's effectivly redundant. what’s significant is the relative-geometry of the other stars. the target star becomes the origin of the coordinate system, and if there’s another star nearby, as often happens in a low resolution image, there’s no confusion. in practice, the effects are even nicer since, in a way, there's a 'free' extra star, and there's also less need for coordinate transformations. 
+focusing on lo-fi mnist-like images led to a discovery. to recognize a particular star in an image, it's helpful to shift the star to the image-center and make its presence implicit. there’s no point in including it in the image, it's effectively redundant. what’s significant is the relative-geometry of the other stars. the target star becomes the origin of the coordinate system, and if there’s another star nearby, as often happens in a low resolution image, there’s no confusion. in practice, the effects are even nicer since, in a way, there's a 'free' extra star, and there's also less need for coordinate transformations. 
 
 all the way back to ninety, it was clear that the shapes of triangles formed by a star field can be used to identify the stars - and that iterative and even recursive processes could be involved. but once triangles come in, they tend to multiply, which seems uncomfortable - where does it end? skipping ahead to the answer, enlightenment arrives with a simple restatement of the lost-in-space problem.
 
@@ -141,16 +141,14 @@ it’s brute force, and deeper insights are likely possible, but the main thing 
 
 between the star-level and triangle-level is the pair-level. in practice, it’s the fundamental structural unit. pair-level 'sides' make up the triangles. soon after code for mnist style star images came code for star pairs separated by less than eleven degrees on the sky. this was the fourth use of the key-value table described above, to represent nearly one million pairs as angles and member star identifiers. 
 
-the initial concept was to focus on groups of four stars instead of just three. for a triangle of three stars, adding a fourth provides significantly more information - six edges instead of three, two of which are a shared pair. two sets of possible stars for the two triangles have to agree via the shared-pair. with low resolution, this isn't as useful it sounds - there are too many pairs that meet low resolution constraints. a low resolution shared-pair just doesn’t provide enough unique information, it’s too ambiguous. in other words, at low resolution many of the skies triangles are similar. 
+the initial concept was to focus on groups of four stars instead of just three. for a triangle of three stars, adding a fourth provides significantly more information - six edges instead of three, two of which are a shared pair. two sets of possible stars for the two triangles have to agree via the shared-pair. with low resolution, this isn't as useful it sounds - there are too many pairs that meet low resolution constraints. a low resolution shared-pair just doesnt provide enough unique information, it’s too ambiguous. in other words, at low resolution many of the skies triangles are similar. 
 
 eventually, the concept of the shared-pair became the real focus. any pair of stars can be a shared-pair parent of many child-triangles. with the target star implicit in the center of an image containing ten other stars, there are ten shared-pairs that include the target star. each of these is the parent of nine child-triangles.
 
 further reading
 ================
 
-[icesat](#anchor1), [star identification](#anchor2), [spacecraft attitude](#anchor3), [texas minor planet project](#anchor4)
-
-<a name="anchor1"/>icesat
+icesat
 -----------------------------
 
 2017, effect of sun shade performance on icesat-2 laser reference sensor alignment estimation, patel, smith, bae, schutz, aas advances in the astronautical sciences, [pdf](papers/2017%20aas.pdf)
@@ -165,7 +163,7 @@ further reading
 
 2012, nasa icesat 1 pointing knowledge, bae, smith, schutz, nasa technical report, [pdf](papers/2014%20nasa%20icesat%20a.pdf)
 
-2011, improved star tracker instrument magnitude prediction from icesat flight telemetry, smith, Fowell, bae, schutz, aas advances in the astronautical sciences, [pdf](papers/2011%20aas.pdf)
+2011, improved star tracker instrument magnitude prediction from icesat flight telemetry, smith, fowell, bae, schutz, aas advances in the astronautical sciences, [pdf](papers/2011%20aas.pdf)
 
 2010, biased star tracker measurements of forty-nine stars from flight data, smith, bae, schutz, aiaa journal of spacecraft and rockets, [pdf](papers/2010%20jsr.pdf)
 
@@ -177,9 +175,9 @@ further reading
 
 2009, bad stars, fowell, smith, bae, schutz, aas advances in the astronautical sciences, [pdf](papers/2009%20aas%20a.pdf)
 
-2008, precision orbit and attitude determination for icesat, schutz, bae, smith, Sirota, aas advances in the astronautical sciences, [pdf](papers/2008%20aas.pdf)
+2008, precision orbit and attitude determination for icesat, schutz, bae, smith, sirota, aas advances in the astronautical sciences, [pdf](papers/2008%20aas.pdf)
 
-<a name="anchor2"/>star identification
+star identification
 -----------------------------
 
 1977, star pattern recognition for real time attitude determination, junkins, [pdf](papers/1977%20junkins.pdf)
@@ -210,18 +208,18 @@ further reading
 
 2014, stars a software application for the ebex autonomous daytime star cameras, chaoman, [pdf](papers/2014%20chapman.pdf)
 
-2015, an autonomous star identification algortihm based on one dimensional vector pattern for star sensors, luo, [pdf](papers/2015%20luo.pdf)
+2015, an autonomous star identification algorithm based on one dimensional vector pattern for star sensors, luo, [pdf](papers/2015%20luo.pdf)
 
-<a name="anchor3"/>spacecraft attitude
+spacecraft attitude
 -----------------------------
 
 2006, the quest for better attitudes, shuster, [pdf](papers/2006%20shuster.pdf)
 
-<a name="anchor4"/>texas minor planet project
+texas minor planet project
 -----------------------------
 
 1986, the use of space telescope to tie the hipparcos reference frame to an extragalactic reference frame, hemenway, duncombe, astrometric techniques, [pdf](papers/1986%20hemenway.pdf)
 
-1986, apparent close encounters of minor planets, Pierce, Whipple, the astronomical journal, [pdf](papers/1986%20pierce.pdf)
+1986, apparent close encounters of minor planets, pierce, whipple, the astronomical journal, [pdf](papers/1986%20pierce.pdf)
 
 1987, current developments in the texas minor planet project, hemenway, whipple, duncombe, [pdf](papers/1987%20hemenway.pdf)
