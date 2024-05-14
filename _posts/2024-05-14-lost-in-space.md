@@ -3,7 +3,7 @@ layout: post
 title: "lost in space problem"
 categories: aerospace starid
 ---
-the core of the lost in space problem is the lack of star tracker pointing knowledge. often there's at least some knowledge of the star tracker's attitude, but the lost in space problem is the extreme opposite case, with infinite attitude uncertainty.
+the core of the lost in space problem is a total lack of star tracker pointing knowledge. often there's at least some knowledge of the star tracker's attitude, but the lost in space problem is the extreme opposite case, with infinite attitude uncertainty.
 
 the terms 'pointing' and 'attitude' are used interchangeably here. yaw around the pointing unit-vector is always included, and pointing is a rotation matrix, rotation vector, euler vector, quaternion, etc. the yaw is a challenge for image recognition algorithms, which often assume a stable image orientation. for lost in space, there's no 'gravity' and no 'upwards and downwards' stabilizing the images.
 
