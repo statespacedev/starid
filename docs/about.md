@@ -182,6 +182,8 @@ star identification
 
 1977, star pattern recognition for real time attitude determination, junkins, [pdf](papers/1977%20junkins.pdf)
 
+1986, a pattern-matching algorithm for two-dimensional coordinate lists, groth, [pdf](papers/1986%20groth.pdf)
+
 1993, pattern recognition of star constellations for spacecraft applications, liebe, ieee aerospace and electronic systems magazine, [pdf](papers/1993%20liebe.pdf)
 
 1997, a grid algorithm for autonomous star identification, padgett, [pdf](papers/1997%20padgett.pdf)
@@ -209,6 +211,8 @@ star identification
 2014, stars a software application for the ebex autonomous daytime star cameras, chaoman, [pdf](papers/2014%20chapman.pdf)
 
 2015, an autonomous star identification algorithm based on one dimensional vector pattern for star sensors, luo, [pdf](papers/2015%20luo.pdf)
+
+2020, a survey of lost-in-space star identification algorithms since 2009, review, [pdf](papers/2020%20review.pdf)
 
 spacecraft attitude
 -----------------------------
