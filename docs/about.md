@@ -184,6 +184,8 @@ star identification
 
 1986, a pattern-matching algorithm for two-dimensional coordinate lists, groth, [pdf](papers/1986%20groth.pdf)
 
+1989, a star pattern matching algorithm for autonomous attitude determination, bezooijen, [pdf](papers/1989%20bezooijen.pdf)
+
 1993, pattern recognition of star constellations for spacecraft applications, liebe, ieee aerospace and electronic systems magazine, [pdf](papers/1993%20liebe.pdf)
 
 1997, a grid algorithm for autonomous star identification, padgett, [pdf](papers/1997%20padgett.pdf)
