@@ -4,8 +4,10 @@ title: about
 ---
 this has been a hobby project for well over three decades. the code in the github repository grew over time, as well as the discussions that are now becoming part of this website. the code was used with python sphinx, and recently it became apparent that github jekyll could convert that into a static website.  
 
-the 'lost in space' problem - [photos](https://photos.app.goo.gl/ifuTJUNsaRJK21E79){:target="_blank" rel="noopener"}
+the 'lost in space' problem
 --------------------------
+
+[photos](https://photos.app.goo.gl/ifuTJUNsaRJK21E79){:target="_blank" rel="noopener"}
 
 a vehicle in deep space accidentally tumbles out of control, loses power, and goes into a 'safety mode'. later, emergency systems regain power and stop the tumbling. the vehicle's star tracker snaps an image. what an onboard computer needs to do is match the stars in the image with entries in a star catalog. it's then straightforward to determine the vehicle's orientation in space.
 
@@ -26,8 +28,10 @@ early systems, such as project febe, generally locked on to and tracked single s
 
 reflected sunlight from asteroids is dim because of their small size and distance, so large telescopes are needed to gather enough light. the resulting images cover a relatively small patch of sky and lots of faint stars. definitely a smaller and fainter patch of sky than normal for the naked eye. the question can arise, what's the star catalog entry for one of the faint stars in an asteroid image? for the lost in space problem, the field of view and star brightness are relatively large, limiting the number of potential stars to thousands. for the asteroid problem, the small field and brightness increases that number to tens of thousands or more. but at the same time, the pointing of the astronomical telescope is known, and the effective star catalog can be reduced to dim stars near the telescope's pointing vector.
 
-1990 - [photos](https://photos.app.goo.gl/vKBxieTbwsbmshCg8){:target="_blank" rel="noopener"}
+1990
 -------------------------------------------------------------
+
+[photos](https://photos.app.goo.gl/vKBxieTbwsbmshCg8){:target="_blank" rel="noopener"}
 
 summer of ninety - university of texas at austin astronomy department - recently the hubble space telescope had finally reached orbit and the berlin wall had fallen - rent was less than two hundred a month, just a short walk north of campus - the eighty-three year old landlady and friend of lbj and john connally, mrs zively, lived directly overhead. mobile phones, notebook computers, and the web were all somewhere over the horizon - home internet was a dialup modem into a university access point. 
 
@@ -83,10 +87,12 @@ during that short walk, lightning struck - exactly which stars were on those pla
 
 the answer was, no. there wasn't an easy or obvious solution, and helping to figure out a practical method of identifying those particular stars on those particular plates was ultimately the real job. not that an undergrad had any chance of finding a real solution. but just becoming aware of and recognizing the magnitude of the problem was a huge step forward. how are stars recognized? humans could do it, but could an eighties computer system?
 
-2003 - [photos](https://photos.app.goo.gl/ng8Nbxra2RYrbeWA7){:target="_blank" rel="noopener"}
+2003
 -------------------------------------------------------------
 
-thirteen years later, the work for the next eleven years was with bob schutz and the icesat group, directly within the center for space research. the focus was on, star trackers, modern descendents of maritime sextants for celestial navigation, and inertial sensors, often referred to simply as gyros. 
+[photos](https://photos.app.goo.gl/ng8Nbxra2RYrbeWA7){:target="_blank" rel="noopener"}
+
+thirteen years later, work for the coming eleven years was with bob schutz and the icesat group, directly within the center for space research. the focus was on star trackers, modern descendents of maritime sextants for celestial navigation, and inertial sensors, often referred to simply as gyros. 
 
 the problems, once again, concerned images containing a scattering of unknown stars. within aerospace, it’s a classic problem - the 'lost in space' problem. given an image of some stars, exactly which stars are they? 
 
@@ -106,8 +112,10 @@ the cold war brought new motivations for the technology. people became uneasily 
 
 surprisingly, though, it soon became clear that there was still no publicly-available software for the lost-in-space star identification problem. apparently, each time star identification software had been developed, it’s been within classified or industry projects. a serious interest in star identification was probably tied to selling star trackers, and that’s become a fairly mature industry.
 
-2016 - [photos](https://photos.app.goo.gl/z54G7X9dEop1e81y6){:target="_blank" rel="noopener"}
+2016
 -------------------------------------------------------------
+
+[photos](https://photos.app.goo.gl/z54G7X9dEop1e81y6){:target="_blank" rel="noopener"}
 
 another thirteen years passed. excitement was growing again around neural networks in combination with recent hardware, especially at google, which had just open sourced tensorflow. this was definitely a curiosity, as the ai winter following the eighties was still fresh in mind. particularly as csr's offices were in the building built especially for [mcc in austin](https://en.wikipedia.org/wiki/Microelectronics_and_Computer_Technology_Corporation), which was said to have had the largest concentration of lisp machines in the world. 
 
@@ -145,39 +153,7 @@ the initial concept was to focus on groups of four stars instead of just three. 
 
 eventually, the concept of the shared-pair became the real focus. any pair of stars can be a shared-pair parent of many child-triangles. with the target star implicit in the center of an image containing ten other stars, there are ten shared-pairs that include the target star. each of these is the parent of nine child-triangles.
 
-further reading
-================
-
-icesat
------------------------------
-
-2017, effect of sun shade performance on icesat-2 laser reference sensor alignment estimation, patel, smith, bae, schutz, aas advances in the astronautical sciences, [pdf](papers/2017%20aas.pdf)
-
-2014, laser reference sensor alignment tracking and star observations, smith, bae, schutz, aiaa journal of spacecraft and rockets, [pdf](papers/2014%20jsr%20c.pdf)
-
-2014, laser reference sensor alignment estimation using star observations, smith, bae, schutz, aiaa journal of spacecraft and rockets, [pdf](papers/2014%20jsr%20b.pdf)
-
-2014, laser reference sensor alignment estimation using reference signal observations, smith, bae, schutz, aiaa journal of spacecraft and rockets, [pdf](papers/2014%20jsr%20a.pdf)
-
-2013, nasa icesat 2 pointing knowledge, smith, bae, schutz, nasa technical report, [pdf](papers/2014%20nasa%20icesat%20b.pdf)
-
-2012, nasa icesat 1 pointing knowledge, bae, smith, schutz, nasa technical report, [pdf](papers/2014%20nasa%20icesat%20a.pdf)
-
-2011, improved star tracker instrument magnitude prediction from icesat flight telemetry, smith, fowell, bae, schutz, aas advances in the astronautical sciences, [pdf](papers/2011%20aas.pdf)
-
-2010, biased star tracker measurements of forty-nine stars from flight data, smith, bae, schutz, aiaa journal of spacecraft and rockets, [pdf](papers/2010%20jsr.pdf)
-
-2010, forty-nine biased star positions from icesat flight data, smith, bae, schutz, aas advances in the astronautical sciences, [pdf](papers/2010%20aas%20b.pdf)
-
-2010, icesat attitude and pointing correction using the laser reference sensor, bae, smith, schutz, aas advances in the astronautical sciences, [pdf](papers/2010%20aas%20a.pdf)
-
-2009, time tag issues in the star tracker and gyro data for icesat precision attitude determination, bae, ricklefs, smith, schutz, aas advances in the astronautical sciences, [pdf](papers/2009%20aas%20b.pdf)
-
-2009, bad stars, fowell, smith, bae, schutz, aas advances in the astronautical sciences, [pdf](papers/2009%20aas%20a.pdf)
-
-2008, precision orbit and attitude determination for icesat, schutz, bae, smith, sirota, aas advances in the astronautical sciences, [pdf](papers/2008%20aas.pdf)
-
-star identification
+starid
 -----------------------------
 
 1977, star pattern recognition for real time attitude determination, junkins, [pdf](papers/1977%20junkins.pdf)
@@ -186,7 +162,7 @@ star identification
 
 1989, a star pattern matching algorithm for autonomous attitude determination, bezooijen, [pdf](papers/1989%20bezooijen.pdf)
 
-1993, pattern recognition of star constellations for spacecraft applications, liebe, ieee aerospace and electronic systems magazine, [pdf](papers/1993%20liebe.pdf)
+1993, pattern recognition of star constellations for spacecraft applications, liebe, [pdf](papers/1993%20liebe.pdf)
 
 1997, a grid algorithm for autonomous star identification, padgett, [pdf](papers/1997%20padgett.pdf)
 
@@ -194,13 +170,15 @@ star identification
 
 1999, skymap specification, sande, ottenstein, nasa technical report, [pdf](papers/1999%20skymap%20a.pdf)
 
-2004, the pyramid star identification technique, mortari, samaan, bruccoleri, junkins, advances in the astronautical sciences, [pdf](papers/2004%20mortari.pdf)
+2004, the pyramid star identification technique, mortari, samaan, bruccoleri, junkins, [pdf](papers/2004%20mortari.pdf)
 
 2006, non dimensional star identification for uncalibrated star cameras, samaan, [pdf](papers/2006%20samaan.pdf)
 
+2006, the quest for better attitudes, shuster, [pdf](papers/2006%20shuster.pdf)
+
 2008, an analytic approach to star identification reliability, kumari, mortari, [pdf](papers/2008%20kumari.pdf)
 
-2009, a survey on star identification algorithms, spratling, mortari, [pdf](papers/2009%20spratling.pdf)
+2009, a survey on star identification algorithms, review, [pdf](papers/2009%20spratling.pdf)
 
 2012, an autonomous star identification algorithm based on the directed circularity pattern, xie, [pdf](papers/2012%20xie.pdf)
 
@@ -216,16 +194,40 @@ star identification
 
 2020, a survey of lost-in-space star identification algorithms since 2009, review, [pdf](papers/2020%20review.pdf)
 
-spacecraft attitude
+icesat
 -----------------------------
 
-2006, the quest for better attitudes, shuster, [pdf](papers/2006%20shuster.pdf)
+2017, effect of sun shade performance on icesat-2 laser reference sensor alignment estimation, patel, smith, bae, schutz, [pdf](papers/2017%20aas.pdf)
+
+2014, laser reference sensor alignment tracking and star observations, smith, bae, schutz, [pdf](papers/2014%20jsr%20c.pdf)
+
+2014, laser reference sensor alignment estimation using star observations, smith, bae, schutz, [pdf](papers/2014%20jsr%20b.pdf)
+
+2014, laser reference sensor alignment estimation using reference signal observations, smith, bae, schutz, [pdf](papers/2014%20jsr%20a.pdf)
+
+2013, nasa icesat 2 pointing knowledge, smith, bae, schutz, [pdf](papers/2014%20nasa%20icesat%20b.pdf)
+
+2012, nasa icesat 1 pointing knowledge, bae, smith, schutz, [pdf](papers/2014%20nasa%20icesat%20a.pdf)
+
+2011, improved star tracker instrument magnitude prediction from icesat flight telemetry, smith, fowell, bae, schutz, [pdf](papers/2011%20aas.pdf)
+
+2010, biased star tracker measurements of forty-nine stars from flight data, smith, bae, schutz, [pdf](papers/2010%20jsr.pdf)
+
+2010, forty-nine biased star positions from icesat flight data, smith, bae, schutz, [pdf](papers/2010%20aas%20b.pdf)
+
+2010, icesat attitude and pointing correction using the laser reference sensor, bae, smith, schutz, [pdf](papers/2010%20aas%20a.pdf)
+
+2009, time tag issues in the star tracker and gyro data for icesat precision attitude determination, bae, ricklefs, smith, schutz, [pdf](papers/2009%20aas%20b.pdf)
+
+2009, bad stars, fowell, smith, bae, schutz, [pdf](papers/2009%20aas%20a.pdf)
+
+2008, precision orbit and attitude determination for icesat, schutz, bae, smith, sirota, [pdf](papers/2008%20aas.pdf)
 
 texas minor planet project
 -----------------------------
 
-1986, the use of space telescope to tie the hipparcos reference frame to an extragalactic reference frame, hemenway, duncombe, astrometric techniques, [pdf](papers/1986%20hemenway.pdf)
+1986, the use of space telescope to tie the hipparcos reference frame to an extragalactic reference frame, hemenway, duncombe, [pdf](papers/1986%20hemenway.pdf)
 
-1986, apparent close encounters of minor planets, pierce, whipple, the astronomical journal, [pdf](papers/1986%20pierce.pdf)
+1986, apparent close encounters of minor planets, pierce, whipple, [pdf](papers/1986%20pierce.pdf)
 
 1987, current developments in the texas minor planet project, hemenway, whipple, duncombe, [pdf](papers/1987%20hemenway.pdf)

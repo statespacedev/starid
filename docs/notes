@@ -1,1 +1,10 @@
 ctrl shift j - strip line breaks
+
+git commit --amend --date="now"
+git commit --amend --author="your name here"
+
+git tag --list
+git tag --delete rsm-stable
+push specific tag ----------- git push origin rsm-stable
+git ls-remote --tags origin
+git push --delete origin rsm-stable
