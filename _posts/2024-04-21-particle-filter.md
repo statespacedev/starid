@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "particle filter"
-categories: aerospace particle
+#categories: aerospace particle
 ---
 from the modern kalman filter, the next step forward with 'sample-and-propagate' algorithms was to use non-deterministic sampling points or particles. a descriptive name for this is sequential monte carlo sampling processor, but a common short-hand is particle filter.
 

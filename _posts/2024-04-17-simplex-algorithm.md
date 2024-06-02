@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "simplex algorithm"
-categories: aerospace simplex
+#categories: aerospace simplex
 ---
 in the early days of digital computing, what were some of the motivations for industry to invest in computers? what exactly could computers do? they could perform numerical simulations. in the manhattan project, they replaced rooms of humans operating mechanical calculators. and they could collate data. in the sage continental air defence system, they replaced humans in low level command and control roles.
 

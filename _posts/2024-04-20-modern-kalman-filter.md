@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "modern kalman filter"
-categories: aerospace kalman
+#categories: aerospace kalman
 ---
 the modern kalman filter is an intermediate step between the classical kalman filter, where uncertainty is represented as gaussian, and the particle filter. the advantage of gaussians is that they have only two parameters, so asked the bare minimum from late fifties computing hardware. much effort went into efficiently evolving the values forward through time via the matrix riccati differential equation for the covariance.
 

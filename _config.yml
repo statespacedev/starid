@@ -16,3 +16,4 @@ header_pages:
   - docs/about.md
   - docs/photos.md
 show_drafts: false
+permalink: none

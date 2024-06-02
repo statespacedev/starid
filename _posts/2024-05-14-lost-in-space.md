@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "lost in space problem"
-categories: aerospace starid
+#categories: aerospace starid
 ---
 the core of the lost in space problem is a total lack of star tracker pointing knowledge. often there's at least some knowledge of the star tracker's attitude, but the lost in space problem is the extreme opposite case, with infinite attitude uncertainty.
 
