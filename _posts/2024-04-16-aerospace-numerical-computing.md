@@ -1,7 +1,6 @@
 ---
 layout: post
 title: "aerospace numerical computing"
-#categories: aerospace numerical
 ---
 this is an initial experiment with bringing some legacy 'blog style discussion' from python sphinx forward into website jekyll.
 

@@ -1,7 +1,6 @@
 ---
 layout: post
 title: "kalman filter"
-#categories: aerospace kalman
 ---
 as both intercontinental missiles and thermonuclear weapons became practical in the mid fifties, one more technology became essential - self-contained guidance systems that could reliably get near enough to a spot on the other side of the globe. what was needed was an autonomous digital system for guidance and control of long range missiles. this was an important motivation behind the appearance, at the beginning of the sixties, of the kalman filter.   
 

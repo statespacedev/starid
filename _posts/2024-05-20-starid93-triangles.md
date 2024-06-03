@@ -1,7 +1,6 @@
 ---
 layout: post
 title: "starid93 triangles"
-#categories: aerospace starid
 ---
 [paper 1993](https://statespace.dev/docs/papers/1993%20liebe.pdf){:target="_blank" rel="noopener"}
 

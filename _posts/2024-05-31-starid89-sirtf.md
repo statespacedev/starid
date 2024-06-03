@@ -1,7 +1,6 @@
 ---
 layout: post
 title: "starid89 sirtf"
-#categories: aerospace starid
 ---
 [paper 1989](https://statespace.dev/docs/papers/1989%20bezooijen.pdf){:target="_blank" rel="noopener"}
 
