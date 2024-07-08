@@ -36,3 +36,4 @@ lang-sentences*
 /cmake-build-debug-docker/
 /build-docs/
 *build*
+.vscode
