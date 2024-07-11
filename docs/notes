@@ -1,3 +1,11 @@
+windows git problem for https://github.com/statespacedev/starid.git
+fixed by
+PS C:\Users\i28144\PycharmProjects\starid> git config --local http.sslbackend schannel
+
+for github access to statespacedev, create and use a github access token
+https://github.com/settings/tokens
+in pycharm config github, add a github account via the token
+
 ctrl shift j - strip line breaks
 
 git commit --amend --date="now"
