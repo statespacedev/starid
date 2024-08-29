@@ -1,0 +1,14 @@
+---
+layout: post
+title: "simplex52"
+---
+
+george dantzig joined rand santa monica in 1952 specifically to code simplex on real hardware. at rand, william orchard-hays was assigned as dantzig's coder. this was at the same time that hal laning and richard battin began to code whirlwind and guidance systems for the mit instrumentation lab.
+
+dantzig and orchard-hays went to work in 1953 with an [ibm cpc card programmed calculator 'poor man's eniac'](https://en.wikipedia.org/wiki/IBM_CPC). surprisingly, they were able to calculate a matrix inverse for each simplex iteration. less surprisingly, dantzig was 'appalled when he saw the result' using these inverses. fortunately he recalled the 'product-form inverse' algorithm, and this led to a second simplex implementation on the cpc, successful enough to remain in use for over twenty years. 
+
+the cpc was a stop-gap until they received an [ibm 701 'defense calculator'](https://en.wikipedia.org/wiki/IBM_701) around 1955 and moved onward to the 'first real applications' of the simplex algorithm. these had on the order of a hundred constraints. an ibm 704 and two to three times more constraints soon followed. at this stage the code became known as rslp1 and was first distributed outside rand. it was released commercially as scrol and achieved its first significant usage, in the oil industry, around 1958. 
+
+all of this effectively took place 'before fortran'. coding was in assembly language or directly in binary. orchard-hays in particular seems to have been one of the leaders of the 'assembly tradition'. this was a strong movement, and was only gradually overcome by fortran via a 'can't beat em so join em' melding and intermixing of assembly and fortran, so that in practice they acted as a unified whole.
+
+since the ibm cpc was the first hardware to run simplex, and among the earliest to perform matrix inversion, here are some more notes. it was a makeshift marriage of the 603 electronic multiplier 'multiplying punch' and a 405 accounting machine, put together by northrop aircraft with ibm help. ibm saw its popularity and commercialized it as the cpc in 1948. it was not a true stored program computer. there was no memory. it worked like an old-fashioned player piano, purely reacting to punched cards as they were fed through.
