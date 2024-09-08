@@ -10,7 +10,6 @@ title: links
 [george dantzig](https://en.wikipedia.org/wiki/George_Dantzig)  
 [richard battin](https://en.wikipedia.org/wiki/Richard_Battin)  
 [hal laning](https://en.wikipedia.org/wiki/J._Halcombe_Laning)  
-[john backus](https://en.wikipedia.org/wiki/John_Backus)  
 [cleve moler](https://en.wikipedia.org/wiki/Cleve_Moler)  
 [george forsythe](https://en.wikipedia.org/wiki/George_Forsythe)
 

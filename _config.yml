@@ -15,6 +15,5 @@ minima:
 header_pages:
   - docs/about.md
   - docs/photos.md
-  - docs/links.md
 show_drafts: false
 permalink: none
