@@ -5,8 +5,8 @@ title: "floating point"
 
 around 1950, fixed point binary representations were used for numbers. there was no floating point, and there was a strong current of thought that this was as it should be. if numbers were kept properly scaled, fixed point was all that was needed and floating point was an unnecessary compromise. von neumann was a champion of this view. what ended up actually happening is a curious bit of history involving the mit instrumentation laboratory, navigation, astronomy, and engineering.
 
-a standard aerospace textbook by battin begins with a detailed description of how he and hal laning developed early missile guidance systems at the instrumentation laboratory in the fifties, particularly [q guidance](https://en.wikipedia.org/wiki/Q-guidance).
-it turns out that at the same time hal laning was the lead programmer who brought floating point to the whirlwind computer in 1952. as part of that, he developed what may have been the first real compiler and high level language, called 'george' from 'let george do it'. here's a comment from john backus.
+a standard aerospace textbook by [richard battin](https://en.wikipedia.org/wiki/Richard_Battin) begins with a detailed description of how he and [hal laning](https://en.wikipedia.org/wiki/J._Halcombe_Laning) developed early missile guidance systems at the instrumentation laboratory in the fifties, particularly [q guidance](https://en.wikipedia.org/wiki/Q-guidance).
+it turns out that at the same time hal laning was the lead programmer who brought floating point to the whirlwind computer in 1952. as part of that, he developed what may have been the first real compiler and high level language, called 'george' from 'let george do it'. here's a comment from [john backus](https://en.wikipedia.org/wiki/John_Backus).
 
 _laning was the first person to conceive of and implement what we would now call a true compiler_
 
