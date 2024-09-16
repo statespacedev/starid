@@ -35,5 +35,4 @@ lang-sentences*
 /venv310/
 /cmake-build-debug-docker/
 /build-docs/
-*build*
 .vscode
