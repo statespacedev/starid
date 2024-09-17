@@ -1,11 +1,6 @@
 processors
 ============
 
-simplex_linear_programming.py
----------------------------------
-.. automodule:: statespace.processors.simplex_linear_programming
-    :members:
-
 extended_kalman_filter.py
 ---------------------------
 .. automodule:: statespace.processors.extended_kalman_filter
