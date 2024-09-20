@@ -35,4 +35,5 @@ lang-sentences*
 /venv310/
 /cmake-build-debug-docker/
 /build-docs/
-.vscode
+/a.out.dSYM/
+a.out
