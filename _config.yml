@@ -1,7 +1,7 @@
 plugins:
   - jekyll-feed
 title: statespace.dev
-description: night sky, kalman, particle
+description: explorations
 author:
   name: noah smith
   email: noah@statespace.dev
@@ -15,5 +15,7 @@ minima:
 header_pages:
   - docs/about.md
   - docs/photos.md
+include:
+  - .well-known
 show_drafts: false
 permalink: none
