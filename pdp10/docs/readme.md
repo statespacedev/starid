@@ -1,3 +1,29 @@
+# docs contents
+
+- [1, boot disk](sec1-boot-disks.md)
+- [2, kermit](sec2-kermit.md)
+- [3, prep source files](sec3-prep-source-files.md)
+- [4, building decwar](sec4-compiling-decwar.md)
+- [4a, build files](sec4a-build-files.md)
+- [4b, continuation line issue](sec4b-continuation-line-issue.md)
+- [5, minimalist walkthrough](sec5-minimalist-walkthrough.md)
+- [6, scripted tops10 setup](sec6-scripted-tops10-setup.md)
+- [7, decwar tape file](sec7-decwar-tape-file.md)
+
+appendices
+
+- [0, foundations](app0-foundations.md)
+- [1, tops-10 versions](app1-tops-10-versions.md)
+- [2, tap files](app2-tap-files.md)
+- [3, sos](app3-sos.md)
+
+the below are experiments where we're getting experience working in this particular env
+
+- [algebra (python, fortran10, macro10)](algebra/readme.md)
+- [decomp (python, fortran10)](decomp/readme.md)
+
+# some history
+
 20240819 had an awesome chat with merlyn yesterday and have many things to begin remembering. will just focus on decwar here. my starting point - 'new' raspi5 prepped and ready to integrate into pidp-10 front panel. pidp-10 software is installed and running great for months now. first played with its - emacs, lisp, spacewar, adventure, etc. then switched to tops-10 - sos, macro, fortran.
 
 yesterday merlyn shared the disk image he's built up. it has a working decwar, old fortran iv needed for that, tops-10 7.03 monitor, etc. here's a minimal simh script which roughly speaking could boot it

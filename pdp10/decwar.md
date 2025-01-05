@@ -1,6 +1,3 @@
-    DECWAR GAME INSTRUCTIONS                                  Page 1
-    
-    
                  DECWAR Version 2.3, November 20, 1981
     
     
@@ -55,9 +52,6 @@
                     Savannah                      Hawk
                     Vulcan                        Jackal
                     Yorktown                      Wolf
-    
-    DECWAR GAME INSTRUCTIONS                                  Page 2
-    
     
          Due to continuous espionage activities, present  front-line
     ships  of the Federation and the Klingon Empire are identical in
@@ -116,8 +110,6 @@
              the  percent  of  the  incoming  hit  which   will   be
              nullified.   In  addition, strong deflector shields may
              deflect photon torpedoes  with  little  or  no  damage.
-    DECWAR GAME INSTRUCTIONS                                  Page 3
-    
     
              NOTE:  If a ship's shields are up, the amount of energy
              expended during movement is doubled.
@@ -174,8 +166,6 @@
          The galaxy is arranged in a  grid  of  75  by  75  sectors.
     Players  can  move  freely  throughout  the  galaxy in search of
     enemies, which come in several categories:
-    DECWAR GAME INSTRUCTIONS                                  Page 4
-    
     
          1.  Romulan.  This can be the most dangerous thing to  come
              up  against,  and  fortunately  there is a maximum of 1
@@ -233,8 +223,6 @@
     The help on individual commands will be read from this help file
     (that's  what  the  periods  in  column  1  are  for in the long
     description of each command).  The legal commands are:
-    DECWAR GAME INSTRUCTIONS                                  Page 5
-    
     
          1.  BASES -- List information on friendly and  known  enemy
              bases.
@@ -291,8 +279,6 @@
              ship).
     
         20.  SET -- Set various input and output defaults.
-    DECWAR GAME INSTRUCTIONS                                  Page 6
-    
     
         21.  SHIELDS -- Transfer energy to  or  from  your  shields;
              raise or lower your shields.
@@ -323,11 +309,6 @@
     
         31.  USERS -- List the names  and  other  information  known
              about the players currently in the game.
-    
-    
-    
-    DECWAR GAME INSTRUCTIONS                                  Page 7
-    
     
     General INPUT information
     
@@ -383,10 +364,6 @@
             command can accept  up  to  3  coordinates,  but  the  keyword
             describing  the  coordinate input type is given only once, and
             all coordinates must be of the same type.
-    
-    
-    DECWAR GAME INSTRUCTIONS                                  Page 8
-    
     
     General OUTPUT information
     
@@ -444,8 +421,6 @@
     The ACTIVATE command (valid only in the  pre-game)  is  used  to
     exit the pre-game section and enter the normal ship setup stage.
     The pre-game can be recognized from the 'PG>' command prompt.
-    DECWAR GAME INSTRUCTIONS                                  Page 9
-    
     
     Some general HINTS
     
@@ -504,11 +479,7 @@
       - To always see the range and direction of any object listed (in
         hit  messages,  output from the LIST command, etc.), SET OCDEF
         BOTH.  (The range is the magnitude of either delta v or  delta
-      DECWAR GAME INSTRUCTIONS                                 Page 10
-    
-    
-      h, whichever is larger.)
-    
+        h, whichever is larger.)
     
     Commands that take real time
     
@@ -560,8 +531,6 @@
     
     NOTE:  A ship under RED alert conditions can not be returned  to
     the monitor level except by using the QUIT command.
-    DECWAR GAME INSTRUCTIONS                                 Page 11
-    
     
     List various BASE information
     
@@ -620,8 +589,6 @@
     capturing an enemy planet, 1 second is added to the normal pause
     time of 5 seconds for each BUILD present.   Also,  50  units  of
     ship energy are lost for each build.
-    DECWAR GAME INSTRUCTIONS                                 Page 12
-    
     
     Examples:
     
@@ -680,8 +647,6 @@
     Transfer ENERGY to a friendly ship
     
     Syntax:  Energy <ship name> <units of energy to transfer>
-    DECWAR GAME INSTRUCTIONS                                 Page 13
-    
     
     The receiving ship must be located in an adjacent  sector.   10%
     of  the  energy  transferred  will  be  lost  due  to  broadcast
@@ -740,9 +705,6 @@
     Examples:
     
     H               Give general help info.
-    DECWAR GAME INSTRUCTIONS                                 Page 14
-    
-    
     H *             List all available commands.
     H H             List this block of text.
     H SH            Give help for the SHIELDS command.
@@ -800,9 +762,6 @@
     Romulan).
     BAses           Include only bases (Federation or Empire).
     PLanets         Include only planets (Federation, Empire, or
-    DECWAR GAME INSTRUCTIONS                                 Page 15
-    
-    
                     Neutral).
     POrts           Include only bases and planets.  If no side is
                     specified (Federation, Empire, Neutral, or
@@ -860,9 +819,6 @@
     and 6 risk potential warp engine damage.  Energy consumption per
     move  is  proportional to the square of the warp factor.  If the
     ship's  shields  are  up  during  this  movement,   the   energy
-    DECWAR GAME INSTRUCTIONS                                 Page 16
-    
-    
     consumption is doubled.  Moving changes your ship's condition to
     green.
     
@@ -920,9 +876,6 @@
                     is 10-35.
     PH C BUZZARD    Phaser the Buzzard (if in range).
     PH C B          Same as PH C BUZZARD (ship names can be
-    DECWAR GAME INSTRUCTIONS                                 Page 17
-    
-    
                     abbreviated to 1 character).
     PH 300 12 32    Phaser target at sector 12-32, using 300 units
                     of energy.
@@ -980,9 +933,6 @@
     PO              List points for your ship.
     PO ME           Equivalent to "PO".
     PO KLI FED      List the score of the two teams.
-    DECWAR GAME INSTRUCTIONS                                 Page 18
-    
-    
     PO ALL          List all the scoring information available.
     
     
@@ -1040,8 +990,6 @@
     RE 100          Remove up to 100 units of device damage.
     RE              Same as "RE 100" if DOCKED, else same as "RE
                     50".
-    DECWAR GAME INSTRUCTIONS                                 Page 19
-    
     
     Full range SCAN
     
@@ -1100,9 +1048,6 @@
     Name    name     Change name (shows in USERS).
     Output  Long     Default.  Use longest output format.
             Medium   Use medium output format.
-    DECWAR GAME INSTRUCTIONS                                 Page 20
-    
-    
             Short    Use short (cryptic) output format.
     Scan    Long     Default.  Use long format scans.
             Short    Use 1 character symbols instead of 2.
@@ -1160,8 +1105,6 @@
     
     
     Show ship STATUS
-    DECWAR GAME INSTRUCTIONS                                 Page 21
-    
     
     Syntax:
     STatus
@@ -1220,8 +1163,6 @@
     
     
     TELL another ship something using the sub-space radio
-    DECWAR GAME INSTRUCTIONS                                 Page 22
-    
     
     Syntax:                                                     TEll
     All|FEderation|HUman|EMpire|Klingon|ENemy|FRiendly|        <ship
@@ -1280,9 +1221,6 @@
                       and one at 9-12.
     TO 3 12 24 13 39  Fire one torpedo at sector 12-24, and two at
                       sector 13-39.
-    DECWAR GAME INSTRUCTIONS                                 Page 23
-    
-    
     TO A 3 12 24      Equivalent to "TO 3 12 24".
     TO R 2 2 -5       Fire two torpedoes at sector 22-25, assuming
                       your location is 20-30.
@@ -1340,9 +1278,6 @@
     Syntax:  Users
     
     List all ships  currently  in  the  game.   Include  ship  name,
-    DECWAR GAME INSTRUCTIONS                                 Page 24
-    
-    
     captain  (may  be  changed  by  SET  NAME),  TTY speed, PPN, TTY
     number, and job number.  If the output format is set  to  medium
     or short, omit the TTY and job numbers.  If the output format is
@@ -1406,4 +1341,3 @@
     TYPE . . . . . . . . . . . . . . 23
     
     USERS  . . . . . . . . . . . . . 23
-    
