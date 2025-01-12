@@ -37,3 +37,4 @@ lang-sentences*
 /build-docs/
 /a.out.dSYM/
 a.out
+.DS_*
