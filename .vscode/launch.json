@@ -5,10 +5,10 @@
     "version": "0.2.0",
     "configurations": [
       {
-        "name": "for",
+        "name": "algebra-for",
         "type": "cppdbg",
         "request": "launch",
-        "preLaunchTask": "ipwr",
+        "preLaunchTask": "algebra",
         "program": "${workspaceFolder}/a.out",
         "args": [],
         "stopAtEntry": false,

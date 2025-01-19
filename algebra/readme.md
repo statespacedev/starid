@@ -1,3 +1,8 @@
+alter the runtime env on the with the following two bash commands, put em in .bashrc
+
+    export GFORTRAN_STDIN_UNIT=6
+    export GFORTRAN_STDOUT_UNIT=5
+
 target is using python, fortran10, macro10 in parallel to reproduce [feynman's table 22-3](https://www.feynmanlectures.caltech.edu/I_22.html)
 
 # skip to the punchline

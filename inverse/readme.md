@@ -1,4 +1,4 @@
-alter the runtime env on the raspi with the following two bash commands, put em in .bashrc
+alter the runtime env with the following two bash commands, put em in .bashrc
 
     export GFORTRAN_STDIN_UNIT=6
     export GFORTRAN_STDOUT_UNIT=5
