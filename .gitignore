@@ -10,6 +10,15 @@ version
 *.idea*
 *.so
 *.cbp
+*.o
+*.lo
+*.la
+*.so.*
+*.a
+*.lai
+*.libs*
+*.log
+*.output
 a.out
 pairs
 Starpairs
