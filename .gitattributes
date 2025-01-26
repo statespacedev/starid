@@ -1,1 +1,11 @@
 libstarid/include/** linguist-vendored
+simplex/la04/** linguist-vendored
+simplex/la01/** linguist-vendored
+*.sh linguist-vendored
+*.RNO linguist-vendored
+*.RNH linguist-vendored
+*.do linguist-vendored
+*.COM linguist-vendored
+*.CMD linguist-vendored
+*.html linguist-vendored
+*.MAC linguist-language=Assembly

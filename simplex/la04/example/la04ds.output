@@ -1,0 +1,48 @@
+
+ Entry to LA04 with M=      2 N=      4 No. of non-zeros=      5
+ LA=    100 KB=      1 LB=      2 JOB=      0 LWS=    434 LIWS=   1112
+ CNTL=  1.000E+70  3.667E-11  0.000E+00   1.   0.   6.   6.
+        1.000E-01  6.711E+07  2.220E-16  3.667E-11
+
+ Entry to LA04 with M=      2 N=      4 No. of non-zeros=      5
+ LA=      5 KB=      1 LB=      2 JOB=      1 LWS=    434 LIWS=   1112
+ CNTL=  1.000E+70  3.667E-11  0.000E+00   1.   0.   6.   6.
+        1.000E-01  6.711E+07  2.220E-16  3.667E-11
+
+ LA04: Sweep      No.       No.     Min col   No. cols
+              variables artificials length   of min len
+         1         2         0         1         2
+
+ LA04: Factorization of basis. Value of U used by LA15A was   0.1000
+ Total times so far for LA15A/B/C are      0.000      0.000      0.000
+ Size of LA15 arrays is      422
+ Largest change, iterative refinement of X:  1.2866E-16
+
+ LA04: tolerance on the bounds is  2.3E-11
+
+ LA04: number of infeasibilites:    1
+ Objective function:  4.666667E-01
+ Largest change, iterative refinement of reduced costs:  5.4004E-17
+
+ LA04:
+   Iter LENL   JIN     NINF       G        Z         GAMA       Time
+        LENU  JOUT  Obj. Fun     NCP    Aprox Z   Aprox GAMA    Pivot
+     1     0     4      0     1.3E+00 -8.000E-01  2.383E+00      0.000
+           3     1  5.551115E-17   0  -8.000E-01  2.383E+00   -8.0E-01
+
+
+ LA04: no candidates are available for entry into basis
+ Largest change, iterative refinement of X:  2.5391E-17
+
+ LA04: tolerance on the bounds is  2.3E-11
+
+ LA04: number of infeasibilites:    0
+ Objective function:  3.750000E+00
+ Largest change, iterative refinement of reduced costs:  8.3725E-17
+
+ LA04: Optimal solution found after     1 basis factorizations
+ Objective function =   3.750000E+00
+ Solution found after   2 iterations
+ Solution value is  3.750000
+ Solution is
+  1.000000  1.000000  0.000000  1.750000

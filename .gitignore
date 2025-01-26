@@ -18,7 +18,6 @@ version
 *.lai
 *.libs*
 *.log
-*.output
 a.out
 pairs
 Starpairs
