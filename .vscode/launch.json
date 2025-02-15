@@ -1,21 +1,36 @@
 {
-    // Use IntelliSense to learn about possible attributes.
-    // Hover to view descriptions of existing attributes.
-    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
-    "version": "0.2.0",
-    "configurations": [
-      {
-        "name": "algebra-for",
-        "type": "cppdbg",
-        "request": "launch",
-        "preLaunchTask": "algebra",
-        "program": "${workspaceFolder}/a.out",
-        "args": [],
-        "stopAtEntry": false,
-        "cwd": "${workspaceFolder}",
-        "environment": [],
-        "externalConsole": false,
-        "MIMode": "gdb"
-      },
-    ]
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Python Debugger: Current File",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${file}",
+      "console": "integratedTerminal"
+    },
+    {
+      "type": "OctaveDebugger",
+      "request": "launch",
+      "name": "Execute selected file.",
+      "program": "${file}",
+      "octave": "octave-cli",
+      "sourceFolder": "${workspaceFolder}"
+    },
+    {
+      "name": "algebra-for",
+      "type": "cppdbg",
+      "request": "launch",
+      "preLaunchTask": "algebra",
+      "program": "${workspaceFolder}/a.out",
+      "args": [],
+      "stopAtEntry": false,
+      "cwd": "${workspaceFolder}",
+      "environment": [],
+      "externalConsole": false,
+      "MIMode": "gdb"
+    },
+  ]
 }
