@@ -14,7 +14,7 @@
     {
       "type": "OctaveDebugger",
       "request": "launch",
-      "name": "Execute selected file.",
+      "name": "octave execute selected file.",
       "program": "${file}",
       "octave": "octave-cli",
       "sourceFolder": "${workspaceFolder}"

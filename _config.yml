@@ -9,9 +9,6 @@ google_analytics: G-W7B7DSQKFD
 remote_theme: jekyll/minima
 minima:
   skin: dark
-  social_links:
-    - {platform: github, user_url: "https://github.com/statespacedev/starid"}
-    - {platform: linkedin, user_url: "https://www.linkedin.com/in/noahhsmith/"}
 header_pages:
   - docs/about.md
   - docs/photos.md

@@ -2,6 +2,11 @@
 layout: page
 title: about
 ---
+
+github [https://github.com/statespacedev/starid](https://github.com/statespacedev/starid)
+
+linkedin [https://www.linkedin.com/in/noahhsmith](https://www.linkedin.com/in/noahhsmith)
+
 this has been a hobby project for well over three decades. the code in the github repository grew over time, as well as the discussions that are now becoming part of this website. the code was used with python sphinx, and recently it became apparent that github jekyll could convert that into a static website.  
 
 ### the 'lost in space' problem
