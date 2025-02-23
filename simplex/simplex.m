@@ -3,12 +3,12 @@ types = [3 2 2 2 1 2 2 2 1 1];
 function feas = isfeas(itr,types)
   feas = true;
   for i = 1:5
-    val = itr(i,11);
-    type = types(itr(i,12));
-    if type == 2
-      if val < 0, feas = false; end
-    elseif type == 3
-      if val < 0 || val > 1, feas = false; end
+    v = itr(i,11);
+    t = types(itr(i,12));
+    if t == 1
+      if v < 0 || v > 1, feas = false; end
+    elseif t == 2
+      if v < 0, feas = false; end
     end
   end
 endfunction
@@ -22,7 +22,7 @@ itr0 = [
 ]
 feas = isfeas(itr0,types);
 
-itr1 = [
+ itr1 = [
     1   0   0   0   270     0    -7.3    -12.96  120     90      10     1
     0   1   0   0   -25     0      0      .6     -20     0       5      2
     0   0   1   0   -12.5   0     .5      .6      0      -10     2.5    3
