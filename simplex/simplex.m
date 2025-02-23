@@ -1,15 +1,15 @@
-# vs = [u1 u2 u3 u4 u5 x1 x2 x3 x4 x5]
-vts = [3 2 2 2 1 2 2 2 1 1];
+# vls = [u1 u2 u3 u4 u5 x1 x2 x3 x4 x5] # var labels
+vts = [3 2 2 2 1 2 2 2 1 1]; # var types
 
 function feas = isfeas(itr,vts)
   feas = true;
   for i = 1:5
-    v = itr(i,11);
-    t = vts(itr(i,12));
-    if t == 1
-      if v < 0 || v > 1, feas = false; end
-    elseif t == 2
-      if v < 0, feas = false; end
+    b = itr(i,11);
+    vt = vts(itr(i,12));
+    if vt == 1
+      if b < 0 || b > 1, feas = false; end
+    elseif vt == 2
+      if b < 0, feas = false; end
     end
   end
 endfunction
