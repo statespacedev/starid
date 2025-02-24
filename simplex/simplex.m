@@ -14,19 +14,28 @@ function feas = isfeas(itr,vts)
   end
 endfunction
 
-itr0 = [
+tab0 = [
     1   0   0   0   0   -5.4    -7.3    -12.96  120     90      -800    1
     0   1   0   0   0   .5      0       .6      -20     0       80      2
     0   0   1   0   0   .25     .5      .6      0       -10     40      3
     0   0   0   1   0   -1      1       0       0       0       0       4
     0   0   0   0   1   .02     0       0       0       0       3       5
 ]
-feas = isfeas(itr0,vts);
+feas = isfeas(tab0,vts);
 # infeas, pricing on 'w cff compfeasfunc' to choose incol
 # incol is col x1
 # ratio test on incol col x1 to choose pivot
 # pivot is col x1 row 5
-# transform to next tableau
+# transform to next tableau via ei1 eleminv1
+# 
+eta1 = tab0(:,6)
+eta1(1) = -eta1(1) / eta1(5)
+eta1(2) = -eta1(2) / eta1(5)
+eta1(3) = -eta1(3) / eta1(5)
+eta1(4) = -eta1(4) / eta1(5)
+eta1(5) = 1 / eta1(5)
+ei1 = eye(5)
+ei1(:,5) = eta1
 
  itr1 = [
     1   0   0   0   270     0    -7.3    -12.96  120     90      10     1
