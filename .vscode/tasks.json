@@ -5,6 +5,16 @@
             "type": "shell",
             "label": "algebra",
             "command": "gfortran algebra/algebra.for -g",
+        },
+        {
+            "type": "shell",
+            "label": "inverse",
+            "command": "gfortran inverse/inverse.for -g",
+        },
+        {
+            "type": "shell",
+            "label": "simplex",
+            "command": "gfortran simplex/simplex.for -g",
         }
     ]
 }

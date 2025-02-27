@@ -32,5 +32,31 @@
       "externalConsole": false,
       "MIMode": "gdb"
     },
+    {
+      "name": "inverse-for",
+      "type": "cppdbg",
+      "request": "launch",
+      "preLaunchTask": "inverse",
+      "program": "${workspaceFolder}/a.out",
+      "args": [],
+      "stopAtEntry": false,
+      "cwd": "${workspaceFolder}",
+      "environment": [],
+      "externalConsole": false,
+      "MIMode": "gdb"
+    },
+    {
+      "name": "simplex-for",
+      "type": "cppdbg",
+      "request": "launch",
+      "preLaunchTask": "simplex",
+      "program": "${workspaceFolder}/a.out",
+      "args": [],
+      "stopAtEntry": false,
+      "cwd": "${workspaceFolder}",
+      "environment": [],
+      "externalConsole": false,
+      "MIMode": "gdb"
+    }
   ]
 }

@@ -46,3 +46,4 @@ lang-sentences*
 /a.out.dSYM/
 a.out
 .DS_*
+octave-workspace

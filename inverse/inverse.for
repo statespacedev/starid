@@ -2,21 +2,46 @@ c main program
       dimension H(30,30), Ha(30,30), Hb(30,30)
       dimension T(30,30), Ta(30,30), Tb(30,30), ips(30)
       common ips
+      common /env/ nout, n
+      nout = 6
       n = 6
       call invhil(n, T)
       call hil(n, H)
 
       call invert(n, T, Ha, 0)
       call invert(n, T, Hb, 1)
-      call print2(n, Ha)
-      call print2(n, Hb)
-      call print2(n, H)
+      call print2(Ha)
+      call print2(Hb)
+      call print2(H)
 
       call invert(n, H, Ta, 0)
       call invert(n, H, Tb, 1)
-      call print1(n, Ta)
-      call print1(n, Tb)
-      call print1(n, T)
+      call print1(Ta)
+      call print1(Tb)
+      call print1(T)
+      end
+      
+
+c print matrix similar to inverse hilbert T
+      subroutine print1(T)
+      common /env/ nout, n
+      dimension T(30,30)
+      write (nout,1)
+      write (nout,10) ((T(i,j), j = 1,n), i = 1,n)
+1     format(1h )
+10    format(6f12.2)
+      return
+      end
+
+c print matrix similar to hilbert H
+      subroutine print2(H)
+      common /env/ nout, n
+      dimension H(30,30)
+      write (nout,1)
+      write (nout,10) ((H(i,j), j = 1,n), i = 1,n)
+1     format(1h )
+10    format(6f12.8)
+      return
       end
 
 c for the lu decomposition, calculate the actual inverse matrix
@@ -55,7 +80,7 @@ c iterative improvement. residuals are small and have to be calculated in double
           do 4 j = 1,n
             t1 = A(i,j)
             t2 = x(j)
-4           sum = sum + t1 * t2
+4           sum = sum + t1*t2
           r(i) = b(i) - sum
 5       continue
         call solve(n, UL, r, dx)
@@ -66,7 +91,7 @@ c iterative improvement. residuals are small and have to be calculated in double
           dxnorm = amax1(dxnorm, abs(x(i) - t))
 6       continue
         if (iter - 1) 8,7,8
-7         digits = -alog10(amax1(dxnorm / xnorm, eps))
+7         digits = -alog10(amax1(dxnorm/xnorm,eps))
 8       if (iter - itmax) 10,10,9
 9     continue
       call sing(3)
@@ -92,11 +117,11 @@ c lower upper lu decomposition of matrix
         scales(i) = 0.0
 5     continue
       nm1 = n - 1
-      do 17 k = 1, nm1
+      do 17 k = 1,nm1
         big = 0.0
-        do 11 i = k, n
+        do 11 i = k,n
           ip = ips(i)
-          size = abs(UL(ip,k)) * scales(ip)
+          size = abs(UL(ip,k))*scales(ip)
           if (size - big) 11,11,10
 10          big = size
             idxpiv = i
@@ -111,12 +136,12 @@ c lower upper lu decomposition of matrix
 15      kp = ips(k)
         pivot = UL(kp,k)
         kp1 = k + 1
-        do 16 i = kp1, n
+        do 16 i = kp1,n
           ip = ips(i)
-          em = -UL(ip,k) / pivot
+          em = -UL(ip,k)/pivot
           UL(ip,k) = -em
-          do 16 j = kp1, n
-            UL(ip,j) = UL(ip,j) + em * UL(kp,j)
+          do 16 j = kp1,n
+            UL(ip,j) = UL(ip,j) + em*UL(kp,j)
 16      continue
 17    continue
       kp = ips(n)
@@ -132,23 +157,23 @@ c forward and backward substitution to solve for x from ULx = b
       np1 = n + 1
       ip = ips(1)
       x(1) = b(ip)
-      do 2 i = 2, n
+      do 2 i = 2,n
         ip = ips(i)
         im1 = i - 1
         sum = 0.0
-        do 1 j = 1, im1
-1         sum = sum + UL(ip,j) * x(j)
+        do 1 j = 1,im1
+1         sum = sum + UL(ip,j)*x(j)
 2       x(i) = b(ip) - sum
       ip = ips(n)
-      x(n) = x(n) / UL(ip,n)
-      do 4 iback = 2, n
+      x(n) = x(n)/UL(ip,n)
+      do 4 iback = 2,n
         i = np1 - iback
         ip = ips(i)
         ip1 = i + 1
         sum = 0.0
-        do 3 j = ip1, n
-3         sum = sum + UL(ip,j) * x(j)
-4     x(i) = (x(i) - sum) / UL(ip,i)
+        do 3 j = ip1,n
+3         sum = sum + UL(ip,j)*x(j)
+4     x(i) = (x(i) - sum)/UL(ip,i)
       return
       end
 
@@ -169,47 +194,28 @@ c singular matrix messages
 
 c calculate ideal inverse hilbert matrix T
       subroutine invhil(n, T)
-      dimension T(30, 30)
+      dimension T(30,30)
       p = n
-      do 10 i = 1, n
-        if (i - 1) 1, 2, 1
-1       p = ((n - i + 1) * p * (n + i - 1)) / (i - 1)**2
+      do 10 i = 1,n
+        if (i - 1) 1,2,1
+1       p = ((n - i + 1)*p*(n + i - 1))/(i - 1)**2
 2       r = p**2
-        T(i, i) = r / (2 * i - 1)
-        do 10 j = i + 1, n
-          r = -((n - j + 1) * r * (n + j - 1)) / (j - 1)**2
-          T(i, j) = r / (i + j - 1)
-          T(j, i) = T(i, j)
+        T(i,i) = r/(2*i - 1)
+        do 10 j = i + 1,n
+          r = -((n - j + 1)*r*(n + j - 1))/(j - 1)**2
+          T(i,j) = r/(i + j - 1)
+          T(j,i) = T(i,j)
 10    continue
       return
       end
 
 c calculate hilbert matrix Hstar
       subroutine hil(n, Hstar)
-      dimension Hstar(30, 30)
-      do 10 i = 1, n
-        do 10 j = 1, n
-          Hstar(i, j) = 1.0 / (i + j - 1.0)
+      dimension Hstar(30,30)
+      do 10 i = 1,n
+        do 10 j = 1,n
+          Hstar(i,j) = 1.0/(i + j - 1.0)
 10    continue
       return
       end
 
-c print matrix similar to inverse hilbert T
-      subroutine print1(n, T)
-      dimension T(30, 30)
-      write (5,1)
-      write (5, 10) ((T(i, j), j = 1, n), i = 1, n)
-1     format(1h )
-10    format(6f12.2)
-      return
-      end
-
-c print matrix similar to hilbert H
-      subroutine print2(n, H)
-      dimension H(30, 30)
-      write (5,1)
-      write (5, 10) ((H(i, j), j = 1, n), i = 1, n)
-1     format(1h )
-10    format(6f12.8)
-      return
-      end

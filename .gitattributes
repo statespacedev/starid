@@ -1,6 +1,6 @@
 libstarid/include/** linguist-vendored
-simplex/la04/** linguist-vendored
-simplex/la01/** linguist-vendored
+docs/la04/** linguist-vendored
+docs/la01/** linguist-vendored
 *.sh linguist-vendored
 *.RNO linguist-vendored
 *.RNH linguist-vendored
