@@ -1,4 +1,5 @@
 {
+    "editor.rulers": [6,72],
     "fortran.fortls.disabled": true,
     "window.density.editorTabHeight": "compact"
 }

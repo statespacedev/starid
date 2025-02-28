@@ -179,10 +179,10 @@ c forward and backward substitution to solve for x from ULx = b
 
 c singular matrix messages
       subroutine sing(iwhy)
-11    format(54homatrix with zero row in decompose                    )
-12    format(54hosingular matrix in decompose, zero divide in solve   )
-13    format(54hono convergence in impruv, matrix is nearly singular  )
-      nout = 6
+      common /env/ nout
+11    format(54h0matrix with zero row in decompose                    )
+12    format(54h0singular matrix in decompose, zero divide in solve   )
+13    format(54h0no convergence in impruv, matrix is nearly singular  )
       go to (1,2,3), iwhy
 1     write (nout,11)
       go to 10

@@ -30,3 +30,18 @@ row equations
 - 100 <= x1 <= 150
 
 where all x >= 0, x4 <= 20, x5 <= 10, u1 is to be maximized
+
+# code cold storage area
+
+function feas = isfeas(itr, bh, vtyps)
+  feas = true;
+  for i = 1:5
+    b = itr(i,11);
+    vt = vtyps(bh(i));
+    if vt == 1
+      if b < 0 || b > 1, feas = false; end
+    elseif vt == 2
+      if b < 0, feas = false; end
+    end
+  end
+end
