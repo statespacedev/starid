@@ -1,0 +1,81 @@
+$JOB           SMPLX
+$EXECUTE       IBJOB
+$IBJOB         MAP                                               
+$IBFTC DECK1   NOLIST,NODD,NODECK
+C MAIN PROGRAM
+      INTEGER VTYPS, ATBOU, BH
+      DIMENSION VTYPS(10), ATBOU(10), BH(5), TAB(5,11) 
+      NOUT = 6
+      CALL INIT(VTYPS, ATBOU, BH, TAB)
+      CALL UPDT(TAB, BH, 6, 5)
+      CALL UPDT(TAB, BH, 8, 3)
+      CALL UPDT(TAB, BH, 10, 2)
+      ATBOU(10) = 1
+      TAB(2,11) = TAB(2,11) - 1
+      CALL UPDT(TAB, BH, 5, 2)
+      WRITE(NOUT,10) ((TAB(I,J), J = 1,11), I = 1,5)
+10    FORMAT(11F8.2)
+      END
+C UPDATE TABLEAU 
+      SUBROUTINE UPDT(TABB, BH, COL, PIV)
+      INTEGER COL, PIV, BH
+      DIMENSION BH(5), EIM(5,5), TABB(5,11), TABA(5,11)
+      BH(PIV) = COL
+      TABA = TABB
+      DO 10 J = 1,5
+        DO 10 I = 1,5
+          EIM(I,J) = 0
+          IF (I.EQ.J) EIM(I,J) = 1
+          IF (J.NE.PIV) GO TO 10
+          IF (I.NE.PIV) EIM(I,J) = -TABA(I,COL) / TABA(PIV,COL)
+          IF (I.EQ.PIV) EIM(I,J) = 1 / TABA(PIV,COL)
+10        CONTINUE
+      DO 20 J = 1,11
+        DO 20 I = 1,5
+          TABB(I,J) = 0
+          DO 15 K = 1,5
+15          TABB(I,J) = TABB(I,J) + EIM(I,K)*TABA(K,J)
+20    CONTINUE
+      RETURN
+      END
+C INITIAL
+      SUBROUTINE INIT(VTYPS, ATBOU, BH, TAB)
+      INTEGER VTYPS, ATBOU, BH
+      DIMENSION VTYPS(10), ATBOU(10), BH(5), TAB(5,11)
+      DO 10 I = 1,10
+      ATBOU(I) = 0
+10    VTYPS(I) = 2
+      VTYPS(1) = 3
+      VTYPS(5) = 1
+      VTYPS(9) = 1
+      VTYPS(10) = 1
+      DO 20 I = 1,5
+20    BH(I) = I
+      DO 30 J = 1,11
+        DO 30 I = 1,5
+30        TAB(I,J) = 0
+      DO 40 I = 1,5
+40      TAB(I,I) = 1
+      TAB(1,6) = -5.4
+      TAB(2,6) = .5
+      TAB(3,6) = .25
+      TAB(4,6) = -1
+      TAB(5,6) = .02
+      TAB(1,7) = -7.3
+      TAB(3,7) = .5
+      TAB(4,7) = 1
+      TAB(1,8) = -12.96
+      TAB(2,8) = .6
+      TAB(3,8) = .6
+      TAB(1,9) = 120
+      TAB(2,9) = -20
+      TAB(1,10) = 90
+      TAB(3,10) = -10
+      TAB(1,11) = -800
+      TAB(2,11) = 80
+      TAB(3,11) = 40
+      TAB(5,11) = 3
+      RETURN
+      END
+$IBSYS
+$STOP
