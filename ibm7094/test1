@@ -1,0 +1,13 @@
+$JOB           SMPLX
+$EXECUTE       IBJOB
+$IBJOB         MAP                                               
+$IBFTC DECK1   NOLIST,NODD,NODECK
+C MAIN PROGRAM
+      I = 123
+      PRINT 10, I
+10    FORMAT(1I)
+      STOP
+      END
+~
+$IBSYS
+$STOP

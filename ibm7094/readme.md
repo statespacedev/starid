@@ -34,7 +34,7 @@ file job1.job example
 
 tape
 
-    mkbcdtape -o sysin.tp job1.job
+    ./mkbcdtape -o sysin.tp job1.job
 
 file base.ini for running tape job
 
@@ -65,7 +65,7 @@ file base.ini for running tape job
 
 tape output
 
-    listtape sysou1.tp
+    ./listtape sysou1.tp
 
 submit job via card reader
 

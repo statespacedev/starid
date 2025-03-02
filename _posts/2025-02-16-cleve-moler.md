@@ -7,7 +7,7 @@ the interview below comes to mind repeatedly. insistently even. it's time to beg
 
 it's time to get back to basics and keep things real. this project is about linear algebra the way engineers, fortran, and computers up thru the f66 era do it. a vector is a column of m floats, with row one at the top and row m at the bottom. a matrix is a group of column vectors, with row one at the top and row m at the bottom, and column one at the left and column n at the right. loops and gotos do the job, and do it right. a stack is irrelevant. there's no role for recursion. lists, virtual machines, memory safety, 'computer science' academic generalizations, and 'hacker' esoterica are simply friction, at best.
 
-this all leads back to matlab for project simplex. it was the standard day to day environment for over ten years while doing aerospace engineering. that was ten years ago, and it's a good time to check back in on it after ten of years of python. from an initial look, it's apparently even more popular and established in the engineering world. no surprise at all. it will be interesting to compare matlab, python, and fortran now, from 'the future'.
+this all leads back to matlab for project simplex. it was the standard day to day environment for over ten years while doing aerospace engineering. that was ten years ago, and it's a good time to check back in on it after ten years of python. from an initial glance, it's apparently even more popular and established in the engineering world. no surprise at all. it'll be interesting to compare matlab, python, and fortran now, from 'the future'.
 
 -------------------------------------
 An interview with

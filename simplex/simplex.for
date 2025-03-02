@@ -8,7 +8,7 @@ c main program
       call updt(tab, bh, 8, 3)
       call updt(tab, bh, 10, 2)
       atbou(10) = 1
-      tab(2,11) = tab(2,11) - 1
+      tab(2,11) = tab(2,11) - 1.0
       call updt(tab, bh, 5, 2)
       write(nout,10) ((tab(i,j), j = 1,11), i = 1,5)
 10    format(11f8.2)

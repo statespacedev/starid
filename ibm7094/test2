@@ -1,0 +1,11 @@
+$EXECUTE       FORTRAN
+$BLOCK         BCD,0084
+*     XEQ
+C MAIN PROGRAM
+10    FORMAT(5HHELLO)
+      PRINT 10
+      CALL EXIT
+      END
+~
+$IBSYS
+$STOP

@@ -11,10 +11,11 @@ C MAIN PROGRAM
       CALL UPDT(TAB, BH, 8, 3)
       CALL UPDT(TAB, BH, 10, 2)
       ATBOU(10) = 1
-      TAB(2,11) = TAB(2,11) - 1
+      TAB(2,11) = TAB(2,11) - 1.0
       CALL UPDT(TAB, BH, 5, 2)
       WRITE(NOUT,10) ((TAB(I,J), J = 1,11), I = 1,5)
 10    FORMAT(11F8.2)
+      STOP
       END
 C UPDATE TABLEAU 
       SUBROUTINE UPDT(TABB, BH, COL, PIV)
@@ -77,5 +78,6 @@ C INITIAL
       TAB(5,11) = 3
       RETURN
       END
+~
 $IBSYS
 $STOP
