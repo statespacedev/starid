@@ -3,9 +3,9 @@ $EXECUTE       IBJOB
 $IBJOB         MAP                                               
 $IBFTC DECK1   NOLIST,NODD,NODECK
 C MAIN PROGRAM
-      I = 123
+      I = 1234
       PRINT 10, I
-10    FORMAT(1I)
+10    FORMAT(I5)
       STOP
       END
 ~
