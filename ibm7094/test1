@@ -6,6 +6,8 @@ C MAIN PROGRAM
       I = 1234
       PRINT 10, I
 10    FORMAT(I5)
+      PRINt 20
+20    FORMAT(6H0HELLO)
       STOP
       END
 ~

@@ -13,8 +13,11 @@ C MAIN PROGRAM
       ATBOU(10) = 1
       TAB(2,11) = TAB(2,11) - 1.0
       CALL UPDT(TAB, BH, 5, 2)
-      WRITE(NOUT,10) ((TAB(I,J), J = 1,11), I = 1,5)
-10    FORMAT(11F8.2)
+      I = 1234
+      PRINT 10, I
+10    FORMAT(I5)
+C      PRINT 10, ((TAB(I,J), J = 1,11), I = 1,5)
+C10    FORMAT(11F8.2)
       STOP
       END
 C UPDATE TABLEAU 
