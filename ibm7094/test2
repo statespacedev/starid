@@ -1,13 +1,13 @@
-$JOB           SMPLX
-$EXECUTE       FORTRAN
-$BLOCK         BCD,0084
-*     XEQ
-C MAIN PROGRAM
-      I = 1234
-      PRINT 10, I
-10    FORMAT(I5)
-      CALL EXIT
-      END
+$job           smplx
+$execute       fortran
+$block         bcd,0084
+*     xeq
+c main program
+      i = 1234
+      print 10, i
+10    format(i5)
+      call exit
+      end
 ~
-$IBSYS
-$STOP
+$ibsys
+$stop

@@ -1,13 +1,13 @@
-$JOB           LIST CONFIGURATION OF SYSTEM
-$UNITS
-$IBSYS
-$IBEDT
-      *EDIT    MAP
+$job           list configuration of system
+$units
+$ibsys
+$ibedt
+      *edit    map
 ~
-$IBSYS
-$EXECUTE       IBJOB
-$IBJOB IBLIB   NOGO,LOGIC,MAP
-$EDIT          LOGIC
+$ibsys
+$execute       ibjob
+$ibjob iblib   nogo,logic,map
+$edit          logic
 ~
-$IBSYS
-$STOP
+$ibsys
+$stop

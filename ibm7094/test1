@@ -1,15 +1,15 @@
-$JOB           SMPLX
-$EXECUTE       IBJOB
-$IBJOB         MAP                                               
-$IBFTC DECK1   NOLIST,NODD,NODECK
-C MAIN PROGRAM
-      I = 1234
-      PRINT 10, I
-10    FORMAT(I5)
-      PRINt 20
-20    FORMAT(6H0HELLO)
-      STOP
-      END
+$job           smplx
+$execute       ibjob
+$ibjob         map                                               
+$ibftc deck1   nolist,nodd,nodeck
+c main program
+      i = 1234
+      print 10, i
+10    format(i5)
+      print 20
+20    format(6h0hello)
+      stop
+      end
 ~
-$IBSYS
-$STOP
+$ibsys
+$stop
