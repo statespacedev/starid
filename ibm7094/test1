@@ -1,15 +1,20 @@
 $job           test1
 $execute       ibjob
 $ibjob         map                                               
-$ibftc deck1   nolist,nodd,nodeck
+$ibftc deck1   list,dd,nodeck,m94
 c main program
-      i = 2 + 2
-      i = i + 1000
-      print 10, i
-c      write(6,10) i
-10    format(i5)
-      print 20
-20    format(11h0helloworld)
+      integer i
+      real x, y, x2, y2
+10    format (2f10.5)
+      y = .00225
+      x = sqrt(1. - y**2)
+      do 20 i=1,11
+      print 10, x, y
+      x2 = x**2 - y**2
+      y2 = 2. * x * y
+      x = x2
+      y = y2
+20    continue
       stop
       end
 ~
