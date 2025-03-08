@@ -1,11 +1,14 @@
-$job           smplx
+$job           test2
 $execute       fortran
 $block         bcd,0084
 *     xeq
 c main program
-      i = 1234
-      print 10, i
-10    format(i5)
+c      i = 1234
+c      print 10, i
+c      write(6,10), 3456
+c10    format(i5)
+      print 20
+20    format(6h0hello)
       call exit
       end
 ~

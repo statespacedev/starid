@@ -1,0 +1,5 @@
+#!/bin/bash
+./mkbcdtape -o test.tp -b1 -r84 test2
+./i7090 tape-boot.ini | tr -d '\r' | grep -v '^$' | grep -v 'SIM-INFO'
+./listtape sysou1.tp
+
