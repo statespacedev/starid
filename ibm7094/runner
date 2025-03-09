@@ -1,8 +1,18 @@
 #!/bin/bash
 
-source=algebra1.for
+source=../algebra/algebra.for
 
-./mkbcdtape -o job.tp -b1 -r84 $source
+echo "\$job           job1" > job
+echo "\$execute       ibjob" >> job
+echo "\$ibjob         map" >> job
+echo "\$ibftc deck1   list,dd,nodeck,m94" >> job
+cat $source >> job
+echo "~" >> job
+echo "\$ibsys" >> job
+echo "\$stop" >> job
+sed -i -e 's/nout = 6/nout = 7/g' job
+
+./mkbcdtape -o job.tp -b1 -r84 job
 
 ./i7090 runner.ini | tr -d '\r' | grep -E -v '^$|SIM-INFO'
 
