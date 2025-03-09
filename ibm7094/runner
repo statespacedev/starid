@@ -1,0 +1,11 @@
+#!/bin/bash
+
+source=algebra1.for
+
+./mkbcdtape -o job.tp -b1 -r84 $source
+
+./i7090 runner.ini | tr -d '\r' | grep -E -v '^$|SIM-INFO'
+
+./listtape sysou1.tp | grep -E -v 'to big'
+
+./listtape -a sysou2.tp | grep -E -v '0000000|to big'

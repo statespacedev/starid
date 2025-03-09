@@ -10,6 +10,7 @@ c main program
       x = sqrt(1. - y**2)
       do 20 i=1,11
       print 10, x, y
+      write (7,10) x, y
       x2 = x**2 - y**2
       y2 = 2. * x * y
       x = x2
