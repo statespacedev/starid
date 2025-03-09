@@ -9,6 +9,9 @@ google_analytics: G-W7B7DSQKFD
 remote_theme: jekyll/minima
 minima:
   skin: dark
+  nav_pages:
+    - docs/about.md
+    - docs/photos.md
 header_pages:
   - docs/about.md
   - docs/photos.md
