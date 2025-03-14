@@ -6,8 +6,9 @@ it can be implemented in python first. the trick is to make the python as releva
 
 # descending in time
 
-- smpl2, 'revised' simplex, chapter four of alp
 - smpl1, this is the alp chapter 3.5 example worked exactly as it appears in the book. pre 'revised' simplex
+- smpl2, 'revised' simplex, chapter four of alp. the full tableau is not updated, the original serves as a kind of constant. instead, the beta column 'right hand side' is updated. and new eta vectors are generated and ready for 'storage on tape'. each eta updates / maintains the inverse matrix. the inverse matrix is used to transform incoming columns, which has the same end effect as the 'tape based' ftran routine.
+-smpl3, tape based ftran for transforming incoming columns. tape is emulated by storing pivot value and eta column pairs left to right in a matrix.
 
 # widget problem
 

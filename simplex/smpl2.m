@@ -9,25 +9,31 @@ tab = [
     0   0   0   1   0   -1      1       0       0       0       0
     0   0   0   0   1   .02     0       0       0       0       3];
 bh = [1 2 3 4 5];
+im = eye(5);
+global tab bh im;
 
 # update tableau
-function [tab, bh] = updt(tab, bh, col, piv)
+function beta = updt(beta, col, piv)
+  global tab bh im;
   bh(piv) = col
-  eim = eye(5);
+  alpha = im*tab(:,col); # this is effectively ftran
   eta = zeros(5,1);
   for i = 1:5
-    if i != piv, eta(i) = -tab(i,col) / tab(piv,col);
-    else, eta(i) = 1 / tab(piv,col); end
+    if i != piv, eta(i) = -alpha(i) / alpha(piv);
+    else, eta(i) = 1 / alpha(piv); end
   end
+  eim = eye(5);
   eim(:,piv) = eta;
-  tab = eim*tab;
+  im = eim*im;
+  beta = eim*beta;
 end
 
 # main program
-[tab, bh] = updt(tab, bh, 6, 5);
-[tab, bh] = updt(tab, bh, 8, 3);
-[tab, bh] = updt(tab, bh, 10, 2);
+beta0 = tab(:,11);
+beta1 = updt(beta0, 6, 5);
+beta2 = updt(beta1, 8, 3);
+beta3 = updt(beta2, 10, 2);
 atbou(10) = 1;
-tab(2,11) = tab(2,11) - 1;
-[tab, bh] = updt(tab, bh, 5, 2)
+beta3(2) = beta3(2) - 1;
+beta4 = updt(beta3, 5, 2)
 
