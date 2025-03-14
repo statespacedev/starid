@@ -1,9 +1,15 @@
-project simplex
-===============
+# project simplex
 
 go backwards in time, starting from the mid sixties, and get hands on with a very small business problem using linear programming on an ibm 7094 computer. the widget problem of alp 3.5 seems ideal since it is explicitly solved there in tableau form. it only takes four iterations and every operation is easily checked against code implementations.
 
-it can be implemented in python first. the trick is to make the python as relevant as possible to f66 on pdp-10 and 7094. the ultimate implementation in 7094 f66 should use simh emulated mag tape to store pfi product form of inverse eta columns for use in ftran and btran.
+it can be implemented in python first. the trick is to make the python as relevant as possible to f66 on pdp-10 and 7094. the ultimate implementation in 7094 f66 should use simh emulated mag tape to store pfi product form of inverse eta columns for use in ftran and btran. but python is too annoying for linear algebra, for now a return to matlab makes sense.
+
+# descending in time
+
+- smpl2, 'revised' simplex, chapter four of alp
+- smpl1, this is the alp chapter 3.5 example worked exactly as it appears in the book. pre 'revised' simplex
+
+# widget problem
 
 five activities x1 to x5 and five columns of the tableau
 
