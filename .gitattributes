@@ -1,6 +1,8 @@
-libstarid/include/** linguist-vendored
+
 docs/la04/** linguist-vendored
 docs/la01/** linguist-vendored
+libstarid/include/** linguist-vendored
+
 *.sh linguist-vendored
 *.RNO linguist-vendored
 *.RNH linguist-vendored

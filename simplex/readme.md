@@ -1,16 +1,16 @@
 # project simplex
 
-go backwards in time, starting from the mid sixties, and get hands on with a very small business problem using linear programming on an ibm 7094 computer. the widget problem of alp 3.5 seems ideal since it is explicitly solved there in tableau form. it only takes four iterations and every operation is easily checked against code implementations.
+go backwards in time, starting from the mid sixties, and get hands on with a very small business problem using linear programming on an ibm 7094 computer. the [widget problem](https://github.com/statespacedev/starid/discussions/4) of alp chapter three seems ideal since it is explicitly solved in tableau form, only takes four iterations, and every operation is easily checked against code. the target is 7094 f66 using btran, ftran, and simh emulated mag tape to store pfi product form of inverse eta columns. for more modern code, python linear algebra is simply annoying, while matlab's 'fortran-osity' provokes spontaneous bouts of smiling. 
 
-it can be implemented in python first. the trick is to make the python as relevant as possible to f66 on pdp-10 and 7094. the ultimate implementation in 7094 f66 should use simh emulated mag tape to store pfi product form of inverse eta columns for use in ftran and btran. but python is too annoying for linear algebra, for now a return to matlab makes sense.
+at first, the incoming column and pivot row numbers for each iteration are simply taken 'as is' from alp chapter three for each iteration. this makes the skeletal mechanism of the 'revised' simplex more apparent. for example, it's possible to say that the first column of the tableau is untouched. it will become apparent later that the 'pricing' mechanism for choosing incoming columns does indirectly touch column one, but at first this can be swept under the carpet.
 
-# descending in time
+smpl1 - alp chapter three example, worked exactly as it appears in the book. pre 'revised' simplex. the entire tableau is updated in each iteration. column one of the tableau is a unit vector that never directly plays a role in the four iterations needed, but it's touched in each iteration, with potential numerical issues.
 
-- smpl1, this is the alp chapter 3.5 example worked exactly as it appears in the book. pre 'revised' simplex
-- smpl2, 'revised' simplex, chapter four of alp. the full tableau is not updated, the original serves as a kind of constant. instead, the beta column 'right hand side' is updated. and new eta vectors are generated and ready for 'storage on tape'. each eta updates / maintains the inverse matrix. the inverse matrix is used to transform incoming columns, which has the same end effect as the 'tape based' ftran routine.
--smpl3, tape based ftran for transforming incoming columns. tape is emulated by storing pivot value and eta column pairs left to right in a matrix.
+smpl2 - 'revised' simplex, chapter four of alp. the full tableau is not updated, the original serves as a kind of constant. instead, the beta column 'right hand side' is updated using the basis inverse. new eta vectors are generated and ready for 'storage on tape'. each eta is a column of the basis inverse. the basis inverse is also used to transform incoming columns, which has the same end effect as the 'tape based' ftran routine. the first column is never touched.
 
-# widget problem
+smpl3 - tape based ftran for transforming incoming columns. tape is emulated by storing pivot value and eta column pairs left to right in a matrix. this revised simplex mechanism is approaching what was used in the late fifties and early sixties. only the 'right hand side' beta vector is maintained across iterations. the basis inverse is stored as eta vectors 'on tape'.
+
+# widget problem of alp chapter three
 
 five activities x1 to x5 and five columns of the tableau
 
