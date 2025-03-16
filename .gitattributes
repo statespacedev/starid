@@ -7,7 +7,18 @@ libstarid/include/** linguist-vendored
 *.RNO linguist-vendored
 *.RNH linguist-vendored
 *.do linguist-vendored
+*.c linguist-vendored
+*.h linguist-vendored
 *.COM linguist-vendored
 *.CMD linguist-vendored
 *.html linguist-vendored
 *.MAC linguist-language=Assembly
+
+fort10v6.do linguist-vendored
+TO.DO linguist-vendored
+fort10.do linguist-vendored
+decwar.do linguist-vendored
+initload.do linguist-vendored
+refresh.do linguist-vendored
+kermit.do linguist-vendored
+mongen.do linguist-vendored
