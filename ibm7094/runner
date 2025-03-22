@@ -3,14 +3,9 @@
 source=../algebra/algebra.for
 # source=../inverse/inverse.for
 
-echo "\$job           job1" > job
-echo "\$execute       ibjob" >> job
-echo "\$ibjob         map" >> job
-echo "\$ibftc deck1   list,dd,nodeck,m94" >> job
-cat $source >> job
-echo "~" >> job
-echo "\$ibsys" >> job
-echo "\$stop" >> job
+cat $source > job
+sed -i -e 's/c\$/\$/g' job
+sed -i -e 's/c~/~/g' job
 sed -i -e 's/nout = 6/nout = 7/g' job
 sed -i -e 's/write (nout/write (7/g' job
 
@@ -20,6 +15,6 @@ rm sys*
 
 ./i7090 runner.ini | tr -d '\r' | grep -E -v '^$|SIM-INFO'
 
-./listtape sysou1.tp | grep -E -v 'to big'
+#./listtape sysou1.tp
 
-./listtape -a syspp1.tp | grep -E -v '0000000|to big'
+./listtape -a syspp1.tp | grep '^OUT'
