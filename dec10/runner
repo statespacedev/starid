@@ -1,8 +1,9 @@
 #!/bin/bash
 
-source=../algebra/algebra.for
+# source=../algebra/algebra.for
+source=../inverse/inverse.for
 
-cat $source >> job.for
+cat $source > job.for
 sed -i -e 's/nout = 6/nout = 5/g' job.for
 ./back10 -cf ./job.tap job.for
 ./back10 -lf ./job.tap
