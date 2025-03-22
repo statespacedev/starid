@@ -17,5 +17,6 @@ header_pages:
   - docs/photos.md
 include:
   - .well-known
+exclude: ['data', 'docs/images', 'docs/images2', 'docs/papers', 'docs/archives', 'docs/inverse', 'docs/data_commandeur_koopman', 'docs/data_durbin_koopman', 'docs/la01', 'docs/la04', 'docs/toolbox_grewal_andrews', 'docs/toolbox_merwe', 'decwar', 'dec10', 'ibm7094']
 show_drafts: false
 permalink: none
