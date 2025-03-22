@@ -1,9 +1,13 @@
+$job           job1
+$execute       ibjob
+$ibjob         map
+$ibftc deck1   list,dd,nodeck,m94
 c main program
       dimension H(30,30), Ha(30,30), Hb(30,30)
       dimension T(30,30), Ta(30,30), Tb(30,30), ips(30)
       common ips
       common /env/ nout, n
-      nout = 6
+      nout = 7
       n = 6
       call invhil(n, T)
       call hil(n, H)
@@ -21,29 +25,29 @@ c main program
       call print1(T)
       stop
       end
-
+$ibftc deck2
 c print matrix similar to inverse hilbert T
       subroutine print1(T)
       common /env/ nout, n
       dimension T(30,30)
-      write (nout,1)
-      write (nout,10) ((T(i,j), j = 1,n), i = 1,n)
+      write (7,1)
+      write (7,10) ((T(i,j), j = 1,n), i = 1,n)
 1     format(1h )
 10    format(6f12.2)
       return
       end
-
+$ibftc deck3
 c print matrix similar to hilbert H
       subroutine print2(H)
       common /env/ nout, n
       dimension H(30,30)
-      write (nout,1)
-      write (nout,10) ((H(i,j), j = 1,n), i = 1,n)
+      write (7,1)
+      write (7,10) ((H(i,j), j = 1,n), i = 1,n)
 1     format(1h )
 10    format(6f12.8)
       return
       end
-
+$ibftc deck4
 c for the lu decomposition, calculate the actual inverse matrix
       subroutine invert(n, A, Ainv, imp)
       dimension UL(30,30), A(30,30), Ainv(30,30), b(30), x(30)
@@ -61,8 +65,8 @@ c for the lu decomposition, calculate the actual inverse matrix
 10    continue      
       return
       end
-
-c iterative improvement. residuals are small and have to be calculated in double precision
+$ibftc deck5
+c iterative improvement. residuals are small and have to be 
       subroutine impruv(n, A, UL, b, x)
       dimension UL(30,30), A(30,30), b(30), x(30), r(30), dx(30)
       double precision sum, t1, t2
@@ -97,7 +101,7 @@ c iterative improvement. residuals are small and have to be calculated in double
       call sing(3)
 10    return
       end
-
+$ibftc deck6
 c lower upper lu decomposition of matrix
       subroutine decomp(n, A, UL)
       dimension A(30,30), UL(30,30), scales(30), ips(30)
@@ -149,7 +153,7 @@ c lower upper lu decomposition of matrix
 18    call sing(2)
 19    return
       end
-
+$ibftc deck7
 c forward and backward substitution to solve for x from ULx = b
       subroutine solve(n, UL, b, x)
       dimension UL(30,30), ips(30), b(30), x(30)
@@ -176,7 +180,7 @@ c forward and backward substitution to solve for x from ULx = b
 4     x(i) = (x(i) - sum)/UL(ip,i)
       return
       end
-
+$ibftc deck8
 c singular matrix messages
       subroutine sing(iwhy)
       common /env/ nout
@@ -191,7 +195,7 @@ c singular matrix messages
 3     write (nout,13)
 10    return
       end
-
+$ibftc deck9
 c calculate ideal inverse hilbert matrix T
       subroutine invhil(n, T)
       dimension T(30,30)
@@ -210,14 +214,16 @@ c calculate ideal inverse hilbert matrix T
 10    continue
       return
       end
-
+$ibftc deck10
 c calculate hilbert matrix Hstar
       subroutine hil(n, Hstar)
       dimension Hstar(30,30)
       do 10 i = 1,n
         do 10 j = 1,n
-          Hstar(i,j) = 1.0/(i + j - 1.0)
+          Hstar(i,j) = 1/(i + j - 1)
 10    continue
       return
       end
-
+~
+$ibsys
+$stop

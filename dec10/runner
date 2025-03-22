@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# source=../algebra/algebra.for
-source=../inverse/inverse.for
+source=../algebra/algebra.for
+# source=../inverse/inverse.for
 
 cat $source > job.for
 sed -i -e 's/nout = 6/nout = 5/g' job.for

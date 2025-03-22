@@ -1,6 +1,7 @@
 #!/bin/bash
 
 source=../algebra/algebra.for
+# source=../inverse/inverse.for
 
 echo "\$job           job1" > job
 echo "\$execute       ibjob" >> job
@@ -11,11 +12,14 @@ echo "~" >> job
 echo "\$ibsys" >> job
 echo "\$stop" >> job
 sed -i -e 's/nout = 6/nout = 7/g' job
+sed -i -e 's/write (nout/write (7/g' job
 
+rm job.tp
+rm sys*
 ./mkbcdtape -o job.tp -b1 -r84 job
 
 ./i7090 runner.ini | tr -d '\r' | grep -E -v '^$|SIM-INFO'
 
 ./listtape sysou1.tp | grep -E -v 'to big'
 
-./listtape -a sysou2.tp | grep -E -v '0000000|to big'
+./listtape -a syspp1.tp | grep -E -v '0000000|to big'

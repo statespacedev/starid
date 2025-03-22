@@ -1,0 +1,14 @@
+$job           job1
+$execute       ibjob
+$ibjob         map
+$ibftc deck1   list,dd,nodeck,m94
+c main program
+      j = 1234
+      print 20
+      write (7,20)
+20    format(6h0hello)
+      stop
+      end
+~
+$ibsys
+$stop
