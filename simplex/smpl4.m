@@ -75,4 +75,4 @@ beta3 = updt(beta2, 10, 2);
 atbou(10) = 1;
 beta3(2) = beta3(2) - 1;
 beta4 = updt(beta3, 5, 2)
-
+exit

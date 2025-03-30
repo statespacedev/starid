@@ -1,7 +1,8 @@
-i7090
+ibm7094
 *.tp
 listtape
 mkbcdtape
 mkdeck
 syspun.crd
 job
+*.tar.gz

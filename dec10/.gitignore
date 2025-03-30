@@ -6,7 +6,10 @@ tapes/
 *.tap
 *.log
 
-pdp10-kl
+dec10
+dec10blinken
+dec10test
+
 back10
-dec10.tar.gz
+*.tar.gz
 test

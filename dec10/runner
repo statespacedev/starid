@@ -8,5 +8,5 @@ sed -i -e 's/nout = 6/nout = 5/g' job.for
 ./back10 -cf ./job.tap job.for
 ./back10 -lf ./job.tap
 
-./pdp10-kl runner.ini
+./dec10 runner.ini
 

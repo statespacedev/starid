@@ -18,7 +18,11 @@ tape is emulated by storing pivot value and eta column pairs left to right in a 
 
 ## smpl4, tape based btran for transforming columns into prices
 
-early in each revised simplex iteration, the updated first row values at particular columns are needed. these are the 'prices' of those particular columns. profit is increased by bringing a column with a negative price into the basis. for a particular column, the updated price is the dot product with the first row of the basis inverse. btran is a mechanism to perform these dot products. the first row of the basis inverse comes from the eta columns on tape. the tape and eta columns are read backwards, conveniently reversing back through the previous iteration's ftran.
+early in each revised simplex iteration, the updated first row values at particular columns are needed. these are the 'prices' of those particular columns. profit is increased by bringing a column with a negative price into the basis. for a particular column, the updated price is the dot product with the first row of the basis inverse. btran is a mechanism to pderform these dot products. the first row of the basis inverse comes from the eta columns on tape. the tape and eta columns are read backwards, conveniently reversing back through the previous iteration's ftran.
+
+## smpl5, pricing and choice of incoming vector
+
+up until now, the choice of incoming vector was a given, and so it wasn't necessary to perform pricing. now that btran is available, do perform pricing and use that to choose an incoming vector.
 
 # widget problem of alp chapter three
 
