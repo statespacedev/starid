@@ -1,6 +1,6 @@
 # project simplex
 
-go backwards in time, starting from the mid sixties, and get hands on with a very small business problem using linear programming on an ibm 7094 computer. the [widget problem](https://github.com/statespacedev/starid/discussions/4) of alp chapter three seems ideal since it'ss explicitly solved in tableau form, only takes four iterations, and every operation is easily checked against code. the target is 7094 f66 using btran, ftran, and simh emulated mag tape to store pfi product form of inverse eta columns. for more modern code, python linear algebra is simply annoying, while matlab's 'fortran-osity' provokes spontaneous bouts of smiling. 
+go backwards in time, starting from the mid sixties, and get hands on with a very small business problem using linear programming on an ibm 7094 computer. the [widget problem](https://github.com/statespacedev/starid/discussions/4) of alp chapter three seems ideal since it's explicitly solved in tableau form, only takes four iterations, and every operation is easily checked against code. the target is 7094 f66 using btran, ftran, and simh emulated mag tape to maintain the basis inverse as pfi product form of inverse eta columns. for more modern code, python linear algebra is simply annoying, while matlab's 'fortran-osity' provokes spontaneous bouts of smiling. 
 
 at first, the incoming column and pivot row numbers for each iteration are simply taken 'as is' from alp chapter three for each iteration. this makes the skeletal mechanism of the revised simplex, ftran, and btran more apparent.
 
