@@ -81,7 +81,7 @@ function fvec = prcfrm(beta)
 end
 
 # choose incoming column
-function col = choscol(prices)
+function col = chscol(prices)
   global status;
   min = 0;
   col = 0;
@@ -101,7 +101,7 @@ function beta = itr(beta, piv)
   fvec = prcfrm(beta); # pricing form f
   pie = btran(fvec); # pricing vector pi, symbol pi is reserved
   prices = pie*tablu;
-  col = choscol(prices)
+  col = chscol(prices)
   # choose piv for outgoing
 
   status(piv) = 0
