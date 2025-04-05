@@ -7,11 +7,11 @@ tablu = [
     0   0   0   1   0   -1      1       0       0       0       0
     0   0   0   0   1   .02     0       0       0       0       3];
 vtyps = [3 2 2 2 1 2 2 2 1 1]; # variable types
-atbou = [0 0 0 0 0 0 0 0 0 0]; # variables at bound
+status = [1 1 1 1 1 0 0 0 0 0]; # 1 for in basis, 2 for at bound
 bahead = [1 2 3 4 5]; # basis heading
 tapem = zeros(6,10); # tape matrix for columns left to right
 tapeof = 0; # last column on tape
-global tablu bahead tapem tapeof atbou vtyps;
+global tablu bahead tapem tapeof status vtyps;
 
 # tape based backward transform of pricing vector pi
 function pie = btran(fvec)
@@ -50,6 +50,19 @@ function ei = tapew(piv, eta)
   ei(:,piv) = eta;
 end
 
+# update tableau
+function beta = updtab(beta, col, piv)
+  global tablu;
+  alpha = ftran(tablu(:,col));
+  eta = zeros(5,1);
+  for i = 1:5
+    if i != piv, eta(i) = -alpha(i) / alpha(piv);
+    else, eta(i) = 1 / alpha(piv); end
+  end
+  ei = tapew(piv, eta);
+  beta = ei*beta;
+end
+
 # pricing form. depends on feasibility state.
 function fvec = prcfrm(beta)
   global bahead vtyps;
@@ -67,40 +80,44 @@ function fvec = prcfrm(beta)
   if !any(fvec), fvec(1) = 1; end
 end
 
-# update tableau
-function beta = updtab(beta, col, piv)
-  global tablu;
-  alpha = ftran(tablu(:,col));
-  eta = zeros(5,1);
-  for i = 1:5
-    if i != piv, eta(i) = -alpha(i) / alpha(piv);
-    else, eta(i) = 1 / alpha(piv); end
+# choose incoming column
+function col = choscol(prices)
+  global status;
+  min = 0;
+  col = 0;
+  for i = 1:10
+    if status(i) > 0, continue; end # in basis or at bound
+    if prices(i) < min
+      col = i;
+      min = prices(i);
+    end
   end
-  ei = tapew(piv, eta);
-  beta = ei*beta;
+  status(col) = 1;
 end
 
 # iteration of the revised simplex method
-function beta = itr(beta, col, piv)
-  global tablu bahead atbout;
-  # choose col for incoming
+function beta = itr(beta, piv)
+  global tablu bahead status;
   fvec = prcfrm(beta); # pricing form f
   pie = btran(fvec); # pricing vector pi, symbol pi is reserved
   prices = pie*tablu;
+  col = choscol(prices)
   # choose piv for outgoing
+
+  status(piv) = 0
+  bahead(piv) = col # update basis heading
   # handle at bounds
   if col == 5
-    atbou(10) = 1;
+    status(10) = 2;
     beta(2) = beta(2) - 1;
-  endif  
-  bahead(piv) = col # update basis heading
+  endif
   beta = updtab(beta, col, piv) # update tableau
 end
 
 # main program
 beta0 = tablu(:,11);
-beta1 = itr(beta0, 6, 5);
-beta2 = itr(beta1, 8, 3);
-beta3 = itr(beta2, 10, 2);
-beta4 = itr(beta3, 5, 2)
+beta1 = itr(beta0, 5);
+beta2 = itr(beta1, 3);
+beta3 = itr(beta2, 2);
+beta4 = itr(beta3, 2)
 exit
