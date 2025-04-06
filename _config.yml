@@ -1,20 +1,26 @@
 plugins:
   - jekyll-feed
+  - jekyll-remote-theme
 title: statespace.dev
-description: explorations
-author:
-  name: noah smith
-  email: noah@statespace.dev
+#description: statespace.dev
+#author:
+#  name: noah smith
+#  email: noah@statespace.dev
 google_analytics: G-W7B7DSQKFD
-remote_theme: jekyll/minima
+# pin to a git ref at https://github.com/jekyll/minima
+remote_theme: jekyll/minima@455b473
 minima:
   skin: dark
+  social_links:
+    - title: github
+      icon: github
+      url: "https://github.com/statespacedev/starid"
+    - title: linkedin
+      icon: linkedin
+      url: "https://www.linkedin.com/in/noahhsmith"
   nav_pages:
     - docs/about.md
     - docs/photos.md
-header_pages:
-  - docs/about.md
-  - docs/photos.md
 include:
   - .well-known
 exclude: ['data', 'docs/images', 'docs/images2', 'docs/papers', 'docs/archives', 'docs/inverse', 'docs/data_commandeur_koopman', 'docs/data_durbin_koopman', 'docs/la01', 'docs/la04', 'docs/toolbox_grewal_andrews', 'docs/toolbox_merwe', 'decwar', 'dec10', 'ibm7094']
