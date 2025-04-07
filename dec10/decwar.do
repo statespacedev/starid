@@ -3,7 +3,7 @@ expect "\r\n." send -t after=1000k "login 10,7\r"; continue
 ;expect "Create directory:" send "[,,decwar]/prot:755\r"; continue
 ;expect "Create directory:" send "\3"; continue
 
-expect "\r\n." send "r backup\r"; at %TAP%0 -r decwar.tap;  continue
+expect "\r\n." send "r backup\r"; at %TAP%0 -r tapes/decwar.tap;  continue
 expect "\r\n/" send "tape mta0:\r"; continue
 expect "\r\n/" send "rewind\r"; continue
 expect "\r\n/" send "inter\r"; continue

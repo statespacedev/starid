@@ -24,6 +24,10 @@ early in each revised simplex iteration, the updated first row values at particu
 
 up until now, the choice of incoming vector was a given, and so it wasn't necessary to perform pricing. now that btran is available, do perform pricing and use that to choose an incoming vector.
 
+## smpl6, ratio test and choice of outgoing vector
+
+so far the outgoing vector was a given. it's now time to use the incoming column and the beta column to decide on a pivot value and therefore the outgoing column. first transform the incoming column from the original tableau using ftran. then for each relevant row, check the beta value divided by incoming value. this would be the new beta value. if it's not feasible, reject it. of those not rejected, choose the smallest. that row is the pivot row and outgoing column.
+
 # widget problem of alp chapter three
 
 five activities x1 to x5 and five columns of the tableau
