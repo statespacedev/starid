@@ -13,7 +13,7 @@ rm job.tp
 rm sys*
 ./mkbcdtape -o job.tp -b1 -r84 job
 
-./ibm7094 runner.ini | tr -d '\r' | grep -E -v '^$|SIM-INFO'
+./ibm7094 for-runner.ini | tr -d '\r' | grep -E -v '^$|SIM-INFO'
 
 #./listtape sysou1.tp
 

@@ -1,0 +1,16 @@
+#!/bin/bash
+
+source=./alg.map
+# source=../algebra/algebra.map
+
+cat $source > job
+
+rm job.tp
+rm sys*
+./mkbcdtape -o job.tp -b1 -r84 job
+
+./ibm7094 map-runner.ini | tr -d '\r' | grep -E -v '^$|SIM-INFO'
+
+./listtape sysou1.tp
+
+./listtape -a syspp1.tp | grep '^OUT'

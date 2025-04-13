@@ -1,0 +1,13 @@
+$job           job1
+$execute       ibjob
+$ibjob         
+$ibmap deck1   m94
+* main program
+start  cla  number,1
+       add  number,1
+       add  number,1
+number dec  1
+       end  start
+~
+$ibsys
+$stop
