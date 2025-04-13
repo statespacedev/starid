@@ -1,0 +1,13 @@
+$job           job1
+$execute       ibjob
+$ibjob         
+$ibmap deck1   m94
+start  wrs     1154         ;select octal 2202, decimal 1154  
+       rchb    a1           ;tx command in a1 to channel b 
+       wrs     1154
+       rchb    a1
+a1     iocd    0,,9         ;io command
+       end     start
+~
+$ibsys
+$stop

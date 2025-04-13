@@ -1,6 +1,8 @@
 #!/bin/bash
 
-source=../algebra/algebra.for
+# source=./test/test2.for
+source=./test/alg.for
+# source=../algebra/algebra.for
 # source=../inverse/inverse.for
 
 cat $source > job
@@ -15,6 +17,7 @@ rm sys*
 
 ./ibm7094 for-runner.ini | tr -d '\r' | grep -E -v '^$|SIM-INFO'
 
-#./listtape sysou1.tp
+./listtape sysou1.tp
 
-./listtape -a syspp1.tp | grep '^OUT'
+# ./listtape -a syspp1.tp | grep '^OUT'
+./listtape -a syspp1.tp
