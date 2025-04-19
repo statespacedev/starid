@@ -14,4 +14,4 @@ why does macro def need to be before use?
 
 able to write alphameric literal to tape
 
-# test2c.map
+# test2c.map, vfd pseudo op
