@@ -15,3 +15,5 @@ why does macro def need to be before use?
 able to write alphameric literal to tape
 
 # test2c.map, vfd pseudo op
+
+# test2d.map, macro with arg for incoming vfd word
