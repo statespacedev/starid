@@ -1,0 +1,20 @@
+$job           job1
+$execute       ibjob
+$ibjob         
+$ibmap deck1   m94
+start  cla  =hhello 
+       sto  5000
+con1   dec  1.234
+con2   bci  1, hello
+tap1   macro
+       wrs  1154
+       rchb ioc1
+       endm tap1
+       tap1          ; start of main
+       tap1
+       hpr           ; end of main
+ioc1   ioct con2,,1
+       end  start
+~
+$ibsys
+$stop

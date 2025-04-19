@@ -1,11 +1,17 @@
+what's the minimum tape writing for algebra.map?
 
-# test2.map is able to write something to tape
+be able to write to floats per tape record/line
 
-oct 21 is bcd 'a'
+# test2a.map, writing to tape, begin exps with macros
 
- N>000ATC9M6+J2'8/+L1Y000000007/000000000A0000000010020000005000016100027W05?
+why can't there be blank lines/cards?
 
-oct 22 is bcd 'b'
+why does the channel command ioct need to be after it is used?
 
- N>000ATC9M7+J2'8/+L1Y000000007/000000000B0000000010020000005000016100027W05?
+why does macro def need to be before use?
 
+# test2b.map, extend exps with macros
+
+able to write alphameric literal to tape
+
+# test2c.map

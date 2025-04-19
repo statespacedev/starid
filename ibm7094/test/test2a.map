@@ -1,0 +1,27 @@
+$job           job1
+$execute       ibjob
+$ibjob         
+$ibmap deck1   m94
+start  nop
+tm1    macro
+       wrs  1154
+       rchb a2
+       endm tm1
+       wrs  1154     ; start of main
+       rchb a2
+       wrs  1154
+       rchb a2
+       wrs  1154
+       rchb a2
+       lchb a2
+       lchb a2
+       lchb a2      
+       tm1
+       tm1
+       hpr           ; end of main
+a1     iocd 0,,3
+a2     ioct 0,,3
+       end  start
+~
+$ibsys
+$stop
