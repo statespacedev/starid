@@ -3,14 +3,14 @@ $execute       ibjob
 $ibjob         
 $ibmap deck1   m94
 start  nop
-adr1   dec  1.234
+num1   dec  1.234
 wrd1   vfd  h36/.98765
 wrd2   vfd  h36/.12345
 wrd3   vfd  h36/......
-adrout bci  1, aaaaa
+wrdout bci  1, aaaaa
 tap1   macro wrd
        cla  wrd
-       sto  adrout
+       sto  wrdout
        wrs  1154
        rchb ioc1
        endm tap1
@@ -21,7 +21,7 @@ tap1   macro wrd
        tap1 wrd1
        hpr
 * end main
-ioc1   ioct adrout,,1
+ioc1   ioct wrdout,,1
        end  start
 ~
 $ibsys
