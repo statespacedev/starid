@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source=./test/test2d.map
+source=./test/float1a.map
 # source=../algebra/algebra.map
 
 cat $source > job

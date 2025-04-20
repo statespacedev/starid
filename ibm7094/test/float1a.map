@@ -1,0 +1,21 @@
+$job           job1
+$execute       ibjob
+$ibjob         
+$ibmap deck1   m94
+start  nop
+*l1     vfd  6/27,6/1,6/2,6/3,6/4,6/5
+*l1     bci  1, hello
+*l1     dec  1.23
+*l1     oct  201472702437
+l1     dec  1e0
+       cla  l1
+       add  l1
+       sub  l1
+       sto  l1
+       wrs  1154
+       rchb ioc1
+ioc1   ioct l1,,1
+       end  start
+~
+$ibsys
+$stop

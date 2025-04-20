@@ -4,6 +4,8 @@ be able to write floats out as tape record/line.
 
 one way to do this could be 'convert float to packed bcd word'. since it's now known how to write a packed bcd word as a tape record/line, this would work.
 
+# float1a.map, ops on floats and writing result to tape
+
 # test2a.map, writing to tape, begin exps with macros
 
 why can't there be blank lines/cards?
