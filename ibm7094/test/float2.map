@@ -1,0 +1,45 @@
+$job           job1
+$execute       ibjob
+$ibjob         
+$ibmap deck1   m94
+       TRA  ......            
+       EVEN 2                 
+       ORG  2                 
+C.0    OCT  000000000001          
+C.1    OCT  000000000000      
+C.2    OCT  000000000000      
+C.3    OCT  000000000001      
+C.4    OCT  201472702437      
+RD.    OCT  000000000000         
+       OCT  000000000000      
+10.    BCI  1,(F10.5          
+       BCI  1,)               
+1A     CLA  C.4               
+       STO  X                    
+2A     TSX  .FWRD.,4          
+       TXI  *+4,,2            
+       PZE  2,,LK.DR          
+       PZE  .UN07.            
+       PZE  10.                  
+       CLA  X                 
+       TSX  .FCNV.,4          
+       TSX  .FFIL.,4          
+       CLA  C.1               
+       TSX  .EXIT.,4             
+       TXI  *+2,,0            
+       PZE  2,,LK.DR          
+LK.DR  PZE  **                
+       BCI  1,DECK1           
+...... TXI  *+5,,**              
+       AXT  **,4              
+       LDI  *+2               
+       TRA  1,4               
+       PZE  **                
+       STI  *-1                  
+       SXA  SYSLOC,4          
+       SXA  LK.DR,4           
+       SXA  *-7,4             
+       TRA  1A 
+~
+$ibsys
+$stop

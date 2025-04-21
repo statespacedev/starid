@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source=./test/float1a.map
+source=./test/float2.map
 # source=../algebra/algebra.map
 
 cat $source > job
@@ -15,4 +15,6 @@ rm sys*
 
 # ./listtape -a syspp1.tp | grep '^OUT'
 # ./listtape -a syspp1.tp | grep '7/0000'
-./listtape -a syspp1.tp
+./listtape -a syspp1.tp > output
+cat output
+# ./convert.py

@@ -4,7 +4,14 @@ be able to write floats out as tape record/line.
 
 one way to do this could be 'convert float to packed bcd word'. since it's now known how to write a packed bcd word as a tape record/line, this would work.
 
+oct 2202 is dec 1154, oct 2222 is dec 1170
+
 # float1a.map, ops on floats and writing result to tape
+
+given a word with float 1.0 we need to convert to a word with bcd 1
+
+601472702437 is -1.23, -.123e1, -12.3e-1
+201472702437 is 1.23
 
 # test2a.map, writing to tape, begin exps with macros
 

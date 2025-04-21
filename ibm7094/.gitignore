@@ -7,3 +7,5 @@ syspun.crd
 job
 *.tar.gz
 for-job
+output
+__pycache__

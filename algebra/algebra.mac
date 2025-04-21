@@ -1,6 +1,6 @@
 a=1
 c=2
-digitr=3
+digitr=3 ; digit iteration
 itr=4
 x=10
 y=12
@@ -38,7 +38,7 @@ prflt:  0                       ; print float less than one in accum a
         fmp     a,[-1.0]        ; make it positive
 point:  movei   tmp,"."         ; print period
         outchr  tmp
-        movei   digitr,1        ; digitr is 1
+        movei   digitr,1        ; digitr is 1, digit iteration
 dig:    fmp     a,[10.0]        ; bring next digitr into ones place
         fix     tmp,a           ; integer
         fltr    c,tmp           ; float it
