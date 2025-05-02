@@ -14,7 +14,7 @@
         {
             "type": "shell",
             "label": "simplex",
-            "command": "gfortran simplex/simplex.for -g",
+            "command": "gfortran simplex/smpl1.for -g",
         }
     ]
 }

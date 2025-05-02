@@ -6,5 +6,5 @@ cat $source > job.mac
 ./back10 -cf ./job.tap job.mac
 ./back10 -lf ./job.tap
 
-./dec10 mac-runner.ini
+./dec10 simh/mac-runner.ini
 
