@@ -1328,4 +1328,3 @@
     If the output format is set to medium or short, omit the TTY  and  job
     numbers.  If the output format is set to short, omit the TTY speed and
     PPN (include only the ship name and captain).
-       
