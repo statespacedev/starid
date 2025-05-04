@@ -1,11 +1,14 @@
+## decwar introduction
 
-historic fortran and assembly code running on simh pdp10 with standard tops10. this is a living time capsule of how things were done in the fifties and sixties. assembly and fortran, deeply fused together. here's [game instructions](decwar.md), the excellent [decwar wikipedia page](https://en.wikipedia.org/wiki/Decwar), the [utexas center for american history](https://briscoecenter.org/) catalog items [v2.2](https://repositories.lib.utexas.edu/items/1aa48343-09ab-4b3b-a9f2-e2e525074a4d) and [v2.3](https://repositories.lib.utexas.edu/items/7e2ccf50-e814-4bce-91d2-a7f6440eabe4), and a 1982 letter from utexas to compuserve, before utexas sent the primordial decwar tape.
+historic fortran and assembly code running on simh pdp10 with standard tops10. this is a living time capsule of how things were done in the fifties and sixties. assembly and fortran, deeply fused together. here's [june 3, 1980 v2.2 utexas](decwar22-utexas.md) and [november 20, 1981 v2.3 compuserve](decwar23-compuserve.md) player instructions, the excellent [decwar wikipedia page](https://en.wikipedia.org/wiki/Decwar), the [utexas center for american history](https://briscoecenter.org/) catalog items [v2.2](https://repositories.lib.utexas.edu/items/1aa48343-09ab-4b3b-a9f2-e2e525074a4d) and [v2.3](https://repositories.lib.utexas.edu/items/7e2ccf50-e814-4bce-91d2-a7f6440eabe4), and a 1982 letter from utexas to compuserve, before utexas sent the primordial decwar tape.
 
 _I have received your request for sources to the DECWAR program. We will be pleased to send you the sources, but first we must ask you to sign and return the enclosed license agreement. DECWAR was developed at the University of Texas at Austin, and it is being maintained. Hence our interest in using the agreement to record and control who gets the source to it._
 
 _DECWAR is a sophisticated real-time space battle game designed to be played by from 1 to 18 people. It was written at the University of Texas at Austin, primarily by Jeff Potter and Bob Hysick. The game was originally based on a very limited, single job, single terminal, two player Star Trek type game known as WAR. This game came from the CDC-6600/6400 system at the University of Texas at Austin, author unknown. Robert Schneider re-wrote the original source on the CDC and started the transfer to the DEC-10. In the transfer process, the game was renamed to DECWAR, largely re-designed, and almost entirely re-written, so that the current version bears little resemblance to the original. Almost all the commands were added once the game was on the DEC-10, as well as the basic concept of separate jobs controlling each ship, and most of the other features that make the game challenging, exciting, and enjoyable. The first version was installed on the DEC-10 in August 1978. After several revisions, a greatly enhanced and improved game, version 2.0, was installed in July 1979._
 
-decwar evolved over the seventies. eric raymond has done lots of excellent work around the single player side of that whole story, http://www.catb.org/~esr/super-star-trek/ and https://gitlab.com/esr/super-star-trek. nutshell summary for decwar context, rough timeline am detecting so far, thanks to feedbacks from merlyn, ron, etc.
+## background
+
+decwar evolved across the seventies. eric raymond has done lots of excellent work around the single player side of that whole story, http://www.catb.org/~esr/super-star-trek/ and https://gitlab.com/esr/super-star-trek. nutshell summary for decwar context, rough timeline am detecting so far, thanks to feedbacks from merlyn, ron, etc.
 
 - 1971, primordial star trek, written in basic for ucal irvine sds sigma 7, mike mayfield
 - 1972, rewrite of primordial, basic for hp 2000c at hp office near ucal irvine, mike mayfield
@@ -16,11 +19,33 @@ decwar evolved over the seventies. eric raymond has done lots of excellent work 
 
 https://en.wikipedia.org/wiki/Star_Trek_(1971_video_game) In 1971, Mike Mayfield, then in his final year of high school, frequented a computer lab at the [University of California, Irvine](https://en.wikipedia.org/wiki/University_of_California,_Irvine), while teaching himself how to program. The lab operated both a [SDS Sigma 7](https://en.wikipedia.org/wiki/SDS_Sigma_series) and a [DEC PDP-10](https://en.wikipedia.org/wiki/PDP-10) [mainframe computer](https://en.wikipedia.org/wiki/Mainframe_computer). The PDP-10 hosted a copy of [Spacewar!](https://en.wikipedia.org/wiki/Spacewar!), a multiplayer space combat video game developed in 1962 in the [early history of video games](https://en.wikipedia.org/wiki/Early_history_of_video_games). Mayfield had gained illicit access to the Sigma 7 at the lab and wanted to create his own version of the game for the system. Spacewar! required a [vector graphics](https://en.wikipedia.org/wiki/Vector_graphics) display, however, and the Sigma 7 only had access to a non-graphical [Teletype Model 33](https://en.wikipedia.org/wiki/Teletype_Model_33) ASR [teleprinter](https://en.wikipedia.org/wiki/Teleprinter).[[4]](https://en.wikipedia.org/wiki/Star_Trek_(1971_video_game)#cite_note-TCC243-4)
 
-https://en.wikipedia.org/wiki/Decwar#Original_versions Version 1.0 of DECWAR was released in August 1978. The university would make copies available on tape for the nominal fee of $50, and it soon appeared on PDP-10s around the world. The greatly updated 2.0 was released in July 1979, and another major version, 2.3, on 20 November 1981. concerning the [utexas center for american history](https://briscoecenter.org/) catalog items [v2.2](https://repositories.lib.utexas.edu/items/1aa48343-09ab-4b3b-a9f2-e2e525074a4d) and [v2.3](https://repositories.lib.utexas.edu/items/7e2ccf50-e814-4bce-91d2-a7f6440eabe4)
-- v2.2 catalog item, The files represented here were migrated from a Decus magnetic tape, and include only binary executables.
-- v2.3 catalog item, The files represented here were ported by Merlyn Cousins from Harris Newman's Decwar 2.3 source code to a Simh/Tops 10 emulator environment. Newman's 2.3 version reflected changes made to the UT-developed Decwar, which were made so the game could be installed on a Compuserve (CIS) system, circa 1981.
+https://en.wikipedia.org/wiki/Decwar#Original_versions Version 1.0 of DECWAR was released in August 1978. The university would make copies available on tape for the nominal fee of $50, and it soon appeared on PDP-10s around the world. The greatly updated 2.0 was released in July 1979, and another major version, 2.3, on 20 November 1981. concerning the [utexas center for american history](https://briscoecenter.org/) catalog items and 
+ 
+[v2.2](https://repositories.lib.utexas.edu/items/1aa48343-09ab-4b3b-a9f2-e2e525074a4d), files migrated from a Decus magnetic tape, and include only binary executables. [june 3, 1980 v2.2 utexas](decwar22-utexas.md) player instructions. eighteen playable ships, what this correspondent experienced at the southwest texas state university computation center, circa 1983 and 1984
 
-local project folder structure
+                 Federation ships               Empire ships
+                 ----------------               ------------
+                    Excalibur                     Buzzard
+                    Farragut                      Cobra
+                    Intrepid                      Demon
+                    Lexington                     Goblin
+                    Nimitz                        Hawk
+                    Savannah                      Jackal
+                    Trenton                       Manta
+                    Vulcan                        Panther
+                    Yorktown                      Wolf
+
+[v2.3](https://repositories.lib.utexas.edu/items/7e2ccf50-e814-4bce-91d2-a7f6440eabe4), files ported by Merlyn Cousins from Harris Newman's Decwar 2.3 source code to a Simh/Tops 10 emulator environment. Newman's 2.3 version reflected changes made to the UT-developed Decwar, which were made so the game could be installed on a Compuserve (CIS) system, circa 1981. [november 20, 1981 v2.3 compuserve](decwar23-compuserve.md) player instructions. compuserve modified the code, limiting to ten playable ships
+
+                 Federation ships               Empire ships
+                 ----------------               ------------
+                    Lexington                     Cobra
+                    Nimitz                        Demon
+                    Savannah                      Hawk
+                    Vulcan                        Jackal
+                    Yorktown                      Wolf
+
+## local project folder structure
 
 - in the root folder are four important files from the primordial tape sent from utexas to compuserve. these give a good picture of what the primordial tape and original utexas decwar2.3 were like.
   - decwar.ltr 'letter' from utexas concerning the distribution tape
