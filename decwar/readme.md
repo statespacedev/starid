@@ -54,7 +54,7 @@ https://en.wikipedia.org/wiki/Decwar#Original_versions Version 1.0 of DECWAR was
   - decwar.com 'comments' around individual files
   - decwar.imp 'important' additional comments
   - decwar.tap 'tape' listing
-- stage1 is what merlyn got working on simh pdp10, _all changes commented and additions noted by DrForbin AKA Merlyn Cousins. search for (drforbin), all things yet to be fixed, search (tofix)_ here's [more info](docs/app0-foundations.md) from merlyn around that.
+- step1 is what merlyn got working on simh pdp10, _all changes commented and additions noted by DrForbin AKA Merlyn Cousins. search for (drforbin), all things yet to be fixed, search (tofix)_ here's [more info](docs/app0-foundations.md) from merlyn around that.
   - utexas folder is an initial attempt to moves backwards towards the primordial tape. in the root are 
     - utexas/hlp are files used as part of building the game's help system. note especially the 'comments' in hlp.com
     - utexas/tec are teco files for extracting fortran from macro
@@ -62,31 +62,26 @@ https://en.wikipedia.org/wiki/Decwar#Original_versions Version 1.0 of DECWAR was
   - compuserve folder is fortran and macro files likely associated with compuserve, or at least not definitely shown as part of the primordial tape. they're not shown in decwar.imp and decwar.tap!
     - compuserve/docs folder is files associated with compuserve documenting the primordial tape's arrival from utexas. also some related 'operational' files. decwar.map has logging from a compuserve ki10 dated 19820519.
     - scripts folder is build automations
-- stage2 is just one way to go backwards. take what we have in stage1, strip it down to bare metal, !always still working!, then stepbystep reintroduce things so we end up with something like v2.2 with eighteen ships. at least on the surface layers, the primordial utexas tape?:)
+- step2 is just one way to go backwards. take what we have in step1, strip it down to bare metal, !always still working!, then stepbystep reintroduce things so we end up with something like v2.2 with eighteen ships. at least on the surface layers, the primordial utexas tape?:)
 
 looking at decwar.imp, there's kind of seven 'core' code files. these seven files are in the main folder, above the four subfolders. Files from which the GAM: files are derived: DECWAR.EXE:
     
     HIGH.FOR	Used to force common block into high segment.
-    LOW.FOR	Used to force common block into low segment.
+    LOW.FOR	    Used to force common block into low segment.
     DECWAR.FOR	FORTRAN source.
     WARMAC.MAC	MACRO source.
-    MSG.MAC	Output text source.
+    MSG.MAC	    Output text source.
     SETUP.FOR	Once only code, deleted from core after initialization.
     SETMSG.MAC	Equivalent to MSG.MAC for SETUP text strings.
 
-the high.for and low.for are stubs. somewhat likewise for msg.mac and setmsg.mac. maybe the real challenge is understanding these three files.
-
-    SETUP.FOR
-    DECWAR.FOR
-    WARMAC.MAC
-
-in fact, at least for now, we'll reflect that view by moving the other four into the 'include' subfolder.
-
-teco scripts are associated with include files
+the high.for and low.for are stubs. somewhat likewise for msg.mac and setmsg.mac. teco scripts are associated with include files, put in unhistorical 'tecout' folder 
 
     lowseg.tec -> lowseg.for
     hiseg.tec  -> hiseg.for
     param.tec  -> param.for
+    extern.tec -> extern.for
+    setext.tec -> setext.for
+    ???        -> lstvar.for
 
 probably the scripts simply search through warmac.mac and pick out 'variables' that need to appear in the include for files. this can be done manually. if there's an update to warmac.mac, include for files can be manually updated. the teco scripts probably just automate this, generating the include for 'from scratch'. so it's not a 'must have'. can be done by hand. but possibly nice. and an interesting usage of teco.
 
