@@ -1,23 +1,3 @@
-C	This file is part of Decwar.
-C	Copyright 1979, 2011 Bob Hysick, Jeff Potter, The University of Texas
-C	Computation Center and Harris Newman.
-
-C	This program is free software; you can redistribute it and/or modify
-C	it under the terms of the GNU General Public License as published by
-C	the Free Software Foundation; either version 3, or (at your option)
-C	any later version.
-
-C	This program is distributed in the hope that it will be useful,
-C	but WITHOUT ANY WARRANTY; without even the implied warranty of
-C	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-C	GNU General Public License for more details.
-
-C	You should have received a copy of the GNU General Public License
-C	along with this program; if not, write to the Free Software
-C	Foundation, Inc., 51 Franklin Street - Fifth Floor, Boston, MA
-C	02110-1301, USA.  
-
-
 	program decwar
 	include 'param'
 	include 'hiseg'
@@ -26,14 +6,12 @@ C	02110-1301, USA.
 	common /local/ dummy(locsiz)
 	common /polocl/ total(9)
 	external monit
-
 	call blkset (lfz, 0, locf(llz) - locf(lfz) + 1)	!zero out low segment
 	versio = 24					!version number
 C	call royaln('CSIS86') drforbin(merlyn)
 	oflg   = medium
 	call out (decver, 1)
 	call out ('Are you: ', 1)
-
 	call out ('1 Beginner', 1)
 	call out ('2 Intermediate', 1)
 	call out ('3 Expert', 1)
@@ -46,7 +24,6 @@ C	call royaln('CSIS86') drforbin(merlyn)
 		prtype = 0
 		icflg  = kabs
 		goto 4
-
 2	if(vallst(1).ne.2.and.(equal(tknlst(1),'INTERMEDIATE').eq.0)) 
      +		goto 3
 		scnflg = long
@@ -54,37 +31,31 @@ C	call royaln('CSIS86') drforbin(merlyn)
 		icflg  = krel
 		oflg   = medium
 		goto 4
-
 3	if(vallst(1).ne.3.and.(equal(tknlst(1),'EXPERT').eq.0)) goto 4
 		scnflg = short
 		prtype = -1
 		icflg  = krel
 		oflg   = short
-
 4	continue
 	call type (1)
 	call type (2)
 	call summar
 1	continue
 	call pregam			!enter Pre-game stage
-
 	call ttyon
 	call setup			!start up player in game
 	call aprset($9999)		! set up trap for data out of bounds
 	call place ((100 * team) + who, 1, shpcon(who,KVPOS), 
      +	shpcon(who,KHPOS))
-
 49	continue
   50	PLAYER = .TRUE.			!regular player, not a Romulan
 d	call timin ('GETCMD')
 	call getcmd (n)          	!get next command to execute
 d	call timout('GETCMD')
 	if (who .eq. 0) goto 1		! hmmm....he died, so reincarnate him!
-
 	goto (100,200,300,400,500,600,700,800,900,1000,1100,1200, 
      +	1300,1400,1500,1600,1700,1800,1900,2000,2100,2200,2300,
      +	2400,2500,2600,2700,2800,2900,3000,3100,3200,3300) n
-
 100	continue
 d	call timin ('CMDBA ')
 	call bases			! bases
@@ -246,11 +217,9 @@ d	call timout('CMDUSE')
 	call debug			!*debug
 	goto 50
 3300	call paswrd			!*password
-/
+*/ there's a slash here can it be dropped?
 	goto 50
-
 *.......A time-consuming move has occurred ....
-
 3400	call repair (3, $3500)
 3500	continue
 	dotime = dotime + 1
@@ -268,9 +237,7 @@ d	call timout('BASBLD')
 	if (ROMOPT)  call romdrv(d1,d2)	!activate Romulan?
 3501	shpcon(who,KNTURN) = shpcon(who,KNTURN) + 1	!update stardate
 	tmturn(team) = tmturn(team) + 1
-
 *	Critical life-support damage warning
-
 	if (shpdam(who,KDLIFE) .lt. KCRIT)  goto 3600
 	if (.not. docked(who)) shpcon(who,KLFSUP) = shpcon(who,KLFSUP) - 1	!reduce life-support reserves
 	if (shpcon(who,KLFSUP) .lt. 0)  shpcon(who,KSDAM) = KENDAM	!life-support gone?
@@ -278,16 +245,13 @@ d	call timout('BASBLD')
 	call out (lifdam,0)
 	call odec (shpcon(who,KLFSUP),0)
 	call out (strdat,1)
-
 *	Update scoring information
-
 3600	do 3700 i = 1, KNPOIN
 	  score(i, who) = score(i, who) + tpoint(i)
 	  tmscor(team,i) = tmscor(team,i) + tpoint(i)
 	  tpoint(i) = 0
 3700	continue
 	goto 49
-
 9999	call crlf
 	call crlf
 	i = iran(5)		! five fatal messages
@@ -297,7 +261,6 @@ d	call timout('BASBLD')
 	call out ('reduced to quarks and now reside in the',1)
 	call out ('Romulan''s energy banks!',1)
 	goto 3810
-
 5002	call out ('Your Navigation officer contracted a strange', 1)
 	call out ('virus during R&R on Zzarpion III.  The Medical', 1)
 	call out ('officer has been uable to diagnose it or to', 1)
@@ -305,13 +268,11 @@ d	call timout('BASBLD')
 	call out ('crew became infected, and all have died, including', 1)
 	call out ('you.', 1)
 	goto 3810
-
 5003	call out ('Due to a design error, the Doomsday Device aboard', 1)
 	call out ('your vessel has detonated.  The error, a missing', 1)
 	call out ('instruction in the built-in microprocessor, will', 1)
 	call out ('remain undetected for several decades.', 1)
 	goto 3810
-
 5004	call out ('An ancient Romulan space mine has exploded,', 1)
 	call out ('flooding your ship with deadly radiation.', 1)
 	call out ('You are forgiven, Captain, for not noticing the',1)
@@ -321,7 +282,6 @@ d	call timout('BASBLD')
 	call out ('forgave you as they disintegrated in a blaze', 1)
 	call out ('of glory!', 1)
 	goto 3810
-
 5005	call out ('I regret to report, Captain, that your', 1)
 	call out ('ship''s computer became defective, and', 1)
 	call out ('consequently you have flown into a', 1)
@@ -329,7 +289,6 @@ d	call timout('BASBLD')
 	call out ('torn your ship apart.', 1)
 	goto 3810
 *.......Player dead or quitting
-
 3810	continue
 3800	call cctrap			! disable ^C trapping, if any
 	txppn = job(who, kppn)
@@ -348,6 +307,53 @@ d	call timout('BASBLD')
 	call free (who)			! release the ship
 	who = 0
 	call exit
-
 C	call onexit ;drforbin added
+	end
+	subroutine BASBLD
+	include 'param/nolist'
+	include 'hiseg/nolist'
+	include 'lowseg/nolist'
+	include 'extern/nolist'
+	ib = 1  ;  ie = 2  ;  n = 50 / (numply + 1)
+	if (.not. PLAYER)  goto 100		!Romulan?
+	if (team .eq. 1)  ib = 2  ;  ie = ib
+	n = 25 / numsid(team)
+ 100	do 300 j = ib, ie
+	  do 200 i = 1, KNBASE
+	    if (base(i,3,j) .le. 0)  goto 200	!is base dead?
+	    base(i,3,j) = min0 (base(i,3,j) + n, 1000)
+ 200	  continue
+ 300	continue
+	return
+	end
+	subroutine BASKIL (itype)
+	include 'param/nolist'
+	include 'hiseg/nolist'
+	include 'lowseg/nolist'
+	include 'extern/nolist'
+	ib = 1  ;  ie = KNPLAY
+	if (itype .eq. 1)  ie = KNPLAY / 2
+	if (itype .eq. 2)  ib = (KNPLAY / 2) + 1
+	do 400 i = ib, ie
+	  if (.not. docked(i))  goto 400	!is he docked?
+*.........Check for adjacent starbase
+	  if (nbase(itype) .le. 0)  goto 200	!any bases alive?
+	  do 100 j = 1, KNBASE
+	    if (base(j,3,itype) .le. 0)  goto 100
+	    if (ldis(shpcon(i,KVPOS), shpcon(i,KHPOS), 
+     +	    base(j,KVPOS,itype), base(j,KHPOS,itype), 1))  goto 400
+ 100	  continue
+*.........Check for adjacent friendly planet
+ 200	  if (numcap(itype) .le. 0)  goto 400	!any friendly planets?
+	  do 300 j = 1, nplnet
+	    if ((itype + DXNPLN) .ne. dispc(locpln(j,KVPOS), 
+     +	    locpln(j,KHPOS)))  goto 300
+	    if (ldis(shpcon(i,KVPOS), shpcon(i,KHPOS), locpln(j,KVPOS), 
+     +	    locpln(j,KHPOS), 1))  goto 400
+ 300	  continue
+*.........No adjacent friendly port, undock player.
+	  shpcon(i,KSPCON) = RED
+	  docked(i) = .FALSE.
+ 400	continue
+	return
 	end
