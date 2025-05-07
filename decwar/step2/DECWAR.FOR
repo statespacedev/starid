@@ -8,7 +8,7 @@
 	external monit
 	call blkset (lfz, 0, locf(llz) - locf(lfz) + 1)	!zero out low segment
 	versio = 24					!version number
-C	call royaln('CSIS86') drforbin(merlyn)
+*	call royaln('CSIS86') drforbin(merlyn)
 	oflg   = medium
 	call out (decver, 1)
 	call out ('Are you: ', 1)
@@ -132,7 +132,7 @@ d	call timin ('CMDPOI')
 d	call timout('CMDPOI')
 	goto 50
 1600	if (hungup) goto 3800	! don't ask if job is hungup
-C	if (lofchk(0)) goto 3800 drforbin (merlyn)	! also if his time is up
+*	if (lofchk(0)) goto 3800 drforbin (merlyn)	! also if his time is up
 	call out (sure00,0)		!quit
 	ccflg = .false.
 	call clear			! zap input buffer
@@ -307,8 +307,13 @@ d	call timout('BASBLD')
 	call free (who)			! release the ship
 	who = 0
 	call exit
-C	call onexit ;drforbin added
+*	call onexit ;drforbin added
 	end
+C	This routine is activated whenever any player (or the Romulan)
+C	makes a time-consuming move.  It's purpose is to strengthen
+C	weakened starbases of the opposite team.  The Romulan rebuilds
+C	both side's starbases.  The percentage gain in base energy per
+C	BASBLD call is reduced as the number of players increase.
 	subroutine BASBLD
 	include 'param/nolist'
 	include 'hiseg/nolist'
@@ -326,6 +331,11 @@ C	call onexit ;drforbin added
  300	continue
 	return
 	end
+C	This routine is activated whenever a starbase or captured
+C	planet is destroyed.  The purpose of the routine is to check
+C	whether any adjacent ships were docked at this object at the
+C	time of the attack, and reset their ship's condition to RED
+C	if true.  ITYPE = team of destroyed port.
 	subroutine BASKIL (itype)
 	include 'param/nolist'
 	include 'hiseg/nolist'
@@ -356,4 +366,2376 @@ C	call onexit ;drforbin added
 	  docked(i) = .FALSE.
  400	continue
 	return
+	end
+C	This routine controls the phaser defenses of the starbases.
+C	These defenses are activated whenever a player (or the Romulan)
+C	performs a time-consuming move.  A player only activates the
+C	opposite team's starbases, with the Romulan activating both
+C	side's bases.
+	subroutine BASPHA
+	include 'param/nolist'
+	include 'hiseg/nolist'
+	include 'lowseg/nolist'
+	include 'extern/nolist'
+	jb = 1  ;  je = 2
+	if (.not. PLAYER)  goto 100			!Romulan?
+	jb = 3 - team  ;  je = jb
+ 100	do 500 i = jb, je
+	  if (nbase(i) .le. 0)  goto 500		!active bases?
+	  do 400 j = 1, KNBASE
+	    if (base(j,3,i) .le. 0)  goto 400		!base alive?
+*...........Attack the players
+	    do 300 k = (KNPLAY/2) * (2 - i) + 1, (KNPLAY/2) * (3 - i)
+	      if (.not. alive(k))  goto 300		!player dead?
+	      if (disp(shpcon(k,KVPOS), shpcon(k,KHPOS)) .le. 0) 
+     +	      goto 300					!player cloaked?
+	      if (.not. ldis(shpcon(k,KVPOS), shpcon(k,KHPOS), 
+     +	      base(j,KVPOS,i), base(j,KHPOS,i), 4))  goto 300	!player in range?
+	      Vfrom = base(j,KVPOS,i)  ;  Hfrom = base(j,KHPOS,i)
+	      Vto   = shpcon(k,KVPOS)  ;  Hto   = shpcon(k,KHPOS)
+	      dispto = (DXFSHP + (2 - i)) * 100 + k  ;  iwhat = 1
+	      dispfr = (DXFBAS + (i - 1)) * 100 + j  ;  shjump = 0
+	      id = pdist (Vfrom, Hfrom, Vto, Hto)
+	      call phadam (3-i, k, id, 200/numply, .FALSE.)	!hit him!
+	      tmscor(i,KPEDAM) = tmscor(i,KPEDAM) + ihita
+	      shstfr = base(j,3,i)       ;  shcnfr = 1
+	      if (klflg .ne. 0) tmscor(i,KPEKIL) = tmscor(i,KPEKIL) + 5000
+ 200	      call pridis (shpcon(k,KVPOS), shpcon(k,KHPOS), KRANGE, 
+     +        team, 0)
+	      call pridis (shpcon(k,KVPOS), shpcon(k,KHPOS), 4, 0, 1)
+	      dbits = dbits .or. bits(k)
+	      call makhit				!send hit message
+ 300	    continue
+*...........Attack the Romulan (if he's alive)
+	    if (.not. ROM)  goto 400		!Romulan alive?
+	    if (.not. ldis (locr(KVPOS), locr(KHPOS), base(j,KVPOS,i),
+     +	    base(j,KHPOS,i), 4))  goto 400	!Romulan in range?
+	    dispto = DXROM * 100  ;  shjump = 0
+	    dispfr = (DXFBAS + (i - 1)) * 100 + j  ;  iwhat = 1
+	    Vfrom = base(j,KVPOS,i)  ;  Hfrom = base(j,KHPOS,i)
+	    Vto   = locr(KVPOS)      ;  Hto   = locr(KHPOS)
+	    id = pdist (Vfrom, Hfrom, Vto, Hto)
+	    call pharom (200/numply, id)		!hit Romulan!
+	    shstfr = base(j,3,i)  ;  shcnfr = 1
+	    shstto = erom         ;  shcnto = 1
+	    call pridis (locr(KVPOS), locr(KHPOS), KRANGE, 0, 0)
+	    tmscor(i,KPRKIL) = tmscor(i,KPRKIL) + ihita
+	    if (.not. ROM)  tmscor(i,KPRKIL) = tmscor(i,KPRKIL) + 5000
+	    call makhit				!send hit message
+ 400	  continue
+ 500	continue
+	return
+	end
+C	block data code
+	BLOCK DATA
+	include 'param/nolist'
+	include 'hiseg/nolist'
+	include 'lowseg/nolist'
+	data (device(i), i = 1, KNDEV)/ 
+     +	  2HSH, 2HWA, 2HIM, 2HLS, 2HTO, 2HPH, 2HCO, 2HRA, 2HTR /
+	data ((isaydo(i,j), i = 1, 2), j = 1, KNCMD)/ 
+     +    'BAses', '     ',
+     +	  'BUild', '     ',
+     +	  'Captu', 're   ',
+     +	  'DAmag', 'es   ',
+     +	  'DOck ', '     ',
+     +	  'Energ', 'y    ',
+     +    'Gripe', '     ',
+     +	  'Help ', '     ',
+     +	  'Impul', 'se   ',
+     +	  'List ', '     ',
+     +	  'Move ', '     ',
+     +	  'News ', '     ',
+     +	  'PHase', 'rs   ',
+     +	  'PLane', 'ts   ',
+     +    'POint', 's    ',
+     +	  'Quit ', '     ',
+     +	  'RAdio', '     ',
+     +	  'REpai', 'r    ',
+     +	  'SCan ', '     ',
+     +	  'SEt  ', '     ',
+     +	  'SHiel', 'ds   ',
+     +	  'SRsca', 'n    ',
+     +	  'STatu', 's    ',
+     +	  'SUmma', 'ry   ',
+     +	  'TArge', 'ts   ',
+     +	  'TEll ', '     ',
+     +	  'TIme ', '     ',
+     +	  'TOrpe', 'dos  ',
+     +	  'TRact', 'or   ',
+     +	  'TYpe ', '     ',
+     +    'Users', '     ',
+     +    '*Debu' ,'g    ',
+     +    '*Pass' ,'word '/
+	data ((xhelp(i,j), i = 1, 2), j = 1, KNXTR)/ 
+     +	  'CTL-C', '     ',
+     +    '     ', '     ',
+     +    'INTRO', '     ',
+     +	  'HInts', '     ',
+     +	  'INput', '     ',
+     +	  'Outpu', 't    ',
+     +	  'PAuse', 's    ',
+     +	  'PRega', 'me   '/
+	data ((ttydat(i,j), i = 1, 2), j = 1, KNTTY)/ 
+     +	  'ACT-I', 'V    ',
+     +	  'ADM-2', '     ',
+     +	  'ADM-3', 'a    ',
+     +	  'DATAP', 'OINT ',
+     +	  'ACT-V', '     ',
+     +	  'SOROC', '     ',
+     +	  'BEEHI', 'VE   ',
+     +	  'CRT  ', '     '/
+	data ((names(i,j), j = 1, 3), i = 1, KNPLAY)/ 
+     +	  'Lexin', 'gton ', ' L',
+     +	  'Nimit', 'z    ', ' N',
+     +	  'Savan', 'nah  ', ' S',
+     +	  'Vulca', 'n    ', ' V',
+     +	  'Yorkt', 'own  ', ' Y',
+     +	  'Cobra', '     ', ' C',
+     +	  'Demon', '     ', ' D',
+     +	  'Hawk ', '     ', ' H',
+     +	  'Jacka', 'l    ', ' J',
+     +	  'Wolf ', '     ', ' W'/
+	data (bits(i), i = 1, 10)/ 
+     +	"1, "2, "4, "10, "20, "40, "100, "200, "400, "1000/
+	data (sbits(i), i = 0, 2)/ NEUBIT , FEDBIT , EMPBIT /
+	data (cmdbts(i), i = 1, KNCMD)/ 
+     +	  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+     +	  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0/
+	end
+C	This routine is used to fortify captured planets against enemy
+C	assault, and eventually to transform them into fully operational
+C	starbases.  Each build strengthens the planetary phaser banks,
+C	with five accumulated 'builds' transforming the planet into a
+C	starbase (if your team possesses less than the maximum number
+C	of operational starbases at that time).
+	subroutine BUILD (*)
+	include 'param/nolist'
+	include 'hiseg/nolist'
+	include 'lowseg/nolist'
+	include 'extern/nolist'
+	v = etim(tim0) + (slwest * 1000) + 4000
+	tem = locate(2)
+ 100	if (tem .lt. 0)  return 1		!abort 'build'
+	if (tem .ne. 0)  goto 200
+	tem = reloc(2)
+	goto 100
+ 200	Vloc = vallst(1)  ;  Hloc = vallst(2)
+	if (.not. ldis(shpcon(who,KVPOS), shpcon(who,KHPOS), Vloc, 
+     +	Hloc, 1))  goto 900			!adjacent to sector given?
+	c = dispc (Vloc,Hloc)
+	if ((c .lt. DXNPLN) .or. (c .gt. DXEPLN))  goto 800	!is it a planet?
+	if ((team + DXNPLN) .ne. c)  goto 600	!not yet captured!
+*	5th build, but already KNBASE active bases
+	i = dispx (Vloc,Hloc)
+	if ((locpln(i,3) .eq. 4) .and. (nbase(team) .eq. KNBASE)) goto 700
+	locpln(i,3) = locpln(i,3) + 1
+	if (locpln(i,3) .eq. 5)  goto 250
+	call odec (locpln(i,3),0)		!inform player of number of builds
+	call out (build3,0)
+	if (locpln(i,3) .gt. 1)  call outc ('s')
+	call crlf
+ 250	tpoint(KPBBAS) = tpoint(KPBBAS) + (500 * locpln(i,3))
+	if (locpln(i,3) .ne. 5)  goto 500	!building complete?
+	call lock (plnlok,'BUILD')		!lock LOCPLN array
+	if (.not. lkfail) goto 251
+	call out ('Sorry, Captain, but the construction crew is', 1)
+	call out ('busy with repairs at the moment.', 1)
+	return	1
+251	do 300 j = 1, KNBASE			!search for empty base slot
+	  if (base(j,3,team) .le. 0)  goto 400
+ 300	continue
+	locpln(i,3) = locpln(i,3) - 1
+	call unlock (plnlok)
+	goto 700
+*.......Update starbase information
+ 400	tpoint(KPBBAS) = tpoint(KPBBAS) + 2500
+	nbase(team) = nbase(team) + 1
+	base(j,4,team) = locpln(i,4)		!transfer LIST information
+	call plnrmv (i,team)			!update planet information
+	call unlock (plnlok)			!unlock LOCPLN array
+	base(j,KVPOS,team) = Vloc
+	base(j,KHPOS,team) = Hloc
+	base(j,3,team) = 1000
+	call setdsp (Vloc, Hloc, ((DXFBAS + (team - 1)) * 100) + j)
+*.......Send player message ...
+	call crlf
+	call odisp (disp (shpcon(who,KVPOS),shpcon(who,KHPOS)), 1)
+	call out (build1,0)
+	call prloc (Vloc, Hloc, 0, 0, ocflg, oflg)
+	call out (build2,0)
+	call odisp (disp (Vloc, Hloc), 0)
+	call crlf
+ 500	ptime = v - etim(tim0)
+	return
+*.......Error messages
+ 600	call out (build7,0)			!Planet not yet captured
+	return 1
+ 700	call out (build4,0)			!already KNBASE bases
+	call odisp ((team+2) * 100, 0)
+	call out (build5,1)
+	return 1
+ 800	call out (noplnt,1)			!no planet here!
+	return 1
+ 900	call odisp (disp(shpcon(who,KVPOS),shpcon(who,KHPOS)), 1)  !not adjacent to sector given!
+	call out (captu5,1)
+	return 1
+	end
+C	This routine is used to capture neutral or enemy planets.
+C	Player must be adjacent to planet specified (in 'orbit').
+C	If a planet has been fortified by the enemy (using the BUILD
+C	command), the pause time is increased 1 second and the
+C	attacking ship's energy is reduced 50 units for each BUILD.
+	subroutine CAPTUR (*)
+	include 'param/nolist'
+	include 'hiseg/nolist'
+	include 'lowseg/nolist'
+	include 'extern/nolist'
+	v = etim (tim0) + 5000
+	tem = locate(2)
+ 100	if (tem .lt. 0)  return 1		!abort 'capture'
+	if (tem .ne. 0)  goto 200
+	tem = reloc(2)
+	goto 100
+ 200	Vloc = vallst(1)  ;  Hloc = vallst(2)
+	if (.not. ldis(shpcon(who,KVPOS), shpcon(who,KHPOS), Vloc, 
+     +	Hloc, 1))  goto 500			!adjacent to sector specified?
+	c = dispc (Vloc, Hloc)
+	if ((c .lt. DXNPLN) .or. (c .gt. DXEPLN))  goto 400	!is there a planet here?
+	if (c .eq. (DXNPLN + team))  goto 600	!planet already captured?
+*.......Capture planet for the good guys!
+300	call lock (plnlok,'CAPTUR')		!lock LOCPLN array
+	if (.not. lkfail) goto 301
+	call out ('The planet''s government refuses to surrender.', 1)
+	return	1
+301	tcap = c - DXNPLN
+	if (tcap .ne. 0)  call pridis (Vloc, Hloc, KRANGE, tcap, 0)
+	call pridis (Vloc, Hloc, 4, 0, 1)
+*.......Update planet information
+	i = dispx (Vloc, Hloc)
+	if (tcap .ne. 0)  call baskil (tcap)
+	if (tcap .ne. 0)  numcap(tcap) = numcap(tcap) - 1
+	numcap(team) = numcap(team) + 1
+	phit = 50 + (30 * locpln(i,3))		!set planet's phaser strength
+	shstfr = locpln(i,3)
+	v = v + locpln(i,3) * 1000
+	shpcon(who,KSNRGY) = shpcon(who,KSNRGY) - locpln(i,3) * 500
+	locpln(i,3) = 0
+	call unlock (plnlok)			!unlock LOCPLN array
+	dispfr = disp (Vloc, Hloc)   ;  iwhat = 1
+	call setdsp (Vloc, Hloc, ((team + DXNPLN) * 100) + i)
+	dispto = who + (team * 100)  ;  shjump = 0
+	Vfrom = Vloc  ;  Hfrom = Hloc
+	Vto = shpcon(who,KVPOS)  ;  Hto = shpcon(who,KHPOS)
+	id = pdist (Vfrom, Hfrom, Vto, Hto)
+	call phadam (team, who, id, phit, .FALSE.) !planet defends itself!
+	if (tcap .ne. 0) tmscor(tcap,KPEDAM) = tmscor(tcap,KPEDAM) + ihita
+	if ((klflg .ne. 0) .and. (tcap .ne. 0)) 
+     +	tmscor(tcap,KPEKIL) = tmscor(tcap,KPEKIL) + 5000
+	call pridis (shpcon(who,KVPOS), shpcon(who,KHPOS), KRANGE, 
+     +	team, 0)
+	call pridis (shpcon(who,KVPOS), shpcon(who,KHPOS), 4, 0, 1)
+*.......Inform player of hit
+	call crlf
+	call odisp (who + (team * 100), 1)
+	call out (captu0,0)
+	call odisp ((tcap + DXNPLN) * 100, 1)
+	call prloc (Vloc, Hloc, 1, 0, ocflg, oflg)
+	call makhit
+	tpoint(KPPCAP) = tpoint(KPPCAP) + 1000	!get points
+	ptime = v - etim(tim0)			!pause for capture
+	if ((shpcon(who,KSDAM) .lt. KENDAM) .and. 
+     +	(shpcon(who,KSNRGY) .gt. 0))  return	!if player alive, return
+*.......Player dies!
+	if (team .eq. 1)  call out (captu1,1)
+	if (team .eq. 2)  call out (captu2,1)
+	call odisp (who + (team * 100), 1)
+	call out (captu4,1)
+	return
+*.......Error messages
+ 400	idsp = dispc (Vloc, Hloc)		!no planet at location
+	if (idsp .le. 0)  call out (noplnt,1)
+	if ((team .eq. idsp) .or. (team+2 .eq. idsp))  call out (nosur1,1)
+	if ((3-team .eq. idsp) .or. (5-team .eq. idsp)) 
+     +	call out (nosur2,1)
+	if (idsp .eq. DXROM)  call out (nosur3,1)
+	if (idsp .ge. DXSTAR)  call out (nosur4,1)
+	return 1
+ 500	call crlf				!not adjacent to specified location
+	call odisp (disp(shpcon(who,KVPOS),shpcon(who,KHPOS)), 1)
+	call out (captu5,1)
+	return 1
+ 600	if (oflg .eq. long)  goto 700		!planet already captured
+	call out (captu7, 1)
+	goto 800
+ 700	if (team .eq. 1)  call out (captu6,1)
+	if (team .eq. 2)  call out (captu8,1)
+ 800	return 1
+	end
+C	This routine is used by MOVE, TORP, ROMDRV, and ROMTOR to
+C	check the projected path of a ship or torpedo for objects
+C	in the way.
+C	INPUT
+C	  H,V	  Initial coordinate
+C	  DH,DV	  Relative V and H displacement (for direction only)
+C	  Dist	  Maximum V or H displacement (distance to travel)
+C	  Displ	  Displacement per sector (abs(Displ) < 0.50)
+C	OUTPUT
+C	  H1,V1	  Final location
+C	  H2,V2	  Location of object that blocked path, else final location
+C	  Dcode	  DISP code of object that blocked path, else 0
+C	  DSH,DSV Delta H and Delta V to add to object to get displacement
+	subroutine CHECK (H, V, dH, dV, dist, displ)
+	include 'param/nolist'
+	include 'hiseg/nolist'
+	include 'lowseg/nolist'
+	include 'extern/nolist'
+	common /chkout/ H1, V1, H2, V2, dcode, dHs, dVs
+	real rH, rV, displ, dHs, dVs
+	H1 = H  ;  V1 = V  ;  dcode = 0
+	if (iabs(dV) .gt. iabs(dH))  goto 400
+	inc = isign (1,dH)  ;  dHs = float (inc)
+	dVs = float(dV) / float(iabs(dH)) + displ
+	H2 = H  ;  rV = float(V)
+	do 300 i = 1, dist
+	  H2 = H2 + inc  ;  if (.not. ingal(5,H2))  goto 900
+	  rV = rV + dVs
+	  call chkpnt (rV, iV1, iV2)
+	  if (.not. ingal(iV1,5))  goto 900
+	  V2 = iV1
+	  if (disp(H2,V2) .gt. 0) goto 800	!ran into something
+	  if (iV2 .eq. 0) goto 100
+	  if (.not. ingal(iV2,5))  goto 900
+	  V2 = iV2
+	  if (disp(H2,V2) .gt. 0) goto 800	!ran into something
+	  V1 = int(rV + ran(0))
+	  goto 200
+  100	  V1 = int(rV + .5)
+  200	  H1 = H2
+  300	continue
+	V2 = V1
+	return					!made it to destination
+  400	inc = isign (1, dV)  ;  dVs = float (inc)
+	dHs = float(dH) / float(iabs(dV)) + displ
+	V2 = V  ;  rH = float(H)
+	do 700 i = 1, dist
+	  V2 = V2 + inc  ;  if (.not. ingal(V2,5))  goto 900
+	  rH = rH + dHs
+	  call chkpnt (rH, iH1, iH2)
+	  if (.not. ingal(5,iH1))  goto 900
+	  H2 = iH1
+	  if (disp(H2,V2) .gt. 0) goto 800	!ran into something
+	  if (iH2 .eq. 0)  goto 500
+	  if (.not. ingal(5,iH2))  goto 900
+	  H2 = iH2
+	  if (disp(H2,V2) .gt. 0) goto 800	!ran into something
+	  H1 = int(rH + ran(0))
+	  goto 600
+  500	  H1 = int(rH + .5)
+  600	  V1 = V2
+  700	continue
+	H2 = H1
+	return					!made it to destination
+  800	dcode = disp(H2,V2)			!ran into something
+	return
+  900	H2 = H1  ;  V2 = V1			!out of the galaxy
+	return
+	end
+C	This routine is used by CHECK to determine the next position
+C	on the display board to check for objects.
+C	If the fractional part of C is greater than 0.60, return
+C	INT(C)+1 in C1, and 0 in C2
+C	If the fractional part of C is less than 0.40, return
+C	INT(C) in C1, and 0 in C2
+C	Otherwise, return INT(C) in C1 and INT(C)+1 in C2
+	subroutine CHKPNT (c, c1, c2)
+	include 'param/nolist'
+	real c
+	if (iabs (mod (int(c*100), 100) - 50) .lt. 10)  goto 100
+	c1 = int(c + .5)
+	c2 = 0
+	return
+  100	c1 = int(c)
+	c2 = c1 + 1
+	return
+	end
+C	When this routine is called because ^C is typed it clears the
+C	player's input buffer.
+	subroutine CLRBUF
+	call out ("034160703400,0)	!4 bells
+	call clear			!clear the input buffer
+	return
+	end
+C	This routine reports on current ship device damages (if any).
+C	STOKEN = 2 if this is a call from the DAMAGE command,
+C	STOKEN = 3 if this is a call from the REPAIR routine.
+	subroutine DAMAGE (stoken)
+	include 'param/nolist'
+	include 'hiseg/nolist'
+	include 'lowseg/nolist'
+	include 'extern/nolist'
+	call crlf
+	do 100 i = 1, KNDEV		!anything damaged?
+	  if (shpdam(who,i) .gt. 0)  goto 200
+ 100	continue
+	call out (alldok,1)		!nope!
+	goto 1800
+*.......Specific device information requested?
+ 200	if (typlst(stoken) .ne. KALF)  goto 900
+	do 800 i = stoken, KMAXTK
+	  if (typlst(i) .ne. KALF)  goto 1800
+	  do 700 j = 1, KNDEV
+	    if (.not. (equal(tknlst(i), device(j))))  goto 700
+	    call odev (j)
+	    if (oflg)  300, 400, 500
+ 300	    call space  ;  goto 600
+ 400	    call tab (10)    ;  goto 600
+ 500	    call tab (19)
+ 600	    call oflt (shpdam(who,j), 4)
+	    if (oflg .eq. long)  call out (units1,0)
+	    call crlf
+ 700	  continue
+ 800	continue
+	goto 1800
+*.......General report on ALL damaged devices.
+ 900	if (oflg)  1200, 1100, 1000
+1000	call out (damrep,0)
+	call odisp(disp(shpcon(who,KVPOS),shpcon(who,KHPOS)), 0)
+	call skip (2)
+1100	call out (dmhdr1,0)
+	if (oflg .eq. long)  call spaces (9)
+	call out (dmhdr2,2)
+1200	do 1700 i = 1, KNDEV			!scan the devices
+	  if (shpdam(who,i) .le. 0)  goto 1700	!damaged?
+	  call odev (i)
+	  if (oflg)  1300, 1400, 1500
+1300	  call space  ;  goto 1600
+1400	  call tab (10)    ;  goto 1600
+1500	  call tab (19)
+1600	  call oflt (shpdam(who,i), 4)
+	  if (oflg .eq. long)  call out (units1,0)
+	  call crlf
+1700	continue
+1800	return
+	end
+C	This routine is used by the Romulan to find the nearest attackable
+C	object (ship or base).
+	subroutine DIST (ip, np, num)
+	include 'param/nolist'
+	include 'hiseg/nolist'
+	include 'lowseg/nolist'
+	include 'extern/nolist'
+	common /distlc/ V(4), H(4), iV(4), z(4)
+	call blkset (z, (KGALV * KGALH + 1), 4)
+	RV = locr(KVPOS)  ;  RH = locr(KHPOS)
+*.......Find closest Federation ship
+	do 100 j = 1, KNPLAY / 2
+	  if (.not. alive(j))  goto 100
+	  if (disp(shpcon(j,KVPOS),shpcon(j,KHPOS)) .le. 0)  goto 100
+	  ztem = (RV - shpcon(j,KVPOS)) * (RV - shpcon(j,KVPOS)) + 
+     +	  (RH - shpcon(j,KHPOS)) * (RH - shpcon(j,KHPOS))
+	  if (ztem .ge. z(1))  goto 100
+	  iV(1) = j  ;  z(1) = ztem
+	  V(1) = shpcon(j,KVPOS)  ;  H(1) = shpcon(j,KHPOS)
+ 100	continue
+*.......Find closest Klingon ship
+	do 200 j = (KNPLAY / 2) + 1, KNPLAY
+	  if (shpcon(j,KVPOS) .eq. 0)  goto 200
+	  if (disp(shpcon(j,KVPOS),shpcon(j,KHPOS)) .le. 0)  goto 200
+	  ztem = (RV - shpcon(j,KVPOS)) * (RV - shpcon(j,KVPOS)) + 
+     +	  (RH - shpcon(j,KHPOS)) * (RH - shpcon(j,KHPOS))
+	  if (ztem .ge. z(2))  goto 200
+	  iV(2) = j  ;  z(2) = ztem
+	  V(2) = shpcon(j,KVPOS)  ;  H(2) = shpcon(j,KHPOS)
+ 200	continue
+*.......Find closest Federation and Klingon starbase
+	do 400 k = 1, 2
+	  if (nbase(k) .le. 0)  goto 400
+	  do 300 j = 1, KNBASE
+	    if (base(j,3,k) .le. 0)  goto 300
+	    if (disp (base(j,KVPOS,k), base(j,KHPOS,k)) .eq. 0)  goto 300
+	    ztem = (RV - base(j,KVPOS,k)) * (RV - base(j,KVPOS,k)) + 
+     +	    (RH - base(j,KHPOS,k)) * (RH - base(j,KHPOS,k))
+	    if (ztem .ge. z(2+k))  goto 300
+	    iV(2+k) = j  ;  z(2+k) = ztem
+	    V(2+k) = base(j,KVPOS,k)  ;  H(2+k) = base(j,KHPOS,k)
+ 300	  continue
+ 400	continue
+*.......Figure out which of the above is closest of all
+	np = 1
+	if ((z(2) .lt. z(1))  .or. ((z(1) .eq. z(2))  .and. 
+     +	(iran(2) .eq. 1)))  np = 2
+	if ((z(3) .lt. z(np)) .or. ((z(3) .eq. z(np)) .and. 
+     +	(iran(2) .eq. 1)))  np = 3
+	if ((z(4) .lt. z(np)) .or. ((z(4) .eq. z(np)) .and. 
+     +	(iran(2) .eq. 1)))  np = 4
+	ip = iV(np)
+	num = pdist (V(np), H(np), RV, RH)
+	return
+	end
+C	This routine checks for an adjacent friendly starbase or planet,
+C	and if either is found, the ship's energy and supplies are
+C	fractionally increased (up to the maximum possible).  Bases
+C	supply twice the energy and supplies per dock as do planets.
+	subroutine DOCK (*)
+	include 'param/nolist'
+	include 'hiseg/nolist'
+	include 'lowseg/nolist'
+	include 'extern/nolist'
+*.......Check for friendly base in range
+	v = etim(tim0) + (slwest * 1000) + 1000
+	ifract=0
+	do 100 j = 1, KNBASE
+	  if (base(j,3,team) .le. 0)  goto 100			!is base alive?
+	  if (ldis (shpcon(who,KVPOS), shpcon(who,KHPOS), 
+     +	  base(j,KVPOS,team), base(j,KHPOS,team), 1))
+     +    ifract = ifract + 2	!is base within 1 sector?
+ 100	continue
+*.......Check for friendly planet in range
+	if (numcap(team) .le. 0)  goto 300
+	do 200 i = 1, nplnet
+	  if ((team + DXNPLN) .ne. dispc(locpln(i,KVPOS),locpln(i,KHPOS))) 
+     +	  goto 200						!planet friendly?
+	  if (.not. ldis(shpcon(who,KVPOS), shpcon(who,KHPOS), 
+     +	  locpln(i,KVPOS), locpln(i,KHPOS), 1))  goto 200	!planet within 1 sector?
+	  ifract=ifract + 1
+ 200	continue
+*.......No adjacent bases or planets
+ 300    if (ifract .ne. 0) goto 400
+    	call crlf
+	call odisp (disp(shpcon(who,KVPOS),shpcon(who,KHPOS)), 1)
+	call out (dock01,1)
+	return 1
+*.......Dock the ship  (R & R)!!
+ 400	if (.not. alive(who))  return 1		!ship already dead
+	shpcon(who,KNTORP) = min0((shpcon(who,KNTORP) + (ifract*5)), 10)
+	shpcon(who,KSNRGY) = min0((shpcon(who,KSNRGY) + (ifract*5000)), 
+     +	50000)
+	shpcon(who,KSSHPC) = min0((shpcon(who,KSSHPC) + (100*ifract)), 
+     +	1000)
+	shpcon(who,KSDAM) = max0 ((shpcon(who,KSDAM) - (ifract*500)), 0)
+	if (docked(who))  shpcon(who,KSDAM) = max0((shpcon(who,KSDAM) - 
+     +	(ifract*500)), 0)
+	docked(who) = .TRUE.
+	shpcon(who,KLFSUP) = 5  ;  shpcon(who,KSPCON) = GREEN
+	call out (dockin,1)
+	if (equal(tknlst(2), 'STATUS')) 
+     +	call status (3)			!status report?
+	ptime = v - etim(tim0)		!compute pause time for DOCK.
+	return
+	end
+C	This routine is called periodically by GETCMD to check
+C	for dead ships.
+	subroutine DSHIP
+	include 'param/nolist'
+	include 'hiseg/nolist'
+	include 'lowseg/nolist'
+	include 'extern/nolist'
+	do 100 i = 1, KNPLAY
+	  if (.not. alive(i))  go to 100	!ship in use?
+	  active(i) = active(i) + 1
+	  if (active(i) .lt. 2)  go to 100	!inactive?
+	  active(i) = 0
+	  call free (i)				!remove dead ship
+ 100	continue
+	return
+	end
+C	This routine is called whenever a base or planet is destroyed
+C	to see if the game is over. (all the planets gone, and one
+C	side's bases).  If so, the appropriate message is printed out
+C	and the job is returned to monitor level.
+	subroutine ENDGAM
+	include 'param/nolist'
+	include 'hiseg/nolist'
+	include 'lowseg/nolist'
+	include 'extern/nolist'
+	common /local/ dummy(locsiz)
+	common /polocl/ total(4)
+	external monit
+	if (ENDFLG)  goto 100			!game already over?
+	if (nplnet .gt. 0)  return		!any planets left?
+	if (min0 (nbase(1), nbase(2)) .gt. 0)  return	!any bases left?
+*.......The game is over!!
+	call kilhgh
+	endflg = .true.
+ 100	call out (endgm0,1)
+	if (max0 (nplnet, nbase(1), nbase(2)) .ne. 0) goto 300
+		call out (endgm1, 1)
+		endflg = -2			! -2 implies total destruction
+300	if (nbase(1) .eq. 0)  call out (endgm3,1)
+	if (nbase(2) .eq. 0)  call out (endgm4,1)
+	if ((team .eq. 1) .and. (nbase(1) .eq. 0))  call out (endgm5,1)
+	if ((team .eq. 1) .and. (nbase(2) .eq. 0))  call out (endgm6,1)
+	if ((team .eq. 2) .and. (nbase(1) .eq. 0))  call out (endgm7,1)
+	if ((team .eq. 2) .and. (nbase(2) .eq. 0))  call out (endgm8,1)
+	if (who .eq. 0)  goto 400	!'player' from restart loop.
+	txppn = job(who, kppn)
+	txnm1 = job(who, knam1)
+	txnm2 = job(who, knam2)
+	txsh1 = names (who, 1)
+	txsh2 = names (who, 2)
+	whowon = 1
+	if (nbase(1) .lt. nbase(2)) whowon = 2
+	txwhy  = 1			! assume this player won
+	if (team .ne. whowon) txwhy = 0	! not same team, so lost!
+	if (endflg .eq. -2) txwhy = 0	! or everyone loses!
+	txtim = etim(job(who, KJOBTM))
+	txtem = team - 1
+	call points (.TRUE.)
+	txtot = total (1)
+	call updsta (txppn,txnm1,txnm2,txsh1,txsh2,txtot,txtim,txwhy, 
+     +		txtem, who)
+	call free (who)
+	who = 0
+c--	call shosta(0)			! show current standings
+ 400	call exit
+	end
+C	This routine allows ship-to-ship transfer of energy between
+C	friendly ships.  There is a 10% loss during the transfer.
+	subroutine ENERGY
+	include 'param/nolist'
+	include 'hiseg/nolist'
+	include 'lowseg/nolist'
+	include 'extern/nolist'
+	call crlf
+	index = 2
+*.......Input ship name and energy to transfer
+ 100	if ((typlst(index) .eq. KALF) .and. (typlst(index+1) .eq. KINT)) 
+     +	goto 500
+	if (oflg)  200, 200, 300
+ 200	call out (ener1S, 0)  ;  goto 400
+ 300	call out (ener1L, 0)
+ 400	call gtkn
+	index = 1
+	if (typlst(1) .eq. KEOL)  return
+	goto 100
+*.......Match input with ship name
+ 500	do 600 i = 1, KNPLAY
+	  if (equal(tknlst(index), names(i,1)))  goto 700
+ 600	continue
+	call out (unkshp,1)		!unknown ship name
+	return
+*.......Input his own ship name?
+ 700	if (i .ne. who)  goto 800
+	if (oflg .eq. long)  call out (begyrp, 0)
+	call out (energ7, 1)
+	return
+*.......Ship in game?
+ 800	if (alive(i))  goto 900
+	call out (noship,1)		!ship not in game
+	return
+*.......Attempting to transfer energy to an enemy ship?
+ 900	dteam = 1  ;  if (i .gt. KNPLAY/2)  dteam = 2
+	if (team .eq. dteam)  goto 1000
+	call out (energ2,1)
+	return
+*.......Adjacent to destination ship?
+1000	if (ldis(shpcon(who,KVPOS),shpcon(who,KHPOS),shpcon(i,KVPOS), 
+     +	shpcon(i,KHPOS),1))  goto 1100
+	call out (energ3,1)
+	return
+*.......Transferring more energy than you possess?
+1100	ihita = vallst(index+1) * 10
+	if (ihita .lt. shpcon(who,KSNRGY))  goto 1500
+	if (oflg)  1200, 1200, 1300
+1200	call out (ener4S, 1)  ;  goto 1400
+1300	call out (ener4L, 1)
+1400	return
+*.......Energy transfer negative or equal to zero?
+1500	if (ihita .gt. 0)  goto 1600
+	if (oflg .eq. long)  call out (energ8, 0)
+	call out (energ5,1)
+	return
+*.......Make energy transfer, inform players
+1600	ihita = min0(int(ihita * 0.9), 50000 - shpcon(i,KSNRGY))
+	shpcon(who,KSNRGY) = shpcon(who,KSNRGY) - (ihita + (ihita / 9))
+	shpcon(i,KSNRGY) = shpcon(i,KSNRGY) + ihita
+	call out (energ6,1)		!inform transferring ship
+	dispto = i + (dteam * 100)  ;  dispfr = who + (team * 100)
+	dbits = bits(i)  ;  iwhat = 12
+	call makhit		!inform destination ship
+	return
+1700	call out ('Sorry, Captain, but the transfer has failed.', 1)
+	return
+	end
+C	This routine is called whenever a player dies, quits the game,
+C	or temporarily CTL-C's out.  The appropriate parts of the high
+C	segment are saved in the low segment, and zeroed out for use by
+C	others.  If a restart is made after a ^C, the information is
+C	passed back up into the high segment, and the player is again
+C	active.  Any hit or radio messages present before the ^C
+C	will be lost.
+	subroutine FREE (snum)
+	include 'param/nolist'
+	include 'hiseg/nolist'
+	include 'lowseg/nolist'
+	include 'extern/nolist'
+	common /frlocl/ tship, tshpco(10), tshpda(KNDEV), tjob(KNJBST), 
+     +	dum(16)
+	if (alive(snum) .gt. 0)  return
+11	call lock (frelok)
+	if (lkfail) goto 11		! we gotta lock it up!
+	call setdsp (shpcon(snum,KVPOS), shpcon(snum,KHPOS), 0)
+	tteam = 1  ;  if (snum .gt. (KNPLAY / 2))  tteam = 2
+	tship = (tteam * 100) + snum
+	numply = numply - 1
+	if ((numply .eq. 0) .and. .not. ENDFLG)  hitime = 
+     +	daytim(d) + 300000		!preserve high segment for 5 minutes
+	numsid(tteam) = numsid(tteam) - 1
+	if (trstat(snum) .ne. 0)  call trcoff (snum)
+C.......Record the player in the killed player queue, along with the
+C.......time when he will again be eligible to play.
+	call kqsrch (job(snum,KTTYN), job(snum,KJOB), job(snum,KPPN), 
+     +	kindex)
+	if (kindex .ne. 0)  goto 100
+	if (nkill .lt. KQLEN) nkill = nkill + 1
+	kilndx = kilndx + 1
+	if (kilndx .gt. KQLEN)   kilndx = 1
+	kindex = kilndx
+ 100	kilque(kindex,1) = job(snum,KJOB)
+	kilque(kindex,2) = job(snum,KPPN)
+	kilque(kindex,3) = job(snum,KTTYN)
+	kilque(kindex,4) = daytim(d)
+	kilque(kindex,5) = tteam .or. snum*262144
+*.......Move ship information into low segment arrays
+*.......Clear out high segment
+	do 200 i= 1, KNJBST
+	  tjob(i) = job(snum,i)
+	  job(snum,i) = 0
+ 200	continue
+	do 300 i = 1, 10
+	  tshpco(i) = shpcon(snum,i)
+ 300	continue
+	shpcon(snum,KVPOS) = 0
+	shpcon(snum,KHPOS) = 0
+	shpcon(snum,KSNRGY) = 0
+	do 400 i = 1, KNDEV
+	  tshpda(i) = shpdam(snum,i)
+ 400	continue
+ 500	if (hitflg(snum) .le. 0)  goto 600	!clear out hit messages
+	call gethit (snum)
+	goto 500
+ 600	if (msgflg(snum) .le. 0)  goto 700	!clear out radio messages
+	call getmsg (snum, dum)
+	goto 600
+ 700	dbits = 0  ;  dispfr = 0
+	call blkset (iwhat, 0, 17)
+	alive(snum) = 1
+	call unlock (frelok)
+	return
+*.......Continue game after ^C
+	entry RSTART (snum)
+ 800	if (shpcon(snum,KVPOS) .ne. 0)  goto 1100	!tship in use
+	if (disp(tshpco(KVPOS),tshpco(KHPOS)) .gt. 0) 
+     +	goto 1200   !  spot on board is taken
+801	call lock (frelok,'RSTART')
+	if (lkfail) goto 801			! keep trying!
+	alive(snum) = .TRUE.
+	numply = numply + 1
+	tteam = (snum - 1) / (KNPLAY / 2) + 1
+	numsid(tteam) = numsid(tteam) + 1
+*.......Move ship information back into high segment
+	do 900 i = 1, 10
+	  shpcon(snum,i) = tshpco(i)
+ 900	continue
+	do 1000 i = 1, KNDEV
+	  shpdam(snum,i) = tshpda(i)
+1000	continue
+	call jobsta ( 
+     +		job(snum,KJOB),
+     +		dummy,
+     +		dummy,
+     +		job(snum,KPPN),
+     +		job(snum,KTTYN),
+     +		job(snum,KTTYSP)
+     +		    )
+	job(snum,KNAM1) = tjob(KNAM1)
+	job(snum,KNAM2) = tjob(KNAM2)
+	job(snum,KTTYTP) = tjob(KTTYTP)
+	job(snum,KJOBTM) = tjob(KJOBTM)
+	job(snum,KRUNTM) = tjob(KRUNTM)
+	call setdsp (tshpco(KVPOS), tshpco(KHPOS), tship)
+	call unlock (frelok)
+	return
+*.......Error messages
+1100	call out (free01,1)			!Ship in use
+	call monit
+	goto 800
+1200	call out (free02,1)			!Spot on board taken
+	call monit
+	goto 800
+	end
+C	This routine processes command strings, and also monitors the
+C	hit and message queues between commands.
+	subroutine GETCMD (cmd)
+	include 'param/nolist'
+	include 'hiseg/nolist'
+	include 'lowseg/nolist'
+	include 'extern/nolist'
+	common /local/ dummy(locsiz)
+	common /polocl/ total(4)
+	external monit
+	call ttyon
+	if (hitflg(who) .ne. 0)  call outhit
+	call ttyon
+	if (msgflg(who) .ne. 0)  call outmsg
+	call prgnam ('DECWSL')
+	call dmpbuf			!dump output buffer
+	call CCTRAP
+	if (.not. PASFLG)
+     +    call pause (ptime)		!pause (mark) after previous command
+	ptime = 0			!assume no pause for next cmd.
+ 100	call crlf
+	call chkseq			! check for active jobs
+	if (shpcon(who,KSDAM) .ge. KENDAM)  goto 1100	!ship dead?
+	if (shpcon(who,KSNRGY) .le. 0)  goto 1200	!energy gone?
+	if (shpcon(who,KSNRGY) .le. 10000)  shpcon(who,KSPCON) = YELLOW	!yellow alert?
+	if (shpcon(who,KSPCON) .eq. YELLOW)  call out ("034160703400,0)	!if yellow alert, BEEP!
+	call ttyon
+	call endgam			!game over?
+	CCFLG = .FALSE.
+	call prompt  ;  call prgnam ('DECWTI')
+	call dmpbuf			!dump output buffer
+200	call zaplok			! remove any and all current locks
+	if (ccflg .or. hungup) goto 210
+	if (input(KCMDTM))  goto 400	!command input?
+	if (hungup) goto 500
+210	active(who) = 0
+	comknt = comknt + 1
+	if (comknt .lt. 30 * numply)  goto 300
+	comknt = 0
+c--	call dship
+ 300	if ((hitflg(who) .eq. 0) .and. (msgflg(who) .eq. 0))  goto 350
+	call ttyon
+	if (hitflg(who) .ne. 0)  call outhit
+	call ttyon
+	if (msgflg(who) .ne. 0)  call outmsg
+	goto 100
+ 350	call endgam  ;  goto 200	!check for end of game
+ 400	active(who) = 0
+	if (hungup) goto 500		! job hung up?
+C	if (lofchk(0))	goto 500	! drforbin(merlyn) dump user whose time limit is over
+	comknt = comknt + 1
+	call gtkn
+	if (.not. CCFLG) goto 600	!^C wasn't typed
+	if (shpcon(who,KSPCON) .ne. RED) goto 500
+	call out (noquit,1)
+	call clear
+	goto 100
+500	tknlst(1) = 'QUIT'		! ^C and hangup forces job to quit
+	typlst(1) = kalf
+	goto 610
+ 600	if (typlst(1) .eq. KEOL)  goto 100
+610	cmd = 0
+	do 700 i = 1, KNCMD		!identify command
+	  if (.not. (equal(tknlst(1), isaydo(1,i))))  goto 700
+	  if (cmd .ne. 0)  goto 800
+	  cmd = i
+ 700	continue
+	if (cmd)  800,900,1300 !will never take the neg branch
+ 800	call out (ambcom, 0)		!input is ambiguous
+	goto 1000
+ 900	call out (unkcom, 0)		!input is trash!
+1000	if (oflg .ne. short)  call out (forhlp, 0)
+	call crlf
+	goto 100
+1100	continue
+	txppn = job(who, kppn)
+	txnm1 = job(who, knam1)
+	txnm2 = job(who, knam2)
+	txsh1 = names (who, 1)
+	txsh2 = names (who, 2)
+	txtim = etim(job(who, KJOBTM))
+	txwhy = 0
+	txtem = team - 1
+	call points (.TRUE.)
+	txtot = total (1)
+	call updsta (txppn,txnm1,txnm2,txsh1,txsh2,txtot,txtim,txwhy, 
+     +	txtem, who)
+	call free (who)			!player is dead
+c--	call	shosta(0)
+	who = 0			! return to DECWAR
+	return
+1200	call odisp (team*100 + who, 1)	!ship is out of energy
+	call out (main02,1)
+	goto 1100
+1300	call prgnam ('DECWRN')
+	return
+	end
+C	This routine plots a possible new location for ships and bases
+C	after novas or photon torpedo hits.  If the new location contains
+C	a black hole, death!
+	subroutine JUMP (nplc, j)
+	include 'param/nolist'
+	include 'hiseg/nolist'
+	include 'lowseg/nolist'
+	include 'extern/nolist'
+	common /chkout/ V1, H1, V2, H2, dcode, disV, disH
+	real disV, disH
+	shjump = 0
+	if (nplc .gt. DXESHP)  goto 100			!ship?
+	iloc1 = shpcon(j,KVPOS)  ;  jloc1 = shpcon(j,KHPOS)
+	goto 300
+ 100	if (nplc .eq. DXROM)  goto 200			!base?
+	iloc1 = base(j,KVPOS,nplc-2)  ;  jloc1 = base(j,KHPOS,nplc-2)
+	goto 300
+ 200	iloc1 = locr(KVPOS)  ;  jloc1 = locr(KHPOS)	!romulan
+*.......Determine direction of blast, possible new location
+ 300	iVV = iloc1 + disV
+	iHH = jloc1 + disH
+	if (.not. ingal (IVV, IHH))  return
+	if (.not. (pdist (iloc1, jloc1, iVV, iHH) .eq. 1))  return
+	l = dispc (iVV,iHH)
+	if (l .eq. DXBHOL)  goto 600	!blown into black hole?
+	if (l .ne. DXMPTY)  return	!new location already occupied?
+*.......Displace to new location
+	call setdsp (iloc1, jloc1, 0)
+	call setdsp (iVV, iHH, (nplc * 100) + j)
+	if (nplc .ne. DXROM)  goto 400
+	locr(KVPOS) = iVV  ;  locr(KHPOS) = iHH  ;  goto 500
+ 400	if (nplc .lt. DXFBAS)  shpcon(j,KVPOS) = iVV
+	if (nplc .lt. DXFBAS)  shpcon(j,KHPOS) = iHH
+	if (nplc .ge. DXFBAS)  base(j,KVPOS,nplc-2) = iVV
+	if (nplc .ge. DXFBAS)  base(j,KHPOS,nplc-2) = iHH
+ 500	Vto = iVV  ;  Hto = iHH
+	shjump = 1
+	if (nplc .ge. DXFBAS)  return
+	shpcon(j,KSPCON) = RED  ;  docked(j) = .FALSE.
+	return
+*.......Displaced into black hole!
+ 600	call setdsp (iloc1, jloc1, 0)	!zero out object's old location
+	shjump = 1
+	klflg = 1  ;  Vto = iVV  ;  Hto = iHH
+	if (nplc .ne. DXROM)  goto 700	!romulan?
+	ROM = .FALSE.
+	return
+ 700	if (nplc .lt. DXFBAS)  shpcon(j,KSDAM) = KENDAM
+	if (nplc .lt. DXFBAS)  alive(j) = 0
+	if (nplc .ge. DXFBAS)  base(j,3,nplc-2) = 0
+	return
+	end
+C	This routine searches the KILQUE array for an entry matching
+C	the argument list.  If a match is found, KINDEX contains the
+C	the matching KILQUE row number, else it returns as zero.
+	subroutine KQSRCH (ttynum, jobnum, ppn, kindex)
+	include 'param/nolist'
+	include 'hiseg/nolist'
+	include 'lowseg/nolist'
+	include 'extern/nolist'
+	kindex = 0
+	if (nkill .eq. 0)  return	!no one has been killed yet
+	do 100 ii = 1, nkill
+	    i = ii
+	  if ((jobnum .eq. kilque(i,1)) .and. (ppn .eq. kilque(i,2))) 
+     +	  goto 200
+c--	  if ((ttynum .eq. kilque(i,3)) .and. 
+c--     +	  (etim(kilque(i,4)) .lt. 180000))  goto 200
+ 100	continue
+	return				!player not found in kill queue
+*.......Set KINDEX, update KILQUE entries
+ 200	kindex = i
+	kilque(i,1) = jobnum
+	kilque(i,2) = ppn
+	kilque(i,3) = ttynum
+	return
+	end
+C	LIST -- List various info (location, shield percent, number of
+C	builds) on ships, bases, and planets.
+	subroutine LIST
+	include 'param/nolist'
+	include 'hiseg/nolist'
+	include 'lowseg/nolist'
+	include 'extern/nolist'
+	include 'lstvar'
+	cmd = LSTCMD			!command is LIST
+	goto 100
+	entry SUMMAR			!command is SUMMARY
+	cmd = SUMCMD
+	goto 100
+	entry BASES
+	cmd = BASCMD			!command is BASES
+	goto 100
+	entry PLANET
+	cmd = PLNCMD			!command is PLANET
+	goto 100
+	entry TARGET
+	cmd = TARCMD			!command is TARGET
+ 100	call blkset (lstfz, 0, locf(lstlz)-locf(lstfz)+1)
+	svpos = shpcon(who,KVPOS)  ;  shpos = shpcon(who,KHPOS)
+	call crlf
+	p = 1  ;  n = 0
+ 200	if (p .gt. KMAXTK) return
+	if (typlst(p) .eq. KEOL)  goto 300
+	call lstscn ($400)		!scan group from input line
+	call lstflg ($200)		!set list flags according to group bits
+	n = n + 1
+	goto 200
+ 300	if (n .ne. 0)  call lstout	!output flagged items
+ 400	return
+	end
+C	This function is used to obtain location information from the
+C	player.  The parameter n if positive specifies the EXACT number
+C	of separate items of information needed by the calling routine.
+C	If n is negative, then it indicates the maximum number of
+C	OPTIONAL pieces of information the routine will accept, although
+C	no modifiers are actually required.  This routine will process
+C	coordinates given in ABSOLUTE, RELATIVE, or COMPUTED form.
+C	The value of LOCATE when returned to the calling routine equals
+C	the number of 'tokens' actually processed.  If LOCATE returns
+C	with a negative value, this indicates an error condition and
+C	the calling routine should therefore abort.  The entry point
+C	RELOC is used when a command has already been entered, and the
+C	first token is now a modifier, rather than the command itself.
+	function LOCATE (n)
+	include 'param/nolist'
+	include 'hiseg/nolist'
+	include 'lowseg/nolist'
+	include 'extern/nolist'
+	real dV, dH
+	p = 2
+	goto 100
+	entry RELOC (n)
+	call out (coord1,0)	!coordinates?
+	call gtkn
+	p = 1
+ 100	sign = isign(1,n)
+	max = iabs(n)
+	if (.not. (typlst(1) .eq. KEOL))  goto 300
+ 200	locate = -1
+	reloc  = locate
+	return			!abort
+*.......Check ICFLG for default location specification type
+ 300	dV = 0.0  ;  dH = 0.0  ;  if (icflg .eq. KABS)  goto 400
+	dV = float (shpcon(who,KVPOS))
+	dH = float (shpcon(who,KHPOS))
+ 400	if (.not. equal(tknlst(p), absfrm))  goto 500
+	p = p + 1
+	if (icflg .eq. KABS)  goto 1400
+	dV = 0.0  ;  dH = 0.0
+	goto 1400
+ 500	if (.not. equal(tknlst(p), relfrm))  goto 600
+	p = p + 1
+	if (icflg .eq. KREL)  goto 1400
+	dV = float(shpcon(who,KVPOS))
+	dH = float(shpcon(who,KHPOS))
+	goto 1400
+ 600	if (.not. equal(tknlst(p), 'COMPUTED'))  goto 1400
+	if (shpdam(who,KDCOMP) .lt. KCRIT)  goto 700
+	call out (damcom,1)
+	goto 200
+ 700	if (PASFLG .or. (job(who,KTTYSP) .le. 300))  goto 800
+c--	call out (nocomp,1)
+c--	goto 200
+		call pause (job(who, KTTYSP) * 2)	! slow down hi-bauders
+ 800	k = ntok - p
+	do 900 i = 1, k
+	  tknlst(i) = tknlst(i+p)
+	  typlst(i) = typlst(i+p) ; vallst(i) = vallst(i+p)
+ 900	continue
+	locate = k * 2
+	p = 1
+	if (.not. (typlst(1) .eq. KINT))  goto 1000
+	locate = locate - 1
+	k = k - 1
+	p = 2
+1000	ntok = locate
+	reloc  = locate
+	if (locate .eq. 0)  return
+	if ((sign .gt. 0) .and. (locate .ne. max))  goto 2000
+	if ((sign .lt. 0) .and. (locate .gt. max))  goto 2100
+	do 1300 i = k+p-1, p, -1
+	  do 1100 j = 1, KNPLAY
+	    if (.not. (typlst(i) .eq. KALF))  goto 2200
+	    if (equal(tknlst(i), names(j,1)))  goto 1200
+1100	  continue
+	  if (.not. equal(tknlst(i), 'ROMULAN'))  goto 2300
+	  if (.not. ROM)  goto 2400
+	  vallst(2*i - p) = locr (KVPOS)  ;  typlst(2*i - p) = KINT
+	  vallst(2*i - p + 1) = locr (KHPOS) ; typlst(2*i - p + 1) = KINT
+	  goto 1300
+1200	  if (.not. alive(j))  goto 2400
+	  if (disp(shpcon(j,KVPOS),shpcon(j,KHPOS)) .le. 0)  goto 2400
+	  vallst(2*i-p) = shpcon(j,KVPOS) ; typlst(2*i-p) = KINT
+	  vallst(2*i-p+1) = shpcon(j,KHPOS) ; typlst(2*i-p+1) = KINT
+1300	continue
+	return
+1400	locate = ntok - p + 1 	!number of tokens that follow
+	reloc  = locate
+	if (locate .eq. 0)  return
+	if ((sign .gt. 0) .and. (locate .ne. max))  goto 2000
+	if ((sign .lt. 0) .and. (locate .gt. max))  goto 2100
+	do 1500 i = p, ntok
+	  if (.not. (typlst(i) .eq. KINT))  goto 2500
+1500	continue
+	index = 1
+	if (mod(locate,2) .eq. 0)  goto 1700	!even # of items
+	vallst(index) = vallst(p)	!don't check for range error or relative
+1600	p = p + 1
+	index = index + 1
+1700	if (p .eq. ntok+1)  return
+	vallst(index) = vallst(p) + dV
+	if (.not. ingal (vallst(index), 5))  goto 2600
+	p = p + 1
+	index = index + 1
+	if (p .eq. ntok+1)  return
+	vallst(index) = vallst(p) + dH
+	if (.not. ingal (5, vallst(index)))  goto 2700
+	goto 1600
+C.......Error messages
+2000	call out (erloc1,1)	!wrong number of coordinates specified
+	goto 200
+2100	call out (erloc2,1)	!too many coordinates specified
+	goto 200
+2200	call out (erloc3,1)	!non-alpha ship name
+	goto 200
+2300	call out (erloc4,1)	!unrecognized ship name
+	goto 200
+2400	call out (noship,1)	!player not in game
+	goto 200
+2500	call out (erloc7,1)	!non-numeric coordinate
+	goto 200
+2600	call out (erloc8,1)	!V coordinate lies outside universe
+	goto 200
+2700	call out (erloc9,1)	!H coordinate lies outside universe
+	goto 200
+	end
+C	LSTSCN -- Scan input group for LIST, SUMMARY, TARGETS, BASES,
+C	and PLANETS commands.
+	subroutine LSTSCN (*)
+	include 'param/nolist'
+	include 'hiseg/nolist'
+	include 'lowseg/nolist'
+	include 'extern/nolist'
+	include 'lstvar/nolist'
+	goto (50, 100, 200, 300)  cmd
+C	LIST command
+	omask = SHPBIT .or. BASBIT .or. PLNBIT
+	smask = FEDBIT .or. EMPBIT .or. NEUBIT .or. ROMBIT
+	lmask = LSTBIT
+	range = MAXINT
+	goto 400
+C	SUMMARY command
+  50	omask = SHPBIT .or. BASBIT .or. PLNBIT
+	smask = FEDBIT .or. EMPBIT .or. NEUBIT .or. ROMBIT
+	lmask = SUMBIT
+	range = MAXINT
+	goto 400
+C	BASES command
+ 100	omask = BASBIT
+	smask = sbits(team)
+	lmask = LSTBIT .or. SUMBIT
+	range = MAXINT
+	goto 400
+C	PLANETS command
+ 200	omask = PLNBIT
+	smask = FEDBIT .or. EMPBIT .or. NEUBIT
+	lmask = LSTBIT
+	range = KRANGE
+	goto 400
+C	TARGETS command
+ 300	omask = SHPBIT .or. BASBIT .or. PLNBIT
+	smask = sbits(3-team) .or. ROMBIT
+	lmask = LSTBIT
+	range = KRANGE
+ 400	imask = 0		!nothing scanned yet
+	ships = 0		!no ships yet
+	vpos = 0  ;  hpos = 0	!no coordinate scanned
+	op = p			!remember where we started the scan
+ 500	p = p + 1
+	if (p .gt. KMAXTK) return 1	! prevent "Data out of bounds"
+C.......Check for end of group
+	if (typlst(p) .eq. KEOL)  goto 600
+	token = tknlst(p)
+	if (equal(token, '&'))  goto 600
+	if (.not. equal(token, 'AND'))  goto 800
+C.......End of group; check for any last minute syntax errors
+ 600	if (p .ne. op+1)  return
+	if (op .eq. 1)  goto 700
+	call out (lsts01,1)		!"Null group illegal"
+	return 1
+C.......Lone command (no modifiers).  In this case, automatically
+C	include a summary, unless the command was LIST.
+ 700	continue
+*	if (cmd .ne. LSTCMD)  lmask = lmask .or. SUMBIT
+	return
+C.......Check for coordinate and range
+ 800	if ((typlst(p) .eq. KINT) .and. (typlst(p+1) .eq. KINT)) 
+     +	goto 2200
+	if (typlst(p) .eq. KINT)  goto 2900	!range
+	if (typlst(p) .ne. KALF)  goto 1400
+C.......Check for ship name (Romulan counts as ship name)
+	if ((cmd .ne. LSTCMD) .and. (cmd .ne. TARCMD))  goto 1000
+	do 900 i = 1, KNPLAY
+	  if (equal(token, names(i,1)))  goto 1800 !ship name
+ 900	continue
+	if (equal(token, 'ROMULAN'))  goto 1700
+C.......Check for other keywords
+1000	if ((cmd .ne. LSTCMD) .and. (cmd .ne. SUMCMD) .and. 
+     +	(cmd .ne. TARCMD))  goto 1100
+	if (equal(token, 'SHIPS'))    goto 1900
+	if (equal(token, 'BASES'))    goto 2000
+	if (equal(token, 'PLANETS'))  goto 2100
+	if (equal(token, 'PORTS'))    goto 2150
+1100	if (cmd .eq. TARCMD)  goto 1200
+	if (equal(token, 'FRIENDLY'))    goto 2300
+	if (equal(token, 'ENEMY'))       goto 2400
+	if (equal(token, 'TARGETS'))     goto 2400
+	if (equal(token, 'FEDERATION'))  goto 2500
+	if (equal(token, 'HUMAN'))       goto 2500
+	if (equal(token, 'EMPIRE'))      goto 2600
+	if (equal(token, 'KLINGON'))     goto 2600
+1200	if ((cmd .eq. BASCMD) .or. (cmd .eq. TARCMD))  goto 1300
+	if (equal(token, 'NEUTRAL'))   goto 2700
+	if (equal(token, 'CAPTURED'))  goto 2800
+1300	if (equal(token, 'ALL'))  goto 2850	!legal for any command
+	if ((cmd .ne. SUMCMD) .and. equal(token, 'CLOSEST'))  goto 3000
+	if ((cmd .ne. LSTCMD) .and. (cmd .ne. SUMCMD) .and. 
+     +	equal(token, 'LIST'))  goto 3100
+	if ((cmd .ne. SUMCMD) .and. (equal(token, 'SUMMARY')))  goto 3200
+1400	call out (lsts02,0)  ;  goto 1600	!"Illegal keyword"
+1500	call out (lsts03,0)			!"Syntax error near keyword "
+1600	call outw (token)  ;  call crlf
+	return 1
+C----------------------------------------------------------------------
+C		Object selection
+C----------------------------------------------------------------------
+C.......Romulan
+1700	if ((imask .and. ROMBIT) .ne. 0)  goto 1500	!Romulan already given
+	imask = imask .or. ROMBIT .or. NAMBIT
+	omask = SHPBIT
+	goto 500
+C.......ship name
+1800	if ((imask .and. .not. (NAMBIT .or. ROMBIT)) .ne. 0)  goto 1500
+	imask = imask .or. NAMBIT
+	if ((ship .and. bits(i)) .ne. 0)  goto 1500	!name already given
+	ships = ships .or. bits(i)
+	omask = SHPBIT
+	goto 500
+C.......SHIP
+1900	if ((imask .and. (OBJMSK .or. NEUBIT .or. CAPBIT)) .ne. 0) 
+     +	goto 1500
+	imask = imask .or. SHPBIT
+	omask = SHPBIT
+	smask = smask .and. (FEDBIT .or. EMPBIT .or. ROMBIT)
+	goto 500
+C.......BASE
+2000	if ((imask .and. (OBJMSK .or. NEUBIT .or. CAPBIT)) .ne. 0) 
+     +	goto 1500
+	imask = imask .or. BASBIT
+	omask = BASBIT
+	smask = smask .and. (FEDBIT .or. EMPBIT)
+	goto 500
+C.......PLANET
+2100	if ((imask .and. OBJMSK) .ne. 0)  goto 1500
+	imask = imask .or. PLNBIT
+	omask = PLNBIT
+	smask = smask .and. (FEDBIT .or. EMPBIT .or. NEUBIT)
+	goto 500
+C.......PORT
+2150	if (who .eq. 0)  goto 1500		!Pre-game?
+	if ((imask .and. OBJMSK) .ne. 0)  goto 1500
+	imask = imask .or. PRTBIT
+	if ((imask .and. NEUBIT) .eq. 0)  omask = BASBIT .or. PLNBIT
+	if ((imask .and. SIDMSK) .eq. 0)  smask = sbits(team) .or. NEUBIT
+	smask = smask .and. .not. ROMBIT
+	goto 500
+C.......Coordinate
+2200	if (cmd .eq. SUMCMD)  goto 1500
+	if ((imask .and. (OBJMSK .or. SIDMSK .or. ALLBIT .or. RNGBIT .or. 
+     +	CLSBIT .or. OUTMSK)) .ne. 0)  goto 1500
+	imask = imask .or. CRDBIT
+	Vpos = vallst(p)  ;  Hpos = vallst(p+1)
+	p = p + 1
+	if (p .gt. KMAXTK) return  1
+	if (ingal(Vpos,Hpos))  goto 500
+	call out (lsts04,0)			!"Illegal coordinate"
+	call prloc (Vpos, Hpos, 1, 0, KABS, SHORT)
+	return 1
+C----------------------------------------------------------------------
+C		Side and range selection
+C----------------------------------------------------------------------
+C.......Friendly
+2300	if (who .eq. 0)  goto 1500		!Pre-game?
+	smask = smask .and. .not. ROMBIT
+	if (team .eq. 1)  2500, 2600
+C.......Enemy
+2400	if (who .eq. 0)  goto 1500		!Pre-game?
+	smask = smask .or. ROMBIT
+	if (team .eq. 1)  2600, 2500
+C.......Federation, Human
+2500	if ((imask .and. (SIDMSK .or. CRDBIT)) .ne. 0)  goto 1500
+	imask = imask .or. FEDBIT
+	smask = (smask .and. ROMBIT) .or. FEDBIT
+	goto 500
+C.......Empire, Klingon
+2600	if ((imask .and. (SIDMSK .or. CRDBIT)) .ne. 0)  goto 1500
+	imask = imask .or. EMPBIT
+	smask = (smask .and. ROMBIT) .or. EMPBIT
+	goto 500
+C.......Neutral
+2700	if ((imask .and. (SIDMSK .or. (OBJMSK .and. .not. PLNBIT))) 
+     +	.ne. 0)  goto 1500
+	imask = imask .or. NEUBIT
+	smask = NEUBIT
+	omask = PLNBIT
+	goto 500
+C.......Captured
+2800	if ((imask .and. (SIDMSK .or. (OBJMSK .and. .not. PLNBIT))) 
+     +	.ne. 0)  goto 1500
+	imask = imask .or. CAPBIT
+	smask = FEDBIT .or. EMPBIT
+	omask = PLNBIT
+	goto 500
+C.......ALL
+2850	if ((imask .and. (ALLBIT .or. CRDBIT)) .ne. 0)  goto 1500
+	imask = imask .or. ALLBIT
+	if (((imask .and. SIDMSK) .eq. 0) .and. (cmd .ne. TARCMD)) 
+     +	smask = FEDBIT .or. EMPBIT .or. NEUBIT .or. ROMBIT
+	if ((imask .and. RNGBIT) .eq. 0)  range = MAXINT
+	goto 500
+C.......Range
+2900	if (who .eq. 0)  goto 1500		!Pre-game?
+	if ((imask .and. (RNGBIT .or. CRDBIT)) .ne. 0)  goto 1500
+	imask = imask .or. RNGBIT
+	range = vallst(p)
+	if (range .lt. 1)  goto 1500
+	goto 500
+C.......Closest
+3000	if (who .eq. 0)  goto 1500		!Pre-game?
+	if ((imask .and. (CLSBIT .or. CRDBIT .or. OUTMSK)) .ne. 0) 
+     +	goto 1500
+	imask = imask .or. CLSBIT
+	lmask = LSTBIT
+	if ((imask .and. RNGBIT) .eq. 0)  range = MAXINT
+	goto 500
+C----------------------------------------------------------------------
+C		List and summary selection
+C----------------------------------------------------------------------
+C.......LIST
+3100	if ((imask .and. (OUTMSK .or. CRDBIT .or. CLSBIT .or. NAMBIT)) 
+     +	.ne. 0)  goto 1500
+	imask = imask .or. LSTBIT
+	lmask = lmask .or. LSTBIT
+	if ((cmd .ne. SUMCMD) .and. ((imask .and. SUMBIT) .eq. 0)) 
+     +	lmask = LSTBIT
+	goto 500
+C.......SUMMARY
+3200	if ((imask .and. (OUTMSK .or. CRDBIT .or. CLSBIT .or. NAMBIT)) 
+     +	.ne. 0)  goto 1500
+	imask = imask .or. SUMBIT
+	if ((imask .and. RNGBIT) .eq. 0)  range = MAXINT
+	lmask = lmask .or. SUMBIT
+	if ((cmd .ne. LSTCMD) .and. ((imask .and. LSTBIT) .eq. 0)) 
+     +	lmask = SUMBIT
+	goto 500
+	end
+C	LSTFLG -- Set LIST flags
+C	Set selection bits in SHPLST, BASLST, and PLNLST according
+C	to the masks returned by LSTSCN for the LIST command.
+	subroutine LSTFLG (*)
+	include 'param/nolist'
+	include 'hiseg/nolist'
+	include 'lowseg/nolist'
+	include 'extern/nolist'
+	include 'lstvar/nolist'
+	gxf = IRNBIT					!"in range"
+	if (range .gt. KGALV)  gxf = IGMBIT		!"in game"
+	if ((imask .and. RNGBIT) .ne. 0)  gxf = ISRBIT	!"in specified range"
+	grpbts = 0
+	if ((smask .ne. sbits(team)) .and. (range .gt. KRANGE) .and. 
+     +	(gxf .ne. IGMBIT))  grpbts = KNOBIT
+	gxf = gxf .or. lmask
+C	---------------------------------------------------------------
+	if ((imask .and. CRDBIT) .eq. 0)  goto 1200
+C	Specific coordinate was given ---------------------------------
+ 100	code = disp(Vpos,Hpos)		!display code of object
+	object = code/100		!object code
+	index = mod(code,100)		!object index
+	side = 0			!in case empty, star, or black hole
+	d = pdist (Vpos, Hpos, sVpos, sHpos) !distance from ship
+	goto (600, 600, 700, 700, 500, 900, 900, 900)  object !E,B,[],(),~~,@,+@,-@
+	if (d .gt. KRANGE)  goto 300
+	if (cmd .ne. LSTCMD)  goto 1100
+ 200	call lstobj  ;  return
+ 300	call out (lstf01,0)	!"Sir, our sensors can't scan as far as"
+	call prloc (Vpos, Hpos, 1, 0, KABS, SHORT)
+	return
+ 500	side = 3					!Romulan
+	scn = 0
+	goto 1000
+ 600	side = object					!ship
+	scn = 0
+	goto 1000
+ 700	if ((omask .and. BASBIT) .eq. 0)  goto 1100
+	side = object - 2				!base
+	scn = base(index,4,side)
+	goto 1000
+ 900	if ((omask .and. PLNBIT) .eq. 0)  goto 1100
+	side = object - 6				!planet
+	scn = locpln(index,4)
+
+1000	ctr = 0
+	call lstupd (dummy, ctr, scn, dummy)
+	if (ctr .ne. 0)  200, 300
+C	Specified object was not at coordinate (BASES, PLANETS, or
+C	TARGETS command)
+1100	if (cmd .eq. BASCMD)  call out (lstf02,0)	!"No base"
+	if (cmd .eq. PLNCMD)  call out (lstf03,0)	!"No planet"
+	if (cmd .eq. TARCMD)  call out (lstf04,0)	!"No target"
+	call prloc (Vpos, Hpos, 1, 0, ocflg, LONG)
+	return
+C	---------------------------------------------------------------
+1200	if ((imask .and. NAMBIT) .eq. 0)  goto 2300
+	call crlf
+	if ((imask .and. ROMBIT) .eq. 0)  goto 1700
+C	ROMULAN -------------------------------------------------------
+	if (ROMOPT)  goto 1300
+	call out (type06,1)	!Romulans are NOT in this game
+	goto 1700
+1300	if (ROM)  goto 1400
+	call out (lstf05,1)	!"The Romulan is dead"
+	goto 1700
+1400	side = 3  ;  code = 500  ;  object = 5
+	Vpos = locr(KVPOS)  ;  Hpos = locr(KHPOS)
+	call lstupd (dummy, dummy, -1, dummy)
+	call lstobj
+C	---------------------------------------------------------------
+1700	if (ships .eq. 0)  goto 2200
+C	Ship name -----------------------------------------------------
+	do 2100 index = 1, KNPLAY
+	  if ((ships .and. bits(index)) .eq. 0)  goto 2100	!ship not selected
+	  side = 1  ;  if (index .gt. KNPLAY/2)  side = 2
+	  object = side
+	  code = object * 100 + index
+	  if (.not. alive(index))  goto 1800		!ship not in game
+	  Vpos = shpcon(index,KVPOS)  ;  Hpos = shpcon(index,KHPOS)
+	  if (disp(Vpos,Hpos) .eq. 0)  goto 1800	!dead, but not gone yet
+	  call lstupd (dummy, dummy, -1, dummy)
+	  call lstobj
+	  goto 2100
+1800	  call odisp (code,0)
+	  call out (' is not in the game',1)
+2100	continue
+2200	return
+C	---------------------------------------------------------------
+2300	clsest = MAXINT
+	if ((omask .and. SHPBIT) .eq. 0)  goto 3000
+C	SHIP ----------------------------------------------------------
+	if ((smask .and. ROMBIT) .eq. 0)  goto 2600	!Rom not selected
+	if (.not. ROM)  goto 2600			!Rom not in game
+	Vpos = locr(1)  ;  Hpos = locr(2)  ;  side = 3
+	scn = 0						!no scan if out of range enemy
+	if ((gxf .and. IGMBIT) .ne. 0)   scn = -1	!unless asking for entire game
+	if ((imask .and. CLSBIT) .ne. 0)  scn = 0	!no scan if asking for closest
+	call lstupd (romlst, romctr, scn, rxf)
+2600	first = 1  ;  last = KNPLAY
+	if ((smask .and. FEDBIT) .eq. 0)  first = KNPLAY/2+1	!Fed not selected
+	if ((smask .and. EMPBIT) .eq. 0)  last = KNPLAY/2	!Emp not selected
+	if (first .gt. last)  goto 3000				!neither; was Rom
+	do 2900 i = first, last
+	  if (.not. alive(i))  goto 2900			!ship not in game
+	  Vpos = shpcon(i,KVPOS)  ;  Hpos = shpcon(i,KHPOS)
+	  if (disp(Vpos,Hpos) .eq. 0)  goto 2900		!dead, but not gone yet
+	  side = 1  ;  if (i .gt. KNPLAY/2)  side = 2
+	  scn = 0				!no scan if out of range enemy
+	  if ((imask .and. CLSBIT) .eq. 0)  goto 2700 !~ looking for closest
+	  if (i .ne. who)  2800, 2900		!don't include self as closest
+2700	  if ((gxf .and. IGMBIT) .ne. 0)  scn = -1	!scan if asking for entire game
+2800	  call lstupd (shplst(i), shpctr(side), scn, sxf(side))
+2900	continue
+C	---------------------------------------------------------------
+3000	if ((omask .and. BASBIT) .eq. 0)  goto 3500
+C	BASE ----------------------------------------------------------
+	first = 1  ;  last = 2
+	if ((smask .and. FEDBIT) .eq. 0)  first = 2	!Fed not selected
+	if ((smask .and. EMPBIT) .eq. 0)  last = 1	!Emp not selected
+	do 3400 side = first, last
+	  do 3300 i = 1, KNBASE
+	    if (base(i,3,side) .le. 0)  goto 3300	!base is dead
+	    Vpos = base(i,KVPOS,side)  ;  Hpos = base(i,KHPOS,side)
+	    call lstupd (baslst(i,side), basctr(side), base(i,4,side), 
+     +	                bxf(side))
+3300	  continue
+3400	continue
+C	---------------------------------------------------------------
+3500	if ((omask .and. PLNBIT) .eq. 0)  goto 3800
+C	PLANET --------------------------------------------------------
+	if (nplnet .eq. 0)  goto 3800			!no planets left
+	do 3700 i = 1, nplnet
+	  Vpos = locpln(i,KVPOS)  ;  Hpos = locpln(i,KHPOS)
+	  side = dispc(vpos,hpos) - 6
+	  if ((smask .and. sbits(side)) .eq. 0)  goto 3700	!wrong side
+	  call lstupd (plnlst(i), plnctr, locpln(i,4), pxf(side))
+3700	continue
+C	---------------------------------------------------------------
+3800	if ((imask .and. CLSBIT) .eq. 0)  goto 3900
+	Vpos = Vposc  ;  Hpos = Hposc
+	imask = imask .and. .not. CLSBIT
+	if (clsest .eq. MAXINT)  4000, 100
+3900	if ((grpbts .and. (LSTBIT .or. SUMBIT)) .ne. 0)  return
+4000	msg = locf(lstf06)				!"Sir, there are no"
+	if (oflg .ne. LONG)  msg = locf(lstf07)		!"No"
+	call out (msg,0)
+	if ((grpbts .and. KNOBIT) .ne. 0)  call out (known,0)	!" known"
+	msg = 0
+	if (smask .eq. NEUBIT)  msg = locf(lstf08)	!" neutral"
+	if (smask .eq. FEDBIT)  msg = locf(lstf09)	!" Federation"
+	if (smask .eq. EMPBIT)  msg = locf(lstf10)	!" Empire"
+	if ((smask .eq. (FEDBIT .or. EMPBIT)) .and. (omask .eq. PLNBIT)) 
+     +	msg = locf(lstf11)				!" captured"
+	if (((smask .and. ROMBIT) .ne. 0) .and. (smask .and. NEUBIT) 
+     +	.eq. 0)  msg = locf(lstf12)			!" enemy"
+	call out (msg,0)
+	if (omask .eq. PLNBIT)  msg = locf(lstf13)	!" planets"
+	if (omask .eq. BASBIT)  msg = locf(lstf14)	!" bases"
+	if (omask .eq. SHPBIT)  msg = locf(lstf15)	!" ships"
+	if (omask .eq. (BASBIT .or. PLNBIT))  msg = locf(lstf16) !" ports"
+	if (omask .eq. (PLNBIT .or. BASBIT .or. SHPBIT)) 
+     +	msg = locf(lstf17)				!" forces"
+	call out (msg,0)
+	if (oflg .eq. SHORT)  goto 4100
+	msg = locf(ingame)					!" in game"
+	if ((grpbts .and. IRNBIT) .ne. 0)  msg = locf(inrang)	!" in range"
+	if ((grpbts .and. ISRBIT) .ne. 0)  msg = locf(inspra)	!" in specified range"
+	if ((grpbts .and. IGMBIT) .ne. 0)  msg = locf(ingame)	!" in game"
+	call out (msg,0)
+4100	call crlf
+	return 1
+	end
+C	LSTUPD -- Update list flags for given object (ship, base, planet)
+C	if it's allowed to be listed (or included in a summary).
+	subroutine LSTUPD (lstmsk, objctr, scnbts, xxf)
+	include 'param/nolist'
+	include 'hiseg/nolist'
+	include 'lowseg/nolist'
+	include 'extern/nolist'
+	include 'lstvar/nolist'
+	d = pdist (sVpos, sHpos, Vpos, Hpos)
+	xf = gxf
+	if (d .le. KRANGE)  goto 400		!within range
+	if (side .eq. team)  goto 400		!friendly
+	if (.not. PASFLG)  goto 100
+	xf = xf .or. PASBIT  ;  goto 400	!god
+ 100	xf = xf .or. ORNBIT			!out of range
+	if (range .le. KRANGE)  goto 200
+	grpbts = grpbts .or. KNOBIT		!"no KNOWN x in s.range/game"
+	if ((xf .and. IGMBIT) .eq. 0)  xf = xf .or. KNOBIT
+ 200	txf = txf .or. xf			!update target summary flags
+	if ((scnbts .and. team) .ne. 0)  goto 400  !already scanned
+	if ((xf .and. SUMBIT) .eq. 0)  goto 700	!not requesting summary
+	if ((xf .and. IGMBIT) .eq. 0)  goto 700	!not requesting entire game
+	xf = xf.and..not.LSTBIT			!allow summary only (no list)
+	goto 500
+ 400	if (d .gt. range)  goto 700		!not in requested range
+	if ((imask .and. CLSBIT) .ne. 0)  goto 600  !looking for closest
+ 500	lstmsk = lstmsk .or. xf
+	objctr = objctr + 1
+	grpbts = grpbts .or. xf
+	xxf = xxf .or. xf
+	return
+ 600	if (d .gt. clsest)  goto 700		!looking for closest
+	clsest = d  ;  Vposc = Vpos  ;  Hposc = Hpos
+ 700	grpbts = grpbts .or. (xf .and. (IRNBIT .or. ISRBIT .or. 
+     +	IGMBIT .or. ORNBIT))
+	xxf = xxf .or. xf
+	return
+	end
+C	LSTOUT -- Output requested LIST info.
+	subroutine LSTOUT
+	include 'param/nolist'
+	include 'hiseg/nolist'
+	include 'lowseg/nolist'
+	include 'extern/nolist'
+	include 'lstvar/nolist'
+	integer sum(0:2)
+	sum(0) = 0 ; sum(1) = 0 ; sum(2) = 0	!nothing flagged for summary
+	nt = 0					!no targets yet
+C.......Romulan
+	if (romctr .eq. 0)  goto 100
+	xf = romlst
+	if ((xf .and. LSTBIT) .eq. 0)  goto 50
+	side = 3  ;  code = DXROM*100  ;  object = DXROM
+	vpos = locr(KVPOS)  ;  hpos = locr(KHPOS)
+	call crlf
+	call lstobj
+   50	if ((xf .and. SUMBIT) .eq. 0)  goto 100
+	nt = nt + 1
+	call crlf
+	call lstsum (romctr, 'Romulan', rxf)
+C.......ships
+  100	first = 1  ;  last = KNPLAY
+	if (shpctr(1) .eq. 0)  first = KNPLAY/2 + 1
+	if (shpctr(2) .eq. 0)  last = KNPLAY/2
+	if (first .gt. last)  goto 300
+	call crlf
+	do 200 index = first, last
+	  xf = shplst(index)
+	  if (xf .eq. 0)  goto 200
+	  side = 1  ;  if (index .gt. KNPLAY/2)  side = 2
+	  if ((xf .and. LSTBIT) .eq. 0)  goto 150
+	  object = side
+	  code = object * 100 + index
+	  vpos = shpcon(index,KVPOS)  ;  hpos = shpcon(index,KHPOS)
+	  call lstobj
+  150	  if ((xf .and. SUMBIT) .eq. 0)  goto 200
+	  sum(side) = sum(side) + 1
+	  if (side .ne. team)  nt = nt + 1
+  200	continue
+	if (cmd .eq. TARCMD)  goto 300
+	call crlf
+	call lstsum (sum(1), fedshp, sxf(1))	!"Federation ship"
+	call lstsum (sum(2), empshp, sxf(2))	!"Empire ship"
+C.......bases
+  300	first = 1  ;  last = 2
+	if (basctr(1) .eq. 0)  first = 2
+	if (basctr(2) .eq. 0)  last = 1
+	if (first .gt. last)  goto 600
+	call crlf
+	do 500 side = first, last
+	  do 400 index = 1, KNBASE
+	    xf = baslst(index,side)
+	    if (xf .eq. 0)  goto 400
+	    if ((xf .and. LSTBIT) .eq. 0)  goto 350
+	    object = side + 2
+	    code = object * 100 + index
+	    vpos = base(index,KVPOS,side) ; hpos = base(index,KHPOS,side)
+	    call lstobj
+	    if ((xf .and. PASBIT) .eq. 0) 
+     +	    base(index,4,side) = base(index,4,side) .or. team
+  350	    if ((xf .and. SUMBIT) .eq. 0)  goto 400
+	    sum(side) = sum(side) + 1
+	    if (side .ne. team)  nt = nt + 1
+  400	  continue
+  500	continue
+	if (cmd .eq. TARCMD)  goto 600
+	call crlf
+	call lstsum (sum(1), fedbas, bxf(1))	!"Federation base"
+	call lstsum (sum(2), empbas, bxf(2))	!"Empire base"
+C.......planets
+  600	if (plnctr .eq. 0)  goto 800
+	call crlf
+	do 700 index = 1, nplnet
+	  xf = plnlst(index)
+	  if (xf .eq. 0)  goto 700
+	  vpos = locpln(index,KVPOS)  ;  hpos = locpln(index,KHPOS)
+	  object = dispc(vpos,hpos)
+	  side = object - 6
+	  if ((xf .and. LSTBIT) .eq. 0)  goto 650
+	  code = object * 100 + index
+	  call lstobj
+	  if ((xf .and. PASBIT) .eq. 0) 
+     +	  locpln(index,4) = locpln(index,4) .or. team
+  650	  if ((xf .and. SUMBIT) .eq. 0)  goto 700
+	  sum(side) = sum(side) + 1
+	  if (side .eq. (3-team))  nt = nt + 1
+  700	continue
+	if (cmd .eq. TARCMD)  goto 800
+	call crlf
+	call lstsum (sum(0), neupln, pxf(0))	!"neutral planet"
+	call lstsum (sum(1), fedpln, pxf(1))	!"Federation planet"
+	call lstsum (sum(2), emppln, pxf(2))	!"Empire planet"
+C.......targets summary
+  800	if (cmd .ne. TARCMD)  return
+	if (nt .eq. 0)  return
+	call crlf
+	call lstsum (nt, 'target', txf)
+	return
+	end
+C	LSTSUM -- List summary line
+	subroutine LSTSUM (n, str, f)
+	include 'param/nolist'
+	include 'hiseg/nolist'
+	include 'lowseg/nolist'
+	include 'extern/nolist'
+	integer str(1)
+	if (n .eq. 0)  return
+	call odec (n,3)
+	if ((f .and. KNOBIT) .ne. 0)  call out (known,0)  !" known"
+	call space
+	call out (str,0)  ;  if (n .ne. 1)  call outc('s')
+	if (oflg .eq. SHORT)  goto 100
+	msg = locf(inrang)				!" in range"
+	if ((f .and. ISRBIT) .ne. 0)  msg = locf(inspra)  !" in specified range"
+	if ((f .and. IGMBIT) .ne. 0)  msg = locf(ingame)  !" in game"
+	call out (msg,0)
+  100	call crlf
+	n = 0
+	return
+	end
+C	LISOBJ -- List object (ship, base, or planet).  Include
+C	possibly name, location, shield percent, number of builds,
+C	depending on the object, range, side, etc.  Flag line with *
+C	in column 1 if the object is an enemy.
+	subroutine LSTOBJ
+	include 'param/nolist'
+	include 'hiseg/nolist'
+	include 'lowseg/nolist'
+	include 'extern/nolist'
+	include 'lstvar/nolist'
+C	Input from LSTVAR:
+C	  SVPOS,SHPOS	ship position
+C	  CODE		display code of object
+C	  OBJECT	object code [CODE/100]
+C	  INDEX		object index [MOD(CODE,100)]
+C	  VPOS,HPOS	position of object
+C	  SIDE		which side the object is on
+C	  CMD		command being executed
+C	  XF		ORNBIT
+	if ((side .eq. 0) .or. (side .eq. team) .or. (cmd .eq. TARCMD)) 
+     +	goto 100
+	call outc ('*')  ;  goto 200
+  100	call space
+  200	call odisp (code,0)
+	if (oflg .eq. LONG)  call tab (14)
+	if (oflg .ne. LONG)  call tab (5)
+	goto (400, 400, 600, 600, 300, 700, 700, 700)  object
+C.......Romulan
+  300	if ((xf .and. ORNBIT) .ne. 0)  goto 500		!out of range
+	call prloc (vpos, hpos, 0, 2, ocflg, oflg)
+	call oflt (erom,6)
+	if (oflg .ne. SHORT)  call outc ('%')
+	goto 800
+C.......ship
+  400	if ((xf .and. ORNBIT) .ne. 0)  goto 500		!out of range
+	call prloc (vpos, hpos, 0, 2, ocflg, oflg)
+	spc = shpcon(index,KSHCON) * shpcon(index,KSSHPC)
+	call osflt (spc,6)
+	if (oflg .ne. SHORT)  call outc ('%')
+	goto 800
+  500	call out ('out of range',0)
+	goto 800
+C.......base
+  600	call prloc (vpos, hpos, 0, 2, ocflg, oflg)
+	if ((xf .and. ORNBIT) .ne. 0)  goto 800		!out of range
+	call oflt (base(index,3,side),6)
+	if (oflg .ne. SHORT)  call outc ('%')
+	goto 800
+C.......planet
+  700	call prloc (vpos, hpos, 0, 2, ocflg, oflg)
+	b = locpln(index,3)  ;  if (b .eq. 0)  goto 800
+	call odec (b,6)
+	if ((oflg .eq. LONG) .and. (b .ne. 1))  call out (' builds',0)
+	if ((oflg .eq. LONG) .and. (b .eq. 1))  call out (build3,0)
+	if (oflg .eq. MEDIUM)  call out (' b',0)
+  800	call crlf
+	return
+	end
+C	This routine drives the WARP and IMPULSE engine movement.
+C	The desired destination coordinates are processed, the path
+C	searched for collisions, and the energy consumption computed.
+	subroutine MOVE (*)
+	include 'param/nolist'
+	include 'hiseg/nolist'
+	include 'lowseg/nolist'
+	include 'extern/nolist'
+	common /chkout/ V1, H1, V2, H2, dcode, disV, disH
+	real d, disV, disH
+	iflg = 0					!warp engines
+	if (shpdam(who,KDWARP) .lt. KCRIT)  goto 100	!warp engines kaput?
+	call out (wrpdam,1)
+	return 1
+	entry IMPULS (*)
+	iflg = 1					!impulse engines
+	if (shpdam(who,KDIMP) .lt. KCRIT)  goto 100	!impulse engines kaput?
+	call out (impdam,1)
+	return 1
+ 100	v = etim(tim0) + (slwest * 1000) + 1000
+	d = 0.0    					!initialize random movement
+	randam = iran (4000)				!penalty for going too fast
+	time = randam / 30
+*.......Get proposed movement
+	tem = locate(2)
+ 200	if (tem .lt. 0)  return 1
+	if (tem .ne. 0)  goto 300
+	tem = reloc(2)
+	goto 200
+*.......Convert to relative coordinates
+ 300	iV = vallst(1) - shpcon(who,KVPOS)
+	iH = vallst(2) - shpcon(who,KHPOS)
+	if (.not. ((iV .eq. 0) .and. (iH .eq. 0)))  goto 700
+	if (oflg)  400, 400, 500
+ 400	call out (error2,1)  ;  goto 600
+ 500	call out (error1,1)
+ 600	if (reloc(2) .lt. 0)  return 1			!aborted move
+	goto 300   					!try again
+ 700	shpcon(who,KSPCON) = GREEN			!condition green
+	docked(who) = .FALSE.
+	ia = max0 (iabs(iV), iabs(iH))			!how far to go?
+	if (shpdam(who,KDCOMP) .ge. KCRIT)  d = (ran(0) - 0.5) / 2.0	!add deflection if computer damaged
+	if (iflg .eq. 1)  goto 800			!impulse
+	if (ia .gt. 6)  goto 1300			!TOO fast!
+	if ((shpdam(who,KDWARP) .gt. 0) .and. (ia .gt. 3))  goto 900
+	if (ia .gt. 4)  goto 1700
+	goto 1900
+*.......Impulse movement
+ 800	if (ia .eq. 1)  goto 1900			!going only 1 sector?
+	if (oflg .eq. long)  call out (move1A,0)
+	call out (move1B,1)
+	return 1
+ 900	if (oflg)  1000, 1000, 1100			!warp engines damaged
+1000	call out (move2S,1)  ;  goto 1200
+1100	call out (move2L,1)
+1200	return 1
+1300	if (oflg)  1400, 1400, 1500			!trying to move > 6 sectors
+1400	call out (move3S, 0)  ;  goto 1600
+1500	call out (move3L,0)
+1600	if (shpdam(who,KDWARP) .gt. 0)  call out2c ('3.')
+	if (shpdam(who,KDWARP) .eq. 0)  call out2c ('6.')
+	return 1
+*.......warp 5 or 6 -- might work
+1700	if (oflg .eq. long)   call out (engoff,0)	!warning of warp factor
+	if (oflg .ne. short)  call out (move5L,1)
+	if (oflg .eq. short)  call out (move5S,1)
+	tran = iran (100)
+	if (.not. (((tran .gt. 80) .and. (ia .ge. 6)) .or. 
+     +	((tran .gt. 90) .and. (ia .eq. 5))))  goto 1900	!engines blown?
+*.......Warp engines damaged by overheating (ie speeding)
+	call out (move06,0)
+	call oflt (randam, 3)
+	call out (move08,1)
+	if (oflg .eq. short)  goto 1800
+	call out (move09,0)
+	call oflt (time, 2)
+	call out (strdat,1)
+1800	shpdam(who,KDWARP) = shpdam(who,KDWARP) + randam
+*.......Check path for obstacles, move to last empty sector
+1900	call check (shpcon(who,KVPOS), shpcon(who,KHPOS), iV, iH, ia, d)
+	ied = 40 * ia * ia				!compute energy consumption
+	if (shpcon(who,KSHCON) .gt. 0)  ied = 2 * ied
+	if (trstat(who) .ne. 0)  ied = 3 * ied
+	shpcon(who,KSNRGY) = shpcon(who,KSNRGY) - ied
+*	move ship
+	if ((V1 .eq. shpcon(who,KVPOS)) .and. 
+     +	(H1 .eq. shpcon(who,KHPOS)))  goto 2000
+	indxto = (v1-1)*25 + (h1 - 1)/3 + 1
+	indxfm = (shpcon(who, kvpos) - 1)*25 + (shpcon(who, khpos) - 1)/3 + 1
+	call lock (board(indxto))
+	if (lkfail) return 1
+	if (indxto .eq. indxfm) goto 333
+	call lock (board(indxfm))
+	if (.not. lkfail) goto 333
+		call unlock (board(indxto))
+		return 1		! failed to move
+333	call setdsp (shpcon(who,KVPOS), shpcon(who,KHPOS), 0)
+	call setdsp (V1, H1, (team * 100) + who)
+	shpcon(who,KVPOS) = V1
+	shpcon(who,KHPOS) = H1
+	if (indxto .ne. indxfm) call unlock (board(indxfm))
+	call unlock (board(indxto))
+	if (trstat(who) .eq. 0)  goto 2000
+	tl = disp(shpcon(trstat(who),KVPOS),shpcon(trstat(who),KHPOS))
+	call setdsp (V1-int(disV), H1-int(disH), tl)
+	call setdsp (shpcon(trstat(who),KVPOS), 
+     +	shpcon(trstat(who),KHPOS), 0)
+	shpcon(trstat(who),KVPOS) = V1 - disV
+	shpcon(trstat(who),KHPOS) = H1 - disH
+2000	if (dcode .ne. 0)  call out (move10,1)		!run into anything?
+*.......Compute pause time for move
+	ptime = v - etim(tim0)
+	return
+	end
+C	This routine is called by SNOVA to damage an object caught by
+C	an exploding star.  Scoring is updated, plus modifying and/or
+C	killing the object specified.
+	subroutine NOVA (nplc, j)
+	include 'param/nolist'
+	include 'hiseg/nolist'
+	include 'lowseg/nolist'
+	include 'extern/nolist'
+	common /chkout/ V1, H1, iVc, iHc, dcode, idisV, idisH
+	real idisV, idisH
+	Vfrom = iVc  ;  Hfrom = iHc
+	Vto = V1  ;  Hto = H1
+	if (nplc .eq. DXROM)  goto 800					!Romulan?
+	if ((nplc .ge. DXNPLN) .and. (nplc .le. DXEPLN))  goto 1000	!Planet?
+*.......Compute size of nova
+	d = 1000
+	if (nplc .ge. DXFBAS)  d = d - base(j,3,nplc-2)
+	if ((nplc .lt. DXFBAS) .and. (shpcon(j,KSHCON) .gt. 0)) 
+     +	d = d - shpcon(j,KSSHPC)
+	if (d .lt. 200)  d = 250
+	if (nplc .ge. DXFBAS)  goto 200		!base?
+*.......Damage ship's devices
+	do 100 i = 1, KNDEV
+	  shpdam(j,i) = shpdam(j,i) + int(ran(0) * d * 4.0)
+ 100	continue
+	if (shpdam(j,KDSHLD) .ge. KCRIT)  shpcon(j,KSHCON) = -1
+*.......Update scoring due to nova
+ 200	ihita = d * 8 + iran (1000)
+	if (PLAYER .and. (5-team .eq. nplc))  tpoint(KPBDAM) = 
+     +	tpoint(KPBDAM) + ihita
+	if ((.not. PLAYER) .and. (nplc .ge. DXFBAS))  rsr(KPBDAM) = 
+     +	rsr(KPBDAM) + ihita
+	if (PLAYER .and. (3-team .eq. nplc))  tpoint(KPEDAM) = 
+     +	tpoint(KPEDAM) + ihita
+	if ((.not. PLAYER) .and. (nplc .lt. DXFBAS))  rsr(KPEDAM) = 
+     +	rsr(KPEDAM) + ihita
+	if (PLAYER .and. (team+2 .eq. nplc))  tpoint(KPBDAM) = 
+     +	tpoint(KPBDAM) - ihita
+	if (PLAYER .and. (team .eq. nplc))  tpoint(KPEDAM) = 
+     +	tpoint(KPEDAM) - ihita
+*.......Damage ship
+	if (nplc .ge. DXFBAS)  goto 500		!base?
+	shpcon(j,KSDAM) = shpcon(j,KSDAM) + ihita
+	shpcon(j,KSNRGY) = shpcon(j,KSNRGY) - ihita * ran(0)
+	if (shpcon(j,KSHCON) .gt. 0)  shpcon(j,KSSHPC) = max0( 
+     +	shpcon(j,KSSHPC) - 300 + iran(100), 0)
+	if (shpcon(j,KSSHPC) .le. 0)  shpcon(j,KSHCON) = -1
+*	Ship destroyed?  Else, displace it
+	if ((shpcon(j,KSDAM) .lt. KENDAM) .and. (shpcon(j,KSNRGY) .gt. 0)) 
+     +	goto 300
+	call setdsp (shpcon(j,KVPOS), shpcon(j,KHPOS), 0)
+	alive(j) = 0  ;  klflg = 2
+	goto 400
+ 300	call jump (nplc,j)			!displace the ship
+ 400	dispfr = DXSTAR * 100  ;  dispto = (nplc * 100) + j  ;  iwhat = 8
+	Vto = shpcon(j,KVPOS)  ;  Hto = shpcon(j,KHPOS)
+	shstto = shpcon(j,KSSHPC)  ;  shcnto = shpcon(j,KSHCON)
+	if ((klflg .ne. 0) .and. PLAYER .and. (team .eq. nplc)) 
+     +	tmscor(team,KPEKIL) = tmscor(team,KPEKIL) - 5000
+	if ((klflg .ne. 0) .and. PLAYER .and. (team .ne. nplc)) 
+     +	tmscor(team,KPEKIL) = tmscor(team,KPEKIL) + 5000
+	if ((klflg .ne. 0) .and. (.not. PLAYER)) 
+     +	rsr(KPEKIL) = rsr(KPEKIL) + 5000
+	call pridis (shpcon(j,KVPOS), shpcon(j,KHPOS), KRANGE, 0, 0)
+	call makhit			!send hit message
+	if (trstat(j) .ne. 0)  call trcoff (j)	!break tractor beam?
+	return
+*.......Damage base
+ 500	jbase = nplc - 2
+	if (base(j,3,jbase) .ne. 1000)  goto 600  !base ALREADY damaged?
+	dispfr = DXSTAR * 100  ;  dispto = (nplc * 100) + j  ;  iwhat = 9
+	call pridis (30, 30, 100, jbase, 0)
+	dbits = dbits .and. .not. nomsg
+	call makhit		!send galaxy-wide distress call
+ 600	base(j,3,jbase) = max0 (base(j,3,jbase) - 300 + iran (100) , 0)
+	if (base(j,3,jbase) .gt. 0)  call jump (nplc,j)	!if base still alive, displace
+	dispfr = DXSTAR * 100  ;  dispto = (nplc * 100) + j  ;  iwhat = 8
+	Vfrom = iVc  ;  Hfrom = iHc
+	Vto = base(j,KVPOS,jbase)  ;  Hto = base(j,KHPOS,jbase)
+	shstto = base(j,3,jbase)  ;  shcnto = 1
+	if (base(j,3,jbase) .gt. 0)  goto 700
+	if (.not. PLAYER)  rsr(KPBDAM) = rsr(KPBDAM) + 10000
+	if (PLAYER .and. (team .eq. jbase))  tpoint(KPBDAM) = 
+     +	tpoint(KPBDAM) - 10000
+	if (PLAYER .and. (team .ne. jbase))  tpoint(KPBDAM) = 
+     +	tpoint(KPBDAM) + 10000
+	nbase(jbase) = nbase(jbase) - 1
+	call baskil (jbase)
+	klflg = 2
+ 700	call pridis (base(j,KVPOS,jbase), base(j,KHPOS,jbase), 
+     +	KRANGE, 0, 0)
+	call makhit
+*.......Base killed?
+	if (base(j,3,jbase) .gt. 0)  return
+	call setdsp (base(j,KVPOS,jbase), base(j,KHPOS,jbase), 0)
+	iwhat = 10  ;  dispfr = DXSTAR * 100  ;  dispto = (nplc * 100) + j
+	call pridis (30, 30, 100, jbase, 0)
+	dbits = dbits .and. .not. nomsg
+	Vto = base(j,KVPOS,jbase)  ;  Hto = base(j,KHPOS,jbase)
+	call makhit		!send galaxy-wide death notice
+	return
+*.......Romulan damaged/killed by nova
+c-- 800	if (iran(2) .eq. 1)  call deadro (d1,d2)!kill Romulan?
+800	continue			! don't kill the Romulan
+	if (ROM)  call jump (DXROM,1)
+	if (ROM)  erom = erom / 2
+	if (.not. PLAYER)  rsr(KPRKIL) = rsr(KPRKIL) - erom
+	if (PLAYER)  tpoint(KPRKIL) = tpoint(KPRKIL) + erom
+	dispfr = DXSTAR * 100  ;  dispto = DXROM * 100  ;  iwhat = 8
+	shstto = erom  ;  shcnto = 1
+	Vto = locr(KVPOS)  ;  Hto = locr(KHPOS)
+	call pridis (Vto, Hto, KRANGE, 0, 0)
+	call makhit			!send hit message
+	if (ROM)  goto 900
+	if (.not. PLAYER)  rsr(KPRKIL) = rsr(KPRKIL) - 5000
+	if (PLAYER)  tpoint(KPRKIL) = tpoint(KPRKIL) + 5000
+ 900	return
+*.......Planet damaged/destroyed by nova
+1000	dispfr = DXSTAR * 100  ;  dispto = (nplc * 100) + j  ;  iwhat = 8
+	call lock (plnlok,'NOVA')		!lock LOCPLN array
+	if (lkfail) return			! ignore the destruction
+	Vto = locpln(j,KVPOS)  ;  Hto = locpln(j,KHPOS)
+	locpln(j,3) = locpln(j,3) - 3
+	if (locpln(j,3) .lt. 0)  klflg = 2	!planet killed?
+	shstto = max0 (locpln(j,3), 0)
+	call pridis (Vto, Hto, KRANGE, 0, 0)
+	call makhit			!send hit message
+	if (locpln(j,3) .ge. 0)  goto 1100
+*	Update planet information
+	if (PLAYER) tpoint(KNPDES) = tpoint(KNPDES) - 1000
+	if (.not. PLAYER)  rsr(KNPDES) = rsr(KNPDES) - 1000
+	pteam = dispc (locpln(j,KVPOS), locpln(j,KHPOS)) - DXNPLN
+	call setdsp (locpln(j,KVPOS), locpln(j,KHPOS), 0)
+	call plnrmv (j,pteam)
+1100	call unlock (plnlok)			!unlock LOCPLN array
+	return
+	end
+C	This routine processes the information stored in the hit queue,
+C	printing out the text produced during battles, primarily.
+C	This information is stored in the hit queue using MAKHIT, and
+C	is retrieved by OUTHIT using GETHIT.  The 'type' of message is
+C	coded into the variable IWHAT:  1=phaser hit, 2=torpedo hit,
+C	3=torpedo deflection, 4=torpedo miss, 5=tordedo into black hole,
+C	6=star unaffected by torpedo, 7=star goes nova, 8=star damages
+C	someone, 9=galaxy-wide base request for assistance, 10=galaxy-
+C	wide report of base destroyed, 11=romulan detected message,
+C	12=ship-to-ship energy transfer, 13=Tractor beam activated,
+C	14=Tractor beam broken, 15=torpedo neutralized.
+	subroutine OUTHIT
+	include 'param/nolist'
+	include 'hiseg/nolist'
+	include 'lowseg/nolist'
+	include 'extern/nolist'
+ 100	call blkset (iwhat, 0, 17) 			!zero out hit info
+	if (hitflg(who) .eq. 0)  return			!any(more) hit messages?
+	if (oflg .eq. long)  call crlf
+	call gethit (who)				!get next message off hit queue
+*.......Go to proper section of code depending on type of message
+	goto (200,200,200,4600,4600,200,200,200,6000,6000,6800,6900, 
+     +	7300,7600,4600)  iwhat
+	goto 100
+*.......Phaser, Photon, and Star hits
+ 200	call odisp (dispfr, 0)				!display hitter
+	nplcf = dispfr / 100  ;  nplct = dispto / 100
+	if ((nplcf .lt. DXNPLN) .or. (nplcf .gt. DXEPLN))  goto 300
+	if (shstfr .eq. 0)  goto 300
+	if (oflg .eq. LONG)  call outc ('(')
+	call odec (shstfr, 0)
+	if (oflg .eq. LONG)  call outc (')')
+ 300	call space
+	call prloc (Vfrom, Hfrom, 0, 0, ocflg, oflg)	!display hitter's location
+	if ((oflg .ne. short) .and. (nplcf .lt. DXROM))  call outc (',')
+*	Display hitter's shield strength (if ship or base)
+	if (nplcf .gt. DXROM)  goto 400			!if hitter romulan or star, jump
+	call space
+	call osflt (shcnfr*shstfr , 0)			!hitter's shield %
+	if (oflg .ne. short)  call outc ('%')
+ 400	call space
+	if (iwhat .ne. 7)  goto 800			!star goes nova?
+*	Star goes nova message.  (IWHAT = 7)
+	if (oflg)  500, 500, 600
+ 500	call outc ('N')  ;  goto 700
+ 600	call out (outh01 , 0)
+ 700	call crlf
+	goto 100
+ 800	if (iwhat .ne. 6)  goto 1200			!star unaffected?
+*	Star unaffected by torpedo message.  (IWHAT = 6)
+	if (oflg)  900, 900, 1000
+ 900	call outc ('U')  ;  goto 1100
+1000	call out (star02 , 0)
+1100	call crlf
+	goto 100
+1200	if (iwhat .ne. 3)  goto 1500			!torpedo deflection?
+*	Torpedo deflected by shields.  (IWHAT = 3)
+	if (oflg)  1500, 1300, 1400
+1300	call out (outh29, 0)  ;  goto 2500
+1400	call out (outh30, 0)  ;  goto 2500
+*	Someone is getting damaged.
+1500	if (oflg .eq. long)  call out (outh02 , 0)	!'makes'
+	call space
+	if ((nplct .gt. DXROM) .and. (iwhat .ne. 8))  goto 1900	!romulan or planet hit by star?
+	if (nplct .gt. DXROM)  goto 1600		!hittee a romulan or planet?
+	call oflt (ihita , 0)				!size of hit
+	if (oflg .ne. short)  call out (outh03 , 0)	!' unit '
+	if (iwhat .ne. 8)  goto 1900			!not a nova?
+*	Star damages someone.  (IWHAT = 8)
+1600	if (oflg)  1700, 1700, 1800
+1700	call outc ('N')        ;  goto 2500
+1800	call out (outh04 , 0)  ;  goto 2500
+1900	if (iwhat .eq. 1)  goto 2200			!phasers or torpedoes?
+*	Torpedo hit.  (IWHAT = 2)
+	if (oflg)  2000, 2000, 2100
+2000	call outc ('T')        ;  goto 2500
+2100	call out (outh05 , 0)  ;  goto 2500
+*	Phaser hit.  (IWHAT = 1)
+2200	if (oflg)  2300, 2300, 2400
+2300	call outc ('P')  ;  goto 2500
+2400	call out (outh06 , 0)
+*	Begin printing information on Hittee.
+2500	if (oflg)  2600, 2600, 2700
+2600	call out2c ('  ')  ;  goto 2800
+2700	if ((nplct .lt. DXROM) .and. (hcpos .gt. 40))  call crlf
+2800	call odisp (dispto, 0)				!Display hittee
+	if ((nplct .lt. DXNPLN) .or. (nplct .gt. DXEPLN))  goto 2900
+	if (shstto .eq. 0)  goto 2900
+	if (oflg .eq. LONG)  call outc ('(')
+	call odec (shstto, 0)
+	if (oflg .eq. LONG)  call outc (')')
+2900	call space
+	if (shjump .eq. 0)  goto 3300			!Displacement?
+*	Hittee displaced by blast.
+	if (oflg)  3200, 3000, 3100
+3000	call out2c ('--')    ;  goto 3200
+3100	call out (displc,0)  ;  goto 3400
+3200	call outc ('>')      ;  goto 3400
+3300	if (oflg .ne. short)  call outc ('@')		!print hittee's location
+3400	call prloc (Vto, Hto, 0, 0, ocflg, SHORT)
+	if ((nplct .gt. DXROM) .or. (klflg .ne. 0))  goto 3900	!no hittee shield info or hittee dead?
+	if (oflg .ne. short)  call outc (',')
+	call space
+	call osflt (shcnto*shstto , 0)			!print hittee shield information
+	if (oflg .ne. short)  call outc ('%')
+*	Show any critical device damage, if you are the hittee!
+	if (dispto .ne. (who + (team * 100)))  goto 3900
+	if (critdv .eq. 0)  goto 4100			!anything damaged?
+	call out2c ('; ')
+	call odev (critdv)				!print device name
+	if (oflg)  3500, 3600, 3700
+3500	call space        ;  goto 3800
+3600	call out (outh08 , 0)  ;  goto 3800
+3700	call out (outh07 , 0)
+3800	call oflt (critdm , 0)				!device damage
+	if (oflg .eq. long)  call out (units1 , 0)	!' units'
+*	Critical hit on base?
+3900	if ((oflg .ne. LONG) .or. ((nplct .ne. DXFBAS) .and. 
+     +	(nplct .ne. DXEBAS)))  goto 4100
+	if ((klflg .eq. 0) .and. (critdm .eq. 0))  goto 4500
+	call out2c ('  ')
+	if (klflg .ne. 0)  call crlf
+	call out (outh31, 1)
+	if (oflg .ne. LONG)  goto 4100
+	call out (outh32, 1)
+	if (klflg .ne. 0)  goto 4000
+	call out (outh33, 1)
+	goto 4500
+4000	call out (outh34, 0)
+*	Hittee destroyed by hit?
+4100	if (klflg .eq. 0)  goto 4500
+	call space
+	if (oflg .eq. long)  call crlf
+	if (klflg .eq. 2)  goto 4400			!ship simply dead, or > black hole?
+	call odisp (dispto, 0)				!ship > black hole!!
+	if (oflg)  4200, 4200, 4300
+4200	call out (outh10 , 1)  ;  goto 4400
+4300	call out (outh09 , 1)
+4400	call odisp (dispto, 1)				!'ship destroyed' message
+	call out (destry , 1)
+4500	call crlf
+	goto 100					!get next hit message
+*.......Torpedo missed, torpedo into black hole, torpedo neutralized
+4600	if (oflg)  4700, 4700, 4800
+4700	call outc ('T')  ;  goto 4900
+4800	call out (tormis , 0)
+4900	call odec (critdv,0)				!torpedo number
+	if (iwhat - 5)  5000, 5400, 5700
+*	Torpedo miss.  (IWHAT = 4)
+5000	if (oflg)  5100, 5100, 5200
+5100	call out (outh13 , 0)  ;  goto 5300
+5200	call out (outh12 , 0)
+5300	call prloc (Vto, Hto, 1, 0, ocflg, oflg)	!print location
+	goto 100					!get next hit message
+*	Torpedo into black hole.  (IWHAT = 5)
+5400	if (oflg)  5500, 5500, 5600
+5500	call out (outh15 , 0)  ;  goto 5300
+5600	call out (outh14 , 0)  ;  goto 5300
+*	Torpedo neutralized by friendly object.  (IWHAT = 15)
+5700	if (oflg)  5800, 5800, 5900
+5800	call out (outh28 , 0)  ;  goto 5300
+5900	call out (outh27 , 0)  ;  goto 5300
+*.......Base under attack, base destroyed
+6000	if (shpdam(who,KDRAD) .gt. KCRIT)  goto 100	!if radio damaged, don't output
+	if ((nomsg .and. bits(who)) .ne. 0)  goto 100	!if radio off, don't output
+	call odisp (dispto, 1)				!output base 'name'
+	call prloc (Vto, Hto, 0, 0, ocflg, oflg)
+	if (iwhat .eq. 10)  goto 6400
+*	Galaxy-wide request for assistance.  (IWHAT = 9)
+	if (oflg)  6100, 6200, 6300
+6100	call out2c (' A')  ;  call crlf  ;  goto 100
+6200	call out (outh17 , 1)  ;  goto 100
+6300	call out (outh16 , 1)  ;  goto 100
+*	Galaxy-wide report of base destroyed.  (IWHAT = 10)
+6400	if (oflg)  6500, 6600, 6700
+6500	call out2c (' D')  ;  call crlf  ;  goto 100
+6600	call out (outh19 , 1)  ;  goto 100
+6700	call out (outh18 , 1)  ;  goto 100
+*.......Romulan detected at ...  (IWHAT = 11)
+6800	call odisp (dispfr, 1)
+	if (oflg .eq. long)  call out (outh20 , 0)
+	call space
+	call prloc (Vfrom, Hfrom, 1, 0, ocflg, oflg)
+	goto 100
+*.......Ship-to-ship energy transfer.  (IWHAT = 12)
+6900	call odisp (dispfr, 1)				!display sender's ship name
+	if (oflg .eq. long)  call out (outh21 , 0)
+	call oflt (ihita , 0)				!print size of energy transfer
+	if (oflg)  7000, 7000, 7100
+7000	call out2c (' >')  ;  goto 7200
+7100	call out (outh22 , 0)
+7200	call space
+	call odisp (dispto, 1)				!display receiver's ship name
+	call crlf
+	goto 100					!get next hit message
+*.......Tractor beam activated.  (IWHAT = 13)
+7300	if (oflg)  7400, 7400, 7500
+7400	call out (outh24 , 1)  ;  goto 100
+7500	call out (outh23 , 1)  ;  goto 100
+*.......Tractor beam broken.  (IWHAT = 14)
+7600	if (oflg)  7700, 7700, 7800
+7700	call out (outh26 , 1)  ;  goto 100
+7800	call out (outh25 , 1)  ;  goto 100
+	end
+C	This routine searches for and prints out messages received by
+C	the ship's sub-space radio.
+	subroutine OUTMSG
+	include 'param/nolist'
+	include 'hiseg/nolist'
+	include 'lowseg/nolist'
+	include 'extern/nolist'
+	common /omlocl/ msg(16)
+ 100	dbits = 0  ;  dispfr = 0
+	if (msgflg(who) .eq. 0)  return		!any more messages?
+	call getmsg (who, msg)			!get another message
+	if (dispfr .eq. 0)  goto 400		!message not from player
+	if ((gagmsg .and. bits(mod(dispfr,100))) .ne. 0)  goto 100
+	call out (mess01,0)			!message from ...
+	call odisp (dispfr, 1)
+	call out (mess02,0)
+	k = 1
+	do 300 i = 1, KNPLAY			!message to ...
+	  if ((dbits .and. k) .eq. 0)  goto 200
+	  call out2c (names(i,3))
+ 200	  k = k * 2
+ 300	continue
+*.......Print out message
+	call crlf
+ 400	call out (msg,1)
+	goto 100
+	end
+C	This routine sets (and unsets) the password flag for use in
+C	debugging, cheating, etc.
+	subroutine PASWRD
+	include 'param/nolist'
+	include 'hiseg/nolist'
+	include 'lowseg/nolist'
+	include 'extern/nolist'
+	PASFLG = equal(tknlst(2), KPASS, 1)	!match the password?
+	if (PASFLG .eq. -1)  PASFLG = 0		!not an exact match
+C	70725 project added by merlyn (drforbin)
+	if ((usrprj(0) .ne. "70000) .and. (usrprj(0) .ne. "337) .and. 
+     +		(usrprj(0) .ne. "70006)
+     +.and. (usrprj(0) .ne. "70725))		!added
+     +		pasflg = 0
+	if (PASFLG)  return			!is he ok?
+	call out (unkcom, 0)			!WHAT password routine!?!
+	if (oflg .ne. short)  call out (forhlp, 1)
+	return
+	end
+C	This routine controls the phaser banks of an individual ship.
+C	The target coordinates are read in, verified as being valid,
+C	the hit is made, and the appropriate messages are printed.
+	subroutine PHACON (*)
+	include 'param/nolist'
+	include 'hiseg/nolist'
+	include 'lowseg/nolist'
+	include 'extern/nolist'
+*.......Phasers critically damaged?
+	if (shpdam(who,KDPHAS) .lt. KCRIT)  goto 100
+	call out (phacn0,1)
+	return 1
+*.......Target location read in
+ 100	tem = locate(-3)
+ 200	if (tem .eq. 1)  call out (erloc1,1)
+	if ((tem .lt. 0) .or. (tem .eq. 1))  return 1	!abort phasers?
+	if (tem .ne. 0)  goto 300
+	tem = reloc(-3)
+	goto 200
+ 300	bank = 1  ;  if (phbank(2) .lt. phbank(1))  bank = 2
+	iV = vallst(tem-1)  ;  iH = vallst(tem)	!identify type of target
+	nplc = dispc (iV,iH)
+	ip   = dispx (iV,iH)
+	if ((nplc .lt. DXFSHP) .or. (nplc .gt. DXEPLN))  goto 1600
+	if ((nplc .lt. DXFBAS) .and. (.not. alive(ip)))  goto 1600
+*	determine distance to target, abort if 0 or > KRANGE
+	id = pdist (iV, iH, shpcon(who,KVPOS), shpcon(who,KHPOS))
+	if (id .ne. 0)  goto 600
+	if (oflg)  400, 400, 500
+ 400	call out (error2,1)  ;  return 1
+ 500	call out (error1,1)  ;  return 1
+ 600	if ((nplc .eq. team) .or. (nplc .eq. team+2) .or. 
+     +	(nplc .eq. team+DXNPLN))  goto 1800
+	if (id .le. KRANGE)  goto 700
+	call out (phacn1,1)  ;  return 1
+*	Determine size of phaser hit
+700 	call pause (phbank(bank) - etim(tim0))
+	phit = 200
+	if (tem .eq. 2)  goto 800	!phaser hit specified?
+	if ((vallst(1) .gt. 500) .or. (vallst(1) .lt. 50))  goto 1700
+	phit = vallst(1)
+ 800	if (shpcon(who,KSHCON) .lt. 0)  goto 900		!high speed shield control
+	if (oflg .ne. short)  call out (phacn2, 1)
+	shpcon(who,KSNRGY) = shpcon(who,KSNRGY) - 2000
+ 900	if ((iran(100) * phit) .le. 18900)  goto 1000		!phasers overheat?
+	call out (phacn4,1)
+	if (oflg .eq. long)  call out (phacn5,1)
+	shpdam(who,KDPHAS) = shpdam(who,KDPHAS) + 750 + 
+     +	(iran(100) * phit * 7.5) / 100
+*.......Check target, hit and damage
+1000	if ((nplc .lt. DXNPLN) .or. (nplc .gt. DXEPLN))  goto 1100
+*	damage planet
+	Vfrom = shpcon(who,KVPOS)    ;  Hfrom = shpcon(who,KHPOS)
+	shstfr = shpcon(who,KSSHPC)  ;  shcnfr = shpcon(who,KSHCON)
+	Vto = iV  ;  Hto = iH  ;  shjump = 0
+	dispfr = who + (team * 100)
+	dispto = disp(iV,iH)  ;  iwhat = 1
+	call pridis (iV, iH, KRANGE, 0, 0)
+	if ((iran(100) * phit) / (25 * id) .gt. 150)  locpln(ip,3) = 
+     +	max0 (locpln(ip,3) - 1, 0)
+	shstto = locpln(ip,3)
+	call makhit
+	goto 1500
+*	damage Romulan
+1100	if (nplc .ne. DXROM)  goto 1200
+	Vfrom = shpcon(who,KVPOS)  ;  Hfrom = shpcon(who,KHPOS)
+	Vto = locr(KVPOS)  ;  Hto = locr(KHPOS)  ;  shjump = 0
+	call pharom (phit, id)
+	tpoint(KPRKIL) = tpoint(KPRKIL) + ihita
+	if (.not. ROM)  tpoint(KPRKIL) = tpoint(KPRKIL) + 5000
+	shstfr = shpcon(who,KSSHPC)  ;  shcnfr = shpcon(who,KSHCON)
+	shstto = erom  ;  shcnto = 1
+	dispfr = who + (team * 100)
+	dispto = DXROM * 100  ;  iwhat = 1
+	call pridis (iV, iH, KRANGE, 0, 0)
+	call makhit
+	goto 1500
+*	damage ships and bases
+1200	if (nplc .lt. DXFBAS)  goto 1300
+	if (base(ip,3,nplc-2) .ne. 1000)  goto 1300
+	Vto = iV   ;   Hto = iH
+	iwhat = 9  ;  dispto = disp(iV,iH)
+	dispfr = who + (team * 100)
+	call pridis (30, 30, 100, nplc-2, 0)
+	dbits = dbits .and. .not. nomsg
+	call makhit
+1300	call phadam (nplc, ip, id, phit, .TRUE.)	!hit him!
+*	set up parameters for MAKHIT
+	shstfr = shpcon(who,KSSHPC)  ;  shcnfr = shpcon(who,KSHCON)
+	Vfrom = shpcon(who,KVPOS)    ;  Hfrom = shpcon(who,KHPOS)
+	Vto = iV   ;   Hto = iH   ;   shjump = 0
+	dispfr = who + (team * 100)
+	dispto = (nplc * 100) + ip  ;  iwhat = 1
+	if (nplc .ge. DXFBAS)  call pridis (iV, iH, KRANGE, nplc-2, 0)
+	if (nplc .lt. DXFBAS)  call pridis (iV, iH, KRANGE, nplc, 0)
+	call pridis (iV, iH, 4, 0, 1)
+	dbits = dbits .or. bits(who)
+	call makhit
+1400	if ((nplc .lt. DXFBAS) .or. (disp(iV,iH) .ne. 0))  goto 1500	!base destroyed?
+	iwhat = 10  ;  dispto = (nplc * 100) + ip
+	dispfr = who + (team * 100)
+	Vto = iV   ;   Hto = iH
+	call pridis (30, 30, 100, nplc-2, 0)
+	dbits = dbits .and. .not. nomsg
+	call makhit
+*	pay energy for firing, update phaser bank condition
+1500	shpcon(who,KSNRGY) = shpcon(who,KSNRGY) - (phit * 10)
+	shpcon(who,KSPCON) = RED
+	phbank(bank) = etim (tim0) + (slwest + 1) * 1500 + 
+     +	shpdam(who,KDPHAS)
+	return
+1600	call out (phacn7,1)		!no target at that location
+	return 1
+1700	call out (phacn8,1)		!Improper size for phaser hit
+	return 1
+1800	call out (phacn9,1)		!Trying to damage an ally
+	return 1
 	end
