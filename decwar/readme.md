@@ -92,3 +92,35 @@ probably the scripts simply search through warmac.mac and pick out 'variables' t
 v2.2 31 commands - bases, build, capture, damages, dock, energy, gripe, help, impulse, list, move, news, planets, points, quit, radio, repair, scan, set, shields, srscan, status, summary, targets, tell, time, torpedoes, tractor, type, users
 
 v2.3 31 commands - apparently, zeroth order, same as v2.2
+
+there was a 'micro script' l.mic used to drive the linker. micro is evidently something inbetween teco and macro? any case, it seems a bit obscure for today, but the following is clearly the crucial parts for linking
+
+    low/seg:low
+    high/seg:hi
+    ----------------------------------
+    decwar/seg:def
+    msg
+    warmac
+    ----------------------------------
+    sys:forlib/sea/seg:def
+    setup/seg:low
+    setmsg
+    sys:forlib/sea/seg:low
+    decwar/ssave
+    /g
+
+this clearly matches up with the 'batch file' CAN1.CMD for the linker that merlyn as been using
+
+    decwar/save
+    low/seg:low
+    high/seg:high
+    ----------------------------------
+    /seg:def
+    decwar,blkdat,basbld,baskil,baspha,build,captur,check,chkpnt,clrbuf,damage,dist,dock,dship,endgam,energy,free,getcmd,jump,kqsrch,list,locate,lstscn,lstflg,lstupd,lstout,lstsum,lstobj,move,nova,outhit,outmsg,paswrd,phacon,place,plnatk,plnrmv,points,pridis,prloc,prompt,radio,repair,romdrv,romstr,romtor,scan,set,shield,snova,status,tell,time,tordam,torp,tractr,trap,type,users,msg,warmac,warver
+    ----------------------------------
+    sys:forlib/sea/seg:def
+    setup/seg:low
+    setmsg
+    sys:forlib/sea/seg:low
+    /g
+
