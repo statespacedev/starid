@@ -217,7 +217,6 @@ d	call timout('CMDUSE')
 	call debug			!*debug
 	goto 50
 3300	call paswrd			!*password
-*/ there's a slash here can it be dropped?
 	goto 50
 *.......A time-consuming move has occurred ....
 3400	call repair (3, $3500)
