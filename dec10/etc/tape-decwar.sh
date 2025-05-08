@@ -3,17 +3,12 @@
 rm -rf ./tmp
 mkdir ./tmp
 
-cp ../trek/utexas/*.* ./tmp
-cp ../trek/utexas/include/*.* ./tmp
-cp ../trek/compuserve/*.* ./tmp
+cp ../decwar/step2/*.FOR ./tmp
+cp ../decwar/step2/*.MAC ./tmp
 
-cp ../trek/utexas/hlp/DECWAR.HLP ./tmp
-cp ../trek/utexas/hlp/DECWAR.NWS ./tmp
+cp ../decwar/step2/hlp/DECWAR.HLP ./tmp
+cp ../decwar/step2/hlp/DECWAR.NWS ./tmp
 
-cp ../trek/scripts/COM1.CMD ./tmp
-cp ../trek/scripts/COM2.CMD ./tmp
-cp ../trek/scripts/CAN1.CMD ./tmp
-
-./back10 -cf ./tapes/decwar.tap ./tmp/*
-./back10 -lf ./tapes/decwar.tap
+./back10 -cf ./tapes/decwar2.tap ./tmp/*
+./back10 -lf ./tapes/decwar2.tap
 

@@ -16,10 +16,20 @@ expect "\r\n/" send "exit\r"; continue
 ;expect "\r\n*" send "cp [10,7,decwar]\r"; continue
 ;expect "\r\n*" send "\3"; continue
 
-expect "\r\n." send "compile @com1\r"; continue
-expect "\r\n." send "compile @com2\r"; continue
+expect "\r\n." send "compile decwar, high, low, msg, setup\r"; continue
+expect "\r\n." send "compile msg, setmsg, warmac, warver\r"; continue
 expect "\r\n." send "r link\r"; continue
-expect "\r\n*" send "@can1\r"; continue
+expect "\r\n*" send "decwar/save\r"; continue
+expect "\r\n*" send "low/seg:low\r"; continue
+expect "\r\n*" send "high/seg:high\r"; continue
+expect "\r\n*" send "decwar/seg:def\r"; continue
+expect "\r\n*" send "msg\r"; continue
+expect "\r\n*" send "warmac,warver\r"; continue
+expect "\r\n*" send "sys:forlib/sea/seg:def\r"; continue
+expect "\r\n*" send "setup/seg:low\r"; continue
+expect "\r\n*" send "setmsg\r"; continue
+expect "\r\n*" send "sys:forlib/sea/seg:low\r"; continue
+expect "\r\n*" send "/g\r"; continue
 
 expect "\r\n." send ""; continue ; workaround to make prev line ok
 ; may hang here, hit return
@@ -32,7 +42,8 @@ expect "\r\n." send -t after=1000k "login 1,2\r"; continue
 expect "\r\n." send "r credir\r"; continue
 expect "Create directory:" send "[1,27]/prot:777\r"; continue
 expect "Create directory:" send "\3"; continue
-;expect "\r\n." send "copy sys:<055>=dskb:[10,7,DECWAR]*.exe\r"; continue
-;expect "\r\n." send "copy hlp:<055>=dskb:[10,7,DECWAR]*.hlp\r"; continue
-expect "\r\n." send "k/f\r"; continue
+expect "\r\n." send "copy sys:<055>=dskb:[10,7]decwar.exe\r"; continue
+expect "\r\n." send "copy hlp:<055>=dskb:[10,7]decwar.hlp\r"; continue
+expect "\r\n." send "copy hlp:<055>=dskb:[10,7]decwar.nws\r"; continue
+;expect "\r\n." send "k/f\r"; continue
 

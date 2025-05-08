@@ -1,1 +1,0 @@
-pdwdoc/ssave pdwdoc,usrtmp
