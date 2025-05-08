@@ -93,7 +93,7 @@ v2.2 31 commands - bases, build, capture, damages, dock, energy, gripe, help, im
 
 v2.3 31 commands - apparently, zeroth order, same as v2.2
 
-there was a 'micro script' l.mic used to drive the linker. micro is evidently something inbetween teco and macro? any case, it seems a bit obscure for today, but the following is clearly the crucial parts for linking
+there was a 'micro script' l.mic used to drive the linker. micro is evidently something inbetween teco and macro? any case, it seems a bit obscure for today, but the following is clearly the crucial parts for linking, these are linker commands, entered at the r link * prompt
 
     low/seg:low
     high/seg:hi
@@ -107,7 +107,7 @@ there was a 'micro script' l.mic used to drive the linker. micro is evidently so
     decwar/ssave
     /g
 
-this absolutely does work, with the litle trick of first doing
+this absolutely does work, after the little trick of first doing
 
     decwar/save
 

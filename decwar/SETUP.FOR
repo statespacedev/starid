@@ -1,29 +1,4 @@
-C	This file is part of Decwar.
-C	Copyright 1979, 2011 Bob Hysick, Jeff Potter, The University of Texas
-C	Computation Center and Harris Newman.
-
-C	This program is free software; you can redistribute it and/or modify
-C	it under the terms of the GNU General Public License as published by
-C	the Free Software Foundation; either version 3, or (at your option)
-C	any later version.
-
-C	This program is distributed in the hope that it will be useful,
-C	but WITHOUT ANY WARRANTY; without even the implied warranty of
-C	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-C	GNU General Public License for more details.
-
-C	You should have received a copy of the GNU General Public License
-C	along with this program; if not, write to the Free Software
-C	Foundation, Inc., 51 Franklin Street - Fifth Floor, Boston, MA
-C	02110-1301, USA.  
-
-
-C	Everything after this routine will be removed from the low-
-C	segment after the game is started up by KILLOW.
-
-	subroutine A
-	end
-C	This routine is called by SETUP if a player types CTL-C before
+C	This routine is called by SETUP if a player types CTL-C before
 C	he has been completely 'created'.  This prevents the player
 C	from attempting a 'continue' using the existing code.
 C	CC2 is called instead if he has already chosen a side.
@@ -57,7 +32,7 @@ C	CC1 is called instead if he hasnt already chosen a side.
 	call exit
 
 	end
-C	This routine checks all incoming players to see if they have
+C	This routine checks all incoming players to see if they have
 C	previously died in the present game.  If so, they are only
 C	allowed to start the game if they have waited the prescribed
 C	time, or are implementors of the game and know the password.
@@ -114,7 +89,7 @@ C	if (lofchk(0)) call monit drforbin(merlyn)
 	call cc1
 
 	end
-	subroutine PREGAM
+	subroutine PREGAM
 	include 'param/nolist'
 	include 'hiseg/nolist'
 	include 'lowseg/nolist'
@@ -193,7 +168,7 @@ C	305	if (chkpay(0)) call pdwdoc drforbin(merlyn)		! print DECWAR.DOC
 1200	if (pasflg) call stazap
 	goto 50
 	end
-C	This routine is called whenever a new player enters the game.
+C	This routine is called whenever a new player enters the game.
 C	If he is the first player, the Romulan and black hole options
 C	are discussed, and the Universe and other high-segment variables
 C	are initialized.  Later players are told whether the Romulan or
@@ -492,7 +467,7 @@ C	if (lofchk(0)) call cc2 drforbin(merlyn)
 	return
 
 	end
-C	This routine processes command strings during the pre-game
+C	This routine processes command strings during the pre-game
 C	(before a side and ship have been chosen).
 
 	subroutine XGTCMD (cmd)
@@ -556,7 +531,7 @@ C	if (lofchk(0)) call monit drforbin(merlyn)			! time is up!
 1300	return
 
 	end
-C	When DECWAR is STARTed, the startup routine will ensure that
+C	When DECWAR is STARTed, the startup routine will ensure that
 C	all code through Z is present, else DECWAR will be run over
 C	again.
 
