@@ -31,27 +31,27 @@ expect "\r\n*" send "setmsg\r"; continue
 expect "\r\n*" send "sys:forlib/sea/seg:low\r"; continue
 expect "\r\n*" send "/g\r"; continue
 
-expect "\r\n." send ""; continue ; workaround to make prev line ok
-; may hang here, hit return
+;expect "\r\n." send ""; continue ; workaround to make prev line ok
+;may hang here, hit return
 
 expect "\r\n." send "get decwar\r"; continue
 expect "\r\n." send "ssave\r"; continue
 expect "\r\n." send "k/f\r"; continue
 
 expect "\r\n." send -t after=1000k "login 1,2\r"; continue
-expect "\r\n." send "r credir\r"; continue
-expect "Create directory:" send "[1,27]/prot:777\r"; continue
-expect "Create directory:" send "\3"; continue
-expect "\r\n." send "copy sys:<055>=dskb:[10,7]decwar.exe\r"; continue
-expect "\r\n." send "copy hlp:<055>=dskb:[10,7]decwar.hlp\r"; continue
-expect "\r\n." send "copy hlp:<055>=dskb:[10,7]decwar.nws\r"; continue
-expect "\r\n." send "copy hlp:<055>=dskb:[10,7]decwar.grp\r"; continue
 
-expect "Create directory:" send "[5,30]/prot:777\r"; continue
-expect "Create directory:" send "\3"; continue
-expect "\r\n." send "copy sys:<055>=dskb:[5,30]decwar.exe\r"; continue
-expect "\r\n." send "copy hlp:<055>=dskb:[5,30]decwar.hlp\r"; continue
-expect "\r\n." send "copy hlp:<055>=dskb:[5,30]decwar.nws\r"; continue
-expect "\r\n." send "copy hlp:<055>=dskb:[5,30]decwar.grp\r"; continue
+;expect "\r\n." send "r credir\r"; continue
+;expect "Create directory:" send "[1,27]/prot:777\r"; continue
+;expect "Create directory:" send "\3"; continue
+;expect "\r\n." send "copy sys:<055>=dskb:[10,7]decwar.exe\r"; continue
+;expect "\r\n." send "copy hlp:<055>=dskb:[10,7]decwar.hlp\r"; continue
+;expect "\r\n." send "copy hlp:<055>=dskb:[10,7]decwar.nws\r"; continue
+;expect "\r\n." send "copy hlp:<055>=dskb:[10,7]decwar.grp\r"; continue
+
+expect "\r\n." send "copy [5,30]decwar.exe<055>=[10,7]decwar.exe\r"; continue
+expect "\r\n." send "copy [5,30]decwar.hlp<055>=[10,7]decwar.hlp\r"; continue
+expect "\r\n." send "copy [5,30]decwar.nws<055>=[10,7]decwar.nws\r"; continue
+expect "\r\n." send "copy [5,30]decwar.grp<055>=[10,7]decwar.grp\r"; continue
+expect "\r\n." send "assign gam: dskb:[5,30]\r"; continue
 
 ;expect "\r\n." send "k/f\r"; continue
