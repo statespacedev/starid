@@ -46,5 +46,12 @@ expect "\r\n." send "copy sys:<055>=dskb:[10,7]decwar.exe\r"; continue
 expect "\r\n." send "copy hlp:<055>=dskb:[10,7]decwar.hlp\r"; continue
 expect "\r\n." send "copy hlp:<055>=dskb:[10,7]decwar.nws\r"; continue
 expect "\r\n." send "copy hlp:<055>=dskb:[10,7]decwar.grp\r"; continue
-;expect "\r\n." send "k/f\r"; continue
 
+expect "Create directory:" send "[5,30]/prot:777\r"; continue
+expect "Create directory:" send "\3"; continue
+expect "\r\n." send "copy sys:<055>=dskb:[5,30]decwar.exe\r"; continue
+expect "\r\n." send "copy hlp:<055>=dskb:[5,30]decwar.hlp\r"; continue
+expect "\r\n." send "copy hlp:<055>=dskb:[5,30]decwar.nws\r"; continue
+expect "\r\n." send "copy hlp:<055>=dskb:[5,30]decwar.grp\r"; continue
+
+;expect "\r\n." send "k/f\r"; continue

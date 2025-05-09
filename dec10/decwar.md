@@ -1,6 +1,6 @@
 ## decwar introduction
 
-historic fortran and assembly code running on simh pdp10 with standard tops10. a time capsule of how things were done in the fifties and sixties. assembly and fortran fused together. here's [june 3, 1980 v2.2 utexas](../dec10/docs/decwar22-utexas.md) and [november 20, 1981 v2.3 compuserve](../dec10/docs/decwar23-compuserve.md) player instructions, the excellent [decwar wikipedia page](https://en.wikipedia.org/wiki/Decwar), the [utexas center for american history](https://briscoecenter.org/) catalog items [v2.2](https://repositories.lib.utexas.edu/items/1aa48343-09ab-4b3b-a9f2-e2e525074a4d) and [v2.3](https://repositories.lib.utexas.edu/items/7e2ccf50-e814-4bce-91d2-a7f6440eabe4), and a 1982 letter from utexas to compuserve, before utexas sent the primordial decwar tape.
+historic fortran and assembly code running on simh pdp10 with standard tops10. a time capsule of how things were done in the fifties and sixties. assembly and fortran fused together. here's [june 3, 1980 v2.2 utexas](./docs/decwar22-utexas.md) and [november 20, 1981 v2.3 compuserve](./docs/decwar23-compuserve.md) player instructions, the excellent [decwar wikipedia page](https://en.wikipedia.org/wiki/Decwar), the [utexas center for american history](https://briscoecenter.org/) catalog items [v2.2](https://repositories.lib.utexas.edu/items/1aa48343-09ab-4b3b-a9f2-e2e525074a4d) and [v2.3](https://repositories.lib.utexas.edu/items/7e2ccf50-e814-4bce-91d2-a7f6440eabe4), and a 1982 letter from utexas to compuserve, before utexas sent the primordial decwar tape.
 
 _I have received your request for sources to the DECWAR program. We will be pleased to send you the sources, but first we must ask you to sign and return the enclosed license agreement. DECWAR was developed at the University of Texas at Austin, and it is being maintained. Hence our interest in using the agreement to record and control who gets the source to it. DECWAR is a sophisticated real-time space battle game designed to be played by from 1 to 18 people. It was written at the University of Texas at Austin, primarily by Jeff Potter and Bob Hysick. The game was originally based on a very limited, single job, single terminal, two player Star Trek type game known as WAR. This game came from the CDC-6600/6400 system at the University of Texas at Austin, author unknown. Robert Schneider re-wrote the original source on the CDC and started the transfer to the DEC-10. In the transfer process, the game was renamed to DECWAR, largely re-designed, and almost entirely re-written, so that the current version bears little resemblance to the original. Almost all the commands were added once the game was on the DEC-10, as well as the basic concept of separate jobs controlling each ship, and most of the other features that make the game challenging, exciting, and enjoyable. The first version was installed on the DEC-10 in August 1978. After several revisions, a greatly enhanced and improved game, version 2.0, was installed in July 1979._
 
@@ -86,6 +86,17 @@ six include files. five teco scripts in the tec folder originally were used to a
                   lstvar.for, this is also an include file, but without teco autogen
 
 probably the scripts simply search through warmac.mac and pick out 'variables' that need to appear in the include for files. this can be done manually. if there's an update to warmac.mac, include for files can be manually updated. the teco scripts probably just automate this, generating the include for 'from scratch'. so it's not a 'must have'. can be done by hand. but possibly nice. and an interesting usage of teco.
+
+## build and deploy, or 'dist'
+
+at utexas the build was done in [10,30,decwar] and then deployed to gam: which was a 'logical device name' assigned to [5,30]. 10,30 seems to have been the 'dist' account, which is 10,7 for many simh scripts. let's just accept that dist is [10,7] now, not [10,30]. it means leaving many scripts as is. here's some comments from merlyn
+
+    The original place where decwar was placed was 5,30 which was the GAM:
+    ersatz device, CIS was using [1,27] was the multiplayer decwar directory.
+    Everyone would be handed off from their original hosts to that HOST and logged onto that directory.
+    The CIS source is Always referencing it.
+
+for compuserve, create p,pn [1,27] using react, then copy DECWAR.EXE, DECWAR.GRP, DECWAR.HLP, DECWAR.NWS to its home folder to 'deploy/install' it. [1,27] is where decwar was deployed for compuserve. this appear in warmac line 674, search for sysppn
 
 ## notes
 
