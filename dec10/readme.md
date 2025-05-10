@@ -73,13 +73,13 @@ the script msc/create-archive-project-utexas was used to create project-utexas-a
 
     ./dec10blinken simh/create-boot-disk-from-tape.ini
     
-this is no big deal, can do it repeatedly and often, can treat the disk as replaceable/expendable. the script is simh/create-boot-disk-from-tape.ini and is a good resource for learning about tops-10. the disk will appear as folder dsk. the script should leave you at tops-10 monitor prompt. do kjob to make sure you're logged out, then ctrl-e to get simh prompt, and quit to leave simh.
+this is no big deal, can do it repeatedly and often, can treat the disk as replaceable/expendable. the simh ini script is a good resource for learning about tops-10. the disk will appear as folder dsk. the script should leave you at tops-10 monitor prompt. do kjob to log out, ctrl-e to get simh prompt, quit to leave simh.
 
 ### step3 prep tape file
 
     msc/create-tape-utexas23-reconstruction
 
-this bash script will copy the dwcwar source code into tape file tapes/utexas23-reconstruction.tap and do a listing of the tape, showing the tape contents as confirmation.
+this bash script will copy the decwar source code into tape file tapes/utexas23-reconstruction.tap and do a listing of the tape, showing the contents as confirmation.
 
 ### step4 boot from disk
 
@@ -103,10 +103,8 @@ have the line 'do utexas.do' uncommented in the ini file to install/reinstall ut
     .r gam:decwar
     DECWAR, Edit    16
     [DECWAR Version 2.3, 20-Nov-81]
-    Are you:  
-    1 Beginner
-    2 Intermediate 
-    3 Expert  
+
+you can use the above to telnet in from multiple terminals and start the game as several players on both sides, then try the radio, phasers, torpedoes, shields, etc.
 
 # primordial utexas tape reconstruction
 
