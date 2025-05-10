@@ -4,6 +4,7 @@ tapes/
 tmp/
 
 *.tap
+!*/hlp/decwar.tap
 *.log
 
 dec10
