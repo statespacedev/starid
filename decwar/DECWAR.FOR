@@ -433,13 +433,13 @@ C	block data code
 	data (device(i), i = 1, KNDEV)/ 
      +	  2HSH, 2HWA, 2HIM, 2HLS, 2HTO, 2HPH, 2HCO, 2HRA, 2HTR /
 	data ((isaydo(i,j), i = 1, 2), j = 1, KNCMD)/ 
-     +    'BAses', '     ',
+     +	  'BAses', '     ',
      +	  'BUild', '     ',
      +	  'Captu', 're   ',
      +	  'DAmag', 'es   ',
      +	  'DOck ', '     ',
      +	  'Energ', 'y    ',
-     +    'Gripe', '     ',
+     +	  'Gripe', '     ',
      +	  'Help ', '     ',
      +	  'Impul', 'se   ',
      +	  'List ', '     ',
@@ -447,7 +447,7 @@ C	block data code
      +	  'News ', '     ',
      +	  'PHase', 'rs   ',
      +	  'PLane', 'ts   ',
-     +    'POint', 's    ',
+     +	  'POint', 's    ',
      +	  'Quit ', '     ',
      +	  'RAdio', '     ',
      +	  'REpai', 'r    ',
@@ -463,13 +463,13 @@ C	block data code
      +	  'TOrpe', 'dos  ',
      +	  'TRact', 'or   ',
      +	  'TYpe ', '     ',
-     +    'Users', '     ',
-     +    '*Debu' ,'g    ',
-     +    '*Pass' ,'word '/
+     +	  'Users', '     ',
+     +	  '*Debu' ,'g    ',
+     +	  '*Pass' ,'word '/
 	data ((xhelp(i,j), i = 1, 2), j = 1, KNXTR)/ 
      +	  'CTL-C', '     ',
-     +    '     ', '     ',
-     +    'INTRO', '     ',
+     +	  '     ', '     ',
+     +	  'INTRO', '     ',
      +	  'HInts', '     ',
      +	  'INput', '     ',
      +	  'Outpu', 't    ',
@@ -478,22 +478,30 @@ C	block data code
 	data ((ttydat(i,j), i = 1, 2), j = 1, KNTTY)/ 
      +	  'ACT-I', 'V    ',
      +	  'ADM-2', '     ',
-     +	  'ADM-3', 'a    ',
+     +	  'ADM-3', 'A    ',
      +	  'DATAP', 'OINT ',
      +	  'ACT-V', '     ',
      +	  'SOROC', '     ',
      +	  'BEEHI', 'VE   ',
      +	  'CRT  ', '     '/
 	data ((names(i,j), j = 1, 3), i = 1, KNPLAY)/ 
+     +	  'Excal', 'ibur ', ' E',
+     +	  'Farra', 'gut  ', ' F',
+     +	  'Intre', 'pid  ', ' I',
      +	  'Lexin', 'gton ', ' L',
      +	  'Nimit', 'z    ', ' N',
      +	  'Savan', 'nah  ', ' S',
+     +	  'Trent', 'on   ', ' T',
      +	  'Vulca', 'n    ', ' V',
      +	  'Yorkt', 'own  ', ' Y',
+     +	  'Buzza', 'rd   ', ' B',
      +	  'Cobra', '     ', ' C',
      +	  'Demon', '     ', ' D',
+     +	  'Gobli', 'n    ', ' G',
      +	  'Hawk ', '     ', ' H',
      +	  'Jacka', 'l    ', ' J',
+     +	  'Manta', '     ', ' M',
+     +	  'Panth', 'er   ', ' P',
      +	  'Wolf ', '     ', ' W'/
 	data (bits(i), i = 1, 10)/ 
      +	"1, "2, "4, "10, "20, "40, "100, "200, "400, "1000/

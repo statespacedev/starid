@@ -2,7 +2,7 @@
 
 !;;	General constants used by DECWAR
 
-	parameter knplay=10	!maximum number of players (can't be increased)
+	parameter knplay=18	!maximum number of players (can't be increased)
 	parameter knbase=10	!initial number of bases on each side
 	parameter kgalv=75	!maximum Vertical coordinate in galaxy
 	parameter ksid=25	!# of words to hold compressed row of galaxy
