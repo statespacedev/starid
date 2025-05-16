@@ -10,7 +10,8 @@ How do I create a new subdirectory?
 Why is there no BCL: device on my system?
 Why won’t the TOPS-10 system printer work?
 But my TOPS-10 printer still doesn’t work. What now?
- How do I create a standard user?
+ 
+How do I create a standard user?
 First ensure that there is a default user template. See the FAQ for that. Next run the user account management utility REACT and insert a new user PPN following the example below. You will need to be on the OPR account to do this.
 
 .r react

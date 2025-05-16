@@ -62,6 +62,8 @@ the reconstruction was straightforward again, and worked on basically the first 
 # utexas structure
 
 - docs, various howto and note related docs accumulating around the project
+    - [utexas decwar notes collection](docs/readme.md/#utexas-decwar-notes)
+    - [utexas tops-10 users guide](docs/readme.md/#utexas-tops-10-users-guide)
     - msc folder, miscellaneous useful docs collected from the internet
     - utexas22 folder, interesting reading from the v22 catalog item discussed above
 - msc, miscellaneous shell scripts and related code
