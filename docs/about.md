@@ -10,10 +10,11 @@ title: about
 
 ## recommended
 
-- [the soul of a new machine](https://en.wikipedia.org/wiki/The_Soul_of_a_New_Machine), best read about computers ever written?
+- [the soul of a new machine](https://en.wikipedia.org/wiki/The_Soul_of_a_New_Machine), best books about computers ever written?
 - [showstopper](https://www.goodreads.com/book/show/1416925.Show_Stopper_), a kind of follow-on to 'soul of a new machine', with more context around dec and its legacy in windows.
 - [the brain makers](https://www.goodreads.com/book/show/37650691-the-brain-makers), excellent context around utexas, austin, mcc, etc.
-- [kalman filtering theory and practice](https://www.mathworks.com/academia/books/kalman-filtering-theory-and-practice-using-matlab-grewal.html), very significant discussions of the history of sensors and computing are scattered throughout this excellent technical book. and this is almost 'lost/hidden/secret history' of people and projects that are very much worth learning about.
+- [where wizards stay up late the origins of the internet](https://www.goodreads.com/book/show/281818.Where_Wizards_Stay_Up_Late), context around utexas dec10 and arpanet.
+- [the chip how two americans invented the microcip](https://www.goodreads.com/book/show/543704.The_Chip_), lots of info around texas instruments and mcc.
 
 ## free-form
 
