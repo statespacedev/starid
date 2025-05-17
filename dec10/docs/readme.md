@@ -11,17 +11,17 @@
 - [5, minimalist walkthrough](sec5-minimalist-walkthrough.md)
 - [6, scripted tops10 setup](sec6-scripted-tops10-setup.md)
 - [7, decwar tape file](sec7-decwar-tape-file.md)
+- [8, f66 vs f77](sec8-f66-vs-f77.md)
+- [9, utexas primordial tape reconstruction](sec9-utexas-primordial-tape.md)
 
 ## appendices
 
 - [0, foundations](app0-foundations.md)
-- [1, tops-10 versions](app1-tops-10-versions.md)
+- [1, tops10 versions](app1-tops10-versions)
 - [2, tap files](app2-tap-files.md)
 - [3, sos](app3-sos.md)
 
-# utexas tops-10 users guide
-
-this is building on https://www.quentin.org.uk/tops-10-faq/
+# utexas tops10 users guide
 
 - [create a standard user](#create-user)
 - [create a default account template](#account-template)
@@ -31,7 +31,7 @@ this is building on https://www.quentin.org.uk/tops-10-faq/
 - [create a new subdirectory](#create-subdirectory)
 - [access a subdirectory](#access-subdirectory)
 - [why is there no bcl: device on my system](#bcl-device)
-- [why won’t the tops-10 system printer work](#system-printer)
+- [why won’t the tops10 system printer work](#system-printer)
 
 <a name="create-user">
 how do i create a standard user?
@@ -164,7 +164,7 @@ you should now have a default user who can login, is forced to change/set a pass
 how do i mount a tape?
 </a>
 
-if you need to mount a tape from a operational tops-10 system as a user, use a command similar to the following:
+if you need to mount a tape from a operational tops10 system as a user, use a command similar to the following:
 
     .mount tape:/reelid:label/nowait
 
@@ -282,13 +282,13 @@ to return to your ppn just reference it with a ppn of [,] in any command.
 why is there no bcl: device on my system?
 </a>
 
-bcpl needs to have a bcl: ersatz device to function effectively. you can use the path command to set one up on a use by use basis, but the recommended solution in the bcpl documentation is to configure a permanent ersatz device in mongen. this is how you do it based on the tops-10 configuration i am running. the key piece is the ersatz device line towards the end of the mongen program dialog:
+bcpl needs to have a bcl: ersatz device to function effectively. you can use the path command to set one up on a use by use basis, but the recommended solution in the bcpl documentation is to configure a permanent ersatz device in mongen. this is how you do it based on the tops10 configuration i am running. the key piece is the ersatz device line towards the end of the mongen program dialog:
 
     .r mongen
     write mongen.mic (yes,no) : n
     mongen for 704 monitors
 
-mongen will generate any known tops-10 configuration. for information
+mongen will generate any known tops10 configuration. for information
 about which configurations are supported, please refer to the spd.
 
     /help (prompt,short,long) ]: prompt
@@ -410,17 +410,17 @@ about which configurations are supported, please refer to the spd.
 this has now created a new system monitor in [10,7,mon] called sys2.exe which should now include the bcl: ersatz device. you will need to boot from this new system monitor and also create a ppn of [5,24] to be the directory for the bcl: ersatz device.
 
 <a name="system-printer">
-why won’t the tops-10 system printer work?
+why won’t the tops10 system printer work?
 </a>
 
-assuming you are using simh to run your tops-10 install on, you need to make sure the following lines are in your simh script or entered on the simh console before booting tops-10.
+assuming you are using simh to run your tops10 install on, you need to make sure the following lines are in your simh script or entered on the simh console before booting tops10.
 
     att lp20 printer.out
     set lp20 enable
 
 all printer output will now go to a file called printer.out in the directory to start simh in.
 
-next you need to make sure that tops-10 has started the printer and the spooler. to do this ensure that system.cmd has the following:
+next you need to make sure that tops10 has started the printer and the spooler. to do this ensure that system.cmd has the following:
 
     set printer 0 page-limit 2000
     start printer 0

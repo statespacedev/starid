@@ -3,9 +3,19 @@ layout: page
 title: about
 ---
 
-github [https://github.com/statespacedev/starid](https://github.com/statespacedev/starid)
+## links
 
-linkedin [https://www.linkedin.com/in/noahhsmith](https://www.linkedin.com/in/noahhsmith)
+- github [https://github.com/statespacedev/starid](https://github.com/statespacedev/starid)
+- linkedin [https://www.linkedin.com/in/noahhsmith](https://www.linkedin.com/in/noahhsmith)
+
+## recommended
+
+- [the soul of a new machine](https://en.wikipedia.org/wiki/The_Soul_of_a_New_Machine), best read about computers ever written?
+- [showstopper](https://www.goodreads.com/book/show/1416925.Show_Stopper_), a kind of follow-on to 'soul of a new machine', with more context around dec and its legacy in windows.
+- [the brain makers](https://www.goodreads.com/book/show/37650691-the-brain-makers), excellent context around utexas, austin, mcc, etc.
+- [kalman filtering theory and practice](https://www.mathworks.com/academia/books/kalman-filtering-theory-and-practice-using-matlab-grewal.html), very significant discussions of the history of sensors and computing are scattered throughout this excellent technical book. and this is almost 'lost/hidden/secret history' of people and projects that are very much worth learning about.
+
+## free-form
 
 this has been a hobby project for well over three decades. the code in the github repository grew over time, as well as the discussions that are now becoming part of this website. the code was used with python sphinx, and recently it became apparent that github jekyll could convert that into a static website.  
 
