@@ -671,7 +671,7 @@ staiow:	iowd	^d128*5,stabuf
 	0
 stfiow:	iowd	^d128*5,stabuf
 	0
-sysppn==1,,27			; ppn for system files
+sysppn==5,,30			; ppn for system files
 debflg:	block	1		; 0 = user PPN; -1 = 55,7; +1 = 77xxx,*
 
 dbuf:	block	3		;disk I/O buffer cntrl blk (news,gripe,help)
@@ -5109,8 +5109,8 @@ shlp.:	save	<x2,x3,p1,p2>
 	hrrzs	.jbren		; clear ^P flag
 	setzm	ccflg		; and ^C flag
 	pushj	p,ocrl.
-;	skipl	pasflg		;password set?
-;	jrst	shlp.1		;no, don't try special help file
+	skipl	pasflg		;password set?
+	jrst	shlp.1		;no, don't try special help file
 	hrrzi	x1,hl1fil
 	pushj	p,open.		;try help file with special commands documented
 	  jrst	shlp.1		;no good; use normal help file
