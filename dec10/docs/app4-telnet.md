@@ -1,3 +1,5 @@
+# telnet
+
 can scan local network with android app 'fing' and see ip numbers. 
 
 or, what's the subnet?
@@ -19,4 +21,14 @@ go ahead and telnet in
     Escape character is '^]'.
     Connected to the KL-10 simulator TTY device, line 4
 
+# terminals
 
+Oh, by the way.  Whilst not being replicas in the physical sense, I have made software simulations of the VT100 and VT52 hardware that run the original ROM firmware/microcode.  There are some bugs, but the basics work.
+
+https://github.com/larsbrinkhoff/terminal-simulator/
+
+By the way again, there is a 1:3 scale VT100 replica with a working keyboard.  It's super cute!
+
+hi lars, this reminds me - have wondered - is your terminal-simulator github project https://github.com/larsbrinkhoff/terminal-simulator/ what comes as part of the 'pidp-10 software package', as 'the vt52'? love that 'fuzzy glow' effect in that 'vt52 window', was pretty much the first thing wanted to see when got started with pidp-10:)
+
+No, that's not my simulator.  The one that comes with the PiDP-10 was written by Angelo Papenhoff, which emulates the behaviour of a VT52 without modeling its internals.  Angelo has also written a Verilog simulation which does model the VT52 hardware very well.
