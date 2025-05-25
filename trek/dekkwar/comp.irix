@@ -1,0 +1,18 @@
+echo "Compilieren aller Programme fuer DEKKWAR unter IRIX 6.2"
+echo 
+times
+cc -O2 -OPT:Olimit=2020 dwmain.c -lm  -lcurses -o dwmain
+cc -O2 cockpit.c -lcurses -o cockpit 
+cc -O2 move.c -lm  -o move 
+cc -O2 phaser.c -lm -o phaser
+cc -O2 torpedo.c  -lm  -o torpedo
+cc -O2 scout.c -o scout
+cc -O2 defeat.c -lm -o def
+cc -O2 romulan.c -lm -o rom
+cc -O2 init_gal.c -o init_gal
+cc -O2 explosion.c -o explosion
+cc -O2 dw_shm_inst.c -o shm_inst
+cc -O2 dw_shm_rem.c -o shm_rem
+echo "DEKKWAR-Programme compiliert!"
+times
+

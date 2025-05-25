@@ -1,0 +1,55 @@
+\documentstyle[12pt,a4,psfig,german]{article}
+\pagestyle{empty}
+\headheight0cm
+\headsep0cm
+\textwidth15cm
+\textheight24cm
+\parindent0cm
+%!!!%\def\"#1{{\accent"7F #1\penalty10000\hskip 0pt plus 0pt}}
+\def\3{\ss}
+\def\thebibliography#1{\section*{Literatur\markboth
+ {REFERENCES}{REFERENCES}}\list
+ {[\arabic{enumi}]}{\settowidth\labelwidth{[#1]}\leftmargin\labelwidth
+ \advance\leftmargin\labelsep
+ \usecounter{enumi}}
+ \def\newblock{\hskip .11em plus .33em minus -.07em}
+ \sloppy
+ \sfcode`\.=1000\relax}
+\let\endthebibliography=\endlist
+\hyphenation{ei-ner Preis-lis-te}
+\begin{document}
+
+\begin{center}
+
+\Huge
+
+{\bf DEKK--WAR \ \ }\\
+
+\vspace{2.0cm} 
+
+\psfig{figure=UFP-logo.ps,width=7cm,height=6.8cm,clip=t,bbllx=130bp,bblly=285bp,bburx=460bp,bbury=575bp}
+
+\vspace{-6.97cm} \hspace{6.9cm}
+\psfig{figure=Klingon-logo.ps,width=7cm,height=8.32cm,clip=t,bbllx=160bp,bblly=230bp,bburx=450bp,bbury=570bp}
+
+\vspace{-0.8cm}
+\psfig{figure=Romulan-logo.ps,width=14.62cm,height=7cm,clip=t,bbllx=-20bp,bblly=150bp,bburx=620bp,bbury=650bp}
+
+\vspace{1.0cm}
+
+\large
+
+Anleitung \ \ \ \ \ \\
+
+\vspace{2.0cm}
+
+\small
+
+\copyright 1992--1996 by Thies Meincke \ \ \ \ \ \\
+
+\end{center}
+
+\normalsize
+
+
+\end{document}

@@ -1,0 +1,24 @@
+#!/bin/bash
+set -e
+
+echo "Compilieren aller Programme fuer DEKKWAR unter Linux (Ubuntu 10.04)"
+echo 
+times
+gcc -Wall  dwmain.c -lm -lrt -lncurses -o dwmain
+gcc -Wall  cockpit.c -lncurses -lrt -o cockpit
+gcc -Wall  move.c -lm -lrt -o move
+gcc -Wall  phaser.c -lm -lrt -o phaser
+gcc -Wall  torpedo.c -lm -lrt -o torpedo
+gcc -Wall  scout.c -lm -lrt -o scout
+gcc -Wall  missile.c -lm -lrt -o missile
+gcc -Wall  robot.c -lm -lrt -o robot
+gcc -Wall  rtorpedo.c -lm -lrt -o rtorpedo
+gcc -Wall  defeat.c -lm -lrt -o def
+gcc -Wall  romulan.c -lm -lrt -o rom
+gcc -Wall  init_gal.c -lm -lrt -o init_gal
+gcc -Wall  explosion.c -lrt -lm -o explosion
+gcc -Wall  dw_shm_inst.c -o shm_inst
+gcc -Wall  dw_shm_rem.c -o shm_rem
+echo "DEKKWAR-Programme compiliert!"
+times
+

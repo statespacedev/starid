@@ -1,0 +1,79 @@
+~s uniwar vs decwar
+Sean,
+
+Hre are the main differences between decwar and uniwar that
+I can think of right away.  See the uniwar.hlp document for
+more details.  In fact, if you grep for "wws" in uniwar.hlp,
+you'll find a host of "not implemented yet" messages.  I don't
+detail them here.
+
+1) map of area around ship always on screen.  This is a pain
+   for <4800 baud terminals, and cannot be disabled at present.
+   However, hitting INTERRUPT is supposed to flush all incoming
+   data (like ^O in decwar).  Not thoroughly tested (i.e., I
+   haven't banged on the DEL key a lot like a player might).
+   ^L redraws the screen.
+
+2) Damage to devices -- warp engines aren't crippled until
+   damaged 600 units, and impulse don't go out until damaged
+   900.  These are tunable.  When a device is damaged 3x
+   it's "crippled" point (e.g., warp engines damaged 1800),
+   it is "destroyed" and can only be repaired at a starbase.
+   "Damage" command does not accept an argument.
+
+3) Conditions -- you are in condition RED whenever in range of
+   an enemy; that is, whenever an enemy could hit you.  Moving,
+   firing, docking, etc do NOT put you in condition GREEN.
+
+4) Range of enemy ports -- enemy planets have a range of at LEAST
+   two.  A 3-built planet has a range of three, 4-built has range
+   of four, and base has range of five (one greater than that of
+   Decwar).
+
+5) Capturing enemy planets -- you can't capture a fortified
+   planet -- attempts to do so remove one fortification from the
+   planet.  This is the way MEGAWARS works...
+
+6) UNIWAROPTS environment var replaces decwar.ini.
+
+7) TAB replaces ESC as the "repeat last command" character.  Note
+   that the next to last line on the screen has the last command
+   displayed with a count (how many times it's been executed).
+   David Herron suggested a ksh-like "remember last N commands"
+   interface.  Maybe later...
+
+8) No way to abort stacked commands (maybe next release)...
+
+9) Commands BASE, PLANETS, SHIPS, SUMMARY, and TARGETS changed
+   slightly and are much more free syntax.  See uniwar.hlp.
+
+10) POints command will not accept arguments.
+
+11) RAdio will not allow gagging yet.
+
+12) SC and SR are synonyms.  If you're sitting and doing nothing,
+    might be a good idea to hit "sc" a periodically, since the
+    screen is only updated after a command (and is not updated
+    after "info" commands such as LIst, DAmage, etc).
+
+13) TEll command supports "range" argument -- "tell all ships
+    in range N of me" (can't raise enemy ships out of ship's range).
+
+NOTES for config.h
+------------------
+1) ignore PWAIT (not used if Alarms enabled as they should be!).
+2) Set ALRMSEC to 2 or 3 for 3b2 if you think you're having problems
+   because of too many alarms flying around.  That symbolic constant
+   is used to determine how often the daemon wakes up and does
+   housekeeping.
+3) Since I don't use floating point, I multiplied some of my constants
+   by 100 -- this might be confusing but od't worry about it.
+
+Finally
+-------
+Uniwar doesn't "feel like decwar" in many ways -- e.g., takes too
+long to kill a base using phasers? too hard to nova stars? Anyway,
+I'd be interested in hearing about such differences that are degrading
+the quality of the game.
+
+Bill

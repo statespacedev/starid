@@ -2,6 +2,7 @@
 docs/la04/** linguist-vendored
 docs/la01/** linguist-vendored
 libstarid/include/** linguist-vendored
+trek/** linguist-vendored
 
 *.sh linguist-vendored
 *.RNO linguist-vendored

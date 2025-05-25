@@ -1,0 +1,13 @@
+1) Mission C bei robot.c - ERLEDIGT
+2) Mission J auf Mission D umstellen (Destroy): Jedes Objekt auf den 
+   Zielkkordinaten soll zerstoert werden.
+3) capture: Fall, daß Planet beim Capture zerstört wird, ist nur halb
+   berücksichtigt; zwar wird die Nr neu berechnet, aber es gibt keine
+   Berücksichtigung des Falles, daß keine Planetennr. gefunden wird.
+   ERLEDIGT 
+4) Kommandozentrale: Übersicht über Robots, Missiles, Scouts, Missionen,
+   Erweiterte Funktionen als Admiral der Heimatwelt; Funktionsübernahme, d.h.
+   Abgabe des Schiffs, Beförderungen, Autodetonation von Minen(feldern) und
+   Sprungtoren, Codeänderung Sprungtor.
+5) Universum im aktuellen Zustand sichern und Sicherung wiedereinspielen. Aber nur Spielfeld (d.h. inkl. Planeten- und Basenlevel, aber keine laufenden Torpedos, Schiffe, Punktestände usw.)
+

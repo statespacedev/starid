@@ -1,0 +1,41 @@
+/*
+ * Begin uscores.c
+ */
+#include <fcntl.h>
+#include "daemon/config.h"
+#include "daemon/u.h"
+
+main(ac, av)
+int ac;
+char *av[];
+{
+	struct scorefile score;
+	unsigned scoresize = sizeof(struct scorefile);
+	int scorefd;
+	char Scorefile[128];
+
+	sprintf(Scorefile, "%s/score", GAMEDIR);
+	if ((scorefd = open(Scorefile, O_RDONLY|O_CREAT, 0666)) < 0) {
+		/* can't deal with scorefile, so clear plscore */
+		printf("%s: can't open %s: ", av[0], Scorefile);
+		perror("");
+		return(-1);
+	}
+	printf("\
+Name		Missions	   Total	 Highest\n\
+----		--------	   -----	 -------\n");
+/*		tabstop		tabstop		tabstop */
+
+	while (read(scorefd, (char *)(&score), scoresize) == scoresize) {
+		if (score.uid != -1 && strcmp(score.name, "New"))
+			printf("%-16s%8d%16d%16d\n"
+				, score.name
+				, score.mission
+				, score.total
+				, score.highest);
+	}
+	return(0);
+}
+/*
+ * End uscores.c
+ */

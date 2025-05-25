@@ -1,0 +1,943 @@
+\documentstyle[12pt,a4,psfig,german]{article}
+\pagestyle{empty}
+\headheight0cm
+\headsep0cm
+\textwidth15cm
+\textheight24cm
+\parindent0cm
+\def\3{\ss}
+\begin{document}
+
+\begin{center}
+
+\Huge
+
+{\bf DEKKWAR \ \ }
+
+\ \\
+
+\normalsize
+
+\ \\
+{\tt Entwicklungsversion nach 1.5.2 f\"ur Ubuntu 10.04 - 27. Dezember 2011}
+\vspace{1.0cm} 
+
+\psfig{figure=UFP-logo.ps,width=7cm,height=6.8cm,clip=t,bbllx=130bp,bblly=285bp,bburx=460bp,bbury=575bp}
+
+\vspace{-6.97cm} \hspace{6.9cm}
+\psfig{figure=Klingon-logo.ps,width=7cm,height=8.32cm,clip=t,bbllx=160bp,bblly=230bp,bburx=450bp,bbury=570bp}
+
+\vspace{-0.8cm}
+\psfig{figure=Romulan-logo.ps,width=14.62cm,height=7cm,clip=t,bbllx=-20bp,bblly=150bp,bburx=620bp,bbury=650bp}
+
+\vspace{1.0cm}
+
+\Large
+
+Anleitung  \ \ \ \ \\
+
+\vspace{1.0cm}
+
+\small
+
+\copyright 1992--2010 by Thies Meincke \ \ \ \ \ \\
+
+\end{center}
+
+\normalsize
+
+\newpage
+
+\section{Einleitung}
+
+Bei {\bf DEKKWAR} k\"ampfen zwei Parteien von Spielern (die {\sl F\"ODERATION}
+und das {\sl IMPERIUM}) um die Herrschaft im All. Als St\"orenfried gibt es 
+noch den (computergelenkten) {\sl ROMULANER}. 
+
+Das Programmpaket besteht aus mehreren Teilen:
+
+\begin{enumerate}
+\item dw\_shm\_inst.c (shm\_inst) - Anlegen des Shared Memory-Segments f\"ur DECWAR
+\item dw\_shm\_rem.c (shm\_rem) - Entfernen des Shared Memory-Segments
+\item init\_gal.c (init\_gal) - Anlegen des Universums
+\item defeat.c (def) - Automatische Steuerung f\"ur Forts, Basen, Satelliten
+\item romulan.c (rom) - Der Romulaner
+\item dwmain.c (dwmain) - Das Programm f\"ur jeden Spieler.
+\end{enumerate}
+
+dwmain wiederum erzeugt Tochterprozesse f\"ur den Scout, verschossene
+Torpedos, Flugbomben, Robotschiffe,den Flug durchs Universum und Explosionen, 
+die dann unabh\"angig von dwmain laufen. Diese Programme sind:
+
+\begin{enumerate}
+\item cockpit.c (cockpit) - Cockpitdarstellung; l\"auft permanent.
+\item explosion.c (explosion) - Darstellung eines explodierenden Objekts.
+\item move.c (move) - Flug mit Warpantrieb; l\"auft permanent.
+\item phaser.c (phaser) - Schu\3 mit Phaser;  l\"auft permanent.
+\item missile.c (missile) - laufende Flugbombe;   l\"auft bei Bedarf.
+\item robot.c (robot) - aktives Robotschiff;   l\"auft bei Bedarf.
+\item scout.c (scout) - aktiver Scout;  l\"auft bei Bedarf.
+\item torpedo.c (torpedo) - fliegender Torpedo;  l\"auft bei Bedarf.
+\item rtorpedo.c (torpedo) - fliegender Torpedo eines Robotschiffs; 
+       l\"auft bei Bedarf.
+\end{enumerate}
+
+\section{Einstieg}
+
+Man mu\3 nach dem Starten des Programms dwmain seinen Spielernamen 
+(maximal 10 Zeichen, keine Leerzeichen) eingeben. Der jeweilige
+Rang ergibt sich aus der bislang erreichten Punktzahl:
+
+
+\begin{center}
+\begin{tabular}{|l|l|}
+\hline
+Punktzahl & Rang \\ \hline \hline
+0 - 14999 & Commander \\ \hline
+15000 - 29999 & Captain \\ \hline
+30000 - 99999 & Commodore \\ \hline
+ab 100000     & Admiral \\ \hline
+\end{tabular}
+\end{center}
+
+Je nach Rang kann man
+sich ein Schiff ausssuchen, das durch den 
+Anfangsbuchstaben gekennzeichnet ist. Man mu\3 Captain sein, um einen Kreuzer
+kommandieren zu k\"onnen, und mindestens Kommodore f\"ur ein Schlachtschiff.
+Auch sonst hat der Rang Einflu\3.
+
+Folgende Schiffe stehen zur Auswahl:
+
+
+\footnotesize
+\hspace{-1.0cm}
+\begin{verbatim}
+_______________FEDERATION_____________|________________EMPIRE_________________
+    Federal Battleship ENTERPRISE (E) |    Imperial Battleship MANTA      (M)
+    Federal Battleship LEXINGTON  (L) |    Imperial Battleship PYTHON     (P)
+    Federal Battleship YORKTOWN   (Y) |    Imperial Battleship JACKAL     (J)
+    Federal Battleship DEFIANT    (D) |    Imperial Battleship VIPER      (V)
+    Federal Cruiser    California (C) |    Imperial Cruiser    Falcon     (F)
+    Federal Cruiser    Oklahoma   (O) |    Imperial Cruiser    Iscariot   (I)
+    Federal Cruiser    Kansas     (K) |    Imperial Cruiser    Bloodhunt  (B)
+    Federal Cruiser    Tennessee  (T) |    Imperial Cruiser    Warlord    (W)
+    Federal Cruiser    Nevada     (N) |    Imperial Cruiser    Scorpion   (S)
+    Federal Cruiser    Utah       (U) |    Imperial Cruiser    Quarrel    (Q)
+    Federal Destroyer  kittyhawk  (k) |    Imperial Destroyer  vulture    (v)
+    Federal Destroyer  nostromo   (n) |    Imperial Destroyer  wasp       (w)
+    Federal Destroyer  discovery  (d) |    Imperial Destroyer  buzzard    (b)
+    Federal Destroyer  leonow     (l) |    Imperial Destroyer  hornet     (h)
+    Federal Destroyer  endeavour  (e) |    Imperial Destroyer  falchion   (f)
+    Federal Destroyer  ticonderoga(t) |    Imperial Destroyer  shark      (s)
+    Federal Destroyer  columbia   (c) |    Imperial Destroyer  mamba      (m)
+    Federal Destroyer  orion      (o) |    Imperial Destroyer  panther    (p)
+    Federal Destroyer  avenger    (a) |    Imperial Destroyer  intruder   (i)
+    Federal Destroyer  yorikke    (y) |    Imperial Destroyer  jaguar     (j)
+------------------------------------------------------------------------------
+\end{verbatim}
+
+\normalsize
+
+Durch die Wahl seines Schiffes legt man sich f\"ur eine der beiden Parteien
+fest. Weitere Details zu den Schiffen sind dem Abschnitte Schiffe zu entnehmen.
+
+
+Ziel des Spiels ist es nat\"urlich, dem Gegner soviele Sch\"aden 
+zuzuf\"ugen wie
+m\"oglich. Dazu sind die Schiffe bewaffnet. Alle Schiffe verf\"ugen \"uber
+Torpedos, Kreuzer und Schlachtschiffe auch \"uber Phaser. Was man im 
+einzelnen tun
+kann, ist aus der weiter unten aufgef\"uhrten Beschreibung aller
+Kommandos zu entnehmen,
+die immer \"uber die Tastatur eingegeben werden.
+
+Die Ressourcen, die man zur Verf\"ugung hat, sind beschr\"ankt. Jede Handlung
+kostet Energie und andere Vorr\"ate, so da\3 die Vorr\"ate von Zeit zu Zeit
+durch Docken an eine Basis oder die Heimatwelt
+der eigenen Seite aufgef\"ullt werden m\"ussen.
+
+Durch Beschu\3 oder Kollisionen kann das eigene Schiff besch\"adigt werden,
+so da\3 die Funktion einzelner oder mehrer Subsysteme beeintr\"achtigt werden
+kann. Wenn man eine bestimmte Menge an Sch\"aden \"uberschritten hat, gilt
+das Schiff als zerst\"ort und man fliegt aus dem Spiel. Das gleiche passiert,
+wenn man seine Energie verbraucht hat. Einmal zerst\"orte Schiffe sind aus dem
+Spiel.
+
+Fast alles, was man macht bringt Punkte - eventuell aber auch negative 
+(z.B. das Schie\3en auf eine eigene Basis)!
+
+
+\section{Die Heimatwelten )F( und ]E[}
+
+Jede Partei verf\"ugt \"uber eine eigene Heimatwelt, von der aus man in
+das Spiel einsteigt und an die man auch wieder 
+von den benachbarten Sektoren aus andocken kann. Das Symbol f\"ur die
+Heimatwelt des Imperiums ist ]E[, f\"ur die F\"oderation )F(. Wie eine
+Basis feuert eine Heimatwelt automatisch auf Feinde, jedoch ca. 10 Mal 
+heftiger. Die Reichweite ist 9 Sektoren. Feindliche Schiffe werden jedoch
+bereits ab einem Abstand von 15 Sektoren per Funk gewarnt: 
+,,YOU ENTERED A RESTRICTED AREA! IF YOU VALUE YOUR LIFE BE SOMEWHERE ELSE!''.
+Das Kommando zum Andocken lautet HW. Nach dem Andocken befindet man sich in
+einen speziellen Zustand, der nicht automatisch beendet wird. Es wird das
+Flottenhauptquartier mit den zur Zeit in der Heimatwelt angedockten Schiffen
+angezeigt. 
+
+Angezeigt werden ferner die Daten der Heimatwelt. Die Anzeige f\"ur Condition
+zeigt normalerweise ,,green'', ist die Heimatwelt besch\"adigt 
+zeigt sie ,,YELLOW'', erfolgte k\"urzlich ein Angriff, zeigt sie ,,RED''.
+
+Es gibt eine Reihe von speziellen Kommandos, die man nur ausf\"uhren kann, wenn
+man an die Heimatwelt gedockt ist:
+
+\begin{description}
+\item [CR n] - Call back Robotship n: R\"uckruf des aktiven eigenen 
+               Robotschiffs mit der Nummer n (n=a: alle eigenen aktiven
+               Robotschiffe). Notwendiger Rang: Admiral.
+\item [KR n] - Kill Robotship n: Selbstzerst\"orung des aktiven eigenen 
+               Robotschiffs mit der Nummer n (n=a: alle eigenen aktiven
+               Robotschiffe). Notwendiger Rang: Admiral.
+\item [LM x1 y1 x2 y2 -  LM x1 y1 p] - Launch Missile: Start einer Flugbombe 
+                (Missile) zu den Zielkoordinaten
+                x1 y1 \"uber die Koordinaten x2 y2 oder (p) \"uber einen vorher
+                aufgezeichneten Pfad (Kommando MP).  
+                Man mu\3 Admiral sein und an der Heimatwelt gedockt sein, 
+                um eine Flugbombe starten zu k\"onnen.
+\item [LS x y] - Launch Scout: Start eines Scoutschiffs 
+                zu den Zielkoordinaten
+                x y. Man mu\3 mindestens Commodore sein, um einen Scout
+                starten zu k\"onnen.
+\item [LR n m x y] - Launch Robotship: Start eines Robotschiffs; x,y = Ziel,
+                n=Nr. des Robotschiffs, m=Mission (siehe unten).
+                Man mu\3 Admiral sein, um ein Robotschiff starten zu k\"onnen.
+\item [SD bp] - Set Display bases+planets: Anzeige von Ort und Status der
+                eigenen Basen, Planeten, Forts und Satelliten.
+\item [SD fl] - Set Display fleet: Anzeige des eigenen Flottenstatus.
+\item [SD hw] - Set Display homeworld: Anzeige des Flottenhauptquartiers.
+\item [SD m] - Set Display map: \"Ubersichtskarte des Universums mit den
+                eigenen Basen, Planeten, Forts und Satelliten.
+\item [SD re] - Set Display reconnaissance data: Darstellung aller Sichtungen
+                feindlicher Schiffe durch eigene Basen, Planeten, Forts 
+                und Satelliten mit Angabe der Position und der Sternzeit, wann
+                das Schiff gesichtet wurde. Man mu\3 zumindest Commodore sein,
+                um diese Informationen abrufen zu k\"onnen. Sichtungen des 
+                Romulaners werden auch der Gegenseite mitgeteilt.
+\item [SD ro] - Set Display Robotships: Status\"ubersicht der Robotschiffe.
+\item [SElect ?] - Auswahl einen neuen Schiffs mit dem Buchstaben ?. Auf diese
+                  Weise kann man das Schiff wechseln, ohne das Spiel beenden 
+                  zu m\"ussen. 
+\item [STart] - Auslaufen zu einer neuen Mission.
+\end{description}
+
+{\sf Abbildung 2: Das ''Cockpit'' eines Raumschiffs bei Spielbeginn und 
+                  beim Docken an der Heimatwelt (bei SD hw). Das ? bei
+                  der Anzeige von Area bedeutet, da\3 die Basenverteidigung
+                  def nicht l\"auft. Bei laufender Basenverteidigung wird die
+                  von eigenen Basen, Forts und Satelliten \"uberwachte Raumfl\"ache
+                  in $\%$ der Gesamtfl\"ache angezeigt. Ferner wird die Anzahl
+                  der Spieler beider Seiten angezeigt (Players: 0/1 bedeutet,
+                  das 0 Spieler auf Seiten der F\"oderation spielen, einer auf Seiten
+                  des Imperiums). Des weiteren wird links eine \"Ubersicht der 
+                  Flotte und der Status der Heimatwelt angezeigt. Infos zu
+                  gespeicherten Pfaden der Flugbomben sind ebenfalls dort zu
+                  finden.}
+
+\footnotesize
+\hspace{-1.0cm}
+\begin{verbatim}
+ #################        ################## |     -- Imperial HOMEWORLD --    |
+ #                                         # | Starfleet Base and Head Quarter |
+ #         #####################           # +----------Player-Status----------|
+ #-<v                                   0>-# |  Name......:  KOR               |
+ #-<w       ->-#-<       >-#-<          1>-# |  Rank......:  Admiral           |
+ #-<b       ;>-#-<       >-#-<          2>-# |  Score.....:  363130            |
+ #-<h        >-#-<       >-#-<          3>-# |  Ship......:  Falcon            |
+ #-<f        >-#-<F      >-#-<          4>-# |  Class.....:  Cruiser           |
+ #-<s        >-#-<I      >-#-<          5>-# |-------Match-Status-Empire-------|
+ #-<m       M>-#-<B      >-#-<          6>-# |  Bases......:  10  Players: 0/1 |
+ #-<p       P>-#-<W      >-#-<          7>-# |  Planets....:   0   0   0   0   |
+ #-<i       J>-#-<S      >-#-<          8>-# |  Forts......:   0               |
+ #-<j       V>-#-<Q      >-#-<          9>-# |  Satellites.:   0               |
+ ########################################### |  Score......:   0               |
+ # Position: 183 077  Stardate: 6568.1     # |  Area.......:   ? (def?)        |
+ # Condition: GREEN   Damages:    0 ( 0 %) # |------------Messages-------------|
+ # MP no. 0: empty                         # |             Welcome             |
+ # MP no. 1: empty                         # |             Welcome             |
+ # MP no. 2: length=121, end point 014 044 # |                                 |
+ #                                         # |   Initial position: Homeworld   |
+ ########################################### |         Status: docked          |
++-------------------------------------------+|  Enter STart for an new mission |
+|COMMAND:                                   ||                                 |
++-------------------------------------------++---------------------------------+
+\end{verbatim}
+
+\normalsize
+
+\newpage
+
+\section{Das Cockpit}
+
+Wenn man zu einer Mission die Heimatwelt mit dem Kommando STart verlassen
+hat, \"andert sich die Bildschirmanzeige. Man erh\"alt voreingestellt ein
+Radarbild oben links, wieder die Kommandozeile unten links. Oben rechts
+sind Informationen zum Schiff und Kommandanten zu finden, unten rechts
+sind wieder aktuelle Meldungen zu finden (siehe auch die folgende Abbildung).
+
+\footnotesize
+\hspace{-1.0cm}
+\begin{verbatim}
+   134 136 138 140 142 144 146 148 150 152    Imperial Destroyer  wasp
+196 . . . . . . . . . . . . . . . . . . *196  Comm. Off.: Admiral    KOR
+195 . . . . . . . . . . . . . . . . * . .195 |-------------Status--------------|
+194 . . . . . . . . . . . . . . . . . . .194 |  Position.....:     143  187    |
+193 . . . . * . * . . . . . . . . . . . .193 |  Main Energy..:    3808   95%   |
+192 . . . . . . . . . * . . . . . . . . .192 |  Shield Energy:    1500  100%   |
+191 . . . . . . . . . . . *   . . . . . .191 |  Phaser Energy:    ----  ---    |
+190 . . . . . . . .   . . . . . . . . . .190 |  Fuel (tons)..:     100  100%   |
+189 . . . . . . . . . . . . . . . @ . . .189 |  Torpedoes....:      15  100%   |
+188 . . * . . . . . . . . . . . . . . . .188 |  Mines........:       6  100%   |
+187 . . . . . . . . . w . . . . . . . . .187 |  Satellites...:       2  100%   |
+186 . . . . . . . * . . . . . . . * . . .186 |  Damages......:       0    0%   |
+185 . . . . . . . . . . . . . . . . . . .185 |  Score........:       0         |
+184 . . . . . . . . . . . . . . . . . . .184 |  Stardate.....:  1580.2         |
+183 . . . . . . . . . . . . . . . . . . .183 |  SH:- RA:- SV:- MP:-      TT:+  |
+182 . . . . . . . . . . . . . . . * . . .182 |------------Messages-------------|
+181 . . . . . . . . . . . . . * . . . . .181 |HW: Select w: C+ M+ T- P         |
+180 . . . . . . . * . . . . . . . . . . *180 |HW: Congratulation, you are now  |
+179 . . . . . . . . . . . . . . . . . . .179 |  the commanding officer of the  |
+178 . . . . . . . . . . . . . . . . . . .178 |Imperial Destroyer wasp          |
+   134 136 138 140 142 144 146 148 150 152   |IN: Total:   8 bases detected    |
+|--------------------------------------------|IN: Next base at 114 147         |
+|COMMAND:                                    |IN: 2nd next base at 90 102      |
+|------------------------------------------------------------------------------|
+\end{verbatim}
+
+\normalsize
+
+In der Kommandozeile unten links im Cockpit k\"onnen \"uber die 
+Tastatur Befehle eingegeben werde. Diese werden im Abschnitt Befehle
+detailliert erl\"autert.
+
+\section{Das Universum}
+
+Das Spielfeld (Universum) besteht aus 
+$200\times200$ Sektoren. Dort kann man eine Vielzahl verschiedene
+Objekte vorfinden, die im folgenden aufgef\"uhrt werden:
+
+\begin{description}
+\item [.] - Freies Feld: Diese Felder sind zum Flug geeignet.
+\item [ ] - Schwarzes Loch: Wer in ein Schwarzes Loch fliegt, wird mit einer
+            bestimmten Wahrscheinlichkeit vernichtet. Alternativ kommt
+            er an irgendeiner Stelle des Universums wieder zum Vorschein. 
+            Der Navigationscomputer kann Kollisionen mit Schwarzen 
+            L\"ochern nicht verhindern.
+\item[@] - Planet: Ein Planet ist anfangs neutral und kann f\"ur die jeweilige
+                 Seite erobert werden. Dann schie\3en selbstt\"atig auf
+                 feindliche Schiffe. Planeten haben vier Ausbaustufen. 
+                 Ihre Feuerkraft und Reichweite betr\"agt je nach Ausbaustufe
+                 Ausbaustufe $\times$ 100 Einheiten und 
+                 Ausbaustufe $\times$ 2 Sektoren.
+                 Ein Planet der Ausbaustufe 4 kann zu einer Basis 
+                 ausgebaut werden.
+\item [$\ast$] - Stern: Durch Beschu\3 oder Rammen kann ein Stern explodieren.
+                 Dabei werden benachbarte Objekte besch\"adigt oder vernichtet.
+                 Es kann zu Kettenreaktion kommen, wenn Sterne nebeneinander
+                 liegen.
+\item[\#] - Fort des Imperiums: schie\3t selbstst\"andig auf feindliche Schiffe, 
+            die Reichweite betr\"agt 9 Sektoren.
+            Meldungen \"uber Sichtungen von Feindschiffen an die Heimatwelt.
+            Meldungen \"uber Angriffe gehen an alle eigenen Schiffe.
+\item[\$] - Fort der F\"oderation: schie\3t selbstst\"andig 
+            auf feindliche Schiffe, die Reichweite betr\"agt 9 Sektoren.
+            Meldungen \"uber Sichtungen von Feindschiffen an die Heimatwelt.
+            Meldungen \"uber Angriffe gehen an alle eigenen Schiffe.
+\item[\~] - Satellit der F\"oderation: meldet das Auftauchen nicht 
+            getarnter feindlicher Schiffe an alle eigenen Schiffe und die
+            Heimatwelt. Die 
+            Reichweite betr\"agt 9 Sektoren.
+\item[\^] - Satellit des Imperiums: meldet das Auftauchen nicht 
+            getarnter feindlicher Schiffe an alle eigenen Schiffe und die
+            Heimatwelt. Die 
+            Reichweite betr\"agt 9 Sektoren.
+\item[$\cdot$] - Mine: Explodiert, wenn man sie rammt.
+\item[( )] - Basis der F\"oderation: siehe Abschnitt Basen.
+\item[[ ]] - Basis des Imperiums: siehe Abschnitt Basen.
+\item[=] - Gaswolke: Sie kann nur mit Impulsantrieb durchflogen werden. 
+           Die Schilde sollten eingeschaltet sein, um Sch\"aden zu vermeiden. 
+           Durch Gaswolken kann man nur mit Phasern schie\3en. 
+           Die Phaserstrahlen werden dabei geschw\"acht. Je nach Einstellung
+           des Flags radarlee in init\_gal.c sind Gaswolken f\"ur Radarstrahlen
+           durchl\"assig oder nicht.
+\item[+] - Torpedo oder Torpedoblindg\"anger: explodiert bei Kollision.
+\item[,] - getarntes Schiff, Scoutschiff oder Flugbombe.
+\item[-] - Flugbombe (Missile), ist jedoch unbesch\"adigt getarnt.
+\item[!] - Robotschiff der F\"oderation.
+\item[$|$] - Robotschiff des Imperiums.
+\item [\S] - Sprungtor: Ein Schiff kann von einem Sprungtor zum anderen
+             springen und so langwierige Fl\"uge vermeiden. Siehe Befehle
+             JG und JU.
+\item[:] - Scoutschiff der F\"oderation: siehe Abschnitt Scoutschiffe.
+\item[;] - Scoutschiff des Imperiums: siehe Abschnitt Scoutschiffe.
+\item[R] - Romulaner: siehe Abschnitt Romulaner
+\item[]E[] - Heimatwelt des Imperiums: 
+               siehe Abschnitt \"uber Heimatwelten.
+\item[)F(] - Heimatwelt der F\"oderation: siehe Abschnitt Heimatwelten.
+\item[Buchstaben] - Schiffe: sie sind durch den ersten Buchstaben ihres Namens
+                    erkennbar (wenn sie nicht getarnt sind!).
+\end{description}
+
+\section{Schiffe}
+
+Die Schiffe des Imperiums und der F\"oderation sind in drei Klassen einge-
+teilt: Schlachtschiffe (je 4), Kreuzer (je 6) und Zerst\"orer (je 8), wobei
+letztere durch Kleinbuchstaben zu erkennen sind. Die drei Klassen haben
+unterschiedliche Eigenschaften, innerhalb der Klassen sind die Schiffe
+jedoch gleich. Durch Wahl seines Schiffes legt man zugleich fest, ob man zum
+{\sl Imperium} oder zur {\sl F\"oderation} geh\"ort.\\
+
+\begin{center}
+\begin{tabular}{|l|r|r|r|r|} \hline
+\ \ & Schlachtschiff & Kreuzer & Zerst\"orer & Robotschiff\\ \hline
+Hauptenergie & 5000 & 4000 & 4000 & 2000 \\
+Schildenergie & 2500 & 2000 & 1500 & 1800 \\
+Phaserenergie & 2500 & 2000 & - & - \\
+Torpedos & 25 & 20 & 15 & 20 \\
+Torpedorohre & 3 & 2 & 1 & 1 \\
+Minen & 10 & 6 & 6 & - \\
+Satelliten & 6 & 3 & 2 & - \\
+Impulstreibstoff & 130 t & 120 t & 100 t & 200 t\\
+Max. Schadenspunkte & 2500 & 2000 & 1500 & 2000 \\
+Maximale Phaserst\"arke & 500 & 400 & - & - \\ 
+Mittlere Torpedost\"arke & 250 & 250 & 250 & 250 \\ \hline
+\end{tabular} \\
+\end{center}
+
+Es gilt  ferner: Je gr\"o\3er das Schiff, desto schneller kann es 
+Planeten erobern und auszubauen sowie Forts bauen. Je gr\"o\3er
+das Schiff ist, desto langsamer fliegt es. Zerst\"orer verf\"ugen nicht
+\"uber Phaser. Nur Schlachtschiffe k\"onnen Sprungtore bauen. 
+
+Ein Zerst\"orer hat 1, ein Kreuzer 2
+und ein Schlachtschiff 3 Torpedorohre. Das Nachladen dauert 1,5 jeweils
+Sekunden. Ein Schlachtschiff kann also bis zu drei Torpedos sofort
+hintereinander feuern, dann dauert es bis zum n\"schsten Schu\3
+1,5 Sekunden. Ein Zerst\"orer braucht bereits f\"ur den 2. Schu\3
+1,5 Sekunden. Der Status der Torpedorohre l\"a\3t sich im 
+Statusfenster des Cockpits erkennen: TT:=?  (?=+ geladen, ?=R 
+,,reloading'', ?=- leer).
+
+In der Darstellung des Cockpits (Abschnitt Cockpit) 
+sind ferner die jeweiligen aktuellen
+Werte f\"ur die vorhandenen Energien, Torpedos usw.  wiedergegeben.
+
+Wird ein Schiff besch\"adigt, kann der Schaden an folgenden Sektionen
+auftreten und f\"ur entsprechende Funktionsbeeintr\"achtigungen bzw.
+-ausf\"alle sorgen (gilt nicht f\"ur Robotschiffe):
+
+\begin{center}
+\begin{enumerate}
+\item Warp-Antrieb
+\item Impuls-Antrieb
+\item Torpedorohre
+\item Phaser (falls vorhanden)
+\item Schilde
+\item Computersysteme
+\item Lebenserhaltungssystem
+\item Radar
+\item Funkanlage
+\item Tarnvorrichtung
+\end{enumerate}
+\end{center}
+
+
+\section{Liste der Befehle}
+
+In der Kommandozeile unten links im Cockpit
+k\"onnen \"uber die Tastatur Befehle eingegeben werde. Jeder Befehl besteht
+zumeist aus zwei Buchstaben. Eventuell sind Optionen oder Werte anzugeben.
+
+\begin{description}      
+\item [BR] - Build Robotship: Bau eines neuen Robotschiffs. Man mu\3 an die
+      heimatwelt gedockt sein und den Rang eines Admirals haben, um diese 
+      Kommando ausf\"uhren zu k\"onnen.
+\item [BU x y] - Build: Ausbau des Planeten auf x y um eine Stufe. 
+        Der Planet mu\3 zur eigenen Partei geh\"oren und direkt neben dem
+        Schiff liegen. Die Schilde m\"ussen gesenkt sein . Beispiel: BU 45 124
+\item [CA x y] - Capture: Erobern einen feindlichen oder neutralen
+        Planeten auf x y. Er mu\3 direkt neben
+        dem Schiff liegen. Die Schilde m\"ussen gesenkt sein.
+\item [CP n] - Clear (missile) Path n: L\"oschen des Pfades Nr. n f\"ur eine
+      Flugbombe.
+\item [CR n] - Call back Robotship n: R\"uckruf des aktiven eigenen 
+               Robotschiffs mit der Nummer n (n=a: alle eigenen aktiven
+               Robotschiffe). Notwendiger Rang: Admiral. Nur bei Dock an die
+               Heimatwelt.
+\item [DA] - Damages: Auflistung der Sch\"aden in allen Sektionen.
+\item [DO] - Dock: Andocken an eine eigene Basis. Die Basis mu\3 direkt neben
+    dem Schiff liegen.
+\item [FO x y] - Fort: Bau eines Forts auf der Position x y. Dabei 
+         m\"ussen x und y 
+         eine Position direkt neben dem Schiff bezeichnen, die Schilde m\"ussen
+         DOWN sein.
+\item [HE] - Help: ohne Parameter: Ausgabe einer Liste aller Kommandos. Mit
+            Parameter: Ausgabe einer Info zu dem Kommando, das der Parameter
+            kennzeichnet. Beispiel HE DO - Info zum Dock--Kommando.
+\item [HO on / off] - Hood: Tarnvorrichtung an/aus. F\"ur HO on 
+             m\"ussen die Schilde
+             ''DOWN'' sein. Der Schiffkennbuchstabe wird durch '','' ersetzt, 
+             feindliche Basen, Forts und Satelliten ''sehen'' einen nicht, 
+             feindliche Schiffe k\"onnen nicht computergest\"utzt feuern, man
+             kann aber selber nicht schie\3en. Der Romulaner allerdings kann
+             auf ein getarntes Schiff schie\3en!
+\item [HW] - Homeworld: Docken an die eigene Heimatwelt, siehe auch Abschnitt
+          ,,Heimatwelt''.
+\item [ID ?] - Identify: Identifikation eines Schiff mit dem Kennbuchstaben
+      ?. Beispiel ID e
+\item [IM dx dy] - Impuls: Flug mit Impulsantrieb, max. 1 Sektor, pro Sektor 
+          1 Tonne Treibstoffverbrauch. Beispiel: IM 1 -1
+\item [IN ?] - Info: Information \"uber: ?=P - Planeten; ?=B - Basen; ?
+      =F - Forts; ?=H - Heimatwelt; ?=j - Sprungtore ?=s - Scout ?=m 
+      Flugbombe (Missile); - ?=r Robotschiffe. Beispiel: IN b. Erweiterung 
+      f\"ur Robotschiffe: IN r n f\"ur Robotschiff Nr. n: Detailierte Info.
+\item [JG x y code] - Jumpgate: Bau eines Sprungtores auf der Position x y
+          (neben dem Schiff). Das Tor erh\"alt die Nummer code (siehe Abschnitt
+          Sprungtore).
+\item [JU c1 c2] - Jump: Sprung durch das Sprungtor mit der Nummer c1 zum
+          Sprungtor mit der Nummer c2 (siehe Abschnitt Sprungtore).
+\item [KM] - Kill Missile: die eigene aktive Flugbombe zerst\"oren.
+\item [KR n] - Kill Robotship n: Selbstzerst\"orung des aktiven eigenen 
+               Robotschiffs mit der Nummer n (n=a: alle eigenen aktiven
+               Robotschiffe).  Notwendiger Rang: Admiral. Nur bei Dock an die
+               Heimatwelt.
+\item [KS] - Kill Scout: Eigenes Scoutschiff vernichten, zumeist um ein neues
+          starten zu k\"onnen.
+\item [LE X=....] - Learn: Belegung der Taste X mit dem Befehl ... .
+      Beispiel: LE X=PH c E 400. Es geht nur f\"ur die Tasten X und Y!
+\item [LE Y=....] - Learn: Belegung der Taste Y mit dem Befehl ... .
+      Beispiel: LE Y=TO 77 124. Es geht nur f\"ur die Tasten X und Y!
+\item [LM x1 y1 x2 y2 -  LM x1 y1 p] - Launch Missile: Start einer Flugbombe 
+                (Missile) zu den Zielkoordinaten
+                x1 y1 \"uber die Koordinaten x2 y2 oder (p) \"uber einen vorher
+                aufgezeichneten Pfad (Kommando MP).  
+                Man mu\3 Admiral sein und an der Heimatwelt gedockt sein, 
+                um eine Flugbombe starten zu k\"onnen.
+\item [LS x y] - Launch Scout: Starten eines Scoutschiffs mit Ziel x y (geht
+                 nur, wenn man Kommodore ist und an die Heimatwelt gedockt 
+                 hat).
+\item [LR n m x y] - Launch Robotship: Start eines Robotschiffs; x,y = Ziel,
+                n=Nr. des Robotschiffs, m=Mission (siehe Abschnitt \"uber
+                Robotschiffe).
+                Man mu\3 Admiral sein, um ein Robotschiff starten zu k\"onnen.
+                Es geht nur von der Heimatwelt aus.
+\item [MI x y] - Mine: Auslegen einer Mine auf die  
+        Position x y. x und y m\"ussen eine
+        Position direkt neben dem Schiff bezeichnen.
+\item [MP on/off] - Missile Path: Aufzeichnung einen Flugweges einer 
+            Flugbombe durch Abfliegen mit einem Schiff bei MP on. Beginn
+            bei der eigenen Heimatwelt. Ende der Aufzeichnung mit MP off.
+            Anzeige des Status und die
+            L\"ange des aufgezeichneten Pfades (maximal MISSILE\_FUEL+1)
+            erfolgen im Cockpit und mit dem Kommando IN m.
+\item [MR dx dy] - Move Relative: Bewegung mit Warp-Antrieb um 
+           dx Sektoren in X-Richtung und dy Sektoren
+           in Y-Richtung. Beispiel: MR 2 -4
+\item [PH C ? n] - Phaser: Feuern mit Phaser (computerberechnet, vgl. TO C ?),
+           n=Schu\3st\"arke, ?=Ziel.
+           Ist das Ziel mehr als 4 Sektoren entfernt, so schw\"acht sich
+           der Phaserstrahl pro Sektor um ca. 10% ab!). Beispiel: PH c E 400
+\item [PH x y n] - Phaser: mit St\"arke n auf die Koordinaten x y abfeuern,
+           maximale Reichweite 9 Sektoren, Abschw\"achung wie vorher. 
+           Beispiel PH 12 199 200
+\item [RA on/off] - Ramming: Bei RA ON k\"onnen Objekte gerammt werden, 
+            bei RA OFF
+            wird eine Kollision mit den meisten Objekten vom Bordcomputer
+            verhindert (Falls er o.k. ist). Das Rammen verursacht Sch\"aden
+            auf beiden Seiten. Das Rammen der Heimatwelten ist t\"odlich f\"ur
+            das rammende Schiff!
+\item [RE n] - Repair: Reparatur der Sektion n; verringert Sch\"aden in der 
+       betreffenden Sektion um 20 Einheiten. Anzeige der Sektionsnummern
+       durch den Befehl DA. Beispiel RE 8
+\item [RS] - Restart: Startet die Prozesse f\"ur Cockpit usw. neu; nur
+             f\"ur Entwicklungsarbeiten gedacht, im Spiel normalerweise nicht
+             ben\"otigt.
+\item [SA x y] - Satellit: Aussetzen eines Beobachtungssatelliten 
+        auf die Position
+        x y. x und y m\"ussen eine Position direkt neben dem Schiff bezeichen,
+        die Schutzschilde m\"ussen DOWN sein.
+\item [SC] - Score: Anzeige der aktuellen Punktzahl.
+\item [SD x] - Set Display: Anzeigemodi f\"ur das linke obere Fenster. 
+               Es gibt folgende Auswahlm\"oglichkeiten x, die z.T. aber nur
+               beim Docken an die Heimatwelt zur Verf\"ugung stehen:
+      \begin{description}
+      \item [SD bp] - Set Display Bases Planets: Anzeige von Ort und Status der
+                eigenen Basen, Planeten, Forts und Satelliten.
+      \item [SD fl] - Set Display Fleet: Anzeige des eigenen Flottenstatus.
+      \item [SD hw] - Set Display Homeworld: Anzeige des Flottenhauptquartiers.
+      \item [SD m] - Set Display Map: \"Ubersichtskarte des Universums mit den
+                eigenen Basen, Planeten, Forts und Satelliten.
+      \item [SD ra] - Set Display Radar: Radarbild anzeigen lassen
+                      (Standardanzeige).
+      \item [SD re] - Set Display Reconnaissance Data: Darstellung aller 
+                Sichtungen
+                feindlicher Schiffe durch eigene Basen, Planeten, Forts 
+                und Satelliten mit Angabe der Position und der Sternzeit, wann
+                das Schiff gesichtet wurde. Man mu\3 zumindest Commodore sein,
+                um diese Informationen abrufen zu k\"onnen.
+      \item [SD ro] - Set Display Robotships: Status\"ubersicht der Robotschiffe.
+      \end{description}
+\item [SE ? ...] - Send: Verschicken einer Funknachricht ... an das Ziel ?.
+            ?=$\ast$ - an alle Spieler, ?=\& an alle Spieler 
+            der eigenen Partei,
+            oder bei Eingabe des Schiffskennbuchstaben an das jeweilige
+            Schiff (falls im Spiel). Beispiel: SE E Wo bist du?
+\item [SElect ?] - Select: Auswahl eines neuen Schiffs ? (geht nur, wenn man
+                   an die Heimatwelt angedockt hat).
+\item [SH up/down] - Shields: Heben oder Senken der Schutzschilde.
+\item [SP n] - Save (missile) Path n: Speichern eines mit ,,MP on'' 
+               aufgezeichneten Pfades f\"ur eine Flugbombe. n bezeichnet die 
+               Pfadnummer.
+\item [STart] - Start: Ausdocken aus der Heimatwelt oder einer Basis.
+\item [ST] - Stopp: Stopp des Fluges mit Warp-Antrieb (nach Kommando MR).
+\item[SV on/off]: Save Modus: Bei SV on wird kein Torpedo oder Phaser auf
+       das angegebene Ziel gefeuert, wenn ein Hindernis im Weg liegt. 
+       Defaultwert ist OFF. Anzeige des Status erfolgt im Cockpit.
+\item [SY] - Symbols: Erl\"auterung der Symbole im All.
+\item [TE ? n] - Transport Energy:  Transportieren von n Energieeinheiten 
+           vom eigenen Schiff (Hauptenergie) zum Schiff
+           mit dem Kennbuchstaben ? (0-9: Robotschiff). Beispiel TE L 300
+\item [TF ? n] - Transport Fuel:  Transportieren von n Tonnen Treibstoff 
+           vom eigenen Schiff zum Schiff
+           mit dem Kennbuchstaben ? (0-9: Robotschiff). Beispiel TF L 30
+\item [TT ? n] - Transport Torpedo:  Transportieren von n Torpedos 
+           vom eigenen Schiff zum Schiff
+           mit dem Kennbuchstaben ? (0-9: Robotschiff). Beispiel TF m 3
+\item [TO C ?] - Torpedo: computerberechnet einen Torpedo
+          auf das Schiff ? schie\3en. Beispiel TO c F (r=Romulaner).
+\item [TO x y] - Torpedo: Torpedo auf die Koordinaten x y feuern, 
+          max. Reichweite 9 Sektoren. Beispiel TO 125 23.
+\item [TR ? ? n] - Transfer: Transferieren von n Energieeinheiten 
+           von Energiespeicher ?  zu Energiespeicher ?; Energiespeicher:
+               m = Hauptenergie, s = Schildenergie p = Phaserenergie.
+          Beispiel: TR s m 500
+\item [!] Befehlswiederholung, f\"uhrt den vorher eingebenen Befehl nochmal aus
+         (Return ist nicht n\"otig!).
+\item [QU] - Quit: Ausstieg aus dem Spiel (ohne Return!). Nicht m\"oglich
+         im Feuerbereich von feindlichen Schiffen, Forts, Basen
+         und der feindlichen Heimatwelt.
+\item [X] Ausf\"uhren des mit dem LE-Kommando eingegeben 
+          Befehls f\"ur die Taste X (ohne Return!).
+\item [Y] Ausf\"uhren des mit dem LE-Kommando eingegeben 
+          Befehls f\"ur die Taste Y (ohne Return!).
+\end{description}      
+
+Das Bauen von Forts und Basen oder das Aussetzen von Satelliten oder Minen
+kostet sowohl Zeit als auch Energie. Manche Kommandos funktionieren nicht oder
+nur teilweise, wenn Teile des Schiffs oder beim Docken/Ausdocken die Basis
+oder Heimatwelt besch\"adigt sind.
+
+
+\section{Die Basen ( ) und [ ]}
+
+Wichtige St\"utzpunkte sind eigene Basen. Eine gewisse Anzahl wird
+bei der Initialisierung des Universum erzeugt, weitere kann man bauen,
+indem man Planeten erobert und sie ausbaut.
+
+Es gibt drei spezielle Kommandos f\"ur die Nutzung von Basen:
+
+\begin{description}
+\item [DO] - Dock: Docken an eine Basis. Die Basis mu\3 neben dem Schiff
+             liegen.
+\item [STart]: - Start: Ausdocken und Start zu einer neuen Mission.
+\item [IN b] - Informationen \"uber Basen: Gibt die Anzahl der eigenen
+Basen an und zeigt den Status aller Basen im Radarbereich des Schiffes.
+\end{description}
+
+Die nachfolgende Abbildung zeigt die Cockpit-Anzeige nach dem Andocken
+an eine Basis. Man erkennt vier Docks (Bays). In einem Dock liegt das
+eigene Schiff, die drei anderen sind in diesem Fall frei. Es k\"onnen
+also maximal vier Schiffe gleichzeitig an eine Basis docken.
+Beim Eindocken werden die verbrauchten Vorr\"ate (Energie, Torpedos, Minen,
+Satelliten, Treibstoff) aufgef\"ullt und eventuell vorhandene Sch\"aden
+repariert, was umso l\"anger dauert, je gr\"o\3er sie sind.
+
+Angezeigt werden ferner die Daten der Basis. Die Anzeige f\"ur Condition
+zeigt normalerweise ,,green'', ist die Basis besch\"adigt zeigt sie ,,YELLOW'',
+erfolgte k\"urzlich ein Angriff, zeigt sie ,,RED''.
+
+Zu beachten ist, da\3 alle Schiffe, die an eine Basis gedockt sind, zerst\"ort
+werden, wenn die Basis zerst\"ort wird. Ferner sind nach dem Ausdocken eines
+Schiffes dessen Schilde ,,down''.
+
+\footnotesize
+
+\hspace{-1.0cm}
+\begin{verbatim}
+###################    ###################    Imperial Battleship  PYTHON
+#######                            #######    Comm. Off.: Admiral    KOR
+#######                            #######   |-------------Status--------------|
+#######----<P                 >----#######   |  Position.....:     126  105    |
+#######                            #######   |  Main Energy..:    5000  100%   |
+#######                            #######   |  Shield Energy:    2500  100%   |
+#######----<                  >----#######   |  Phaser Energy:    2500  100%   |
+#######                            #######   |  Fuel (tons)..:     130  100%   |
+#######                            #######   |  Torpedoes....:      25  100%   |
+##########################################   |  Mines........:      10  100%   |
+##########################################   |  Satellites...:       5  100%   |
+#+----------Imperial_Starbase-----------+#   |  Damages......:       0    0%   |
+#| Position: 126 105  Condition: Green  |#   |  Score........:       0         |
+#| Shields : 3000 (100 %) UP            |#   |  Stardate.....:  8397.1         |
+#| Damages : 0    (0   %)               |#   |  SH:- RA:- SV:- MP:-    D TT:+++|
+#|                                      |#   |------------Messages-------------|
+#|                                      |#   |  Enter STart for an new mission |
+#|                                      |#   |                                 |
+#|                                      |#   |IN: Total:  10 bases detected    |
+#+--------------------------------------+#   |IN: Next base at 126 105         |
+##########################################   |IN: 2nd next base at 103 149     |
+|-------------------------------------------||DO:  DOCKING at BASE!            |
+|COMMAND:                                   ||DO:Supplies filled up:E,T,M,S,F  |
++-------------------------------------------||---------------------------------+\end{verbatim}
+
+\normalsize
+
+Die Basen beider Seiten schie\3en automatisch auf Feinde (wenn def l\"auft)
+und haben die gleichen Eigenschaften: Sie schie\3en mit Phaser einer
+mittleren St\"arke von 500 Einheiten (mit einer Reichweite von
+9 Sektoren), haben Schilde mit einer 
+Maximalenergie von 3000 Einheiten und vertragen 2500 Scha\-dens\-punkte.
+Sie melden alle Sichtungen feindlicher Schiffe an die Heimatwelt. Angriffe
+werden an alle aktiven Schiffe der eigenen Flotte gemeldet.
+
+\section{Die Scoutschiffe : und ;}
+
+Jede Partei kann von der eigenen Heimatwelt aus je ein Scoutschiff starten,
+das der Fernaufkl\"arung dient, da es nicht von feindlichen Forts und Basen
+erkannt wird, denn der Scout fliegt getarnt. Wenn er besch\"adigt wird,
+kann diese Tarnung unwirksam werden. Dann wird der Scout auch von 
+feindlichen Forts und Basen automatisch beschossen.
+
+Der Start kann jedoch nur von einem Spieler mit dem Rang Commodore oder
+Admiral durchgef\"uhrt werden (siehe Abschnitt ,,Heimatwelt''). Der
+Scout fliegt automatisch auf die angegebene Zielposition und verbleibt dort.
+Jeder Spieler kann sich jedoch das Radarbild des Scouts anzeigen lassen
+(s.u.). Da der Scout nur einen
+begrenzten Energievorrat mitf\"uhrt, ist auch seine Lebensdauer begrenzt.
+Es kann jedoch nur ein Scout jeder Partei aktiv sein. Um einen neuen
+Scout in ein anderes Zielgebiet schicken zu k\"onnen, mu\3 der alte
+Scout vorher zerst\"ort werden. Er kann nicht zur\"uckgerufen werden.
+
+Kommandos auf das Scoutschiff bezogen:
+\begin{description}
+\item [LS x y] - Launch Scout: Start des Scoutschiffs zu den Zielkoordinaten
+                 x y. Dieses Kommando kann nur ausgef\"uhrt werden, wenn man
+                 mindestens Commodore ist und an die Heimatwelt gedockt ist.
+\item [IN s] - Info Scout: Informationen zum Status, Ort und Ziel des eigenen
+               Scoutschiffs.
+\item [SD sc] - Set Display Scout: Anzeige des Radarbildes des Scouts (mit
+                Restenergie- und Zielanzeige).
+\item [KS] - Kill Scout: Scout wird zerst\"ort um z.B. einen neuen Scout
+             starten zu k\"onnen.
+\end{description}
+
+\section{Flugbomben (Missiles) -}
+
+Jede Partei kann von der eigenen Heimatwelt aus je eine Flugbombe starten,
+Der Start kann jedoch nur von einem Spieler mit dem Rang eines
+Admiral durchgef\"uhrt werden. Die
+Flugbombe fliegt automatisch zur angegebene Zielposition, und zwar nicht auf 
+dem direkten Weg von der Heimatwelt aus, sondern \"uber einen frei w\"ahlbaren
+Punkt. Alternativ kann man einen Flugpfad ganz oder teilweise vorgeben.
+Dazu fliegt man mit einem Schiff von her Heimatwelt zu einem beliebigen
+Zielpunkt. Zur Aufzeichnung mu\3 der Befehl MP on gesetzt werden, am Ende
+der Aufzeichnung der Befehl MP off. Der so aufgezeichnet Pfad mu\3 vor einer 
+Nutzung allgemein zug\"anglich gemacht werden. Dazu wird er mit dem Kommando
+SP n als Nr. n in das Pfadverzeichnis aufgenommen. Ein eventuell existierender
+Pfad mit dieser Nummer wird dabei \"uberschrieben. 
+Von der Heimatwelt aus kann dann
+der Schiffskommandant mit LM x y p n die Flugbombe mit Endziel x y starten,
+wobei zun\"achst der aufgezeichnete Flugweg f\"ur den Pfad Nr. n
+geflogen wird. Vom Ende des
+Flugweges bis zum Endziel fliegt die Bombe dann auf direktem Weg.
+
+Die Reichweite der Flugbombe ist jedoch begrenzt (Wert MISSILE\_FUEL).
+
+Sobald die Flugbombe auf ihrem Weg auf ein Hindernis trifft, explodiert sie.
+Die Sprengkraft betr\"agt im Mittel 3000 Energieeinheiten. Eine
+Flugbombe kann also sogar
+einem Schlachtschiff gef\"ahrlich werden. Sogar Gaswolken werden vernichtet.
+Somit besteht nur mit einer Flugbombe die M\"oglichkeit, Gaswolken zu 
+beseitigen.
+Nur Schwarze L\"ocher k\"onnen von einer Flugbombe nicht zerst\"ort werden.
+
+Erreicht die Flugbombe die angegebenen Zielkkordinaten, ohne auf ein Hindernis
+zu treffen, so bleibt sie als Blindg\"anger (+) liegen, mit der gleichen
+Sprengkraft wie ein Torpedo-Blindg\"anger. Es kann dann eine neues Flugbombe
+gestartet werden.
+
+Wie beim Scout fliegt die Flugbombe getarnt. Wenn sie besch\"adigt wird,
+kann diese Tarnung unwirksam werden. Das geschieht, wenn die H\"alfte
+der erlaubten Scha\-dens\-punkte \"uberschritten wird.
+Dann wird die Flugbombe von 
+feindlichen Forts und Basen automatisch beschossen.
+
+Es kann jedoch nur eine Flugbombe jeder Partei aktiv sein. Um einen neuen
+Fulgbombe in ein anderes Zielgebiet schicken zu k\"onnen, mu\3 die alte
+Flugbombe vorher zerst\"ort werden. Sie kann nicht zur\"uckgerufen werden.
+
+Eine nicht mehr ben\"otigter Pfad kann mit dem Kommando CP n gel\"oscht werden.
+
+Die Anzahl der verf\"ugbaren Pfade kann man mit IN m erkennen. Sie wird auch im
+Dockbild der Heimatwelt angezeigt.
+
+Flugbomben-Kommandos:
+\begin{description}
+
+\item [CP -] - Clear (missile) Path: L\"oschen des Flugbomben-Pfads Nr. n.
+
+\item [LM x1 y1 x2 y2 -  LM x1 y1 p n] - Launch Missile: Start einer Flugbombe 
+                (Missile) zu den Zielkoordinaten
+                x1 y1 \"uber die Koordinaten x2 y2 oder (p) \"uber einen vorher
+                aufgezeichneten Pfad mit der Nummer n 
+                (siehe auch Kommando MP).  
+                Man mu\3 Admiral sein und an die Heimatwelt gedockt sein, 
+                um eine Flugbombe starten zu k\"onnen.
+
+\item [MP on/off] - Missile Path: Aufzeichnung einen Flugweges einer 
+            Flugbombe durch Abfliegen mit einem Schiff bei MP on. Beginn
+            bei der eigenen Heimatwelt. Ende der Aufzeichnung mit MP off.
+            Anzeige des Status und die
+            L\"ange des aufgezeichneten Pfades (maximal MISSILE\_FUEL+1)
+            erfolgen im Cockpit und mit IN m. Umspeichern auf einen allgemein
+            nutzbaren Pfad Nr. n erfolgt mit dem Kommando SP n.
+
+\item [IN m] - Info Missile: Informationen \"uber Status, Ort, Ziel,
+               Zwischenziel, Sch\"aden und Treibstoffvorrat der Flugbombe.
+               Auch Angaben zu einem aufgzeichneten Flugpfad werden ausgegeben.
+
+\item [KM] - Kill Missile: Flugbombe wird zerst\"ort um z.B. eine neue
+             starten zu k\"onnen.
+\item [SP n] - Save (missile) Path n: Speicher des lokal aufgezeichneten
+               Flugbomben-Pfads in das Pfad-Register unter der Nummer n.
+\end{description}
+
+
+Bei der Flugbombe ist noch eine Besonderheit zu beachten: Die Explosionswirkung
+erstreckt sich nicht nur auf die aktuelle Koordinate, sondern in halbierter
+St\"arke auch auf alle direkt angrenzenden Sektoren! Die Explosion eines Sterns
+durch eine Flugbombe kann aber nicht zu einer Kettenreaktion benachbarter
+Sterne ausarten, wie es bei Torpedo- oder Phaserbeschu\3 sein kann.
+
+
+\section{Sprungtore \S}
+
+Um langwierige Fl\"uge zu vermeiden, k\"onnen Sprungtore genutzt werden.
+Springtore k\"onnen von jeder Partei genutzt werden, egal wer sie gebaut
+hat. Jedoch ist die Kenntnis den jeweiligen individuellen Sprungtorcodes
+notwendig. Dabei handelt es sich um eine zweistellige Zahl, die beim
+Bau zugewiesen wird und deshalb in der Regel nur der bauenden Partei
+bekannt ist ist. Die Zahl der Sprungtore ist begrenzt (z.Z. 6). Man kann nicht
+mit eingeschalteter Pfadaufzeichung (MP on) oder mit eingeschalteter Tarnung
+(HO on) durch ein Sprungtor fliegen.
+
+Kommandos bez\"uglich der Sprungtore:
+
+\begin{description}
+\item [IN j] - Ausgabe der Positionen, des Status und des Codes aller
+               von der jeweiligen Partei gebauten und noch existierenden
+               Sprungtore.
+\item [JG x y code] - Bau eines Sprungtores auf der Position x y
+          (neben dem Schiff). Das Tor erh\"alt die Nummer code, eine
+          zweistellige Zahl.
+\item [JU c1 c2] - Sprung durch das Sprungtor mit der Nummer c1 zum
+          Sprungtor mit der Nummer c2.
+\end{description}
+
+Nur Schlachtschiffe k\"onnen ein Sprungtor bauen.
+
+
+\section{Robotschiffe ! und $|$}
+
+Als Admiral kann man von der Heimatwelt aus Robotschiffe zu verschiedenen
+Missionen starten lassen. Das Kommando lautet LR n m x y.
+Es gibt 10 Robotschiffe mit den Nummern n=0 bis n=9. Es gibt die 
+Missionstypen m=P,M und J. Das Ziel hat die Koordinaten x y.
+
+In Dockbild der Heimatwelt tauchen die Robotschiffe nicht mit ihrem jeweiligen
+Symbol auf, sondern mit ihrer Nummer.
+
+Die Robotschiffe f\"uhren Ihre Missionen selbst\" andig durch.
+
+\begin{description}
+\item [Mission p] -  Patrouille: Flug zum Ziel und zur\"uck zur HW. Feindliche
+Ziele werden selbstst\"andig bek\"ampft (mit Torpedos, 18 St\"uck).
+
+\item [Mission m] - Minesweep (Minenr\"aumung). Alle Minen in 
+Reichweite auf dem Flug
+zu den Zielkoordinaten werden vernichtet (solange genug Munition an Bord ist).
+Danach R\"uckkehr zur Heimatwelt.
+
+\item [Mission j] - Jumpgate. Alle Sprungtore in 
+Reichweite auf dem Flug
+zu den Zielkoordinaten werden vernichtet (solange genug Munition an Bord ist).
+Danach R\"uckkehr zur Heimatwelt.
+
+\item [Mission c] - Capture. Der Planet auf den angegebenen Zielkoordinaten 
+wird erobert. Danach R\"uckkehr zur Heimatwelt.
+
+
+\end{description}
+
+Mit SD ro (bei Dock an HW) und IN r kann man sich Informationen \"uber 
+die eigenen Robotschiffe anzeigen lassen. Details zu einem Robotschiff mit
+IN r n (N=Nummer des Robotschiffs).
+
+Robotschiffe fliegen wie Scouts und Flugbomben mit Impulsantrieb, aber im
+Gegensatz zu Scouts und Flugbomben verf\"ugen sie nicht \"uber eine 
+Tarnvorrichtung.
+
+Ein Robotschiff unterbricht die Mission und geht in einen Warte-Modus
+(WAITING), wenn der Treibstoff aufgebraucht ist oder die Energie unter ein
+bestimmtes Minimum gesunken ist.
+
+Mit dem Kommando TE n m k\"onnen m Energieeinheiten vom eigenen Schiff zum
+Robotschiff Nr. n tranferiert werden. Bedingung: es ist im Warte-Zustand.
+Analog dient das Kommando TF zum Transfer von Treibstoff und das Kommando
+TT zum Transfer von Torpedos. Nach dem Auff\"ullen von Treibstoff oder Energie
+setzt das Robotschiff automatisch seine Mission fort.
+
+Ein zerst\"ortes Robotschiff kann ersetzt werden (Kommando BR). Um dieses
+Kommando ausf\"uhren zu k\"onnen, mu\3 man an die Heimatwelt gedockt sein
+und den Rang eines Admirals haben.
+
+\section{Der Romulaner R}
+
+Das Programm {\sf rom} startet dem Romulaner. Solange kein Spieler
+im Spiel ist, bleibt er inaktiv. Sobald ein Spieler da ist, startet der
+Romulaner (an dem Symbol R erkennbar) an einer zuf\"alligen Stelle
+des Universums und fliegt dann in kurzen Spr\"ungen zum etwa 
+gegen\"uberliegenden Ort. Er feuert auf alle Basen, Forts und
+Schiffe, nicht aber auf Satelliten oder Planeten. Der Romulaner nimmt auch
+getarnte Schiffe unter Feuer! Romulaner legt keine Minen und verf\"ugt nicht
+\"uber Satelliten. Der Romulaner hat keine Torpedorohre, sondern
+schie\3t ausschlie\3lich mittels Phaser.
+
+\begin{center}
+
+Die Leistungsdaten des Romulaners:
+
+
+\begin{tabular}{|c|c|}\hline
+Max. Schadenspunkte & 2500 \\ \hline
+Schildenergie & 2500 \\ \hline
+Mittlere Phaserst\"arke & 400 \\ \hline
+\end{tabular}
+\end{center}
+
+Wenn der Romulaner den Zielpunkt im Universum erreicht hat oder abgeschossen
+wird, startet er sich nach einer Pause erneut. Das Programm {\sf rom} 
+kann mittels Cntrl-C abgebrochen werden.
+
+\section{\"Anderungen}
+
+Neu in 1.5.2: Kommandos KR und CR, Bugfixes.
+
+\end{document}
+

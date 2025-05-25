@@ -1,0 +1,49 @@
+From cblpd!wws@cblph.att.com  Tue Oct  5 09:48:49 1993
+Received: from gw1.att.com by wixer (5.65/1.35)
+	id AA00240; Tue, 5 Oct 93 09:48:49 -0500
+Message-Id: <9310051448.AA00240@wixer>
+From: cblpd!wws@cblph.att.com
+Date: Tue, 5 Oct 93 10:46 EDT
+Original-From: cblpd!wws (W William Stoll +1 614 860 7359)
+To: cblph!wixer.bga.com!hsnewman
+Subject: uniwar source
+Status: RO
+
+Harris,
+
+I just mailed you uuencoded, compressed cpio archives of the
+daemon and handler.  You will want to do the following:
+
+mkdir uniwardir	(or whatever)
+cd uniwardir
+mkdir daemon
+mkdir handler
+
+save the two uuencoded files as daemon/junk and handler/junk, then
+
+cd daemon
+uudecode junk
+uncompress daemon.cpio
+cpio -icdum <daemon.cpio
+cd ../handler
+uudecode junk
+uncompress handler.cpio
+cpio -icdum <handler.cpio
+
+Next, edit daemon/config.h and handler/config.h to change GAMEDIR
+to the full pathname of uniwardir.  Now you are ready to attempt a
+build:
+
+cd uniwardir/handler
+make uniwar
+cd ../daemon
+make uniward
+cd ..
+make uscores
+
+Finally, move uniwar and uniward to a directory that's in your path.
+
+
+Good luck,
+
+Bill
