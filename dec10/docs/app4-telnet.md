@@ -32,3 +32,11 @@ By the way again, there is a 1:3 scale VT100 replica with a working keyboard.  I
 hi lars, this reminds me - have wondered - is your terminal-simulator github project https://github.com/larsbrinkhoff/terminal-simulator/ what comes as part of the 'pidp-10 software package', as 'the vt52'? love that 'fuzzy glow' effect in that 'vt52 window', was pretty much the first thing wanted to see when got started with pidp-10:)
 
 No, that's not my simulator.  The one that comes with the PiDP-10 was written by Angelo Papenhoff, which emulates the behaviour of a VT52 without modeling its internals.  Angelo has also written a Verilog simulation which does model the VT52 hardware very well.
+
+also see https://github.com/Swordfish90/cool-retro-term
+
+# aap vt52
+
+    % brew install sdl2       
+    % make vt52
+    %./vt52 -B -b 9600 telnet 192.168.178.21 2030
