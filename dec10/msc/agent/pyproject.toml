@@ -1,0 +1,12 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "agent"
+description = "My package description"
+readme = "readme.md"
+requires-python = ">=3.9"
+dependencies = []
+
+[project.optional-dependencies]
