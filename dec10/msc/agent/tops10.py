@@ -39,4 +39,3 @@ class Tops10:
             out += [self.tc.readline().decode('utf-8')]
             if 'Total Free' in out[-1]: break
         return out
-    
