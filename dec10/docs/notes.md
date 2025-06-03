@@ -1,0 +1,120 @@
+# 202505
+
+sorry some details must have gotten mixed up. the DEC-10 system was in louisville (UofL), administered by mark hittinger. the kentucky universities had an agreement to share computing resources. UK (lexington) had an IBM mainframe. the DEC-10 was way more fun and interesting so that’s what got me hooked. there was a microwave link to louisville (~80 miles). eric and i met when the DEC-10 was still operational. same for sean casey. the hang out was mcvey hall where most of the computing resources were located (the IBM 360 mainframe was in the basement, TVI910+ terminals on the first floor). the DEC-10 shut down in 1985 if i recall. i think eric graduated by then. when the DEC-10 shut down, i started using local unix systems. labs popped up around the UK campus. one of those was with math sciences, a joint venture of the mathematics, statistics, and computer sciences departments. math sciences went the unix route which made sense as that’s where all the innovations were. (separate note - the mcvey folks stuck to their overpriced and useless IBM mainframe and fell behind the times). i met bill stoll, david herron, etc at math sciences, likely because sean moved to those unix systems and introduced them to me. bill wrote uniwar while at math sciences. i really am not aware of any connection with utexas. maybe mark hittinger had one, but i never even saw the DEC-10. i was just a remote user, and unauthorized for most of my time on that system so i was in the fringe as far as knowing details of how that system was operated by mark. 
+
+ahha!!! ok, wasn't understanding meaning of UK - that helps! just meant decwar had spread from utexas up to that area and become uniwar there - seems like a cool part of the history!:) and the most fun part is that eric learned about it up there and then later arrived in austin and started working on decwar without knowing that was the starting point - it's really a fun kinda 'loop':)(Edited)
+
+nicely 'packaged' for 'everyone', especially students, both authentic old decwar and state of the art new decwar - both old and new together, side by side - and here's the thing - to have ai 'agents' as part of the package so no-one ever again sees the game 'alone' - they always see a rousing battle, albeit ai agents - and then we're brainstorming doing some things with that in austin at the least - installation with cool audio and visual 'space' for people to explore and get hands on, and see some of the history of the whole saga - photos etc(Edited) celebration of everything around decwar and that era👍
+
+Joel, for me this started as an exercising in thinking about what my students are going to do next fall. They are beginning/intermediate programmers and we do a lot of retro game reverse engineering and recreating.  I went down a text only path and that reminded me of you and Decwar years ago.  So I started looking in that direction, which led me to Harris Newman, who has been very helpful.  I decided in about a day this was way too much for my students, but I was already hooked on coding it (just as a personal challenge).  I also thought if they had a running system we could easily instrument they could do some cool graphics and sound around a running game.
+
+In a totally coincidental side thread, I'd seen (nothing to do with decwar) that PiPD-10 work and asked my wife to get me one for my birthday.  That led to a posting by Noah in the PiDP-10 forum about a week after I'd started the port (which was kind mind blowing synchronicity) and then without asking Harris introduced me to Noah.
+We also have an annual student/dept showcase in nov, so we are doing some thinking around that with Mk Haley, who is at UT and a former Disney Imagineer. Also a possible Siggraph event in 2026. This is literally a project that seems to be writing its own script as we go. Joel, I graduated in 88 I believe ,but had probably moved on to the AT&T unix lab and no longer visited McVey much (I think). then at Bloomington for 2 years, then Yale
+
+# 202506
+
+my dad’s DEC-10 account with the sociology department had been shut down for quite some time already.  so you have to wonder - what did he think i was doing at mcvey 20 hours at a time?
+the real problems came later when i couldn’t show my face in mcvey anymore and dialed in over modem straight to louisville.
+the accounts were segregated.  louisville accounts could not login on the TTYs associated with the microwave lines from lexington.  there were probably two orders of magnitude more potential accounts in the louisville pool to hack.
+so i had to dial long distance to louisville.  strangely in state long distance cost more than calling to the next state.  some weird regulation or lack of regulation in the state, not sure.
+so there was some of that phone stuff.  you do that long enough from your home phone…
+long story short, a kind person in louisville tipped me when the FBI started making calls to the UofL university administrators.
+jakydude — 23:10
+the local unix labs were the next targets
+i was easy to spot.  those systems couldn’t support many users.  ultimately the folks at math sciences asked me to come into the office for a talk.  they said they would just give me an account if i would stop breaking into other people’s accounts.  then they could keep an eye on me.  worked for me.  and then i became a convert from black hat to white hat.
+that’s pretty much it
+by the time i started school at UK, the math sciences folks created an RA position for me and i became part of the staff.  to keep out hackers and run their systems.  it paid my way through school. 
+if UofL really wanted to make an example of me, they probably could have.  but i disappeared.  and there weren’t many laws on the books back then.  cyber crimes were still a new thing.
+i have a really interesting story for some future time - very confidential emails concerning staff, students, and faculty were mysteriously being found on all the local printers.
+so the assumption was someone with a grudge was hacking root access, reading people’s email, and then spooling anything they didn’t like so it would cause a big fuss.
+it was a really interesting two months where i systematically tracked down the person and then logged all of their behavior so the school admins could take action
+
+joel what was the situation with arpanet there? was it available at all? for me i doubt it was in san marcos, but austin had an early imp - it's on the deservedly famous map 
+another even more obscure part of the story is the aerospace parts in the seventies and eighties - would like to explore that - this stuff is way more interesting than the usual 'personal computers' fare, for me - and the ai strands eric 
+so for the austin story - ai natural language, bob taylor from utexas to arpa, super star trek, mcdonald and apollo, transit, antartica, gravity mapping, subs, oil exploration, lunar laser ranging, gps, arpanet, imp, pdp10, decwar, csr, cray, mcc, lisp machines, seasat, topex poseidon, hipparcos, hubble, grace, icesat, gsfc, jpl, ucboulder, lasp, nist 
+
+# 20250603
+
+From: Harris Newman <harris.s.newman@gmail.com>
+Date: Tue, 3 Jun 2025 06:57:04 -0700
+Subject: Re: history question
+To: Noah Smith <noah@statespace.dev>
+Cc: eric.freeman@utexas.edu
+
+I was on usenet (alt.sys.pdp10) in the early 90's searching, pleading for
+someone to release the code.  I at that time used sdf.org for email.  (If
+you don't know about sdf.org, it's out of San Antonio, and is a bunch of
+unix servers that are exposed to the internet.  He runs several pdp-10
+simulations on it as well, which you can get access to for free.  I got a
+lifetime membership for like $35 and still use it!).
+
+I got an email around 1995 with a large mime attachment with the source
+code on sdf.org.  I am sure I got it around then because I remember other
+things that set that year (I was married to my 1st wife then, etc).
+
+I normally keep my old emails (esp so important as this one), but I can't
+find it now (I looked multiple times on sdf.org too).  I had a ton of cd's
+and floppies with it backed up that I went through last week but none have
+the original email.   I moved from Round Rock to Portland Oregon 4 years
+ago and during that time we downsized multiple times and most of my
+floppies/cd's are gone.
+
+I had no way to distribute the code until I came across the Dolph Briscoe
+Center for American History, and in 2011 and arranged for the return of the
+code to UT, for distribution.
+
+It's frustrating to me that I can't find that email.  I'm going to continue
+looking, but I am losing faith that I can find it.  Those floppies I
+had...I am so frustrated that I didn't keep them.
+
+I do have emails of who I talked with at the Briscoe center, it was Zach
+Vowell,
+Hope this helps,  So, when can we play a game?
+HN
+
+On Mon, Jun 2, 2025 at 8:47=E2=80=AFPM Noah Smith <noah@statespace.dev> wro=
+te:
+
+> hi harris - just curious, and have cc'd eric here because we were just
+> discussing -
+>
+> did you get the compuserve code from compuserve personally? and if so -
+> when, how, where did that happen? sometime around 2010 maybe?
+>
+> eric and me are going to talk with a briscoe person tomorrow, and will as=
+k
+> them for 'best practices' around creating a new catalog item for the new
+> 'utexas23-reconstruction' - how to document the history, etc:)
+>
+> cheers,
+> noah
+>
+>
+> --
+> noah smith <https://www.linkedin.com/in/noahhsmith/> - state space dev
+> <https://statespace.dev/>
+>
+
+# 20250604
+
+Noah — 00:19
+so after sleeping on it a bit, realized we should update joel - we got a beautiful reply from harris today. here's a nutshell -
+harris was on alt.sys.pdp-10 in the early nineties, hunting for decwar source code - i was lurking there too and suspect i remember this 
+in 1995 somebody sent harris an email with the compuserve source code attached
+that original email is now lost and we don't know who the sender was 
+to add one additional fact, merlyn got the compuserve code from harris and around 2012 did some intense hacking and got it to run on simh pdp-10. he put that on github at that time. merlyn has said he was using ddt debugger to accomplish that - it was a major achievement. 
+with project utexas, roughly april and may this year we set out to start from the compuserve code and go backwards, to converge back on the utexas original and to make it more easily usable by more people. and now here we are 
+
+jakydude — 08:06
+wow that’s all so cool
+so “he put that on github at that time” means it is on github?  the version you started with?  or it was put and then lost?
+
+Noah — 08:14
+yep the github repo drforbin decwar is the compuserve code that merlyn got from harris and debugged in 2012.
+for a little more detail about that compuserve code - it is essentially the tape that utexas sent to compuserve in 1982
+compuserve added a few things, and modified a few things - but the skeleton is all there - pure 'utexas tape'
+so what we're doing now in 'the utexas folder' is washing out the compuserve impurities - we want it to look, taste, smell and feel like the original utexas tape - and everyone to be able to easily use it on their raspi
+and the dream is - if we can recover a real life physical original utexas tape - it will match up closely with our 'utexas23-reconstruction' 
+Noah — 08:21
+this is all what we mean by going 'backwards in time'
+it's fun, and not impossible - the key thing is that our starting point is actually close to the destination - the compuserve impurities are pretty minor - cosmetics basically 
