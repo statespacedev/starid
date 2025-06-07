@@ -4,8 +4,8 @@ import pexpect
 class Tops10:
     """a telnet connection for tops10 and decwar"""
     
-    def __init__(self, ip, port, ppn):
-        self.ip, self.port, self.ppn = ip, port, ppn
+    def __init__(self, ip, port, user):
+        self.ip, self.port, self.user = ip, port, user
         self.tc = pexpect.spawn(f'telnet {self.ip} {self.port}', timeout=None, logfile=sys.stdout.buffer, echo=False)
         self.tc.expect('\r\n\n')
         self.tc.readline()
@@ -19,9 +19,16 @@ class Tops10:
         
     def login(self):
         """do the login command"""
-        self.tc.send(f'login {self.ppn}\r\n')
+        self.tc.send(f'login {self.user}\r\n')
         index = self.tc.expect(['Unknown command', 'Please KJOB', '\n\r\n'])
-        if index == 0: self.tc.sendcontrol('c'); self.tc.expect('Do you really want'); self.tc.sendline('yes')
+        if index == 0: 
+            self.tc.sendcontrol('c')
+            ndx2 = self.tc.expect(['Do you really want', 'Use QUIT'])
+            if ndx2 == 0: 
+                self.tc.sendline('yes')
+            else:
+                self.tc.sendline('quit')
+                self.tc.sendline('yes')
         elif index == 1: self.logout()
         else: pass
         self.tc.expect('.\n\r')

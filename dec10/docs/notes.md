@@ -107,3 +107,19 @@ so what we're doing now in 'the utexas folder' is washing out the compuserve imp
 and the dream is - if we can recover a real life physical original utexas tape - it will match up closely with our 'utexas23-reconstruction' 
 this is all what we mean by going 'backwards in time'
 it's fun, and not impossible - the key thing is that our starting point is actually close to the destination - the compuserve impurities are pretty minor - cosmetics basically 
+
+20250608
+
+looking at eric's folder listing, here's a fun historical note - compuserve had each command as a separate file - so torpedo, tractor, tell, etc - merlyn worked on and debugged that compuserve code from 2011/2012 onward - makes tons of sense and totally natural, no problemo 
+then the pidp-10 came out around a year ago -
+my first thought was of course 'hey, let's get that github decwar going, it uses simh so can go on raspi and pidp-10'...! 
+so i started looking more and more intently at that big pile of files there in the github repo - what you see in the root of the main branch is the starting point - simply a huge pile of files, unstructured, no signals what really matters and what not - 99.99% that this is exactly what merlyn got from harris around 2011, and what harris received as an email attachment in 1995 (what's there in the root has been debugged enough by merlyn, it was my starting point and was able to build and run it pretty quickly) 
+now, here's the first exciting discovery - sometime last fall? 
+first this one https://github.com/drforbin/decwar/blob/master/utexas/utexas23-reconstruction/hlp/DECWAR.IMP - and then https://github.com/drforbin/decwar/blob/master/utexas/utexas23-reconstruction/hlp/DECWAR.TAP and https://github.com/drforbin/decwar/blob/master/utexas/utexas23-reconstruction/hlp/DECWAR.LTR 
+Noah — 07:13
+as i studied these, there were the very first glimmers of 'project utexas'  in the old brain - 'ahha, there's deeper layers of archeology here!' 😍
+this's how 'project utexas' and the concept of 'going backwards' were born - it's been a complete and total surprise, and has really evolved from zero - there was nothing this time last year - it took a loooooooong time for all the puzzle pieces to fit together and understandings to grow - latest big breakthroughs were very recent, april and early may, right around when eric and me first met! 
+Noah — 08:11
+i'd say, fully formed concept was there around christmas - begin telling merlyn about it there over the holidays, and he was rightfully skeptical - call with merlyn in april was when flat out declared, it's happenin, and he blessed it all with 'will be happy to see it in action'. btw fwiw merlyn's working in the 'development' branch - that's where he has his 'cloaking device' code going. 
+he's done really cool and fun stuff there - the way it works is, if you build on a planet, there's a probability your science officer will say 'sir, we've discovered an ancient ruin with cloaking technology' - you then get the ability to cloak
+
