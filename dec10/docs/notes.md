@@ -77,23 +77,13 @@ te:
 
 > hi harris - just curious, and have cc'd eric here because we were just
 > discussing -
->
 > did you get the compuserve code from compuserve personally? and if so -
 > when, how, where did that happen? sometime around 2010 maybe?
->
 > eric and me are going to talk with a briscoe person tomorrow, and will as=
-k
 > them for 'best practices' around creating a new catalog item for the new
 > 'utexas23-reconstruction' - how to document the history, etc:)
->
 > cheers,
 > noah
->
->
-> --
-> noah smith <https://www.linkedin.com/in/noahhsmith/> - state space dev
-> <https://statespace.dev/>
->
 
 # 20250604
 
@@ -115,6 +105,5 @@ for a little more detail about that compuserve code - it is essentially the tape
 compuserve added a few things, and modified a few things - but the skeleton is all there - pure 'utexas tape'
 so what we're doing now in 'the utexas folder' is washing out the compuserve impurities - we want it to look, taste, smell and feel like the original utexas tape - and everyone to be able to easily use it on their raspi
 and the dream is - if we can recover a real life physical original utexas tape - it will match up closely with our 'utexas23-reconstruction' 
-Noah — 08:21
 this is all what we mean by going 'backwards in time'
 it's fun, and not impossible - the key thing is that our starting point is actually close to the destination - the compuserve impurities are pretty minor - cosmetics basically 

@@ -27,9 +27,9 @@ def main():
     while 'time of day' not in res[-1]: res.append(tc.readline().decode('utf-8'))   
     return
 
-def waitfor(tc, aaa):
+def waitfor(tc, targstr):
     line = tc.readline().decode('utf-8')
-    while aaa not in line: line = tc.readline().decode('utf-8')
+    while targstr not in line: line = tc.readline().decode('utf-8')
     return line
     
 if __name__ == '__main__':

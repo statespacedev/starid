@@ -1,15 +1,15 @@
 import sys
 import pexpect 
+
 class Tops10:
     """a telnet connection for tops10 and decwar"""
     
-    def __init__(self, ip, port):
-        self.ip, self.port = ip, port
+    def __init__(self, ip, port, ppn):
+        self.ip, self.port, self.ppn = ip, port, ppn
         self.tc = pexpect.spawn(f'telnet {self.ip} {self.port}', timeout=None, logfile=sys.stdout.buffer, echo=False)
         self.tc.expect('\r\n\n')
         self.tc.readline()
         self.connmsg = self.tc.readline().decode('utf-8')
-        # self.logout()
         self.login()
         
     def logout(self):
@@ -19,8 +19,12 @@ class Tops10:
         
     def login(self):
         """do the login command"""
-        self.tc.send('login decwar\r\n')
-        self.tc.expect('\n\r\n')
+        self.tc.send(f'login {self.ppn}\r\n')
+        index = self.tc.expect(['Unknown command', 'Please KJOB', '\n\r\n'])
+        if index == 0: self.tc.sendcontrol('c'); self.tc.expect('Do you really want'); self.tc.sendline('yes')
+        elif index == 1: self.logout()
+        else: pass
+        self.tc.expect('.\n\r')
         
     def dir(self):
         """dir command, mostly as a example of how commands can work"""
@@ -39,3 +43,4 @@ class Tops10:
             out += [self.tc.readline().decode('utf-8')]
             if 'Total Free' in out[-1]: break
         return out
+    
