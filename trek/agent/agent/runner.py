@@ -1,5 +1,5 @@
 import cli
-from decwar import Decwar
+from core.decwar import Decwar
 args, kwargs = cli.main()
 
 def main():
@@ -13,18 +13,12 @@ def hawk():
     kwargs2['name'] = 'hawkster'
     kwargs2['team'] = 'emp'
     kwargs2['ship'] = 'h'
-    dw = Decwar(*args2, **kwargs2)
-    sys = dw.tops10.sys()
-    dw.run()
-    return dw
+    dw = Decwar(*args2, **kwargs2).run()
+
 def nomad():
     args2 = (*args, 'nomad')
     kwargs2 = kwargs.copy()
-    dw = Decwar(*args2, **kwargs2)
-    sys = dw.tops10.sys()
-    dw.run()
-    return dw
+    dw = Decwar(*args2, **kwargs2).run()
 
 if __name__ == "__main__":
     main()
-    

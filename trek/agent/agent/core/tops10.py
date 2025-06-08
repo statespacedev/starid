@@ -20,8 +20,8 @@ class Tops10:
     def login(self):
         """do the login command"""
         self.tc.send(f'login {self.user}\r\n')
-        index = self.tc.expect(['Unknown command', 'Please KJOB', '\n\r\n'])
-        if index == 0: 
+        index = self.tc.expect(['Unknown command', 'Non-numeric coordinate', 'Please KJOB', '\n\r\n'])
+        if index in [0, 1]: 
             self.tc.sendcontrol('c')
             ndx2 = self.tc.expect(['Do you really want', 'Use QUIT'])
             if ndx2 == 0: 
@@ -29,7 +29,7 @@ class Tops10:
             else:
                 self.tc.sendline('quit')
                 self.tc.sendline('yes')
-        elif index == 1: self.logout()
+        elif index == 2: self.logout()
         else: pass
         self.tc.expect('.\n\r')
         
