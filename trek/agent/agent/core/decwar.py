@@ -11,12 +11,7 @@ class Decwar:
         self.team = kwargs['team']
         self.ship = kwargs['ship']
         self.nomad = True if kwargs['name'] == 'nomad' else False
-        if 'nomad' in args:
-            self.user = 'decwar'
-            self.name = 'nomad'
-            self.team = 'fed'
-            self.ship = 'y'
-            self.nomad = True
+        pass
 
     def gameloop(self):
         while True:
