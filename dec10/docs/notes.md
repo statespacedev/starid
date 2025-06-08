@@ -110,6 +110,30 @@ it's fun, and not impossible - the key thing is that our starting point is actua
 
 20250608
 
+this is fun - hit some kinda milestone - 
+have multiple 'agents' telnetting in from laptop and 'playing the game'!
+it's alive!!!
+the agents are super brainless - just randomly moving around 😄 
+but they create a 'game loop' and drive the action - the romulan is jumping in and creating some mayhem😄
+not even going to begin thinking about adding brains to the agents, aka 'machine learning training em', yet - for this weekend will just add fun things like look for targets, and auto attack if anything's in range🙂
+wow, brainstorm - will put a cli on the agent code and have a shell script start a few agents on each side
+will start creating personalities for some of them already - dialog for them to send over the radio
+Eric — 00:40
+cool
+Noah — 00:41
+a memory came back - back in the day, had just seen blade runner
+would play as 'batty' and radio stuff like 'fiery the angels fell' etc
+Eric — 00:42
+i worked in a movie theater when Bladerunner came out
+Noah — 00:42
+batty will ride again this weekend!
+Eric — 00:42
+very fun to watch reactions of people leaving after the movie
+Noah — 00:43
+can have some fun star trek personalities too - scotty lives!
+and bones mccoy;)
+he's dead, jim:)
+
 looking at eric's folder listing, here's a fun historical note - compuserve had each command as a separate file - so torpedo, tractor, tell, etc - merlyn worked on and debugged that compuserve code from 2011/2012 onward - makes tons of sense and totally natural, no problemo 
 then the pidp-10 came out around a year ago -
 my first thought was of course 'hey, let's get that github decwar going, it uses simh so can go on raspi and pidp-10'...! 

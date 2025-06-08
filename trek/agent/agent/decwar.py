@@ -10,20 +10,20 @@ class Decwar:
         self.name = kwargs['name']
         self.team = kwargs['team']
         self.ship = kwargs['ship']
-        self.monitor = True if kwargs['name'] == 'monitor' else False
-        if 'monitor' in args:
+        self.nomad = True if kwargs['name'] == 'nomad' else False
+        if 'nomad' in args:
             self.user = 'decwar'
-            self.name = 'monitor'
+            self.name = 'nomad'
             self.team = 'fed'
             self.ship = 'y'
-            self.monitor = True
+            self.nomad = True
         self.tops10 = Tops10(kwargs['ip'], kwargs['port'], kwargs['user'])
         self.tc = self.tops10.tc
 
     def gameloop(self):
         while True:
             time.sleep(10)
-            if self.monitor: self.super_list()
+            if self.nomad: self.super_list()
             self.move()
 
     def move(self):
@@ -50,14 +50,14 @@ class Decwar:
         self.tc.sendline(self.ship)
         self.waitfor('Commands From TTY')
         self.tc.expect('>')
-        if self.monitor:
+        if self.nomad:
             self.tc.sendline('*password *mink')
             self.tc.expect('>')
         self.shields()
         self.gameloop()
 
     def super_list(self):
-        self.tc.sendline('list / time / tell all; monitor is alive')
+        self.tc.sendline('list / time / tell all; nomad is alive')
         res = [self.tc.readline().decode('utf-8')]
         while 'time of day' not in res[-1]: res.append(self.tc.readline().decode('utf-8'))
         return res

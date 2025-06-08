@@ -3,7 +3,7 @@ from decwar import Decwar
 args, kwargs = cli.main()
 
 def main():
-    mon = monitor()
+    mon = nomad()
     # ha = hawk()
     return
     
@@ -17,8 +17,8 @@ def hawk():
     sys = dw.tops10.sys()
     dw.run()
     return dw
-def monitor():
-    args2 = (*args, 'monitor')
+def nomad():
+    args2 = (*args, 'nomad')
     kwargs2 = kwargs.copy()
     dw = Decwar(*args2, **kwargs2)
     sys = dw.tops10.sys()

@@ -8,10 +8,10 @@ def main():
     cli.add_argument('-n', '--name', default='demo', type=str)
     cli.add_argument('-t', '--team', choices=['fed', 'emp'], default='fed', type=str)
     cli.add_argument('-s', '--ship', choices=['e', 'f', 'i', 'l', 'n', 's', 't', 'v', 'y', 'b', 'c', 'd', 'g', 'h', 'j', 'm', 'p', 'w'], default='y', type=str)
-    cli.add_argument('-m', '--monitor', dest='monitor', action='store_true', default=False)
+    cli.add_argument('-m', '--nomad', dest='nomad', action='store_true', default=False)
     cli2 = cli.parse_args()
     args = set()
-    if cli2.monitor: args.add('monitor') 
+    if cli2.nomad: args.add('nomad') 
     args = tuple(args)
     kwargs = {}
     kwargs['ip'] = cli2.ip
@@ -20,9 +20,9 @@ def main():
     kwargs['name'] = cli2.name
     kwargs['team'] = cli2.team
     kwargs['ship'] = cli2.ship
-    if 'monitor' in args:
+    if 'nomad' in args:
         kwargs['user'] = 'decwar'
-        kwargs['name'] = 'monitor'
+        kwargs['name'] = 'nomad'
         kwargs['team'] = 'fed'
         kwargs['ship'] = 'y'
     return args, kwargs
