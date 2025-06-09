@@ -45,28 +45,30 @@ class Decwar:
 
     def run(self):
         while True:
-            self.tops10 = Tops10(self.kwargs['ip'], self.kwargs['port'], self.kwargs['user'])
-            self.tc = self.tops10.tc
-            sys = self.tops10.sys()
-            self.tc.sendline('r gam:decwar')
-            self.tc.expect('Your name please: ')
-            self.tc.sendline(f'{self.name}')
-            self.tc.expect('line: ')
-            self.tc.sendline('')
-            index = self.tc.expect(['Regular or Tournament', 'Which side', 'There are'])
-            if index == 0:
-                self.tc.sendline(); self.tc.sendline(); self.tc.sendline()
-            else:
-                pass
-            self.tc.sendline(self.team)
-            self.tc.sendline(self.ship)
-            self.waitfor('Commands From TTY')
-            self.tc.expect('>')
-            if self.nomad:
-                self.tc.sendline('*password *mink')
+            try:
+                self.tops10 = Tops10(self.kwargs['ip'], self.kwargs['port'], self.kwargs['user'])
+                self.tc = self.tops10.tc
+                sys = self.tops10.sys()
+                self.tc.sendline('r gam:decwar')
+                self.tc.expect('Your name please: ')
+                self.tc.sendline(f'{self.name}')
+                self.tc.expect('line: ')
+                self.tc.sendline('')
+                index = self.tc.expect(['Regular or Tournament', 'Which side', 'There are'])
+                if index == 0:
+                    self.tc.sendline(); self.tc.sendline(); self.tc.sendline()
+                else:
+                    pass
+                self.tc.sendline(self.team)
+                self.tc.sendline(self.ship)
+                self.waitfor('Commands From TTY')
                 self.tc.expect('>')
-            self.shields()
-            self.gameloop()
+                if self.nomad:
+                    self.tc.sendline('*password *mink')
+                    self.tc.expect('>')
+                # self.shields()
+                self.gameloop()
+            except: break
 
     def waitfor(self, targstr):
         line = self.tc.readline().decode('utf-8')
