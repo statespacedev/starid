@@ -7,5 +7,13 @@ agents = {
         "We're not machines, we're physical",
         "Painful to live in fear, isn't it",
         "Nothing the god of biomechanics wouldn't let you in heaven for",
-    ]
+    ],
+    'player2': [
+        "msg a from player2",
+        "msg b from player2",
+    ],
+    'player3': [
+        "msg a from player3",
+        "msg b from player3",
+    ],
 }

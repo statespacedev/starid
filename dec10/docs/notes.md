@@ -147,3 +147,106 @@ Noah — 08:11
 i'd say, fully formed concept was there around christmas - begin telling merlyn about it there over the holidays, and he was rightfully skeptical - call with merlyn in april was when flat out declared, it's happenin, and he blessed it all with 'will be happy to see it in action'. btw fwiw merlyn's working in the 'development' branch - that's where he has his 'cloaking device' code going. 
 he's done really cool and fun stuff there - the way it works is, if you build on a planet, there's a probability your science officer will say 'sir, we've discovered an ancient ruin with cloaking technology' - you then get the ability to cloak
 
+Where did you and Merlyn meet?
+I'd seen some references to normal ships cloaking and wonder what the story was
+Noah — 17:22
+purely through the github repo - roughly a year ago - once i was able to run the compuserve code there in the repo, on top of simh pdp10 tops10, confirming it was all legit, contacted merlyn to discuss directly 👍
+ar first, it was purely to try to figure out what the heck was going on in that code and what the big pic story with utexas and compuserve was😄
+needless to say, it was very confusing understanding the roles of harris and merlyn, on top of everything else😄
+Eric — 19:10
+what were their roles with respect to the two original developers
+finally back together:
+Image
+refactored but i had to touch way too much code (converted from (x,y) to (v,h) for one thing.  To quote another movie, I bet it has more bugs than a bait store.
+Noah — 21:36
+looks good! agents are much more robust now - they've been playing for many hours now - going to start a little personality now just for fun - we have monday off here
+they have not been in direct  contact with the two developers - what shannon mentioned with briscoe speaking to bob is the only contact i'm aware of - pretty special!👍
+Eric — 21:40
+Oh did she say they'd actually spoken?
+Noah — 21:43
+yep, something like 'briscoe did contact bob, and he stated he doesn't have any source code' - not too surprising - q is if he has any clues towards places that would have tapes;)
+Eric — 21:45
+oh okay
+he's the JP Morgan VP?
+Noah — 21:45
+yep, chicago guy
+Eric — 21:46
+So is pretty much nothing known about why this game was created or exactly in what org at UT?
+Noah — 21:49
+well, because of those earlier single player versions - there was some kind of 'community' at utexas, and it seems to have had ties to the cc. and cs and ee? this is a part i'd like to explore
+and note eric raymond states he has worked with one of the utexas 'super star trek' devs - so there is more out there to learn, for sure!
+this is why i say, for some library school grad student - their dissertation would write itself😀
+between like 73 and 83 something very special happened at utexas
+Noah — 21:59
+as project utexas goes backwards in time, at some point it will bump into the two player 'war' on the cdc6600 and the single player 'super star trek' - all right there in the cc - the hardware was definitely big iron in the cc 
+Eric — 22:03
+yea i need to check out those precursors
+Noah — 22:06
+yep, the story gets extremely complicated there, but the utexas fortran 'super star trek' seems to be the root genetics throughout
+so we know of like five to ten descendants of decwar - seems to be like a factor of ten more descendants of super star trek😮
+Eric — 22:34
+have you tried to talk to any of those folks
+Noah — 22:39
+not yet:) would love to know more and looking forward to it - just taking one baby step at a time, always 'backwards', hahaha
+Eric — 22:46
+http://www.catb.org/~esr/super-star-trek/sst-doc.html#idm161
+historical research by
+                 Eric S. Raymond
+Noah — 22:50
+yep - discovered esr's stuff just a few months ago - huuuge eye opener
+Image
+Image
+dave matuszek - this is the guy esr has been working with 👍 and/or paul reynolds!?:) 
+there's tons of stuff piled up and hidden in this repo - have had good luck with a local clone and using search https://gitlab.com/esr/super-star-trek
+Noah — 23:03
+have renamed 'monitor' to 'nomad';)
+Image
+Eric — 23:24
+ah good history overview there
+any sign of the 1978 basic version?
+Noah — 23:25
+total respect for esr in this regard - had a similar experience with him on a separate topic - he thinks for himself and is persistent
+Eric — 23:26
+https://gitlab.com/esr/super-star-trek/-/blob/master/historic/UT-Trek.basic?ref_type=heads
+GitLab
+historic/UT-Trek.basic · master · Eric S. Raymond / super-star-tr...
+Super Star Trek is almost the oldest of all heritage computer games, originating in 1973 on the CDC6600. This port has been prepared with the assistance of the...
+Image
+Hmm I wonder which verison of basic
+Noah — 23:27
+clone that repo and search it - huge pile of stuff in there -
+good question
+Eric — 23:29
+https://www.youtube.com/watch?v=L-XWl9x13PU
+YouTube
+Space Game Junkie
+January, 2015 Game of the Month: Super Star Trek - Entry 1 - Riding...
+Image
+Noah — 23:30
+thinking, don't know much at all on those topics!🤔
+awesome!
+Noah — 00:02
+btw, very highly recommended!!! and the author also has a book about basic😉
+Image
+Eric — 00:07
+oh interestng, have not come across that 
+Noah — 00:08
+excellent read - good author - real cs guy, and can write
+Eric — 00:09
+i see his BASIC book too
+okay we were debating how a game ends, here's the definitive way in your ut source code:
+
+This routine is called whenever a base or planet is destroyed
+C    to see if the game is over. (all the planets gone, and one
+C    side's bases).  If so, the appropriate message is printed out
+C    and the job is returned to monitor level.
+
+Note I don't think this rules out a tie.
+Noah — 00:12
+looks like the real answer right there -
+Eric — 00:12
+yea
+and makes sense
+Noah — 00:13
+yep totally agree - 'get the planets and bases'
+

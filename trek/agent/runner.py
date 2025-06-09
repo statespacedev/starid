@@ -1,11 +1,9 @@
 import cli
-from core.decwar import Decwar
+from decwar import Decwar
 args, kwargs = cli.main()
 
 def main():
-    mon = nomad()
-    # ha = hawk()
-    return
+    dw = Decwar(*args, **kwargs).run()
     
 def hawk():
     args2 = (*args,)

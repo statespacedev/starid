@@ -6,9 +6,9 @@ def main():
     cli.add_argument('-p', '--port', default=2030, type=int)
     cli.add_argument('-u', '--user', default='demo', type=str)
     cli.add_argument('-n', '--name', default='demo', type=str)
-    cli.add_argument('-t', '--team', choices=['fed', 'emp'], default='fed', type=str)
+    cli.add_argument('-t', '--team', choices=['f', 'e'], default='f', type=str)
     cli.add_argument('-s', '--ship', choices=['e', 'f', 'i', 'l', 'n', 's', 't', 'v', 'y', 'b', 'c', 'd', 'g', 'h', 'j', 'm', 'p', 'w'], default='y', type=str)
-    cli.add_argument('-m', '--nomad', dest='nomad', action='store_true', default=False)
+    cli.add_argument('--nomad', dest='nomad', action='store_true', default=False)
     cli2 = cli.parse_args()
     args = set()
     if cli2.nomad: args.add('nomad') 
@@ -23,7 +23,7 @@ def main():
     if 'nomad' in args:
         kwargs['user'] = 'decwar'
         kwargs['name'] = 'nomad'
-        kwargs['team'] = 'fed'
+        kwargs['team'] = 'f'
         kwargs['ship'] = 'y'
     return args, kwargs
     
