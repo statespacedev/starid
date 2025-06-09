@@ -2,6 +2,7 @@ import time
 import random
 from .timeout import timeout
 from .tops10 import Tops10
+from .definitions import agents
 
 class Decwar:
 
@@ -18,9 +19,18 @@ class Decwar:
             if self.nomad: 
                 targs = self.list()
             else:
+                self.speak_randomly()
                 targs = self.move()
             if not targs: return
             time.sleep(10)
+            
+    @timeout()
+    def speak_randomly(self):
+        if self.name not in agents: return
+        if random.uniform(0, 1) > .05: return 
+        msg = random.choice(agents[self.name])
+        self.tc.sendline(f'tell all; {msg}')
+        self.tc.expect('>')
 
     @timeout()
     def move(self):
@@ -39,8 +49,9 @@ class Decwar:
         self.tc.expect('>')
         return res
     
-    def shields(self):
-        self.tc.sendline('shields up')
+    def shields(self, *args):
+        if 'down' in args: self.tc.sendline('shields down')
+        else: self.tc.sendline('shields up')
         self.tc.expect('>')
 
     def run(self):
@@ -66,7 +77,7 @@ class Decwar:
                 if self.nomad:
                     self.tc.sendline('*password *mink')
                     self.tc.expect('>')
-                # self.shields()
+                self.shields()
                 self.gameloop()
             except: break
 
