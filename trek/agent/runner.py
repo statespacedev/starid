@@ -3,7 +3,8 @@ from decwar import Decwar
 args, kwargs = cli.main()
 
 def main():
-    dw = Decwar(*args, **kwargs).run()
+    while True:
+        dw = Decwar(*args, **kwargs).run()
     
 def hawk():
     args2 = (*args,)

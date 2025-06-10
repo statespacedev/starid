@@ -1,5 +1,6 @@
 import time
 import random
+import pexpect
 from timeout import timeout
 from tops10 import Tops10
 from definitions import agents, ships
@@ -56,8 +57,8 @@ class Decwar:
         
     def gameloop(self):
         while True:
-            ndx = self.tc.expect(['Enter HELp, PREgame', '>'])
-            if ndx == 0: return
+            ndx = self.tc.expect([pexpect.TIMEOUT, 'line:', '>'], timeout=20)
+            if ndx < 2: return
             if self.nomad:
                 self.tc.sendline('tell all; Nomad is alive')
                 self.tc.expect('>')
