@@ -2,7 +2,7 @@ import time
 import random
 from timeout import timeout
 from tops10 import Tops10
-from definitions import agents
+from definitions import agents, ships
 
 class Decwar:
 
@@ -12,8 +12,48 @@ class Decwar:
         self.team = kwargs['team']
         self.ship = kwargs['ship']
         self.nomad = True if kwargs['name'] == 'nomad' else False
+        self.tops10 = Tops10(self.kwargs['ip'], self.kwargs['port'], self.kwargs['user'])
+        self.tc = self.tops10.tc
+        sys = self.tops10.sys()
         pass
-
+    
+    def __del__(self):
+        try: self.tc.sendcontrol('c')
+        except: pass
+        try: self.tc.sendline('yes')
+        except: pass
+        try: self.tc.sendline('kjob')
+        except: pass
+        try: self.tc.sendcontrol(']')
+        except: pass
+        try: self.tc.sendline('close')
+        except: pass
+        
+    def run(self):
+        try:
+            self.tc.sendline('r gam:decwar')
+            self.tc.expect('Your name please: ')
+            self.tc.sendline(f'{self.name}')
+            self.tc.expect('line: ')
+            self.tc.sendline('')
+            ndx1 = self.tc.expect(['DECWAR', 'Regular or Tournament', 'Federation or Empire', 'You will join'])
+            if ndx1 > 0:
+                if ndx1 == 1: self.tc.sendline(); self.tc.sendline(); self.tc.sendline()
+                if ndx1 < 3: self.tc.sendline() # join default side
+                for ship in sorted(ships):
+                    ndx2 = self.tc.expect(['DECWAR', 'Which vessel'])
+                    if ndx2 == 0: break
+                    else: self.tc.sendline(ship)
+            self.waitfor('Commands From TTY')
+            self.tc.expect('>')
+            if self.nomad:
+                self.tc.sendline('*password *mink')
+                self.tc.expect('>')
+            self.shields()
+            self.gameloop()
+        except:
+            self.__del__()
+        
     def gameloop(self):
         while True:
             if self.nomad:
@@ -55,33 +95,6 @@ class Decwar:
         if 'down' in args: self.tc.sendline('shields down')
         else: self.tc.sendline('shields up')
         self.tc.expect('>')
-
-    def run(self):
-        try:
-            self.tops10 = Tops10(self.kwargs['ip'], self.kwargs['port'], self.kwargs['user'])
-            self.tc = self.tops10.tc
-            sys = self.tops10.sys()
-            self.tc.sendline('r gam:decwar')
-            self.tc.expect('Your name please: ')
-            self.tc.sendline(f'{self.name}')
-            self.tc.expect('line: ')
-            self.tc.sendline('')
-            index = self.tc.expect(['Regular or Tournament', 'Which side', 'There are'])
-            if index == 0: self.tc.sendline(); self.tc.sendline(); self.tc.sendline()
-            else: pass
-            self.tc.sendline(self.team)
-            self.tc.sendline(self.ship)
-            self.waitfor('Commands From TTY')
-            self.tc.expect('>')
-            if self.nomad:
-                self.tc.sendline('*password *mink')
-                self.tc.expect('>')
-            self.shields()
-            self.gameloop()
-        except:
-            self.tc.sendcontrol('c')
-            self.tc.sendline('yes')
-            self.tc.sendline('kjob')
 
     def waitfor(self, targstr):
         line = self.tc.readline().decode('utf-8')

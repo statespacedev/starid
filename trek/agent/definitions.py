@@ -1,3 +1,4 @@
+ships = ['e', 'f', 'i', 'l', 'n', 's', 't', 'v', 'y', 'b', 'c', 'd', 'g', 'h', 'j', 'm', 'p', 'w']
 agents = {
     'batty': [
         "Fiery the angels fell",
