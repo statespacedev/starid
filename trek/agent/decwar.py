@@ -51,11 +51,13 @@ class Decwar:
                 self.tc.expect('>')
             self.shields()
             self.gameloop()
-        except:
-            self.__del__()
+        except: pass
+        self.__del__() # just being explicit, should happen in any case
         
     def gameloop(self):
         while True:
+            ndx = self.tc.expect(['Enter HELp, PREgame', '>'])
+            if ndx == 0: return
             if self.nomad:
                 self.tc.sendline('tell all; Nomad is alive')
                 self.tc.expect('>')
@@ -72,7 +74,6 @@ class Decwar:
         if random.uniform(0, 1) > .05: return 
         msg = random.choice(agents[self.name])
         self.tc.sendline(f'tell all; {msg}')
-        self.tc.expect('>')
 
     @timeout()
     def move(self):
@@ -80,7 +81,6 @@ class Decwar:
         self.tc.sendline(f'move relative {v} {h} / targets 10 / time')
         res = [self.tc.readline().decode('utf-8')]
         while 'time of day' not in res[-1]: res.append(self.tc.readline().decode('utf-8'))
-        self.tc.expect('>')
         return res
 
     @timeout()
@@ -88,13 +88,11 @@ class Decwar:
         self.tc.sendline('list / time')
         res = [self.tc.readline().decode('utf-8')]
         while 'time of day' not in res[-1]: res.append(self.tc.readline().decode('utf-8'))
-        self.tc.expect('>')
         return res
     
     def shields(self, *args):
         if 'down' in args: self.tc.sendline('shields down')
         else: self.tc.sendline('shields up')
-        self.tc.expect('>')
 
     def waitfor(self, targstr):
         line = self.tc.readline().decode('utf-8')
