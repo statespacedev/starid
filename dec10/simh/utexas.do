@@ -45,6 +45,7 @@ expect "\r\n." send "protect decwar.hlp <055>\r"; continue
 expect "\r\n." send "protect decwar.nws <055>\r"; continue
 expect "\r\n." send "protect decwar.grp <000>\r"; continue
 expect "\r\n." send "protect decwar.ini <000>\r"; continue
+expect "\r\n." send "del *.sta\r"; continue
 expect "\r\n." send "k/f\r"; continue
 expect "\r\n." send -t after=1000k "login 1,2\r"; continue
 expect "\r\n." send "assign gam: dskb:[5,30]\r"; continue
