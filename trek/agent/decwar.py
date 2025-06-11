@@ -37,10 +37,11 @@ class Decwar:
             self.tc.sendline(f'{self.name}')
             self.tc.expect('line: ')
             self.tc.sendline('')
-            ndx1 = self.tc.expect(['DECWAR', 'Regular or Tournament', 'Federation or Empire', 'You will join'])
+            ndx1 = self.tc.expect(['DECWAR', 'Regular or Tournament', 'Federation or Empire', 'You will join', 'choose another ship?'])
             if ndx1 > 0:
                 if ndx1 == 1: self.tc.sendline(); self.tc.sendline(); self.tc.sendline()
                 if ndx1 < 3: self.tc.sendline() # join default side
+                if ndx1 == 4: self.tc.sendline('yes')
                 for ship in sorted(ships):
                     ndx2 = self.tc.expect(['DECWAR', 'Which vessel'])
                     if ndx2 == 0: break
@@ -57,8 +58,9 @@ class Decwar:
         
     def gameloop(self):
         while True:
-            ndx = self.tc.expect([pexpect.TIMEOUT, 'line:', '>'], timeout=20)
-            if ndx < 2: return
+            # ndx = self.tc.expect([pexpect.TIMEOUT, 'line:', '>'], timeout=20)
+            # if ndx < 2: return
+            self.tc.expect('>', timeout=10)
             if self.nomad:
                 self.tc.sendline('tell all; Nomad is alive')
                 self.tc.expect('>')
@@ -78,7 +80,9 @@ class Decwar:
 
     @timeout()
     def move(self):
-        v, h = random.randint(-1, 1), random.randint(-1, 1)
+        v, h = 0, 0
+        while v == 0 and h == 0:
+            v, h = random.randint(-1, 1), random.randint(-1, 1)
         self.tc.sendline(f'move relative {v} {h} / targets 10 / time')
         res = [self.tc.readline().decode('utf-8')]
         while 'time of day' not in res[-1]: res.append(self.tc.readline().decode('utf-8'))

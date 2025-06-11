@@ -1,3 +1,5 @@
+import time
+import random
 import cli
 from decwar import Decwar
 args, kwargs = cli.main()
@@ -5,6 +7,7 @@ args, kwargs = cli.main()
 def main():
     while True:
         dw = Decwar(*args, **kwargs).run()
+        time.sleep(random.randint(0, 20))  # stagger them in case of a crowd
     
 def hawk():
     args2 = (*args,)

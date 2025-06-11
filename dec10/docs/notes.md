@@ -250,3 +250,44 @@ and makes sense
 Noah — 00:13
 yep totally agree - 'get the planets and bases'
 
+
+ok! good news - the three amigos have run nicely for over six hours! no obvious bugs for them, at least ❤️ 
+dam
+
+All devices functional.
+let me try to get a little damage...
+ahha! boom - memory bug right away 
+
+** Lockup on queue Q by job 528
+Fatal ENQ. error code 5?
+?Illegal memory reference at user PC 463224
+
+Eric — 06:19
+wow
+Noah — 06:19
+it was bringing in this fourth ship - from a normal interactive terminal session
+saw something similar a couple times yesterday about the 'Q' - at least that's one clue
+ok, well this is probly telling us something, good to know 👍
+after going for six hours with three players of the same type - bringing in a fourth player of a slightly different type was a prob for 'the Q'
+Hmm the Q wasn’t even a thing yet was it in this timeframe
+Noah — 06:29
+think it's just shorthand for queue - there's definitely a 'command queue' - hmmm, wonder if it concerns the 'timing topics' eric?
+could be of interest
+real quick before i forget - note to self! there was also something odd with tops10, before entering the game - had to login as decwar, not demo - file permissions were wrong for demo, which shouldn't have been true, at all? 
+
+
+the new ship
+**** Lockup on queue Q by job 514
+?atal ENQ. error code 5
+?Illegal memory reference at user PC 463224
+
+an older ship
+**** Lockup on queue F by job 526
+Fatal ENQ. error code 5
+
+**** Lockup on queue Q by job 526
+Fatal ENQ. error code 5
+**** Lockup on queue F by job 514
+Fatal ENQ. error code 5?
+?IO to unassigned channel at user PC 455426
+
