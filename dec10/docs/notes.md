@@ -291,3 +291,240 @@ Fatal ENQ. error code 5
 Fatal ENQ. error code 5?
 ?IO to unassigned channel at user PC 455426
 
+20250612
+
+it was bringing in this fourth ship - from a normal interactive terminal session
+saw something similar a couple times yesterday about the 'Q' - at least that's one clue
+ok, well this is probly telling us something, good to know 👍
+after going for six hours with three players of the same type - bringing in a fourth player of a slightly different type was a prob for 'the Q'
+Eric — Yesterday at 06:25
+Hmm the Q wasn’t even a thing yet was it in this timeframe
+Noah — Yesterday at 06:29
+think it's just shorthand for queue - there's definitely a 'command queue' - hmmm, wonder if it concerns the 'timing topics' eric?
+could be of interest
+real quick before i forget - note to self! there was also something odd with tops10, before entering the game - had to login as decwar, not demo - file permissions were wrong for demo, which shouldn't have been true, at all? 
+eric i'll try to get a good damage example today - have to get started here, slept late:)
+Noah — Yesterday at 06:36
+Image
+lots more following that code - lots of qmanager stuff👍
+for now, starting four agents together - see how long they go
+Eric — Yesterday at 06:54
+cool!
+Eric — Yesterday at 07:04
+deep down this timing stuff is a little crazy
+based on players using time consuming commands
+Noah — Yesterday at 07:06
+guessing will be learning many things about these topics 🤔 😄 
+will be studying warmac a bit more today - try to get an overview
+Noah — Yesterday at 12:18
+funny, feeling is that in just the few days since agent was 'invented' had been getting a valid feel for the boundaries of the problem / challenge - nutshell - three agents good, four agents bad! four seems to be a bridge too far 
+and now with more stress testing those questions about tty / telnet are growing - evidence seems to be piling up that problem is in i/o and the tty situation - have noticed some more curious things this morning! 😄  so, with old school we're on the path, climbn the mountain 👍 
+Noah — Yesterday at 12:40
+fwiw btw, suspect merlyn wouldn't have seen this stuff since he probly didn't have many 'ships in the game' simultaneously - doubt he had anything like 'agents' - will discuss with him next time it makes sense - meanwhile, still lots to learn 'beginners brain' style 🤔 
+Noah — Yesterday at 13:48
+https://groups.google.com/g/pidp-10/c/k_2wizDtcdE/m/AqCGesrqAwAJ - asked the google group - 😄 
+Noah — Yesterday at 14:28
+there ya go eric🙂
+Image
+Noah — Yesterday at 14:36
+good grief - may have fixed it!😮  four laptop agents and three raspi players are doing fine 
+one liner - set tty lines=16
+may not have been enough lines - if this holds up will put in a commit later today
+Noah — Yesterday at 14:45
+eric this really seems to be it 😍  - please make sure to have this little one liner fix in your local utexas 🙏  https://github.com/drforbin/decwar/commit/d26d360b18c9fac49549d0b7bd68412ebd89835c 
+Noah — Yesterday at 14:55
+really looking like we can celebrate - seven ships, everything looking great! 🎉
+Eric — Yesterday at 15:41
+perfect thanks!
+Eric — Yesterday at 16:19
+Image
+Noah — Yesterday at 16:20
+looks good!
+Noah — Yesterday at 17:20
+three hours of brainless mayhem with seven ships - we got it! radio does seem to need a fix - but that's a separate topic 🙂
+Image
+Eric — Yesterday at 21:32
+what's the radio do
+Noah — Yesterday at 22:18
+radio was just lazy way of saying 'tell' - nomad is doing 'tell all' and that should be received by six ships, not four as in the pic
+Eric — 01:55
+as long as radio on
+and not radio damaged
+Noah — 03:35
+ahha, woke up with a guess what's happening - picture the 'usual list' of ships - fed then emp
+the ships with radio trouble are at the bottom of the list!
+betcha a tribble the first ten ships are ok and the last eight are not ok
+there's a cis value of 10 somewhere that needs changing 18
+Eric — 03:38
+see if they have radio damage as well, that will defeat
+Noah — 03:38
+their silly ten ships again!
+shoooould be able to hunt this down quickly, another cis thing to be 'reconstructed' backwards to utexas:)
+they enter the game with radio silence - brand new ship, cant send or receive
+but nothing worse - everything else seems ok, but radio silence
+Noah — 03:47
+never mind! shot that theory down already
+just joined game as wolf - it can send!
+but not receive... ok may be something to the theory - but just for receive, send is ok 
+running eight hours now, eight ships - ahhh it's really nice to see - we're in really good shape - can start evolving the agent:)
+Noah — 04:14
+argh, really shot the theory down now - no good idea yet why some ships have a prob sending🤔
+this could be a 'fun' bug hunt
+Eric — 05:46
+hmm so some ships can receive radio but some aren't?
+Noah — 06:06
+it's confusing - sorry for thinking our loud here😄  for many ships the radio is fine - for a few, can receive but not send - and for a few, can do neither - very confusing situation - main thing is, there's def a bug in the radio👍
+Eric — 06:07
+ah yea seems there are some bugs in there
+Noah — 06:07
+it's only annoying, kind of an edge case - but wanna stomp it
+yep, for sure - side effects from our friends at cis, no doubt about that
+Eric — 06:08
+https://www.youtube.com/watch?v=ksL232PHivI
+YouTube
+Bob Alexander
+Star Trek, and the evolution of a BASIC programmer
+Image
+Noah — 06:08
+it's doing great overall, but some good improvements to be done
+he's got a vt52 sitting there!!! jealousy!!!😳
+Eric — 06:11
+Attachment file type: acrobat
+Super Star Trek.pdf
+1.12 MB
+Noah — 06:18
+pdf is sweeeeeet!!! nice! see - we're gonna be piling up a huge mountain of stuff, especially with the single player versions - could be worth getting methodical - we'll see! 🤔 
+Eric — 06:19
+https://www.youtube.com/watch?v=1Q_4k41Y7eM
+YouTube
+Bob Alexander
+The Other Star Trek Game
+Image
+to be complete here's the entire book:
+Attachment file type: acrobat
+YXpsme-Basic_Computer_Games_Microcomputer_Edition_1978_Creative_Computing.pdf
+12.81 MB
+He seems like a good resource (Bob Alexander)
+https://www.galacticstudios.org/
+Noah — 06:25
+yeah i recognize his name - let's find out how he connects with esr - the potential problem with esr is he's such a militant unix fanboy🤔 
+and with the single player stuff, especially the basic stuff, there's a loooooot of people - have seen some off-putting arguments about who did what first over there
+Eric — 06:33
+the text game is interesting
+Noah — 06:34
+i really wonder if i played it - am 95% certain i messed with it for like five minutes - early or mid eighties
+messed with several versions of the single player game, but never got into it
+decwar was just in a completely different universe😍
+Eric — 07:52
+okay, the refactored version i think is very buggy, but it is up
+http://decwarjs.com/ or telnet decwarjs.com
+no idea how well the browser verrsion works, haven't played with it much
+now seeing this on pdp: 
+
+ Command: points all
+Too many words -- line ignored
+Noah — 09:18
+awesome! will play with it later today 👍
+weird - old school has been running non stop here with eight ships
+after adding that line, didja restart simh - boot from disk.ini ?🤔 
+Eric — 09:22
+havent done that yet
+Noah — 09:22
+that brings in the fix👍
+Eric — 09:22
+cool
+Mk — 09:22
+You guys! Talking bout old labs.. just came across photos of a cad machine I got to use at Umass circa 1987…
+Image
+Image
+Image
+So freaking cold in there yiu had to wear full winter gear inside
+Noah — 09:23
+close to 24 hours now🎉 
+Image
+Eric — 09:25
+i've switched to IP addresses
+Image
+Noah — 09:25
+hahaha - i had a winter coat in 'office'
+Mk — 09:25
+Can’t see it super well.. but I recreated the pencil drawings of falling water
+Image
+Eric — 09:25
+wow good eye
+Mk — 09:26
+There was a skinny long window and if campus cops saw a light on they would pop in.
+Brought me cocoa more than once. After seeing how cold it was in there
+Noah — 09:27
+nice - what year mk?
+Mk — 09:28
+Ps my one and only pair of Calvin Klein acid wash jeans..
+Noah — 09:28
+ah 1987!
+just caught it
+Mk — 09:28
+Yeah… I’m guessing
+I mean, obvs tye outfit is timeless.. so hard to eyeball it
+Noah — 09:32
+mk do you remember much lisp stuff and what that lisp machine was like?
+ah i missed something
+cad - not cadr!
+Mk — 09:33
+Nope. I forgot I made a 10 foot by 10 foot architectural plan
+Noah — 09:34
+sorry - i was just reading about lisp machines and was stuck in my brain!
+roughly what type of machine are ya using in the pics?😀 
+Mk — 09:44
+Trying to remember..  it was donated.. had a fax 11/780 in grad school.. but this machine was cad only
+Fax. Ha. I said what I said autocorrect! Vax
+Noah — 09:47
+what department, cs?
+Mk — 09:47
+O can make out a red and brown label…
+I got a bfa in computer o graphics ftom unass in 1990 furst class in the country we were told to get a degree in computer graphics from an art deot.
+Noah — 09:49
+awesome!!!
+Mk — 09:50
+Course my classes were in coins ( that’s what they called computer science) math, electrical engineering, had to take differential equations at smith college, and large scale welding to understand 3 dimensions
+Noah — 09:51
+have ya written some of your story down? should do! all three of us should 🙂
+Mk — 09:52
+How weird these git sent to me just as we were talking about old skool labs…
+This one is a gem too. Lawd I was fabulous..
+Image
+Noah — 09:56
+nice!!!
+the mashup of art school and computers is really interesting topic - should def do something with that, history wise 🤔
+Mk — 10:02
+Copper Giloth made it happen. She’s got a show of her work in Paris right now.. so some histiry right there.
+Noah — 10:03
+cool - will google it! 👍
+Mk — 10:03
+Patric prince used to chair the siggraph traveling aet show and many artists just said “keep it” rather than pay to ship it home. So that’s another collection
+And Jacki Morie just got a lifetime award from VES
+She dud some of the earliest VR art stuff
+Noah — 10:05
+will google that too - i remember the name siggraph from pretty far back?
+Mk — 10:05
+Yep.
+Guerilla galkery she did
+Rogue artists!
+Noah — 10:06
+outside the outsider art 😄
+Mk — 10:07
+The digital rebels
+Noah — 10:07
+this is my old crew in austin - pretty non digital though! https://www.timkerr.net/home.htm
+Mk — 10:09
+My bfa dissertation was a kids book. Apple paint program… hand colored and bound
+Noah — 10:09
+gonna google me some art stuff today - nice!!! makes me happy😍
+Mk — 10:09
+Mfa was 3 6 foot high skate laser etched Celtic crosses
+So dang heavy…
+Celtic knot work
+Disney let me use thier laser cutter as long as I documented how to use it
+Noah — 10:12
+sweet! want to hear about that disney story when time is right 🙂
+Mk — 10:12
+Righto

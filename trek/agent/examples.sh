@@ -1,9 +1,9 @@
 #!/bin/bash
 
-python runner.py --nomad &
+python decwar.py --nomad &
 
-python runner.py --user demo --name batty &
+python decwar.py --ppn demo --name batty &
 
-python runner.py --user demo --name player2 &
+python decwar.py --ppn demo --name player2 &
 
-python runner.py --user demo --name player3 &
+python decwar.py --ppn demo --name player3 &
