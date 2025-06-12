@@ -6,8 +6,8 @@ class Tops10:
     
     def __init__(self, ip, port, user):
         self.ip, self.port, self.user = ip, port, user
-        self.tc = pexpect.spawn(f'telnet {self.ip} {self.port}', timeout=None, logfile=sys.stdout.buffer, echo=False)
-        self.tc.expect('\r\n\n')
+        self.tc = pexpect.spawn(f'telnet {self.ip} {self.port}', timeout=10, logfile=sys.stdout.buffer, echo=False)
+        self.tc.expect('\r\n\n', timeout=10)
         self.tc.readline()
         self.connmsg = self.tc.readline().decode('utf-8')
         self.login()
@@ -15,15 +15,15 @@ class Tops10:
     def logout(self):
         """do the kjob command"""
         self.tc.send('kjob\r\n')
-        self.tc.expect('\n\r\n')
+        self.tc.expect('\n\r\n', timeout=10)
         
     def login(self):
         """do the login command"""
         self.tc.send(f'login {self.user}\r\n')
-        index = self.tc.expect(['Unknown command', 'Non-numeric coordinate', 'Please KJOB', '\n\r\n'])
+        index = self.tc.expect(['Unknown command', 'Non-numeric coordinate', 'Please KJOB', '\n\r\n'], timeout=10)
         if index in [0, 1]: 
             self.tc.sendcontrol('c')
-            ndx2 = self.tc.expect(['Do you really want', 'Use QUIT'])
+            ndx2 = self.tc.expect(['Do you really want', 'Use QUIT'], timeout=10)
             if ndx2 == 0: 
                 self.tc.sendline('yes')
             else:
@@ -31,7 +31,7 @@ class Tops10:
                 self.tc.sendline('yes')
         elif index == 2: self.logout()
         else: pass
-        self.tc.expect('.\n\r')
+        self.tc.expect('.\n\r', timeout=10)
         
     def dir(self):
         """dir command, mostly as a example of how commands can work"""

@@ -33,24 +33,24 @@ class Decwar:
     def run(self):
         try:
             self.tc.sendline('r gam:decwar')
-            self.tc.expect('Your name please: ')
+            self.tc.expect('Your name please: ', timeout=10)
             self.tc.sendline(f'{self.name}')
-            self.tc.expect('line: ')
+            self.tc.expect('line: ', timeout=10)
             self.tc.sendline('')
-            ndx1 = self.tc.expect(['DECWAR', 'Regular or Tournament', 'Federation or Empire', 'You will join', 'choose another ship?'])
+            ndx1 = self.tc.expect(['DECWAR', 'Regular or Tournament', 'Federation or Empire', 'You will join', 'choose another ship?'], timeout=10)
             if ndx1 > 0:
                 if ndx1 == 1: self.tc.sendline(); self.tc.sendline(); self.tc.sendline()
                 if ndx1 < 3: self.tc.sendline() # join default side
                 if ndx1 == 4: self.tc.sendline('yes')
                 for ship in sorted(ships):
-                    ndx2 = self.tc.expect(['DECWAR', 'Which vessel'])
+                    ndx2 = self.tc.expect(['DECWAR', 'Which vessel'], timeout=10)
                     if ndx2 == 0: break
                     else: self.tc.sendline(ship)
             self.waitfor('Commands From TTY')
-            self.tc.expect('>')
+            self.tc.expect('>', timeout=10)
             if self.nomad:
                 self.tc.sendline('*password *mink')
-                self.tc.expect('>')
+                self.tc.expect('>', timeout=10)
             self.shields()
             self.gameloop()
         except: pass
@@ -63,7 +63,7 @@ class Decwar:
             self.tc.expect('>', timeout=10)
             if self.nomad:
                 self.tc.sendline('tell all; Nomad is alive')
-                self.tc.expect('>')
+                self.tc.expect('>', timeout=10)
                 targs = self.list()
             else:
                 self.speak_randomly()
