@@ -48,11 +48,12 @@ class Decwar:
             if ndx1 == 1: self.tc.sendline(); self.tc.sendline(); self.tc.sendline()
             if ndx1 < 3: self.tc.sendline() # join default side
             if ndx1 == 4: self.tc.sendline('yes')
-            for ship in sorted(ships):
+            for ship in ships:
                 ndx2 = self.tc.expect(['DECWAR', 'Which vessel'], timeout=10)
                 if ndx2 == 0: break
                 else: self.tc.sendline(ship)
         self.tc.expect('Commands From TTY', timeout=10)
+        self.tc.sendline('')
         self.tc.expect('>', timeout=10)
         if self.nomad:
             self.tc.sendline('*password *mink')
@@ -133,18 +134,28 @@ class Decwar:
         return out
 
     def __del__(self):
-        try: self.tc.sendcontrol('c')
-        except: print('nogo shutdown ctrl c')
-        try: self.tc.sendline('yes')
-        except: print('nogo shutdown yes')
-        try: self.tc.sendline('kjob')
-        except: print('nogo shutdown kjob')
-        # try: self.tc.sendcontrol(']')
-        # except: print('nogo shutdown ctrl ]')
-        # try: self.tc.sendline('close')
-        # except: print('nogo shutdown close')
+        try: 
+            self.tc.sendcontrol('c')
+            ndx2 = self.tc.expect(['Do you really want', 'Use QUIT'], timeout=10)
+            if ndx2 == 0: 
+                self.tc.sendline('yes')
+            else:
+                self.tc.sendline('quit')
+                self.tc.sendline('yes')
+        except: print('nogo quit game')
+        try:
+            self.tc.expect('.', timeout=10)
+            self.tc.sendline('kjob')
+        except: print('nogo kjob')
+        try: 
+            self.tc.expect('.', timeout=10)
+            self.tc.sendcontrol(']')
+            self.tc.sendline('close')
+        except: print('nogo close connections')
 
 if __name__ == "__main__":
     args, kwargs = cli.main()
     while True:
         dw = Decwar(*args, **kwargs).game()
+        time.sleep(random.randint(5, 10))
+    # dw = Decwar(*args, **kwargs).game()

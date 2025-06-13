@@ -1,4 +1,5 @@
-ships = ['e', 'f', 'i', 'l', 'n', 's', 't', 'v', 'y', 'b', 'c', 'd', 'g', 'h', 'j', 'm', 'p', 'w']
+# ships = ['e', 'f', 'i', 'l', 'n', 's', 't', 'v', 'y', 'b', 'c', 'd', 'g', 'h', 'j', 'm', 'p', 'w']
+ships = ['l', 'n', 's', 'v', 'y', 'c', 'd', 'h', 'j', 'w']
 agents = {
     'batty': [
         "Fiery the angels fell",
