@@ -17,4 +17,12 @@ agents = {
         "msg a from player3",
         "msg b from player3",
     ],
+    'player4': [
+        "msg a from player4",
+        "msg b from player4",
+    ],
+    'player5': [
+        "msg a from player5",
+        "msg b from player5",
+    ],
 }

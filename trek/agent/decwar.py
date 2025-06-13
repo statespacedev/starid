@@ -12,20 +12,17 @@ class Decwar:
         self.name = kwargs['name']
         self.nomad = True if kwargs['name'] == 'nomad' else False
         
-    def run(self):
+    def game(self):
+        """main entrypoint. the game 'session'. when this dies, quit game and kjob on tops10. from painful 
+        experience, this appears essential, for avoiding game state corruption. this is done by __del__"""
         try:
-            self.connect_to_dec10()
-            self.start_decwar()
-            self.tc.expect('Commands From TTY', timeout=10)
-            self.tc.expect('>', timeout=10)
-            if self.nomad:
-                self.tc.sendline('*password *mink')
-                self.tc.expect('>', timeout=10)
-            self.gameloop()
-        except: pass
+            self.connect()
+            self.start()
+            while True: self.cmdloop()
+        except: print('except out of game')
         
-    def gameloop(self):
-        while True:
+    def cmdloop(self):
+        try:
             if self.nomad:
                 self.tc.sendline('tell all; Nomad is alive')
                 self.tc.expect('>', timeout=10)
@@ -35,8 +32,12 @@ class Decwar:
                 targs = self.move()
             if not targs: return
             time.sleep(10)
+        except:
+            print('except out of cmdloop')
+            raise
             
-    def start_decwar(self):
+    def start(self):
+        """from tops10, run game and get to command prompt"""
         self.tc.sendline('r gam:decwar')
         self.tc.expect('Your name please: ', timeout=10)
         self.tc.sendline(f'{self.name}')
@@ -51,6 +52,11 @@ class Decwar:
                 ndx2 = self.tc.expect(['DECWAR', 'Which vessel'], timeout=10)
                 if ndx2 == 0: break
                 else: self.tc.sendline(ship)
+        self.tc.expect('Commands From TTY', timeout=10)
+        self.tc.expect('>', timeout=10)
+        if self.nomad:
+            self.tc.sendline('*password *mink')
+            self.tc.expect('>', timeout=10)
         
     def speak_randomly(self):
         if self.name not in agents: return
@@ -81,19 +87,19 @@ class Decwar:
         else: self.tc.sendline('shields up')
         self.tc.expect('>', timeout=10)
     
-    def connect_to_dec10(self):
+    def connect(self):
         self.tc = pexpect.spawn(f"telnet {self.kwargs['ip']} {self.kwargs['port']}", timeout=10, logfile=sys.stdout.buffer, echo=False)
         self.tc.expect('\r\n\n', timeout=10)
         self.tc.readline()
         connection_msg = self.tc.readline().decode('utf-8')
         self.tops10_login()
-        self.tops10_sys()
+        # self.tops10_sys()
         
     def tops10_login(self):
         """do the tops10 login command"""
         self.tc.send(f"login {self.kwargs['ppn']}\r\n")
-        index = self.tc.expect(['Unknown command', 'Non-numeric coordinate', 'Please KJOB', '\n\r\n'], timeout=10)
-        if index in [0, 1]: 
+        index = self.tc.expect(['\n\r\n', 'Unknown command', 'Non-numeric coordinate', 'login: '], timeout=10)
+        if index > 0: 
             self.tc.sendcontrol('c')
             ndx2 = self.tc.expect(['Do you really want', 'Use QUIT'], timeout=10)
             if ndx2 == 0: 
@@ -101,8 +107,6 @@ class Decwar:
             else:
                 self.tc.sendline('quit')
                 self.tc.sendline('yes')
-        elif index == 2: self.tops10_logout()
-        else: pass
         self.tc.expect('.\n\r', timeout=10)
         
     def tops10_logout(self):
@@ -126,21 +130,21 @@ class Decwar:
         while True:
             out += [self.tc.readline().decode('utf-8')]
             if 'Total Free' in out[-1]: break
-        return out    
-        
-    # def __del__(self):
-    #     try: self.tc.sendcontrol('c')
-    #     except: pass
-    #     try: self.tc.sendline('yes')
-    #     except: pass
-    #     try: self.tc.sendline('kjob')
-    #     except: pass
-    #     try: self.tc.sendcontrol(']')
-    #     except: pass
-    #     try: self.tc.sendline('close')
-    #     except: pass
+        return out
+
+    def __del__(self):
+        try: self.tc.sendcontrol('c')
+        except: print('nogo shutdown ctrl c')
+        try: self.tc.sendline('yes')
+        except: print('nogo shutdown yes')
+        try: self.tc.sendline('kjob')
+        except: print('nogo shutdown kjob')
+        # try: self.tc.sendcontrol(']')
+        # except: print('nogo shutdown ctrl ]')
+        # try: self.tc.sendline('close')
+        # except: print('nogo shutdown close')
 
 if __name__ == "__main__":
     args, kwargs = cli.main()
-    dw = Decwar(*args, **kwargs).run()
-    
+    while True:
+        dw = Decwar(*args, **kwargs).game()
