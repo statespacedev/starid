@@ -486,15 +486,23 @@ C	block data code
      +	  'BEEHI', 'VE   ',
      +	  'CRT  ', '     '/
 	data ((names(i,j), j = 1, 3), i = 1, KNPLAY)/ 
+     +	  'Excal', 'ibur ', ' E',
+     +	  'Farra', 'gut  ', ' F',
+     +	  'Intre', 'pid  ', ' I',
      +	  'Lexin', 'gton ', ' L',
      +	  'Nimit', 'z    ', ' N',
      +	  'Savan', 'nah  ', ' S',
+     +	  'Trent', 'on   ', ' T',
      +	  'Vulca', 'n    ', ' V',
      +	  'Yorkt', 'own  ', ' Y',
+     +	  'Buzza', 'rd   ', ' B',
      +	  'Cobra', '     ', ' C',
      +	  'Demon', '     ', ' D',
+     +	  'Gobli', 'n    ', ' G',
      +	  'Hawk ', '     ', ' H',
      +	  'Jacka', 'l    ', ' J',
+     +	  'Manta', '     ', ' M',
+     +	  'Panth', 'er   ', ' P',
      +	  'Wolf ', '     ', ' W'/
 	data (bits(i), i = 1, 10)/ 
      +	"1, "2, "4, "10, "20, "40, "100, "200, "400, "1000/

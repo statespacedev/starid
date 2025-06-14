@@ -207,7 +207,7 @@
 
 ;;;	General constants used by DECWAR
 
-	knplay==10		;maximum number of players (can't be increased)
+	knplay==18		;maximum number of players (can't be increased)
 	knloks==^d20		; maximum number of active locks (LOCK./UNLOk.)
 	knstat==10		; number of statistic entries retained
 	knbase==10		;initial number of bases on each side
@@ -2373,16 +2373,24 @@ shtdsp:	[asciz	/./]
 	[asciz	/*/]		;star
 	[asciz	/BH/]		;black hole
 
-shtshp:	asciz	/L/
+shtshp:	asciz	/E/
+	asciz	/F/
+	asciz	/I/
+	asciz	/L/
 	asciz	/N/
 	asciz	/S/
+	asciz	/T/
 	asciz	/V/
 	asciz	/Y/
 
+	asciz	/B/
 	asciz	/C/
 	asciz	/D/
+	asciz	/G/
 	asciz	/H/
 	asciz	/J/
+	asciz	/M/
+	asciz	/P/
 	asciz	/W/
 
 lngdsp:	[asciz	/Empty Space/]
@@ -2397,16 +2405,24 @@ lngdsp:	[asciz	/Empty Space/]
 	[asciz	/Star/]
 	[asciz	/Black Hole/]
 
-lngshp: [asciz	/Lexington/]
+lngshp: [asciz  /Excalibur/]
+    [asciz	/Farragut/]
+    [asciz	/Intrepid/]
+    [asciz	/Lexington/]
 	[asciz	/Nimitz/]
 	[asciz	/Savannah/]
+    [asciz	/Trenton/]
 	[asciz	/Vulcan/]
 	[asciz	/Yorktown/]
 
+    [asciz	/Buzzard/]
 	[asciz	/Cobra/]
 	[asciz	/Demon/]
+    [asciz	/Goblin/]
 	[asciz	/Hawk/]
 	[asciz	/Jackal/]
+    [asciz	/Manta/]
+    [asciz	/Panther/]
 	[asciz	/Wolf/]
 	subttl	Output -- ODEV
 
