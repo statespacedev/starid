@@ -25,13 +25,24 @@ class Decwar:
         try:
             self.speak_randomly()
             if self.nomad:
-                time.sleep(30)
-                targs = self.list('ships')
+                res = self.list('ships')
             else:
-                targs = self.move()
-            if not targs: return
+                res = self.move()
             time.sleep(10)
         except:
+            for _ in range(3):
+                try:
+                    time.sleep(1)
+                    self.tc.sendline('')
+                    self.tc.expect('>', timeout=10)
+                    time.sleep(1)
+                    self.tc.sendline('')
+                    self.tc.expect('>', timeout=10)
+                    time.sleep(1)
+                    self.tc.sendline('')
+                    self.tc.expect('>', timeout=10)
+                    self.cmdloop()
+                except: pass
             print('except out of cmdloop')
             raise
             
@@ -163,6 +174,7 @@ class Decwar:
             time.sleep(1)
             self.tc.sendline('close')
             time.sleep(1)
+            self.tc.terminate(force=True)
         except: print('nogo close connections')
 
 if __name__ == "__main__":
