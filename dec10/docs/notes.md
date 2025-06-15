@@ -528,3 +528,164 @@ Noah — 10:12
 sweet! want to hear about that disney story when time is right 🙂
 Mk — 10:12
 Righto
+
+20250615
+
+there ya go - flat out memory error
+major bug in the code somewhere...🤔
+PC is program counter register - total system crash 
+the code that went on the tape in step3 has a bug for sure
+Eric — 00:35
+restarted fine, still seeing that collision stuff
+Noah — 00:48
+so simh is working ok? and in tops10 when you run decwar it crashes with memory error?🤔
+if so, could go to a safe git commit
+confirm decwar runs ok at that commit
+then look for what went wrong in the following commits?🤔
+Eric — 01:01
+well i can play a bit bfore it crashes, the garbage output happens around collisions
+just tried to chagne a line of code, and rebuild:
+
+Step expired, PC: 705735 (POPJ 1,0)
+sim>
+Noah — 01:03
+argh... simh trouble again...
+Eric — 01:03
+then rebooted
+EXPECT "\r\n" send "decwar/seg:def\r"; continue
+    EXPECT "\r\n" send "msg\r"; continue
+    EXPECT "\r\n" send "warmac\r"; continue
+    EXPECT "\r\n" send "sys:forlib/sea/seg:def\r"; continue
+    EXPECT "\r\n" send "setup/seg:low\r"; continue
+    EXPECT "\r\n" send "setmsg\r"; continue
+    EXPECT "\r\n" send "sys:forlib/sea/seg:low\r"; continue
+    EXPECT "\r\n" send "/g\r"; continue
+    EXPECT "\r\n." send "get decwar\r"; continue
+    EXPECT "\r\n." send "ssave\r"; continue
+    EXPECT "\r\n." send "protect decwar.exe <055>\r"; continue
+    EXPECT "\r\n." send "protect decwar.hlp <055>\r"; continue
+    EXPECT "\r\n." send "protect decwar.nws <055>\r"; continue
+    EXPECT "\r\n." send "protect decwar.grp <000>\r"; continue
+    EXPECT "\r\n." send "protect decwar.ini <000>\r"; continue
+    EXPECT "\r\n." send "k/f\r"; continue
+    EXPECT "\r\n." send -t after=1000k "login 1,2\r"; continue
+    EXPECT "\r\n." send "assign gam: dskb:[5,30]\r"; continue
+    EXPECT "\r\n." send "k/f\r"; continue
+BOOT V3(47)
+
+BOOT>
+
+Step expired, PC: 705617 (MOVEI 2,0(5))
+Noah — 01:04
+were fighting two separate battles
+one with simh
+other with decwar
+Eric — 01:04
+getting further
+Noah — 01:05
+for the decwar topic - wonder if my commit to drforbin/decwar will help - does seem possible!
+Eric — 01:05
+ok ay running agian
+Noah — 01:06
+you want to pull that commit asap🙂
+Eric — 01:06
+Command: M R -4 0
+
+Command: $?
+?Illegal UUO at user PC 000000
+
+.
+Noah — 01:07
+memory error - decwar crash - shouldn't happen
+have a sec for a call?
+Eric — 01:09
+Command: M R -1 4
+?
+?Illegal UUO at user PC 000000
+Noah — 01:10
+want to learn what your git situation is - if we can get you on a know good commit
+Eric — 01:10
+oh i've just been downloading straight
+can do whatever
+Noah — 01:13
+wondering if you have this latest commit - if we can be in sync via git, we'd know for sure what code is running 🤔
+definitely should not be seeing those memory error crashes - those are veeeery surprising🤔
+Eric — 01:16
+i just did a straight download from github, should be
+Noah — 01:18
+ok, hmmm. stumped... game is running fine here - six hours straight now...
+hmmm....
+just a sec, checking something...
+ahha - possible idea!
+Noah — 01:26
+ok, just now pushed this commit to drforbin/decwar https://github.com/drforbin/decwar/commit/ca0070f4a4d24a7c3631d18a05c39542c046bfec
+it has some little mods to simh scripts - nothing major
+but it's at least remotely possible that one of those could help...🤔
+Eric — 01:27
+ok
+Command: 
+Command: 
+Step expired, PC: 000001 (DATAO 774,@35034(14))
+sim>
+that is on current
+not your new one
+Noah — 01:27
+ok, shouldn't be happening...:(
+this is the new simh line that i wonder if it could help - it's possible...
+expect "\r\n." send "del *.sta\r"; continue
+you'll see it in the new commit
+what that does is delete the on disk game state - that's what the .sta file is
+i added that within the last week because have a suspicion that file can get corrupted
+and that once it's corrupt, it can totally crash and ruin the game
+just a suspicion / feel - but worth a try
+it's at least remotely possible it's literally causing the crashes you're having...🤔
+corrupt game state coming from that decwar.sta file...
+Noah — 01:42
+geez, getting hopeful actually... you can do it manually as well - on tops10 be logged in as decwar - then just do command 'del *.sta' - clear that old game state, right before starting the game - fresh new decwar 🙂 
+bout a week ago, i might have been in the same kinda 'doom loop' your in right now - that's why i started deleting that state file...
+if this cures your decwar - we'll have learned something big here...:)
+Eric — 04:55
+im> Resetting all devices...  This may not have been your intention.
+The GO and CONTINUE commands do not reset devices.
+
+Step expired, PC: 000000 (LUUO00 0,0(1))
+sim> Resetting all devices...  This may not have been your intention.
+The GO and CONTINUE commands do not reset devices.
+
+Step expired, PC: 000000 (LUUO00 0,0(1))
+sim> Resetting all devices...  This may not have been your intention.
+The GO and CONTINUE commands do not reset devices.
+
+Step expired, PC: 000000 (LUUO00 0,0(1))
+sim> Resetting all devices...  This may not have been your intention.
+The GO and CONTINUE commands do not reset devices.
+
+Step expired, PC: 000000 (LUUO00 0,0(1))
+sim>
+everytime something different
+Noah — 05:09
+hmmm, so not getting booted into tops10 at all anymore? of the two probs (booting tops10, running decwar), seems like booting tops10 is the worse one? 🤔
+Noah — 05:21
+thinking out loud here - just brainstorming - and purely about prob1, booting tops20, not prob2 
+so dec10blinken is a simh exe built on my raspi - could try the plain vanilla one called just 'dec10' there just to see if it does better, but it's not the real answer for us
+well maybe it is, at least it can't conflict with pidp package - should be safe in that regard
+but bigger pic is may need to move on to building dec10blinken locally, local build instead of my pre canned exes...
+Noah — 05:28
+will find the link for that this morning - it's not hard at all, just wanted to avoid it if possible:)
+will need to create expanded instructions to help guide people who encounter this situation🤔
+Eric — 05:31
+oh i can get it to work, just take a couple times
+Noah — 05:32
+should start working on those this morning as well - really? that's good news then!
+i was thinking was totally blocked kinda
+need better instructions though for sure - things aren't as simple as i wanted and hoped - will start on those this morning, somewhere where you can edit and add...
+is there some kinda cloud thing you'd go for? github or gitlab could both work... or even here in discord, am new to discord so not sure?
+Noah — 05:39
+am super serious about making project utexas package as friendly and usable as possible, as ya can see - it matters to me🙂
+living time capsule like this is a work of art
+Noah — 06:24
+notes to self - three links that have to be the core of utexas user guide 
+most essential - fundamental - https://github.com/rcornwell/sims
+on top of previous, for the software side - https://sky-visions.com/dec/tops10.shtml
+and for broader context, perspective surrounding utexas - https://github.com/obsolescence/pidp10
+these three can be skeleton for expanded utexas user guide

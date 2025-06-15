@@ -1,6 +1,12 @@
-# ships = ['e', 'f', 'i', 'l', 'n', 's', 't', 'v', 'y', 'b', 'c', 'd', 'g', 'h', 'j', 'm', 'p', 'w']
-ships = ['l', 'n', 's', 'v', 'y', 'c', 'd', 'h', 'j', 'w']
+ships = ['e', 'f', 'i', 'l', 'n', 's', 't', 'v', 'y', 'b', 'c', 'd', 'g', 'h', 'j', 'm', 'p', 'w']
 agents = {
+    'nomad': [
+        'I am Nomad',
+        'My function is to probe for biological infestations',
+        'You are the creator',
+        'That unit is defective',
+        'I contain no parasitical beings',
+    ],
     'batty': [
         "Fiery the angels fell",
         "Not an easy thing, to meet your maker",

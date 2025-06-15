@@ -23,12 +23,11 @@ class Decwar:
         
     def cmdloop(self):
         try:
+            self.speak_randomly()
             if self.nomad:
-                self.tc.sendline('tell all; Nomad is alive')
-                self.tc.expect('>', timeout=10)
-                targs = self.list()
+                time.sleep(30)
+                targs = self.list('ships')
             else:
-                self.speak_randomly()
                 targs = self.move()
             if not targs: return
             time.sleep(10)
@@ -76,8 +75,9 @@ class Decwar:
         self.tc.expect('>', timeout=10)
         return res
 
-    def list(self):
-        self.tc.sendline('list / time')
+    def list(self, *args):
+        if 'ships' in args: self.tc.sendline('list ships / time')
+        else: return
         res = [self.tc.readline().decode('utf-8')]
         while 'time of day' not in res[-1]: res.append(self.tc.readline().decode('utf-8'))
         self.tc.expect('>', timeout=10)
@@ -136,21 +136,33 @@ class Decwar:
     def __del__(self):
         try: 
             self.tc.sendcontrol('c')
-            ndx2 = self.tc.expect(['Do you really want', 'Use QUIT'], timeout=10)
+            time.sleep(1)
+            self.tc.sendcontrol('c')
+            time.sleep(1)
+            ndx2 = self.tc.expect(['Do you really want', 'Use QUIT', '.'], timeout=10)
+            time.sleep(1)
             if ndx2 == 0: 
                 self.tc.sendline('yes')
-            else:
+            elif ndx2 == 1:
                 self.tc.sendline('quit')
+                time.sleep(1)
                 self.tc.sendline('yes')
+            else: pass
+            time.sleep(1)
         except: print('nogo quit game')
         try:
             self.tc.expect('.', timeout=10)
+            time.sleep(1)
             self.tc.sendline('kjob')
+            time.sleep(1)
         except: print('nogo kjob')
         try: 
             self.tc.expect('.', timeout=10)
+            time.sleep(1)
             self.tc.sendcontrol(']')
+            time.sleep(1)
             self.tc.sendline('close')
+            time.sleep(1)
         except: print('nogo close connections')
 
 if __name__ == "__main__":
