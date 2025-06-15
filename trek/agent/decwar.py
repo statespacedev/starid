@@ -18,17 +18,21 @@ class Decwar:
         try:
             self.connect()
             self.start()
-            while True: self.cmdloop()
-        except: print('except out of game')
+            for _ in range(3): self.cmdloop()
+        except: 
+            print('except out of game')
+            return  # triggers __del__()
         
     def cmdloop(self):
         try:
-            self.speak_randomly()
             if self.nomad:
-                res = self.list('ships')
-            else:
-                res = self.move()
-            time.sleep(10)
+                self.tc.sendline('*password *mink')
+                self.tc.expect('>', timeout=10)
+            while True:
+                self.speak_randomly()
+                if self.nomad: res = self.list('ships')
+                else: res = self.move()
+                time.sleep(10)
         except:
             for _ in range(3):
                 try:
@@ -65,9 +69,6 @@ class Decwar:
         self.tc.expect('Commands From TTY', timeout=10)
         self.tc.sendline('')
         self.tc.expect('>', timeout=10)
-        if self.nomad:
-            self.tc.sendline('*password *mink')
-            self.tc.expect('>', timeout=10)
         
     def speak_randomly(self):
         if self.name not in agents: return
@@ -179,7 +180,7 @@ class Decwar:
 
 if __name__ == "__main__":
     args, kwargs = cli.main()
-    while True:
-        dw = Decwar(*args, **kwargs).game()
-        time.sleep(random.randint(5, 10))
-    # dw = Decwar(*args, **kwargs).game()
+    # while True:
+    #     dw = Decwar(*args, **kwargs).game()
+    #     time.sleep(random.randint(5, 10))
+    dw = Decwar(*args, **kwargs).game()
