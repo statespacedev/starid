@@ -71,8 +71,9 @@ class Decwar:
         self.tc.expect('>', timeout=10)
         
     def speak_randomly(self):
-        if self.name not in agents: return
-        if random.uniform(0, 1) > .05: return 
+        if False:
+            if self.name not in agents: return
+            if random.uniform(0, 1) > .05: return 
         msg = random.choice(agents[self.name])
         self.tc.sendline(f'tell all; {msg}')
         self.tc.expect('>', timeout=10)
