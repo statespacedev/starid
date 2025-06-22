@@ -598,7 +598,7 @@ lall
 	.fbppn==12		;PPN
 	.fbsfd==13		;SFDs
 
-	debug.==0		;if nonzero, include error checking and
+	debug.==-1		;if nonzero, include error checking and
 				;diagnostic prints
 	dbque.==0		; -1 to check the queues
 	dbzer.==0		; -1 to check for storing zero values in setdsp
@@ -5671,8 +5671,8 @@ chkd.1:	save	<t0,t4,x1,x2,p1,c>
 
 	radix	10
 rngtbl:	0,,0			;empty space
-	1,,5			;federation ship
-	6,,10			;empire ship
+	1,,9			;federation ship
+	10,,18			;empire ship
 	1,,10			;federation base
 	1,,10			;empire base
 	0,,1			;romulan
