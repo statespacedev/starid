@@ -1,16 +1,15 @@
 import time
-import random
 import pexpect
 import sys
 import cli
-from definitions import agents, ships
+from definitions import ships
+from brain import Brain
 
 class Decwar:
 
     def __init__(self, *args, **kwargs):
         self.args, self.kwargs = args, kwargs
         self.name = kwargs['name']
-        self.nomad = True if kwargs['name'] == 'nomad' else False
         
     def game(self):
         """main entrypoint. the game 'session'. when this dies, quit game and kjob on tops10. from painful 
@@ -25,14 +24,8 @@ class Decwar:
         
     def cmdloop(self):
         try:
-            if self.nomad:
-                self.tc.sendline('*password *mink')
-                self.tc.expect('>', timeout=10)
-            while True:
-                self.speak_randomly()
-                if self.nomad: res = self.list('ships')
-                else: res = self.move()
-                time.sleep(10)
+            brain = Brain(self.name, self.tc)
+            while True: brain.nextstep()
         except:
             for _ in range(3):
                 try:
@@ -68,37 +61,6 @@ class Decwar:
                 else: self.tc.sendline(ship)
         self.tc.expect('Commands From TTY', timeout=10)
         self.tc.sendline('')
-        self.tc.expect('>', timeout=10)
-        
-    def speak_randomly(self):
-        if False:
-            if self.name not in agents: return
-            if random.uniform(0, 1) > .05: return 
-        msg = random.choice(agents[self.name])
-        self.tc.sendline(f'tell all; {msg}')
-        self.tc.expect('>', timeout=10)
-
-    def move(self):
-        v, h = 0, 0
-        while v == 0 and h == 0:
-            v, h = random.randint(-1, 1), random.randint(-1, 1)
-        self.tc.sendline(f'move relative {v} {h} / targets 10 / time')
-        res = [self.tc.readline().decode('utf-8')]
-        while 'time of day' not in res[-1]: res.append(self.tc.readline().decode('utf-8'))
-        self.tc.expect('>', timeout=10)
-        return res
-
-    def list(self, *args):
-        if 'ships' in args: self.tc.sendline('list ships / time')
-        else: return
-        res = [self.tc.readline().decode('utf-8')]
-        while 'time of day' not in res[-1]: res.append(self.tc.readline().decode('utf-8'))
-        self.tc.expect('>', timeout=10)
-        return res
-    
-    def shields(self, *args):
-        if 'down' in args: self.tc.sendline('shields down')
-        else: self.tc.sendline('shields up')
         self.tc.expect('>', timeout=10)
     
     def connect(self):
