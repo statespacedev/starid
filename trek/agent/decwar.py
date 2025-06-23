@@ -10,23 +10,45 @@ class Decwar:
     def __init__(self, *args, **kwargs):
         self.args, self.kwargs = args, kwargs
         self.name = kwargs['name']
-        
-    def game(self):
-        """main entrypoint. the game 'session'. when this dies, quit game and kjob on tops10. from painful 
-        experience, this appears essential, for avoiding game state corruption. this is done by __del__"""
+
+    def mode1(self):
+        """try to stay connected"""
+        try: self.connect()
+        except: print('connect failed'); exit()
+        while True:
+            try:
+                self.login()
+                self.start()
+                self.brainloop(once=True)
+            except: print('mode2, exit game and job but not connection')
+            try:
+                self.stop()
+                self.logout()
+            except: print('mode2, disconnect'); break
+            time.sleep(5)
+        try: self.disconnect(); exit()
+        except: print('disconnect failed'); exit()
+
+    def mode2(self):
+        """try to stay in game between ships"""
         try:
-            self.connect()
+            self.tops10_connect()
             self.start()
-            for _ in range(3): self.cmdloop()
+            for _ in range(3): self.brainloop()
         except: 
-            print('except out of game')
-            return  # triggers __del__()
-        
-    def cmdloop(self):
+            print('mode3, stay in game')
+            try:
+                self.stop()
+                self.logout()
+                self.disconnect()
+            except: exit()
+
+    def brainloop(self, once=False):
         try:
             brain = Brain(self.name, self.tc)
             while True: brain.nextstep()
         except:
+            if once: raise
             for _ in range(3):
                 try:
                     time.sleep(1)
@@ -38,11 +60,30 @@ class Decwar:
                     time.sleep(1)
                     self.tc.sendline('')
                     self.tc.expect('>', timeout=10)
-                    self.cmdloop()
+                    self.brainloop()
                 except: pass
-            print('except out of cmdloop')
+            print('except out of brainloop')
             raise
-            
+
+    def connect(self):
+        self.tc = pexpect.spawn(f"telnet {self.kwargs['ip']} {self.kwargs['port']}", timeout=10, logfile=sys.stdout.buffer, echo=False)
+        time.sleep(1)
+        self.tc.expect('.', timeout=10)
+        self.tc.sendline('')
+        time.sleep(1)
+        self.tc.expect('.', timeout=10)
+
+    def login(self):
+        self.tc.sendline('')
+        time.sleep(1)
+        self.tc.expect('.', timeout=10)
+        self.tc.sendline(f"login {self.kwargs['ppn']}")
+        time.sleep(1)
+        self.tc.expect('.', timeout=10)
+        self.tc.sendline('')
+        time.sleep(1)
+        self.tc.expect('.', timeout=10)
+
     def start(self):
         """from tops10, run game and get to command prompt"""
         self.tc.sendline('r gam:decwar')
@@ -62,88 +103,55 @@ class Decwar:
         self.tc.expect('Commands From TTY', timeout=10)
         self.tc.sendline('')
         self.tc.expect('>', timeout=10)
-    
-    def connect(self):
-        self.tc = pexpect.spawn(f"telnet {self.kwargs['ip']} {self.kwargs['port']}", timeout=10, logfile=sys.stdout.buffer, echo=False)
-        self.tc.expect('\r\n\n', timeout=10)
-        self.tc.readline()
-        connection_msg = self.tc.readline().decode('utf-8')
-        self.tops10_login()
-        # self.tops10_sys()
-        
-    def tops10_login(self):
-        """do the tops10 login command"""
-        self.tc.send(f"login {self.kwargs['ppn']}\r\n")
-        index = self.tc.expect(['\n\r\n', 'Unknown command', 'Non-numeric coordinate', 'login: '], timeout=10)
-        if index > 0: 
-            self.tc.sendcontrol('c')
-            ndx2 = self.tc.expect(['Do you really want', 'Use QUIT'], timeout=10)
-            if ndx2 == 0: 
-                self.tc.sendline('yes')
-            else:
-                self.tc.sendline('quit')
-                self.tc.sendline('yes')
-        self.tc.expect('.\n\r', timeout=10)
-        
-    def tops10_logout(self):
-        """do the kjob command"""
-        self.tc.send('kjob\r\n')
-        self.tc.expect('\n\r\n', timeout=10)
 
-    def tops10_dir(self):
-        """dir command, mostly as a example of how commands can work"""
-        self.tc.send('dir\r\n')
-        out = []
-        while True:
-            out += [self.tc.readline().decode('utf-8')]
-            if 'Total of' in out[-1]: break
-        return out
-
-    def tops10_sys(self):
-        """dir command"""
-        self.tc.send('sys\r\n')
-        out = []
-        while True:
-            out += [self.tc.readline().decode('utf-8')]
-            if 'Total Free' in out[-1]: break
-        return out
-
-    def __del__(self):
-        try: 
+    def stop(self):
+        try:
             self.tc.sendcontrol('c')
             time.sleep(1)
             self.tc.sendcontrol('c')
             time.sleep(1)
             ndx2 = self.tc.expect(['Do you really want', 'Use QUIT', '.'], timeout=10)
             time.sleep(1)
-            if ndx2 == 0: 
+            if ndx2 == 0:
                 self.tc.sendline('yes')
             elif ndx2 == 1:
                 self.tc.sendline('quit')
                 time.sleep(1)
                 self.tc.sendline('yes')
-            else: pass
+            else:
+                pass
             time.sleep(1)
-        except: print('nogo quit game')
+        except:
+            print('exception in stop game')
+            raise
+
+    def logout(self):
         try:
-            self.tc.expect('.', timeout=10)
+            self.tc.sendline('')
             time.sleep(1)
+            self.tc.expect('.', timeout=10)
             self.tc.sendline('kjob')
             time.sleep(1)
-        except: print('nogo kjob')
-        try: 
             self.tc.expect('.', timeout=10)
+        except:
+            print('exception in logout')
+            raise
+
+    def disconnect(self):
+        try:
+            self.tc.sendline('')
             time.sleep(1)
+            self.tc.expect('.', timeout=10)
             self.tc.sendcontrol(']')
             time.sleep(1)
             self.tc.sendline('close')
             time.sleep(1)
             self.tc.terminate(force=True)
-        except: print('nogo close connections')
-
+        except:
+            print('exception in disconnect')
+            raise
+        
 if __name__ == "__main__":
     args, kwargs = cli.main()
-    # while True:
-    #     dw = Decwar(*args, **kwargs).game()
-    #     time.sleep(random.randint(5, 10))
-    dw = Decwar(*args, **kwargs).game()
+    dw = Decwar(*args, **kwargs)
+    dw.mode1()
