@@ -32,16 +32,17 @@ class Decwar:
     def mode2(self):
         """try to stay in game between ships"""
         try:
-            self.tops10_connect()
+            self.connect()
+            self.login()
             self.start()
             for _ in range(3): self.brainloop()
         except: 
-            print('mode3, stay in game')
+            print('mode2 shutting down')
             try:
                 self.stop()
                 self.logout()
                 self.disconnect()
-            except: exit()
+            except: pass
 
     def brainloop(self, once=False):
         try:
@@ -154,4 +155,4 @@ class Decwar:
 if __name__ == "__main__":
     args, kwargs = cli.main()
     dw = Decwar(*args, **kwargs)
-    dw.mode1()
+    dw.mode2()
