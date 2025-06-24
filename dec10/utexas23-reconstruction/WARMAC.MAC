@@ -220,7 +220,7 @@ lall
 ;---
 	kndev==9		;number of devices
 	kpass=="*mink"		;password for system (*) commands
-	knmsg==32		;maximum number of messages in queue
+	knmsg==64		;maximum number of messages in queue
 	msglen==17		;max # of words per msg (header + 80 chars)
 	kngrp==7		;number of defined message groups
 	knhshp==^d40		; number of hit queue entries per ship
