@@ -16,7 +16,7 @@ class Brain:
         time.sleep(10)
 
     def speak_randomly(self):
-        if False:
+        if True:
             if self.name not in agents: return
             if random.uniform(0, 1) > .05: return
         msg = random.choice(agents[self.name])
