@@ -1220,15 +1220,15 @@ monit:	skipn	hungup
 ;	hllzs	.jbsa##		; no restarts allowed
 	pushj	p,zaplok	; zap all pending locks
 ;	reset			; kill any pending locks
-	skipe	t1,who		; if ship apparently active
+;	skipe	t1,who		; if ship apparently active
 ;this is not needed
-	jrst	[movei	arg,[who]
-		 pushj	p,free##	; then free it
-		 jrst	.+1
-		]
+;	jrst	[movei	arg,[who]
+;		 pushj	p,free##	; then free it
+;		 jrst	.+1
+;		]
 ;
-	skipe	t1,jsqwho		; if job has entry in jsqtab
-	setzm	jsqtab-1(t1)		; then clear it
+;	skipe	t1,jsqwho		; if job has entry in jsqtab
+;	setzm	jsqtab-1(t1)		; then clear it
 ;end
 
 	monrt.	;drforbin (add)
