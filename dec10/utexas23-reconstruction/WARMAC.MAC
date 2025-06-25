@@ -50,7 +50,7 @@ lall
 		 output	tty,
 		 skipn	hungup
 		outstr [ascil <?'txt>]
-		outstr	[asciz "*****mon it 53*****"]
+		outstr	[asciz "***** monit 53 *****"]
 		jrst monit
 		]
 	>
@@ -731,7 +731,7 @@ oldobj:	block	1		;object at location on board before zero
 
 	;RUN code in low seg, so can recover from RUN error
 rundec:	run	t1,
-	outstr	[asciz "*****mon it 734*****"]
+	outstr	[asciz "***** monit 734 *****"]
 	jrst	monit
 
 queue:	xwd	1,5		; used by LOCK. and UNL.
@@ -4331,7 +4331,7 @@ abor.1:	pushj	p,kilhgh	;remove high segment from swapper
 	argblk	<[asciz "The center of tha galaxy has exploded!"]>
 	pushj	p,makmsg
 	;log error
-	outstr	[asciz "*****mon it 4332*****"]
+	outstr	[asciz "***** monit 4332 *****"]
 	jrst	monit
 
 	subttl	KILHGH/KILLOW
@@ -6239,8 +6239,10 @@ aprtrp:	setom	addrck		; we had a failure
 	hrlm	t1,stabuf
 	move	p,[iowd pdlsiz,stabuf+^d128]	; in case stack is messed up
 	move	s,[iowd stksiz,stk]
-	outstr	[asciz "*****mon it 6239*****"]
-	jrst	monit
+	outstr	[asciz "***** aprtrp 6242 *****"]
+	popj	p,
+;	jrst	monit
+	
 ;	pushj	p,gripe		; put data into gripe file
 ;	move	p,[iowd pdlsiz,pdl]
 ;	skipe	t1,ftlerr	; if setftl called
