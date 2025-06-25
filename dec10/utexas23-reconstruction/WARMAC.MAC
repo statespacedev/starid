@@ -6240,8 +6240,7 @@ aprtrp:	setom	addrck		; we had a failure
 	move	p,[iowd pdlsiz,stabuf+^d128]	; in case stack is messed up
 	move	s,[iowd stksiz,stk]
 	outstr	[asciz "***** aprtrp 6242 *****"]
-	popj	p,
-;	jrst	monit
+	jrst	monit
 	
 ;	pushj	p,gripe		; put data into gripe file
 ;	move	p,[iowd pdlsiz,pdl]
