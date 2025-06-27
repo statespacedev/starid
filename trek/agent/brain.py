@@ -12,7 +12,7 @@ class Brain:
     def nextstep(self):
         self.speak_randomly()
         self.move()
-        if self.name == 'player1': res = self.list('ships')
+        if self.name == 'player1': self.list('ships')
         time.sleep(10)
 
     def speak_randomly(self):
@@ -25,29 +25,23 @@ class Brain:
 
     def move(self):
         v, h = 0, 0
-        while v == 0 and h == 0:
-            v, h = random.randint(-1, 1), random.randint(-1, 1)
-        self.tc.sendline(f'move relative {v} {h} / targets 10 / time')
-        res = [self.tc.readline().decode('utf-8')]
-        while 'time of day' not in res[-1]: res.append(self.tc.readline().decode('utf-8'))
+        while v == 0 and h == 0: v, h = random.randint(-1, 1), random.randint(-1, 1)
+        self.tc.sendline(f'move relative {v} {h}')
+        # self.tc.sendline(f'move relative {v} {h} / targets 10 / time')
+        # res = [self.tc.readline().decode('utf-8')]
+        # while 'time of day' not in res[-1]: res.append(self.tc.readline().decode('utf-8'))
         self.tc.expect('>', timeout=10)
-        return res
 
     def list(self, *args):
-        if 'ships' in args:
-            self.tc.sendline('list ships / time')
-        else:
-            return
-        res = [self.tc.readline().decode('utf-8')]
-        while 'time of day' not in res[-1]: res.append(self.tc.readline().decode('utf-8'))
+        if 'ships' in args: self.tc.sendline('list ships / time')
+        else: return
+        # res = [self.tc.readline().decode('utf-8')]
+        # while 'time of day' not in res[-1]: res.append(self.tc.readline().decode('utf-8'))
         self.tc.expect('>', timeout=10)
-        return res
 
     def shields(self, *args):
-        if 'down' in args:
-            self.tc.sendline('shields down')
-        else:
-            self.tc.sendline('shields up')
+        if 'down' in args: self.tc.sendline('shields down')
+        else: self.tc.sendline('shields up')
         self.tc.expect('>', timeout=10)
         
     def superpower(self):
