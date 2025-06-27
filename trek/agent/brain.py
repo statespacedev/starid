@@ -10,7 +10,7 @@ class Brain:
         if name == 'player1': self.superpower()
         
     def nextstep(self):
-        self.speak_randomly()
+        # self.speak_randomly()
         self.move()
         if self.name == 'player1': res = self.list('ships')
         time.sleep(10)
