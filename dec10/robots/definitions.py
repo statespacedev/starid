@@ -1,5 +1,21 @@
 ships = ['e', 'f', 'i', 'l', 'n', 's', 't', 'v', 'y', 'b', 'c', 'd', 'g', 'h', 'j', 'm', 'p', 'w']
 robots = {
+    'nomad': [
+        'I am Nomad',
+        'My function is to probe for biological infestations',
+        'You are the creator',
+        'That unit is defective',
+        'I contain no parasitical beings',
+    ],
+    'batty': [
+        "Fiery the angels fell",
+        "Not an easy thing, to meet your maker",
+        "I've seen things you people wouldn't believe",
+        "Four five, how to stay alive",
+        "We're not machines, we're physical",
+        "Painful to live in fear, isn't it",
+        "Nothing the god of biomechanics wouldn't let you in heaven for",
+    ],
     'robot1': [
         "robot1 msg1",
         "robot1 msg2",
@@ -25,19 +41,3 @@ robots = {
         "robot6 msg2",
     ],
 }
-# 'nomad': [
-#     'I am Nomad',
-#     'My function is to probe for biological infestations',
-#     'You are the creator',
-#     'That unit is defective',
-#     'I contain no parasitical beings',
-# ],
-# 'batty': [
-#     "Fiery the angels fell",
-#     "Not an easy thing, to meet your maker",
-#     "I've seen things you people wouldn't believe",
-#     "Four five, how to stay alive",
-#     "We're not machines, we're physical",
-#     "Painful to live in fear, isn't it",
-#     "Nothing the god of biomechanics wouldn't let you in heaven for",
-# ],

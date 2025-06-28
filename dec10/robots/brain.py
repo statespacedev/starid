@@ -3,16 +3,17 @@ import time
 from definitions import robots
 
 class Brain:
+    superbot = 'nomad'
     
     def __init__(self, name, tc):
         self.name = name
         self.tc = tc
-        if name == 'player1': self.superpower()
+        if name == self.superbot: self.superpower()
         
     def nextstep(self):
         self.speak_randomly()
         self.move()
-        if self.name == 'player1': res = self.list('ships')
+        if self.name == self.superbot: res = self.list('ships')
         time.sleep(10)
 
     def speak_randomly(self):
