@@ -5,7 +5,7 @@ import cli
 from definitions import ships
 from brain import Brain
 
-class Decwar:
+class Robot:
 
     def __init__(self, *args, **kwargs):
         self.args, self.kwargs = args, kwargs
@@ -154,5 +154,5 @@ class Decwar:
         
 if __name__ == "__main__":
     args, kwargs = cli.main()
-    dw = Decwar(*args, **kwargs)
-    dw.mode2()
+    ro = Robot(*args, **kwargs)
+    ro.mode2()

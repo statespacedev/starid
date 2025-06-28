@@ -1,6 +1,6 @@
 import random
 import time
-from definitions import agents
+from definitions import robots
 
 class Brain:
     
@@ -17,9 +17,9 @@ class Brain:
 
     def speak_randomly(self):
         if True:
-            if self.name not in agents: return
+            if self.name not in robots: return
             if random.uniform(0, 1) > .05: return
-        msg = random.choice(agents[self.name])
+        msg = random.choice(robots[self.name])
         self.tc.sendline(f'tell all; {msg}')
         self.tc.expect('>', timeout=10)
 

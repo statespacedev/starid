@@ -1,28 +1,28 @@
 ships = ['e', 'f', 'i', 'l', 'n', 's', 't', 'v', 'y', 'b', 'c', 'd', 'g', 'h', 'j', 'm', 'p', 'w']
-agents = {
-    'player1': [
-        "player1 msg1",
-        "player1 msg2",
+robots = {
+    'robot1': [
+        "robot1 msg1",
+        "robot1 msg2",
     ],
-    'player2': [
-        "player2 msg1",
-        "player2 msg2",
+    'robot2': [
+        "robot2 msg1",
+        "robot2 msg2",
     ],
-    'player3': [
-        "player3 msg1",
-        "player3 msg2",
+    'robot3': [
+        "robot3 msg1",
+        "robot3 msg2",
     ],
-    'player4': [
-        "player4 msg1",
-        "player4 msg2",
+    'robot4': [
+        "robot4 msg1",
+        "robot4 msg2",
     ],
-    'player5': [
-        "player5 msg1",
-        "player5 msg2",
+    'robot5': [
+        "robot5 msg1",
+        "robot5 msg2",
     ],
-    'player6': [
-        "player6 msg1",
-        "player6 msg2",
+    'robot6': [
+        "robot6 msg1",
+        "robot6 msg2",
     ],
 }
 # 'nomad': [
