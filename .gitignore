@@ -47,3 +47,4 @@ lang-sentences*
 a.out
 .DS_*
 octave-workspace
+*.pyc
