@@ -20,7 +20,7 @@ expect "System name:" send "%c%703\r"; continue
 if "%SIM_NAME%" == "KL-10" 'expect "CPU0 serial #(1-10000):" send "1025\r"; continue'
 if "%SIM_NAME%" != "KL-10" 'expect "CPU0 serial #(1-10000):" send "4097\r"; continue'
 expect "Exclude monitor overhead from user run time(Y,N):" send "N\r"; continue
-if "%SIM_NAME%" == "KL-10" 'expect "EBOX/MBOX runtime accounting(Y,N):" send "N\r"; continue'
+if "%SIM_NAME%" == "KL-10" 'expect "EBOX/MBOX runtime accounting(Y,N):" send "Y\r"; continue'
 if "%SIM_NAME%" != "KL-10" 'expect "Disk drives(1,1-8)" send "8\r"; continue'
 if "%SIM_NAME%" != "KL-10" 'expect "Tape drives(1,1-4)" send "4\r"; continue'
 if "%SIM_NAME%" != "KL-10" 'expect "TTY lines(0-32)" send "32\r"; continue'
