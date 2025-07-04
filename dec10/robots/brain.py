@@ -11,12 +11,17 @@ class Brain:
         if name == self.superbot: self.superpower()
         
     def nextstep(self):
-        self.speak_randomly()
+        a, b = 3, 6
+        time.sleep(random.uniform(a, b))
+        self.speak()
+        time.sleep(random.uniform(a, b))
         self.move()
-        if self.name == self.superbot: res = self.list('ships')
-        time.sleep(10)
+        time.sleep(random.uniform(a, b))
+        self.time()
+        time.sleep(random.uniform(a, b))
+        if self.name == self.superbot: self.list()
 
-    def speak_randomly(self):
+    def speak(self):
         if True:
             if self.name not in robots: return
             if random.uniform(0, 1) > .05: return
@@ -28,27 +33,30 @@ class Brain:
         v, h = 0, 0
         while v == 0 and h == 0:
             v, h = random.randint(-1, 1), random.randint(-1, 1)
-        self.tc.sendline(f'move relative {v} {h} / targets 10 / time')
-        res = [self.tc.readline().decode('utf-8')]
-        while 'time of day' not in res[-1]: res.append(self.tc.readline().decode('utf-8'))
+        self.tc.sendline(f'move relative {v} {h}')
         self.tc.expect('>', timeout=10)
-        return res
+        return
 
-    def list(self, *args):
-        if 'ships' in args:
-            self.tc.sendline('list ships / time')
-        else:
-            return
+    def targets(self):
+        self.tc.sendline(f'targets')
+        self.tc.expect('>', timeout=10)
+        return
+
+    def time(self):
+        self.tc.sendline(f'time')
         res = [self.tc.readline().decode('utf-8')]
         while 'time of day' not in res[-1]: res.append(self.tc.readline().decode('utf-8'))
         self.tc.expect('>', timeout=10)
-        return res
+        return
+    
+    def list(self, *args):
+        self.tc.sendline('list ships')
+        self.tc.expect('>', timeout=10)
+        return
 
     def shields(self, *args):
-        if 'down' in args:
-            self.tc.sendline('shields down')
-        else:
-            self.tc.sendline('shields up')
+        if 'down' in args: self.tc.sendline('shields down')
+        else: self.tc.sendline('shields up')
         self.tc.expect('>', timeout=10)
         
     def superpower(self):
