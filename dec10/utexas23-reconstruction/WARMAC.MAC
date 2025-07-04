@@ -4657,7 +4657,7 @@ unlo.:
 	popj	p,
 
 	sixbit /zaplok/
-zaplok:
+zaplok::				; double colon must be here!!!
 	movei	x2,knloks-1	; remove all queue entries
 	skipe	t1,loktab(x2)
 	pushj	p,unlo.		; unlock this one
