@@ -1751,7 +1751,7 @@ gtkn.1:
 ;	move	t1,locked	; if we have database locked
 ;	movem	t1,svlock
 ;	skipe	t1
-	pushj	p,unlo.
+;	pushj	p,unlo.
 	pushj	p,inli.		;get input line
 ;	skipe	t1,svlock	; re-grab database if necessary
 ;	jrst	[pushj	p,lock.
