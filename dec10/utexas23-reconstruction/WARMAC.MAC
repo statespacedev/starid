@@ -3682,8 +3682,7 @@ mmsg.2:	ildb	c,p1		;get char
 mmsg.3:	move	x1,[-knmsg,,msgql] ;message queue link list
 	pushj	p,rsrv.		; reserve a spot in the message queue
 	skipe	lkfail		; if lock failed,
-	popj	p,			; abort because rsrv aborted
-;	jrst	mmsg.3
+	popj	p,			; abort because rsrv aborted. todo could be handled better.
 	movei	t1,(x2)
 	imuli	t1,msglen	;get offset into message queue
 	add	t1,[point 7,msgq+1]
