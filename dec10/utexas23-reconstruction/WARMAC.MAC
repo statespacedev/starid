@@ -50,7 +50,6 @@ lall
 		 output	tty,
 		 skipn	hungup
 		outstr [ascil <?'txt>]
-		outstr	[asciz "***** monit 53 *****"]
 		jrst monit
 		]
 	>
@@ -752,7 +751,6 @@ oldobj:	block	1		;object at location on board before zero
 
 	;RUN code in low seg, so can recover from RUN error
 rundec:	run	t1,
-	outstr	[asciz "***** monit 734 *****"]
 	jrst	monit
 
 queue:	xwd	1,5		; used by LOCK. and UNL.
@@ -3682,7 +3680,7 @@ mmsg.2:	ildb	c,p1		;get char
 mmsg.3:	move	x1,[-knmsg,,msgql] ;message queue link list
 	pushj	p,rsrv.		; reserve a spot in the message queue
 	skipe	lkfail		; if lock failed,
-	popj	p,			; abort because rsrv aborted. todo could be handled better.
+	popj	p,			; abort because rsrv aborted.
 	movei	t1,(x2)
 	imuli	t1,msglen	;get offset into message queue
 	add	t1,[point 7,msgq+1]
@@ -3753,7 +3751,9 @@ gmsg.2:	movei	x4,@1(arg)	;address of array to store message in
 	movei	x1,msgql	;address of message queue link list
 	move	x3,bits-1(t1)	;bit of player to check for
 	pushj	p,srch.		;get index into message queue
-	  jrst	gmsg.1		;no entry -- something went wrong
+	skipe	lkfail		; if lock failed,
+	popj	p,			; abort because srch aborted.
+;	jrst	gmsg.1		;no entry -- something went wrong
 	movei	t1,(x2)
 	imuli	t1,msglen	;get relative index to message
 	addi	t1,msgq		;get absolute index to message
@@ -4354,7 +4354,6 @@ abor.1:	pushj	p,kilhgh	;remove high segment from swapper
 	argblk	<[asciz "The center of tha galaxy has exploded!"]>
 	pushj	p,makmsg
 	;log error
-	outstr	[asciz "***** monit 4332 *****"]
 	jrst	monit
 
 	subttl	KILHGH/KILLOW
