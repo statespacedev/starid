@@ -676,7 +676,7 @@ tobuf:	block	3		;tty output buffer header block
 
 frebie:	block	1		; -1 if free user running
 ftlerr:	block	1		; holds address of where to go on APR trap
-locked:	block	1		; holds address of most recent LOCK,,UNLOCK
+;locked:	block	1		; holds address of most recent LOCK,,UNLOCK
 svlock:	block	1		; saves lock over hiber etc.
 whohas:	block	3		; job number of user who has a queue
 loktab:	block	knloks		; table of active locks
@@ -4631,7 +4631,7 @@ lk2:movei	t1,^d500
 	enq.	t2,
 	jfcl	0,  	; noop
 lk4:setzm	lkfail
-	setzm	locked
+;	setzm	locked
 	popj	p,
 ;;;	UNLOCK -- UNLOCK (key)
 ;;;	UNLO. -- input is T1: key
@@ -4653,7 +4653,7 @@ unlo.:
 	movei	t2,queue
 	deq.	t2,
 	jfcl	0,  	; noop
-	setzm	locked
+;	setzm	locked
 	popj	p,
 
 	sixbit /zaplok/
