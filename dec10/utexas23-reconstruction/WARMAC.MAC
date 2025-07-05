@@ -600,7 +600,7 @@ lall
 
 	debug.==-1		;if nonzero, include error checking and
 				;diagnostic prints
-	dbque.==0		; -1 to check the queues
+	dbque.==-1		; -1 to check the queues
 	dbzer.==0		; -1 to check for storing zero values in setdsp
 	db777.==-1		; -1 to check for storing 7777 in setdsp
 
