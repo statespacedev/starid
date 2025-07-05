@@ -24,7 +24,7 @@ class Brain:
     def speak(self):
         if True:
             if self.name not in robots: return
-            if random.uniform(0, 1) > .05: return
+            # if random.uniform(0, 1) > .05: return
         msg = random.choice(robots[self.name])
         self.tc.sendline(f'tell all; {msg}')
         self.tc.expect('>', timeout=10)
