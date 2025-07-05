@@ -3751,9 +3751,7 @@ gmsg.2:	movei	x4,@1(arg)	;address of array to store message in
 	movei	x1,msgql	;address of message queue link list
 	move	x3,bits-1(t1)	;bit of player to check for
 	pushj	p,srch.		;get index into message queue
-	skipe	lkfail		; if lock failed,
-	popj	p,			; abort because srch aborted.
-;	jrst	gmsg.1		;no entry -- something went wrong
+	jrst	gmsg.1		;no entry -- something went wrong
 	movei	t1,(x2)
 	imuli	t1,msglen	;get relative index to message
 	addi	t1,msgq		;get absolute index to message
