@@ -600,7 +600,7 @@ lall
 
 	debug.==-1		;if nonzero, include error checking and
 				;diagnostic prints
-	dbque.==-1		; -1 to check the queues
+	dbque.==0		; -1 to check the queues
 	dbzer.==0		; -1 to check for storing zero values in setdsp
 	db777.==-1		; -1 to check for storing 7777 in setdsp
 
@@ -3680,9 +3680,9 @@ mmsg.2:	ildb	c,p1		;get char
 	move	p1,[point 36,linbuf]
 
 mmsg.3:	move	x1,[-knmsg,,msgql] ;message queue link list
-	pushj	p,rsrv.		; reserve a spot in the message queue
+	pushj	p,rsrv.		;reserve a spot in the message queue
 	skipe	lkfail		; if lock failed,
-	popj	p,			; abort because rsrv aborted. todo could be handled better.
+	jrst	mmsg.3
 	movei	t1,(x2)
 	imuli	t1,msglen	;get offset into message queue
 	add	t1,[point 7,msgq+1]
@@ -4621,19 +4621,17 @@ lock.:
 	dpb		t2,[point 7,queuen,17]
 	movei	t2,queue
 	enq.	t2,
-	jrst	lk3
+	jrst	lk2
 	jrst	lk4
-;lk2:movei	t1,^d500
-;	hiber	t1,
-;	jfcl	0,  	; noop
-;	deq.	t2,		; after waiting unlock it
-;	jfcl	0,
-;	enq.	t2,
-;	jfcl	0,  	; noop
+lk2:movei	t1,^d500
+	hiber	t1,
+	jfcl	0,  	; noop
+	deq.	t2,		; after waiting unlock it
+	jfcl	0,
+	enq.	t2,
+	jfcl	0,  	; noop
 lk4:setzm	lkfail
 ;	setzm	locked
-	popj	p,
-lk3:setom	lkfail	; -1 for failed
 	popj	p,
 ;;;	UNLOCK -- UNLOCK (key)
 ;;;	UNLO. -- input is T1: key
