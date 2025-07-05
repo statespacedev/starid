@@ -4624,7 +4624,7 @@ lk4:setzm	lkfail
 ;	setzm	locked
 	popj	p,
 lk3:
-	movei	t1,^d500
+	movei	t1,^d100
 	hiber	t1,		; slow down retries for lkfail
 	jfcl	0,  	; noop
 	setom	lkfail	; -1 for failed
