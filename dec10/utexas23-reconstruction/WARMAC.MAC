@@ -4621,17 +4621,19 @@ lock.:
 	dpb		t2,[point 7,queuen,17]
 	movei	t2,queue
 	enq.	t2,
-	jrst	lk2
+	jrst	lk3
 	jrst	lk4
-lk2:movei	t1,^d500
-	hiber	t1,
-	jfcl	0,  	; noop
-	deq.	t2,		; after waiting unlock it
-	jfcl	0,
-	enq.	t2,
-	jfcl	0,  	; noop
+;lk2:movei	t1,^d500
+;	hiber	t1,
+;	jfcl	0,  	; noop
+;	deq.	t2,		; after waiting unlock it
+;	jfcl	0,
+;	enq.	t2,
+;	jfcl	0,  	; noop
 lk4:setzm	lkfail
 ;	setzm	locked
+	popj	p,
+lk3:setom	lkfail	; -1 for failed
 	popj	p,
 ;;;	UNLOCK -- UNLOCK (key)
 ;;;	UNLO. -- input is T1: key
