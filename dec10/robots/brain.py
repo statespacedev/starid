@@ -23,21 +23,28 @@ class Brain:
             self.list()
         time.sleep(random.uniform(a, b))
 
+    def response(self, eor):
+        """read till eor end of response"""
+        res = [self.tc.readline().decode('utf-8')]
+        while eor not in res[-1]: res.append(self.tc.readline().decode('utf-8'))
+        return res
+        
     def speak(self):
         if True:
             if self.name not in robots: return
             # if random.uniform(0, 1) > .05: return
         msg = random.choice(robots[self.name])
         self.tc.sendline(f'tell all; {msg}')
-        self.tc.expect('>', timeout=10)
+        res = self.response('>')
+        # self.tc.expect('>', timeout=10)
 
     def move(self):
         v, h = 0, 0
         while v == 0 and h == 0:
             v, h = random.randint(-1, 1), random.randint(-1, 1)
         self.tc.sendline(f'move relative {v} {h}')
-        self.tc.expect('>', timeout=10)
-        return
+        res = self.response('>')
+        # self.tc.expect('>', timeout=10)
 
     def targets(self):
         self.tc.sendline(f'targets')
