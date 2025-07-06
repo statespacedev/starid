@@ -11,16 +11,17 @@ class Brain:
         if name == self.superbot: self.superpower()
         
     def nextstep(self):
-        a, b = 3, 6
-        time.sleep(random.uniform(a, b))
-        self.speak()
+        a, b = 5, 10
         time.sleep(random.uniform(a, b))
         self.move()
+        time.sleep(random.uniform(a, b))
+        self.speak()
         if self.name == self.superbot:
             time.sleep(random.uniform(a, b))
             self.time()
             time.sleep(random.uniform(a, b))
             self.list()
+        time.sleep(random.uniform(a, b))
 
     def speak(self):
         if True:
