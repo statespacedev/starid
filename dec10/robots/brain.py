@@ -33,10 +33,10 @@ class Brain:
         self.tc.expect('>', timeout=10)
         self.tc.sendline(cmd)
         self.tc.sendline()
-        self.tc.expect('>', timeout=10)
+        # self.tc.expect('>', timeout=10)
         self.tc.sendline('time')
         res = [self.tc.readline().decode('utf-8').strip()]
-        while cmd not in res[-1]: res.append(self.tc.readline().decode('utf-8'))
+        while cmd not in res[-1]: res.append(self.tc.readline().decode('utf-8').strip())
         while 'time of day' not in res[-1]: res.append(self.tc.readline().decode('utf-8').strip())
         for rec in self.cleaned(res): print(f'{tag} {rec}')
         self.tc.sendline()
