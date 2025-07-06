@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "sixties assembly"
+title: "troubleshooting assembly"
 ---
 
 up to eighteen decwar players use assembly calls to manipulate shared memory. to be specific, up to eighteen tops10 jobs (processes) have fortran10v6/fortraniv/f66 code calling macro10 code that manipulates a single set of words (addresses) in dec10 core memory. 
