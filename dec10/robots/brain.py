@@ -17,7 +17,7 @@ class Brain:
         time.sleep(random.uniform(a, b))
         self.move()
         time.sleep(random.uniform(a, b))
-        self.time()
+        if self.name == self.superbot: self.time()
         time.sleep(random.uniform(a, b))
         if self.name == self.superbot: self.list()
 
