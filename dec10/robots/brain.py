@@ -16,10 +16,11 @@ class Brain:
         self.speak()
         time.sleep(random.uniform(a, b))
         self.move()
-        time.sleep(random.uniform(a, b))
-        if self.name == self.superbot: self.time()
-        time.sleep(random.uniform(a, b))
-        if self.name == self.superbot: self.list()
+        if self.name == self.superbot:
+            time.sleep(random.uniform(a, b))
+            self.time()
+            time.sleep(random.uniform(a, b))
+            self.list()
 
     def speak(self):
         if True:
