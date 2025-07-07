@@ -4393,19 +4393,19 @@ kilh.2:	popj	p,
 ;;;	KILLOW -- Get rid of once only low segment code (SETUP, etc.)
 ;	and fix up the start address to do a RUN on DECWAR.
 ;
-	extern	a		;kill everything after this dummy subroutine
-	entry	killow
-	sixbit	/KILLOW/
-killow:	skipe	.JBDDT		;DDT loaded?
-	popj	p,		;yes, don't wipe out DDT
-
-	movei	t1,start
-	hrrm	t1,.JBSA	;on a START do a RUN instead
-	movei	t1,a
-	movem	t1,.JBFF
-	core	t1,		;get rid of once only code
-	  warn	<Can't remove once only code>
-	popj	p,
+;	extern	a		;kill everything after this dummy subroutine
+;	entry	killow
+;	sixbit	/KILLOW/
+;killow:	skipe	.JBDDT		;DDT loaded?
+;	popj	p,		;yes, don't wipe out DDT
+;
+;	movei	t1,start
+;	hrrm	t1,.JBSA	;on a START do a RUN instead
+;	movei	t1,a
+;	movem	t1,.JBFF
+;	core	t1,		;get rid of once only code
+;	  warn	<Can't remove once only code>
+;	popj	p,
 
 start::	move	t1,p.dev
 	movem	t1,tmp+0	;device
@@ -4418,6 +4418,7 @@ start::	move	t1,p.dev
 	setzm	tmp+5		;core
 	movei	t1,tmp
 	jrst	rundec		;go run the game (from the low segment)
+
 	subttl	DEBUG
 
 	extern	unkcom,forhlp
@@ -4596,7 +4597,6 @@ pdist:	move	t0,@0(arg)	;get vertical coordinate of first point
 	caige	t0,(t1)		;horizontal distance > vertical distance?
 	movei	t0,(t1)		;yes, use horizontal distance instead
 	popj	p,
-
 
 	subttl	LOCK/LOCK./UNLOCK/UNLO.
 ;;;	LOCK -- LOCK (key,str)
