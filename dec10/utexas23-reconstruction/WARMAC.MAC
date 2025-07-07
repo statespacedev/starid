@@ -4605,7 +4605,6 @@ pdist:	move	t0,@0(arg)	;get vertical coordinate of first point
 	sixbit	/LOCK/
 lock:
 	movei	t1,@0(arg)
-lock.:
 	hrrm	t1,queuen
 	hrrm	t1,quereq
 	movei	t2,knloks-1
@@ -4618,16 +4617,21 @@ lock.:
 	dpb		t2,[point 7,queuen,17]
 	movei	t2,queue
 	enq.	t2,
-	jrst	lk3
-	jrst	lk4
-lk4:setzm	lkfail
-;	setzm	locked
+	jrst	lk1
+	setzm	lkfail
 	popj	p,
-lk3:
-	movei	t1,^d100
-	hiber	t1,		; slow down retries for lkfail
-	jfcl	0,  	; noop
-	setom	lkfail	; -1 for failed
+lk1:setom	lkfail	; -1 for failed
+	popj	p,
+	
+lock.:
+	move	t2,[.DEQDR,,[1B5+1B17+3	; header=1, locks=1, length=3
+			EQ.FCW+.EQFGL	; enqbp is user code, eq.fcc is global lock
+			(t1)]]				; user code	
+	enq.	t2,
+	jrst	lk2
+	setzm	lkfail
+	popj	p,
+lk2:setom	lkfail	; -1 for failed
 	popj	p,
 ;;;	UNLOCK -- UNLOCK (key)
 ;;;	UNLO. -- input is T1: key
@@ -4644,9 +4648,10 @@ unlo.:
 	sojge	t2,.-1
 	skipl	t2
 	setzm	loktab(t2)
-	setz	t2,
-	dpb		t2,[point 7,queuen,17]
-	movei	t2,queue
+;	setz	t2,
+;	dpb		t2,[point 7,queuen,17]
+;	movei	t2,queue
+	move	t2,[.DEQDA,,0]	; remove all locks held by this job
 	deq.	t2,
 	jfcl	0,  	; noop
 ;	setzm	locked
