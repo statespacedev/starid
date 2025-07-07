@@ -13,36 +13,18 @@ class Robot:
         self.name = kwargs['name']
         self.id1 = 0
 
-    def mode1(self):
-        """try to stay connected"""
-        try: self.connect()
-        except: print('connect failed'); exit()
-        while True:
-            try:
-                self.login()
-                self.start()
-                self.brainloop(once=True)
-            except: print('mode2, exit game and job but not connection')
-            try:
-                self.stop()
-                self.logout()
-            except: print('mode2, disconnect'); break
-            time.sleep(5)
-        try: self.disconnect(); exit()
-        except: print('disconnect failed'); exit()
-
-    def mode2(self):
+    def run(self):
         """try to stay in game between ships"""
         try:
             self.connect()
             self.login()
-            self.start()
+            self.rgam()
             for _ in range(3): self.brainloop()
         except: 
-            print('mode2 shutting down')
+            print(f'robot {self.name} quit game, kjob, disconnect')
             try:
-                self.stop()
-                self.logout()
+                self.quit()
+                self.kjob()
                 self.disconnect()
             except: pass
 
@@ -89,7 +71,7 @@ class Robot:
         time.sleep(1)
         self.tc.expect('.', timeout=10)
 
-    def start(self):
+    def rgam(self):
         """from tops10, run game and get to command prompt"""
         self.tc.sendline('r gam:decwar')
         self.tc.expect('Your name please: ', timeout=10)
@@ -109,7 +91,7 @@ class Robot:
         self.tc.sendline('')
         self.tc.expect('>', timeout=10)
 
-    def stop(self):
+    def quit(self):
         try:
             self.tc.sendcontrol('c')
             time.sleep(1)
@@ -130,7 +112,7 @@ class Robot:
             print('exception in stop game')
             raise
 
-    def logout(self):
+    def kjob(self):
         try:
             self.tc.sendline('')
             time.sleep(1)
@@ -159,4 +141,4 @@ class Robot:
 if __name__ == "__main__":
     args, kwargs = cli.main()
     ro = Robot(*args, **kwargs)
-    ro.mode2()
+    ro.run()
