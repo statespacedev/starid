@@ -4616,7 +4616,7 @@ lk1:move	t2,[.ENQAA,,[1B5+1B17+3	; header=1, locks=1, length=3
 	setzm	lkfail
 	popj	p,
 lk2:setom	lkfail					; -1 for failed
-	movei	t1,^d10
+	movei	t1,^d25
 	hiber	t1,						; slow down retries for lkfail
 	jfcl	0,  					; noop
 	popj	p,
