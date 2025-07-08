@@ -1,3 +1,4 @@
+# use tail -f to watch one of the log files
 
 python -u robots/run nomad > log1 &
 sleep 10
