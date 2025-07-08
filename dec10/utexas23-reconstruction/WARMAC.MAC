@@ -4604,23 +4604,6 @@ pdist:	move	t0,@0(arg)	;get vertical coordinate of first point
 lock:
 	movei	t1,@0(arg)
 	movei	t1,^d123				; user code for enq
-;	hrrm	t1,queuen
-;	hrrm	t1,quereq
-;	movei	t2,knloks-1
-;	andi	t1,777777
-;	came	t1,loktab(t2)
-;	sojge	t2,.-1
-;	skipl	t2
-;	setzm	loktab(t2)
-;	setz	t2,
-;	dpb		t2,[point 7,queuen,17]
-;	movei	t2,queue
-;	enq.	t2,
-;	jrst	lk1
-;	setzm	lkfail
-;	popj	p,
-;lk1:setom	lkfail	; -1 for failed
-;	popj	p,
 lock.:
 	move	t2,[.DEQDR,,[1B5+1B17+3	; header=1, locks=1, length=3
 			EQ.FCW+.EQFGL			; enqbp is user code, eq.fcc is global lock
@@ -4636,28 +4619,12 @@ lk2:setom	lkfail					; -1 for failed
 unlock:
 	movei	t1,@0(arg)
 unlo.:
-;	hrrm	t1,queuen
-;	hrrm	t1,quereq
-;	movei	t2,knloks-1
-;	andi	t1,777777
-;	came	t1,loktab(t2)
-;	sojge	t2,.-1
-;	skipl	t2
-;	setzm	loktab(t2)
-;	setz	t2,
-;	dpb		t2,[point 7,queuen,17]
-;	movei	t2,queue
 	move	t2,[.DEQDA,,0]			; remove all locks held by this job
 	deq.	t2,
 	jfcl	0,  					; noop
-;	setzm	locked
 	popj	p,
 	sixbit /zaplok/
 zaplok::							; double colon must be here!!!
-;	movei	x2,knloks-1	; remove all queue entries
-;	skipe	t1,loktab(x2)
-;	pushj	p,unlo.		; unlock this one
-;	sojge	x2,.-2
 	move	t2,[.DEQDA,,0]			; remove all locks held by this job
 	deq.	t2,
 	jfcl	0,  					; noop
