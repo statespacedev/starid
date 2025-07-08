@@ -4605,7 +4605,7 @@ lock:
 	movei	t1,@0(arg)
 	movei	t1,^d123				; user code for enq
 lock.:
-	move	t2,[.DEQDR,,[1B5+1B17+3	; header=1, locks=1, length=3
+	move	t2,[.ENQAA,,[1B5+1B17+3	; header=1, locks=1, length=3
 			EQ.FCW+.EQFGL			; enqbp is user code, eq.fcc is global lock
 			(t1)]]					; user code	
 	enq.	t2,
