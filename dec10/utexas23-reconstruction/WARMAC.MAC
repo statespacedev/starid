@@ -4605,24 +4605,23 @@ pdist:	move	t0,@0(arg)	;get vertical coordinate of first point
 	sixbit	/LOCK/
 lock:
 	movei	t1,@0(arg)
-	hrrm	t1,queuen
-	hrrm	t1,quereq
-	movei	t2,knloks-1
-	andi	t1,777777
-	came	t1,loktab(t2)
-	sojge	t2,.-1
-	skipl	t2
-	setzm	loktab(t2)
-	setz	t2,
-	dpb		t2,[point 7,queuen,17]
-	movei	t2,queue
-	enq.	t2,
-	jrst	lk1
-	setzm	lkfail
-	popj	p,
-lk1:setom	lkfail	; -1 for failed
-	popj	p,
-	
+;	hrrm	t1,queuen
+;	hrrm	t1,quereq
+;	movei	t2,knloks-1
+;	andi	t1,777777
+;	came	t1,loktab(t2)
+;	sojge	t2,.-1
+;	skipl	t2
+;	setzm	loktab(t2)
+;	setz	t2,
+;	dpb		t2,[point 7,queuen,17]
+;	movei	t2,queue
+;	enq.	t2,
+;	jrst	lk1
+;	setzm	lkfail
+;	popj	p,
+;lk1:setom	lkfail	; -1 for failed
+;	popj	p,
 lock.:
 	move	t2,[.DEQDR,,[1B5+1B17+3	; header=1, locks=1, length=3
 			EQ.FCW+.EQFGL	; enqbp is user code, eq.fcc is global lock
