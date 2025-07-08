@@ -1237,7 +1237,7 @@ iswiz:
 monit:	skipn	hungup
 	output	tty,
 ;	hllzs	.jbsa##		; no restarts allowed
-	pushj	p,zaplok	; zap all pending locks
+	pushj	p,unlo.	; release locks
 ;	reset			; kill any pending locks
 ;	skipe	t1,who		; if ship apparently active
 ;this is not needed
@@ -1263,7 +1263,7 @@ exit:
 	hllzs	.JBSA
 	skipn	hungup
 	output	tty,
-	pushj	p,zaplok	; zap all pending locks
+	pushj	p,unlo. ;release all locks
 	exit	0,
 	popj	p,		;WILL NEVER GET HERE		
 
@@ -4619,12 +4619,6 @@ lk2:setom	lkfail					; -1 for failed
 unlock:
 	movei	t1,@0(arg)
 unlo.:
-	move	t2,[.DEQDA,,0]			; remove all locks held by this job
-	deq.	t2,
-	jfcl	0,  					; noop
-	popj	p,
-	sixbit /zaplok/
-zaplok::							; double colon must be here!!!
 	move	t2,[.DEQDA,,0]			; remove all locks held by this job
 	deq.	t2,
 	jfcl	0,  					; noop

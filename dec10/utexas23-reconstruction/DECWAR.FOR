@@ -1206,7 +1206,7 @@ C	hit and message queues between commands.
 	CCFLG = .FALSE.
 	call prompt  ;  call prgnam ('DECWTI')
 	call dmpbuf			!dump output buffer
-200	call zaplok			! remove any and all current locks
+200	call unlock (123)		!release all locks
 	if (ccflg .or. hungup) goto 210
 	if (input(KCMDTM))  goto 400	!command input?
 	if (hungup) goto 500
