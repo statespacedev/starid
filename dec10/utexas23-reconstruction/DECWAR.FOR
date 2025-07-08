@@ -2219,19 +2219,23 @@ C	searched for collisions, and the energy consumption computed.
      +	(H1 .eq. shpcon(who,KHPOS)))  goto 2000
 	indxto = (v1-1)*25 + (h1 - 1)/3 + 1
 	indxfm = (shpcon(who, kvpos) - 1)*25 + (shpcon(who, khpos) - 1)/3 + 1
-	call lock (board(indxto))
-	if (lkfail) return 1
-	if (indxto .eq. indxfm) goto 333
-	call lock (board(indxfm))
-	if (.not. lkfail) goto 333
-		call unlock (board(indxto))
-		return 1		! failed to move
-333	call setdsp (shpcon(who,KVPOS), shpcon(who,KHPOS), 0)
+c	call lock (board(indxto))
+c	if (lkfail) return 1
+c	if (indxto .eq. indxfm) goto 1999
+c	call lock (board(indxfm))
+c	if (.not. lkfail) goto 1999
+c		call unlock (board(indxto))
+c		return 1		! failed to move
+1982	call lock (123) ! lock the board
+	if (lkfail) goto 1982
+	if (indxto .eq. indxfm) goto 1999
+1999	call setdsp (shpcon(who,KVPOS), shpcon(who,KHPOS), 0)
 	call setdsp (V1, H1, (team * 100) + who)
 	shpcon(who,KVPOS) = V1
 	shpcon(who,KHPOS) = H1
-	if (indxto .ne. indxfm) call unlock (board(indxfm))
-	call unlock (board(indxto))
+c	if (indxto .ne. indxfm) call unlock (board(indxfm))
+c	call unlock (board(indxto))
+	call unlock (123)
 	if (trstat(who) .eq. 0)  goto 2000
 	tl = disp(shpcon(trstat(who),KVPOS),shpcon(trstat(who),KHPOS))
 	call setdsp (V1-int(disV), H1-int(disH), tl)
