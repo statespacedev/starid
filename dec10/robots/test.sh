@@ -1,8 +1,9 @@
 # use tail -f to watch one of the log files
+# pkill -f python to end them
 rm log*
 ./msc/create-tape-utexas23-reconstruction
 ./dec10blinken simh/boot-from-disk.ini > log0 &
-sleep 20
+sleep 30
 python -u robots/run nomad > log1 &
 sleep 10
 python -u robots/run robot2 > log2 &
