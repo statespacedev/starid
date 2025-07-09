@@ -6,11 +6,11 @@ rm log*
 #./dec10blinken simh/boot-from-disk.ini > log0 &
 #sleep 30
 
-python -u robots/placeholder > loga &
+python -u robots/placeholder pha > loga &
 sleep 5
-python -u robots/placeholder > logb &
+python -u robots/placeholder phb > logb &
 sleep 5
-python -u robots/placeholder > logc &
+python -u robots/placeholder phc > logc &
 sleep 5
 
 #python -u robots/run nomad > log1 &
