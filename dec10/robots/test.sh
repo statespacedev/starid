@@ -7,8 +7,11 @@ rm log*
 #sleep 30
 
 python -u robots/placeholder > loga &
+sleep5
 python -u robots/placeholder > logb &
+sleep5
 python -u robots/placeholder > logc &
+sleep5
 
 #python -u robots/run nomad > log1 &
 #sleep 5
