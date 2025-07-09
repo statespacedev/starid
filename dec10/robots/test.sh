@@ -1,6 +1,7 @@
 # bash robots/test.sh &
-# use tail -f to watch one of the log files
-# pkill -f python to end them
+# tail -f log1
+# pkill -f python
+
 rm log*
 #./msc/create-tape-utexas23-reconstruction
 #./dec10blinken simh/boot-from-disk.ini > log0 &

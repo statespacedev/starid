@@ -18,7 +18,12 @@ class Robot:
         try:
             self.connect()
             self.login()
-            if not 'tmp' in self.name:  # 'tmp' runs are for grabbing the telnet connections
+            if 'tmp' in self.name:  # 'tmp' runs are for placeholder telnet connections
+                while True:
+                    self.tc.sendline('dir')
+                    self.tc.expect('>', timeout=10)
+                    time.sleep(5)
+            else:
                 self.rgam()
                 for _ in range(3): self.brainloop()
         except: 
