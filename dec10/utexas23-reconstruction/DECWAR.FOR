@@ -3987,7 +3987,7 @@ C	sub-space radio.
 *.......Analyze input string
  300	dbits = 0
 	do 1100 i = p, ntok
-	  if (equal (tknlst (i), 'ROMULAN')) goto 950
+c	  if (equal (tknlst (i), 'ROMULAN')) goto 950
 *.......Trying to send junk messages using ALTMODE?
 		if (.not. RPTFLG)  goto 100
 		call out (tell09,1)
