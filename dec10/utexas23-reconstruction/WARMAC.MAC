@@ -6280,7 +6280,6 @@ rmspk1:	movem	t1,dbits
 			point 7,[asciz "human "]
 			point 7,[asciz "klingon "]
 		](p2)
-	pushj	p,rmgply	; else get player-specific quip
 	pushj	p,rmcopy
 	movei	arg,[[5]]	; get object
 	pushj	p,iran
@@ -6300,111 +6299,15 @@ rmspk1:	movem	t1,dbits
 	setz	c,
 	idpb	c,p1			; tack on a null
 	popj	p,
-
 rmcopy:	ildb	c,p2		; copy (p2) to (p1)
 	skipn	c
 	popj	p,
 	idpb	c,p1
 	jrst	rmcopy
 
-rmgply:	
-	movei	arg,[[3]]	; 33% chance of node-specific quip
-	pushj	p,iran
-	caie	0,1
-	jrst	rmgprn		; else make up random one
-	getlin	t1,		; get terminal name
-	hrlz	t1,t1		; put node name in left half
-	setz	t2,		; search node name table
-rmgpl0:	hllz	t3,nodnam(t2)
-	jumpe	t3,rmgpl1	; jump if node not found
-	came	t1,t3
-	aoja	t2,rmgpl0
-	hrrz	p2,nodnam(t2)	; found it! get quip
-	hrli	p2,(point 7,0)
-	popj	p,
-
-rmgpl1:	hlrz	t1,t1		; check for special node names
-	andi	t1,77		; if 'CLx' or 'CSx'
-	caie	t1,'CL '
-	cain	t1,'CS '
-	jrst	[move	p2,[point 7,[asciz "Columbus "]]
-		 popj	p,]
-	andi	t1,7777		; if 'Qxx'
-	cain	t1,'Q  '
-	jrst	[move	p2,[point 7,[asciz "Tymnet "]]
-		 popj	p,]
-rmgprn:	movei	arg,[[5]]
-	pushj	p,iran
-	cain	0,5
-	jrst	[move	t1,team		; use team basis
-		 move	p2,-1+[	point 7,[asciz "human "]
-				point 7,[asciz "klingon "]
-			](t1)
-		 popj	p,]
-	sos	t1,0
-	move	p2,[	point 7,[asciz "sub-Romulan "]
-			point 7,[asciz "vertebrate "]
-			point 7,[asciz "endo-skeletal "]
-			point 7,[asciz "soft-skinned "]
-		](t1)
-	popj	p,
-
-nodnam:	'AKR',,[asciz "Akron "]
-	'ANA',,[asciz "Anahiem "]
-	'ARL',,[asciz "Arlington "]
-	'ATL',,[asciz "Atlanta "]
-	'BOS',,[asciz "Boston "]
-	'CAN',,[asciz "Canton "]
-	'CGI',,[asciz "Chicago "]
-	'CGO',,[asciz "Chicago "]
-	'CIN',,[asciz "Cincinnatti "]
-	'CSC',,[asciz "ISD "]
-	'CSW',,[asciz "Wats user "]
-	'CLG',,[asciz "Columbus "]
-	'CVL',,[asciz "Cleveland "]
-	'DAL',,[asciz "Dallas "]
-	'DAY',,[asciz "Dayton "]
-	'DEN',,[asciz "Colorado "]
-	'DET',,[asciz "Detroit "]
-	'FTW',,[asciz "Fort Worth "]
-	'HOU',,[asciz "Houston "]
-	'IND',,[asciz "Indianapolis "]
-	'KCI',,[asciz "Kansas "]
-	'KXT',,[asciz "Knoxville "]
-	'LAN',,[asciz "Los Angeles "]
-	'LOU',,[asciz "Louisville "]
-	'MEM',,[asciz "Memphis "]
-	'MIA',,[asciz "Florida "]
-	'MIN',,[asciz "Minneapolis "]
-	'NFK',,[asciz "Norfolk "]
-	'NOL',,[asciz "Lousiana "]
-	'NYC',,[asciz "New York "]
-	'NYF',,[asciz "New York "]
-	'NYN',,[asciz "New York "]
-	'NYW',,[asciz "Wall Street "]
-	'PIT',,[asciz "Pittsburgh "]
-	'PNX',,[asciz "Phoenix "]
-	'QBA',,[asciz "Quebec "]
-	'SEA',,[asciz "Seattle "]
-	'SFA',,[asciz "San Francisco "]
-	'SFM',,[asciz "California "]
-	'SJO',,[asciz "Silicon Gultch "]
-	'SLC',,[asciz "Salt Lake City "]
-	'STL',,[asciz "St. Louis "]
-	'TSA',,[asciz "Tucson "]
-	'TSB',,[asciz "Tucson "]
-	'WES',,[asciz "West Port "]
-	'WQB',,[asciz "Qube "]
-	0					; end of table
-
 	page
+	
 	subttl	updnam	- update program's running name for tracking
-
-;this doesn't seem to be used-drforbin
-;	move	t1,newinfo
-;	move	t2,mask		; 77 in each position to be changed
-;	pushj	p,updnam
-
 updnam:	popj	17,
 
 	save<t3>
@@ -6417,12 +6320,7 @@ updnam:	popj	17,
 	setnam	t3,
 	restore<t3>
 	popj	p,
-
-; FNDLOK	- translate lock address into six-bit chracter
-;	movei	t1,lokaddress
-;	pushj	p,fndlok
-; return with rh of t1 having the lock ID in all three 6-bit positions
-
+	
 fndlok:
 	save	<t2,t3>
 	movei	t2,0
@@ -6449,113 +6347,4 @@ loknam:	xwd	'PPP',plnlok
 	0
 
 	page
-
-;commented out COmpuserve's modifications (merlyn)
-;subttl cishng - establish a hang-up intercept (CIS monitor)
-;
-;	Search SYSMAC
-;opdef	getnam	[calli	-14]
-;OPDEF	STINI.	[CALLI	-162]
-;OPDEF	SCHNA.	[CALLI	-163]
-;OPDEF	SCHND.	[CALLI	-164]
-;OPDEF	SEVTA.	[CALLI	-165]
-;OPDEF	SEVTD.	[CALLI	-166]
-;OPDEF	DEBRK.	[CALLI	-174]
-;OPDEF	SRISW.	[CALLI	-175]
-;
-;cishng:	DMOVE	TA,[	-1
-;			[	2,,CHNTBL
-;				2,,LVLTBL
-;				0,,0
-;			]
-;		]
-;	STINI.	TA,
-;	  JRST	[OUTSTR	[ASCIZ "
-;? STINI. failed!
-;"]
-;		 jrst	rdwhst]
-;	DMOVE	TA,[	-1
-;			3,,1
-;		]
-;	SEVTA.	TA,
-;	  JRST	SEVFLD
-;	dmove	ta,[	-1
-;			104,,2
-;		]
-;	sevta.	ta,
-;	  jrst	sevfld
-;	DMOVE	TA,[	-1
-;			700000,,0
-;			]
-;	SCHNA.	TA,
-;	  JRST	SCHFLD
-;	popj	p,
-;;;
-;havenq:	setom	hv.lok		; tell lock. routine that we have resource
-;	movem	$v,save$v
-;	seto	$v,
-;	wake	$v,		; wake the lock. routine immediately
-;	  jfcl
-;	move	$v,save$v
-;	debrk.			; return to lock.
-;
-;hang:
-;	setom	hungup	; set hung up flag
-;	skipn	who		; if user has a ship, the he may have resource
-;	jrst	hang.4
-;	movem	$v,hang$v	; save a register
-;	movem	ta,hangta	; and another
-;	movei	$v,knloks-1	; if the user has an interlock set
-;	skipn	loktab($v)
-;	sojge	$v,.-1
-;	jumpl	$v,hang.2	; then
-;	move	$v,lvltbl	; if executing a ttcall
-;hang.0:	move	ta,0($v)	; get the current instruction being executed
-;	camn	ta,[output 0,]	; or "output tty,"
-;	jrst	hang.1
-;	and	ta,[777000,,0]	; mask everything but instruction bits
-;	camn	ta,[xct]	; if doing an execute
-;	jrst	[hrrz	$v,0($v)	; then get the address of that instr.
-;		 cain	$v,$v		; if one of the saved regs
-;		 movei	$v,hang$v	; then map it into proper one
-;		 cain	$v,ta
-;		 movei	$v,hangta
-;		 jrst	hang.0]		; and look at the xct'ed instr.
-;	camn	ta,[ttcall]	; if doing a ttcall
-;hang.1:	aos	lvltbl		; then return to the ttcall + 1
-;	seto	$v,		; wake any hibernate going on
-;	wake	$v,
-;	  jfcl
-;	move	$v,hang$v
-;	move	ta,hangta
-;	debrk.			; return to main code
-;
-;hang.2:	movei	re,[who]	; release the player
-;	pushj	p,free##	; ... but good!
-;rdwhst:
-;hang.4:	debrk.	1,		; clear the interrupt system
-;	  jfcl
-;	reset			; clear bufferd I/O
-;	movei	ra,[	sixbit 'DSK'	; return to DWHOST
-;			sixbit 'DWHOST'
-;			exp 0,0,0,0
-;		]
-;	run	ra,
-;	  halt
-;
-;SCHFLD:	OUTSTR	[ASCIZ "
-;? SCHNA. failed!
-;"]
-;	jrst	rdwhst
-;SEVFLD:	OUTSTR	[ASCIZ "
-;?SEVTA> failed!
-;"]
-;	jrst	rdwhst
-;
-;chntbl:
-;	XWD	1,HANG
-;	xwd	2,havenq
-;
-;	lit		; put lits in hiseg
-
 	end
