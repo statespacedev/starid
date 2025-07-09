@@ -1,4 +1,4 @@
-# bash robots/test.sh &
+# bash robots/start-some-robots.sh &
 # tail -f log1
 # pkill -f python
 
