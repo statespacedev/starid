@@ -18,12 +18,13 @@ class Robot:
         try:
             self.connect()
             self.login()
-            self.rgam()
-            for _ in range(3): self.brainloop()
+            if not 'tmp' in self.name:  # 'tmp' runs are for grabbing the telnet connections
+                self.rgam()
+                for _ in range(3): self.brainloop()
         except: 
-            print(f'robot {self.name} quit game, kjob, disconnect')
+            print(f'robot {self.name} shutdown')
             try:
-                self.quit()
+                if not 'tmp' in self.name: self.quit()
                 self.kjob()
                 self.disconnect()
             except: pass

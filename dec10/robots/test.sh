@@ -6,22 +6,23 @@ rm log*
 #./dec10blinken simh/boot-from-disk.ini > log0 &
 #sleep 30
 
-#python -u robots/placeholder pha > loga &
-#sleep 5
-#python -u robots/placeholder phb > logb &
-#sleep 5
-#python -u robots/placeholder phc > logc &
-#sleep 5
+# try grabbing the 'magical' first three telnet connections
+python -u robots/run tmpa > logtmpa &
+sleep 2
+python -u robots/run tmpb > logtmpb &
+sleep 2
+python -u robots/run tmpc > logtmpc &
+sleep 2
 
 python -u robots/run nomad > log1 &
-sleep 5
+sleep 2
 python -u robots/run robot2 > log2 &
-sleep 10
+sleep 5
 python -u robots/run robot3 > log3 &
-sleep 10
+sleep 5
 python -u robots/run robot4 > log4 &
-sleep 10
+sleep 5
 python -u robots/run robot5 > log5 &
-sleep 10
+sleep 5
 python -u robots/run robot6 > log6 &
 
