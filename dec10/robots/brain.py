@@ -16,9 +16,9 @@ class Brain:
     def nextstep(self):
         a, b = 3, 6
         time.sleep(random.uniform(a, b))
-        self.move()
+        # self.move()
         time.sleep(random.uniform(a, b))
-        # self.speak()
+        self.speak()
         if self.name == self.superbot:
             time.sleep(random.uniform(a, b))
             self.list()
