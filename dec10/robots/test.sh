@@ -5,19 +5,20 @@ rm log*
 #./msc/create-tape-utexas23-reconstruction
 #./dec10blinken simh/boot-from-disk.ini > log0 &
 #sleep 30
-telnet localhost 2030 > loga &
-telnet localhost 2030 > logb &
-telnet localhost 2030 > logc &
 
-bash python -u robots/run nomad > log1 &
-sleep 5
-bash python -u robots/run robot2 > log2 &
-sleep 10
-bash python -u robots/run robot3 > log3 &
-sleep 10
-bash python -u robots/run robot4 > log4 &
-sleep 10
-bash python -u robots/run robot5 > log5 &
-sleep 10
-bash python -u robots/run robot6 > log6 &
+python -u robots/placeholder > loga &
+python -u robots/placeholder > logb &
+python -u robots/placeholder > logc &
+
+#python -u robots/run nomad > log1 &
+#sleep 5
+#python -u robots/run robot2 > log2 &
+#sleep 10
+#python -u robots/run robot3 > log3 &
+#sleep 10
+#python -u robots/run robot4 > log4 &
+#sleep 10
+#python -u robots/run robot5 > log5 &
+#sleep 10
+#python -u robots/run robot6 > log6 &
 
