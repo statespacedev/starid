@@ -4019,24 +4019,24 @@ C	sub-space radio.
 	  call makmsg (local)
 	  sntrom = .true.
 	  dbits = svdb
-	  if (iran (4) .gt. 1) goto 1100	! 25% chance Romulan comes to him
-		ph = shpcon (who, khpos)	! find vacant spot neareby
-		pv = shpcon (who, kvpos)
-		ix = iran(10) - 5
-		do 951 ir = ix, 10
-		  do 951 jr = ix, 10
-			if (.not. ingal (pv+jr, ph+ir)) goto 951
-			if (disp (pv+jr, ph+ir) .ne. 0) goto 951
-			call setdsp (locr(kvpos), locr(khpos), 0)
-			locr(khpos) = ph+ir
-			locr(kvpos) = pv+jr
-			call setdsp (locr(kvpos), locr(khpos), dxrom*100)
-			goto 1100
-951		continue
-		goto 1100			! no empty space????
-955		call out (tell07, 0)		! "can't raise the "
-		call out ('Romulan', 1)
-		goto 1100
+c	  if (iran (4) .gt. 1) goto 1100	! 25% chance Romulan comes to him
+c		ph = shpcon (who, khpos)	! find vacant spot neareby
+c		pv = shpcon (who, kvpos)
+c		ix = iran(10) - 5
+c		do 951 ir = ix, 10
+c		  do 951 jr = ix, 10
+c			if (.not. ingal (pv+jr, ph+ir)) goto 951
+c			if (disp (pv+jr, ph+ir) .ne. 0) goto 951
+c			call setdsp (locr(kvpos), locr(khpos), 0)
+c			locr(khpos) = ph+ir
+c			locr(kvpos) = pv+jr
+c			call setdsp (locr(kvpos), locr(khpos), dxrom*100)
+c			goto 1100
+c951		continue
+c		goto 1100			! no empty space????
+c955		call out (tell07, 0)		! "can't raise the "
+c		call out ('Romulan', 1)
+c		goto 1100
 1000	  dbits = dbits .or. bits(j)		!add player to message list
 	  if (j .eq. who)  call out (tell05,1)	!self excluded!!
 1100	continue
