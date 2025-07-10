@@ -26,4 +26,9 @@ sleep 5
 python -u robots/run robot5 > log5 &
 sleep 5
 python -u robots/run robot6 > log6 &
-
+sleep 5
+python -u robots/run robot7 > log7 &
+sleep 5
+python -u robots/run robot8 > log8 &
+sleep 5
+python -u robots/run robot9 > log9 &
