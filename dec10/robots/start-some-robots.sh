@@ -27,14 +27,14 @@ python -u robots/run robot5 > log5 &
 sleep 5
 python -u robots/run robot6 > log6 &
 sleep 5
-#python -u robots/run robot7 > log7 &
-#sleep 5
-#python -u robots/run robot8 > log8 &
-#sleep 5
-#python -u robots/run robot9 > log9 &
-#sleep 5
-#python -u robots/run robot10 > log10 &
-#sleep 5
+python -u robots/run robot7 > log7 &
+sleep 5
+python -u robots/run robot8 > log8 &
+sleep 5
+python -u robots/run robot9 > log9 &
+sleep 5
+python -u robots/run robot10 > log10 &
+sleep 5
 #python -u robots/run robot11 > log11 &
 #sleep 5
 #python -u robots/run robot12 > log12 &
