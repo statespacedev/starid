@@ -3704,7 +3704,7 @@ mmsg.4:	ildb	c,p1
 	idpb	c,t1		;end message with null byte
 
 	addi	t2,<msglen-1>*5-3 ;number of characters in message
-	caile	t2,2		;more than 2 characters?
+	caile	t2,4		;more than 4 characters?
 	jrst	mmsg.6		;yes
 mmsg.5:	movei	p1,[ascil <No message sent>]
 	pushj	p,ostr.
