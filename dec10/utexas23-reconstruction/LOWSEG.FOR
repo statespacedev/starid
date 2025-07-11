@@ -1,12 +1,11 @@
-c lfz first and llz last. they're used to compute memory space needed
 	common /lowseg/ 
      +	lfz, ntok, tknlst, vallst, typlst, ptrlst, who, iwhat, 
      +	ihita, Vto, Hto, Vfrom, Hfrom, critdv, critdm, klflg, 
      +	dispfr, dispto, dbits, shcnto, shstto, shcnfr, shstfr, shjump, 
      +	group, ngroup, pasflg, shtype, team, ccflg, player, tpoint, 
      +	phbank, tobank, ptime, prtype, rptflg, gagmsg, oflg, scnflg, 
-     +	ttytyp, hcpos, usppn, icflg, ocflg, blank, inflag, hungup,
-     +	addrck, lkfail, terwid, llz
+     +	ttytyp, hcpos, usppn, icflg, ocflg, blank, llz, inflag, hungup,
+     +  addrck, lkfail, terwid
 
 	integer	lfz			!first location of LOWSEG
 	integer	ntok			!number of tokens on input line
@@ -54,9 +53,9 @@ c lfz first and llz last. they're used to compute memory space needed
 	integer	icflg			!default coord input type (abs,rel)
 	integer ocflg			!default coord out type (abs,rel,both)
 	integer	blank			!number of consecutive blank lines
+	integer	llz			!last location in LOWSEG
 	integer inflag			! -1 if waiting for input
 	integer hungup			! -1 if job has hung up
 	integer addrck			! -1 if an address failure occured
 	integer lkfail			! -1 if a lock request failed
 	integer terwid
-	integer	llz			!last location in LOWSEG

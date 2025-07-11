@@ -6,7 +6,7 @@
      +	numrom, trstat, active, alive, comknt, hitime, dead, docked, 
      +	hlz, plnlok, frelok, quelok, device, isaydo, xhelp, ttydat, 
      +	names, bits, sbits, cmdbts, numply, numsid, versio, gameno,
-     + 	dotime, score
+     +  dotime, score
 
 c Note: the following MUST be last entry in hiseg impure area
 	common /hiseg/ hilst
