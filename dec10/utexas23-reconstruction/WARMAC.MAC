@@ -4611,15 +4611,17 @@ lock.:
 lk1:move	t2,[.ENQAA,,[1B5+1B17+3	; header=1, locks=1, length=3
 			EQ.FCW+.EQFGL			; enqbp is user code, eq.fcc is global lock
 			(t1)]]					; user code	
-	enq.	t2,
+lk3:enq.	t2,
 	jrst	lk2
 	setzm	lkfail
 	popj	p,
-lk2:setom	lkfail					; -1 for failed
+lk2:
+;	setom	lkfail					; -1 for failed
 	movei	t1,^d25
 	hiber	t1,						; slow down retries for lkfail
 	jfcl	0,  					; noop
-	popj	p,
+	jrst	lk3
+;	popj	p,
 	entry	unlock
 	sixbit	/UNLOCK/
 unlock:
