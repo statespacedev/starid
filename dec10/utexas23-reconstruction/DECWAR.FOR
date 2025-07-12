@@ -302,8 +302,8 @@ d	call timout('BASBLD')
 	txtem = team - 1
 	call points (.TRUE.)		!show final point totals
 	txtot = total (1)
-	call updsta (txppn,txnm1,txnm2,txsh1,txsh2,txtot,txtim,txwhy, 
-     +	txtem, who)
+c	call updsta (txppn,txnm1,txnm2,txsh1,txsh2,txtot,txtim,txwhy, 
+c     +	txtem, who)
 	call free (who)			! release the ship
 	who = 0
 	call exit
@@ -993,8 +993,8 @@ C	and the job is returned to monitor level.
 	txtem = team - 1
 	call points (.TRUE.)
 	txtot = total (1)
-	call updsta (txppn,txnm1,txnm2,txsh1,txsh2,txtot,txtim,txwhy, 
-     +		txtem, who)
+c	call updsta (txppn,txnm1,txnm2,txsh1,txsh2,txtot,txtim,txwhy, 
+c     +		txtem, who)
 	call free (who)
 	who = 0
 c--	call shosta(0)			! show current standings
@@ -1260,8 +1260,8 @@ C	if (lofchk(0))	goto 500	! drforbin(merlyn) dump user whose time limit is over
 	txtem = team - 1
 	call points (.TRUE.)
 	txtot = total (1)
-	call updsta (txppn,txnm1,txnm2,txsh1,txsh2,txtot,txtim,txwhy, 
-     +	txtem, who)
+c	call updsta (txppn,txnm1,txnm2,txsh1,txsh2,txtot,txtim,txwhy, 
+c     +	txtem, who)
 	call free (who)			!player is dead
 c--	call	shosta(0)
 	who = 0			! return to DECWAR
