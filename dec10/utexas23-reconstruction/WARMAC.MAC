@@ -6097,94 +6097,19 @@ dspst1:	addi	x4,knstat
 	popj	p,
 	subttl	END
 
-; Get here on an APR trap (data out of bounds/pdl overflow)
-
-aprtrp:
-	outstr	[asciz "***** aprtrp 6242 *****"]
-	jrst	monit	
-;	setom	addrck		; we had a failure
-;	movem	0,stabuf+2	; save regs
-;	move	0,[1,,stabuf+3]
-;	blt	0,stabuf+21
-;	hrrz	t1,.jbtpc##	; save address
-;	hrrzm	t1,stabuf
-;	move	t1,0(t1)
-;	movem	t1,stabuf+1
-;	move	t1,locked
-;	hrlm	t1,stabuf
-;	move	p,[iowd pdlsiz,stabuf+^d128]	; in case stack is messed up
-;	move	s,[iowd stksiz,stk]
-;	outstr	[asciz "***** aprtrp 6242 *****"]
-;	jrst	monit
-	
-;	pushj	p,gripe		; put data into gripe file
-;	move	p,[iowd pdlsiz,pdl]
-;	skipe	t1,ftlerr	; if setftl called
-;	jrst	0(t1)		; then go there
-;	movei	16,[[5]]	; gen one of 5 possible fatal errors
-;	move	1,0
-;	outstr	@0(1)
-;	jrst	monit
-
-fmsgs:	exp	[asciz	"
-You have blundered into an ancient
-Romulan space mine.  Being made of a
-special plastic which is nearly trans-
-parent to nearly all wavelenths of 
-radiation, you are forgiven.
-Perhaps your crew also forgave you
-as their bodies went up in a blast
-of quarks!
-"]
-
-	exp	[asciz "
-A delayed-action virus, picked up
-by your Navigation Officer on
-Xyglion IV during R&R, has 
-spread throughout the entire crew.
-Unfortunately, the medical crew 
-has been unaware of it, and it has
-suddenly and simultaneously killed
-every living thing aboard.
-"]
-
-	exp	[asciz "
-Due to an oversight by the designers,
-the Doomsday device has detonated.
-Unfortunately, the information as to
-what caused it to happen will never
-be relayed home!
-"]
-
-	exp	[asciz "
-Your ship's hull has been eaten through
-by a Space Mole, a creature about the
-size of a grape and composed of pure
-energy.  Fortunately, word of this new
-menace was sent homeward abord a distress
-beacon immediately prior to the final
-disruption of the ship's life support
-systems.
-"]
-
-	exp	[asciz "
-A slight navigational error has placed 
-your ship in a magnetic vortex.  This
-tremendous storm, equivalent to an
-Eartly tornado, has torn your ship
-apart.  The crew died almost instantly.
-Perhaps we will oneday capture the
-Romulan's Vortex Detector and be safe
-from this menace!
-"]
-
 	entry	aprset		; set fatal return for APR trap
+;;; aprset	
 aprset:	movei	0,@0(arg)
 	movem	0,ftlerr
 	popj	p,
+aprtrp:
+	outstr	[asciz "***** aprtrp *****"]
+	jrst	monit	
+		
 	page
 	subttl *Zap	- clear statistics data files
 	entry	stazap
+;;; stazap
 stazap:	outstr	[asciz "
 Zapping statistics logs...."]
 	movei	t1,stabuf	; lock the files
@@ -6210,22 +6135,17 @@ Zapping statistics logs...."]
 stzap0:	movei	t1,stabuf		; release the files
 	pushj	p,unlo.
 	outstr	[asciz "
-Finished!
-"]
+Finished!"]
 	setzm	addrck
 	popj	p,
-
 stzapx:	outstr	[asciz "
-
-Can't open file for output!
-
-"]
+Can't open file for output!"]
 	jrst	stzap0
 	popj	p,
 
 	page
 	subttl	ROMSPK - The Romulan speaks!
-
+;;; romspk
 	entry	romspk
 romspk:
 	save <arg>
@@ -6240,7 +6160,6 @@ romspk:
 			777000	; klingons (Empire)
 			](t1)
 	jrst	rmspk1
-
 rmspk0:	move	t1,who		; get bit for the talking player
 	move	t1,bits-1(t1)
 	setzm	tmp		; remember single player!
