@@ -363,7 +363,7 @@ C	if (lofchk(0)) call cc2 drforbin(merlyn)
 	goto 2100
 *.......Initialize player's high and low-segments
 2500	call unlock(frelok)		! release the interlock
-	call	updcap (who)		! update mission #
+c	call	updcap (who)		! update mission #
 	do 2501 i = 1, knpoin		! zap his score
 2501		score(i, who) = 0
 	alive(who) = .TRUE.	!reserve his chosen ship
