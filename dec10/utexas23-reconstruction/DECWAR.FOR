@@ -3970,8 +3970,7 @@ C	sub-space radio.
 	dimension local (17)
 	if (player) goto 100
 	call romspk (local)
-c	call makmsg (local)
-	return
+	goto 1190
 *.......Radio operational?
 100	if (shpdam(who,KDRAD) .lt. KCRIT)  goto 200
 	call out (tell01,1)
@@ -4018,7 +4017,7 @@ c	call makmsg (local)
 	  if (j .eq. who)  call out (tell05,1)	!self excluded!!
 1100	continue
 *.......Search message list for problems ....
-	mask = 1
+1190	mask = 1
 	do 1500 i = 1, KNPLAY
 	  iship = DXFSHP * 100 + i
 	  if ((dbits .and. mask) .eq. 0)  goto 1400	!player on message list?
@@ -4042,9 +4041,13 @@ c	call makmsg (local)
 	call out (tell08, 1)
 	return
 *.......Send message to designated players
-1600	dispfr = who + (team * 100)
+1600	if (.not. player) goto 1650
+	dispfr = who + (team * 100)
 	call makmsg
 	call crlf
+	return
+1650	continue	
+c	call makmsg (local)
 	return
 	end
 C	This routine prints out useful information concerning the
