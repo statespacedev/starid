@@ -48,7 +48,7 @@ expect " Jobs(1-511):" send "128\r"; continue
 expect "Maximum P of core for each job(0,0-16384):" send "\r"; continue
 
 expect "\r\n\177#"; continue
-if "%SIM_NAME%" == "KL-10" 'expect " K total system core(512-4096):" send "1024\r"; continue'
+if "%SIM_NAME%" == "KL-10" 'expect " K total system core(512-4096):" send "4096\r"; continue'
 if "%SIM_NAME%" != "KL-10" 'expect " K total system core(512-4096):" send "512\r"; continue'
 expect "Clock ticks per second(60,50):" send "60\r"; continue
 if "%SIM_NAME%" == "KL-10" 'expect "\r\n\177#"; continue'
