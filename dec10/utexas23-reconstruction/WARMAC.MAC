@@ -6229,9 +6229,9 @@ Can't open file for output!
 	entry	romspk
 romspk:
 	save <arg>
-	skipe	player		; if the Romulan has just reincarnated
-	jrst	rmspk0		; then
-	movei	arg,[[3]]	; choose who gets the message
+;	skipe	player		; if the Romulan has just reincarnated
+;	jrst	rmspk0		; then
+	movei	arg,[[1]]	; 1 for all, 3 otherwise, choose who gets the message
 	pushj	p,iran
 	move	t1,0
 	movem	t1,tmp		; save the target population
