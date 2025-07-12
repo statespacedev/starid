@@ -63,7 +63,7 @@ class Brain:
     def speak(self):
         if True:
             if self.name not in robots: return
-            # if random.uniform(0, 1) > .1: return
+            # if random.uniform(0, 1) > .01: return
         msg = random.choice(robots[self.name])
         res = self.command_and_response(f'tell all; {msg}')
     
