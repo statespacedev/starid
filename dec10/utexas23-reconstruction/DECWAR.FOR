@@ -4041,13 +4041,12 @@ C	sub-space radio.
 	call out (tell08, 1)
 	return
 *.......Send message to designated players
-1600	if (.not. player) goto 1650
-	dispfr = who + (team * 100)
+1600	if (player) goto 1650
+c	call makmsg (local)
+	return
+1650	dispfr = who + (team * 100)
 	call makmsg
 	call crlf
-	return
-1650	continue	
-c	call makmsg (local)
 	return
 	end
 C	This routine prints out useful information concerning the
