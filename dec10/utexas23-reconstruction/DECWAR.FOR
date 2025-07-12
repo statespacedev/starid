@@ -3969,8 +3969,8 @@ C	sub-space radio.
 	include 'extern/nolist'
 	dimension local (17)
 	if (player) goto 100
-	call romspk(local)
-	call makmsg (local)
+	call romspk (local)
+c	call makmsg (local)
 	return
 *.......Radio operational?
 100	if (shpdam(who,KDRAD) .lt. KCRIT)  goto 200
