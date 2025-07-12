@@ -18,7 +18,6 @@ class Brain:
         time.sleep(random.uniform(a, b))
         self.move()
         time.sleep(random.uniform(a, b))
-        # if self.name == 'robot5': self.speak()
         self.speak()
         if self.name == self.superbot:
             time.sleep(random.uniform(a, b))
@@ -63,7 +62,7 @@ class Brain:
     def speak(self):
         if True:
             if self.name not in robots: return
-            # if random.uniform(0, 1) > .01: return
+            if random.uniform(0, 1) > -1: return
         msg = random.choice(robots[self.name])
         res = self.command_and_response(f'tell all; {msg}')
     
