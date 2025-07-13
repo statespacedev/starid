@@ -27,8 +27,6 @@ class Brain:
     def command_and_response(self, cmd):
         """read till eor end of response"""
         self.id2 += 1
-        tag = f'{self.name} {str(self.id2)}'
-        # print(f'{tag} -------------------- {cmd}')
         self.tc.sendline()
         self.tc.expect('>', timeout=10)
         self.tc.sendline(cmd)
@@ -39,7 +37,7 @@ class Brain:
         # while cmd not in res[-1]: res.append(self.tc.readline().decode('utf-8').strip())
         while 'time of day' not in res[-1]: res.append(self.tc.readline().decode('utf-8').strip())
         res = self.cleaned(res)
-        for rec in res: print(f'{tag} {rec}')
+        for rec in res: print(f'{self.name}|{str(self.id2)}|{rec[0]}|{rec[2]}')
         self.tc.sendline()
         self.tc.expect('>', timeout=10)
         return res
@@ -58,13 +56,13 @@ class Brain:
         t1 = res2[-2].split('  ')[1]
         t2 = res2[-1].split('  ')[1]
         for rec in res2[:-2]:
-            res3.append(f'{t1} {t2} {rec}')
+            res3.append([t1, t2, rec])
         return res3
 
     def speak(self):
         if True:
             if self.name not in robots: return
-            if random.uniform(0, 1) > .05: return
+            if random.uniform(0, 1) > .1: return
         msg = random.choice(robots[self.name])
         res = self.command_and_response(f'tell all; {msg}')
     

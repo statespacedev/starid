@@ -18,24 +18,30 @@ class Robot:
         try:
             self.connect()
             self.login()
-            self.rgam()
-            for _ in range(3): self.brainloop()
+            if 'tmp' in self.name:  # 'tmp' runs are for placeholder telnet connections
+                while True:
+                    self.tc.sendline('dir')
+                    self.tc.expect('>', timeout=10)
+                    time.sleep(5)
+            else:
+                self.rgam()
+                for _ in range(3): self.brainloop()
         except: 
-            print(f'robot {self.name} quit game, kjob, disconnect')
+            print(f'robot {self.name} shutdown')
             try:
-                self.quit()
+                if not 'tmp' in self.name: self.quit()
                 self.kjob()
                 self.disconnect()
             except: pass
 
-    def brainloop(self, once=False):
+    def brainloop(self):
         self.id1 += 1
         try:
             brain = Brain(self.name, self.id1, self.tc)
             while True: brain.nextstep()
         except:
-            if once: raise
-            for _ in range(3):
+            for _ in range(6):
+                time.sleep(5)
                 try:
                     time.sleep(1)
                     self.tc.sendline('')
