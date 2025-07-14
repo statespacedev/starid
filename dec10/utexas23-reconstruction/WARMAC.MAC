@@ -219,7 +219,7 @@ lall
 ;---
 	kndev==9		;number of devices
 	kpass=="*mink"		;password for system (*) commands
-	knmsg==64		;maximum number of messages in queue
+	knmsg==32		;maximum number of messages in queue
 	msglen==17		;max # of words per msg (header + 80 chars)
 	kngrp==7		;number of defined message groups
 	knhshp==^d40		; number of hit queue entries per ship
@@ -3220,34 +3220,27 @@ shq.2:	movei	p1,[byte (7) "]",cr,lf,0]
 ;	him.  So, in this case, take the player found in the destination
 ;	of the first (oldest) queue entry, and remove that player from
 ;	all queue entries.
-;
 ;	Input
 ;	  X1[L]	Negative length of queue link list
 ;	  X1[R]	Address of queue link list
 ;	Output
 ;	  X2	Index of reserved entry
-;
 ;	MOVE X1,[-QLEN,,QLNK]
 ;	PUSHJ P,RSRV.
 ;	X2 has index
-;
 rsrv.:	move	t1,[[asciz /RSRV./],,quelok]
 	pushj	p,lock.		;single job access only
 	skipe	lkfail		; if lock request failed,
 	popj	p,		; then don't mess around
 	pushj	p,qrsrv.	; do the reserve
 	popj	p,
-
-
 qrsrv.:
 rsrv.1:	move	t1,x1		;get pointer to queue link list
 	skipn	(t1)		;spot available?
 	jrst	rsrv.4		;yes, go flag it
 	aobjn	t1,.-2
-
 	;Queue is full, so remove the player probably responsible
 	;for it from all queue entries.
-
 	save	<x3>
 	hlrz	t1,-1(x1)	;get index to first (oldest) entry
 	addi	t1,(x1)		;get addr of entry
@@ -3260,23 +3253,20 @@ rsrv.2:	pushj	p,srch.x	;find entry destined for player
 	jrst	rsrv.2		;and all remaining entries
 rsrv.3:	restor	<x3>
 	jrst	rsrv.1		;and start over
-
 	;Found an empty spot in queue.
-
 rsrv.4:	setom	(t1)		;reserve spot in queue
 	subi	t1,(x1)		;get it's index
 	hrrzi	x2,(t1)
-
 	movei	t1,quelok
 	pushj	p,unlo.
 	popj	p,
+	
 	page
 	subttl	Qmanager -- RSRVHQ
 ;	CALL RSRVHQ (q)
 ; Called from FORTRAN level to reserve a spot in the hit queue.
 ; The que spot is returned in q
 ; If unable to reserve a spot, lkfail is set
-
 rsrvhq::
 	setzm	lkfail		; new MAKHIT does not need this routine
 	popj	p,
