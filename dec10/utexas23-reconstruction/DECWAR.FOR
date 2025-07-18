@@ -4043,7 +4043,7 @@ C	sub-space radio.
 	return
 *.......Send message to designated players
 1600	if (player) goto 1650
- 	call makmsg (local)
+ 	call makmsg (local) ! comment out to bypass roumulan using makmsg
 	return
 1650	dispfr = who + (team * 100)
 	call makmsg
