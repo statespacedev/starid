@@ -223,7 +223,7 @@ lall
 	msglen==17		;max # of words per msg (header + 80 chars)
 	kngrp==7		;number of defined message groups
 	knhshp==^d40		; number of hit queue entries per ship
-	knhit==32 ;knhshp*^d10	; max number of hit entries
+	knhit==knhshp*^d18	; max number of hit entries, 40 x 18 = 720
 	kncmd==33		;number of available commands
 	knpcmd==12		;number of available commands in PREGAM
 	knpoin==8		;number of different scoring categories
