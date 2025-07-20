@@ -1,16 +1,15 @@
 import random
 import time
-import datetime
 from definitions import robots
 
 class Brain:
     superbot = 'nomad'
     
-    def __init__(self, name, id1, tc):
+    def __init__(self, name, brainloopcnt, tc):
         self.name = name
         self.tc = tc
-        self.id1 = id1
-        self.id2 = 0
+        self.brainloopcnt = brainloopcnt
+        self.cmdcnt = 0
         if name == self.superbot: self.superpower()
         
     def nextstep(self):
@@ -26,7 +25,7 @@ class Brain:
 
     def command_and_response(self, cmd):
         """read till eor end of response"""
-        self.id2 += 1
+        self.cmdcnt += 1
         self.tc.sendline()
         self.tc.expect('>', timeout=10)
         self.tc.sendline(cmd)
@@ -37,7 +36,7 @@ class Brain:
         # while cmd not in res[-1]: res.append(self.tc.readline().decode('utf-8').strip())
         while 'time of day' not in res[-1]: res.append(self.tc.readline().decode('utf-8').strip())
         res = self.cleaned(res)
-        for rec in res: print(f'{self.name}|{str(self.id2)}|{rec[0]}|{rec[2]}')
+        for rec in res: print(f'{self.name}|{str(self.cmdcnt)}|{rec[0]}|{rec[2]}')
         self.tc.sendline()
         self.tc.expect('>', timeout=10)
         return res

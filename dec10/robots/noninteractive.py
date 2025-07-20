@@ -1,8 +1,6 @@
-#!/bin/python
+import cli
 import time
 import pexpect
-import sys
-import cli
 from definitions import ships
 from brain import Brain
 
@@ -13,51 +11,43 @@ class Robot:
         self.name = kwargs['name']
         self.id1 = 0
 
-    def run(self):
+    def main(self):
         """try to stay in game between ships"""
         try:
-            self.connect()
-            self.login()
-            if 'tmp' in self.name:  # 'tmp' runs are for placeholder telnet connections
-                while True:
-                    self.tc.sendline('dir')
-                    self.tc.expect('>', timeout=10)
-                    time.sleep(5)
-            else:
-                self.rgam()
-                for _ in range(3): self.brainloop()
-        except: 
+            self.telnet_entry()
+            self.tops10_entry()
+            self.decwar_entry()
+            self.loop()
+        except:
             print(f'robot {self.name} shutdown')
             try:
-                if not 'tmp' in self.name: self.quit()
-                self.kjob()
-                self.disconnect()
-            except: pass
+                self.decwar_exit()
+                self.tops10_exit()
+                self.telnet_exit()
+            except:
+                pass
 
-    def brainloop(self):
-        self.id1 += 1
-        try:
-            brain = Brain(self.name, self.id1, self.tc)
-            while True: brain.nextstep()
-        except:
-            for _ in range(6):
-                time.sleep(5)
-                try:
-                    time.sleep(1)
-                    self.tc.sendline('')
-                    self.tc.expect('>', timeout=10)
-                    time.sleep(1)
-                    self.tc.sendline('')
-                    self.tc.expect('>', timeout=10)
-                    time.sleep(1)
-                    self.tc.sendline('')
-                    self.tc.expect('>', timeout=10)
-                    self.brainloop()
-                except: pass
-            print('except out of brainloop')
-            raise
+    def loop(self):
+        for _ in range(3):
+            self.id1 += 1
+            try:
+                brain = Brain(self.name, self.id1, self.tc)
+                while True: brain.nextstep() # main loop
+            except:
+                for _ in range(6):
+                    time.sleep(5)
+                    try:
+                        for _ in range(3):
+                            time.sleep(1)
+                            self.tc.sendline('')
+                            self.tc.expect('>', timeout=10)
+                        self.loop() # reenter loop
+                    except:
+                        pass
+                print('except out of loop')
+                raise
 
-    def connect(self):
+    def telnet_entry(self):
         # self.tc = pexpect.spawn(f"telnet {self.kwargs['ip']} {self.kwargs['port']}", timeout=10, logfile=sys.stdout.buffer, echo=False)
         self.tc = pexpect.spawn(f"telnet {self.kwargs['ip']} {self.kwargs['port']}", timeout=10, echo=False)
         time.sleep(1)
@@ -66,7 +56,7 @@ class Robot:
         time.sleep(1)
         self.tc.expect('.', timeout=10)
 
-    def login(self):
+    def tops10_entry(self):
         self.tc.sendline('')
         time.sleep(1)
         self.tc.expect('.', timeout=10)
@@ -77,27 +67,31 @@ class Robot:
         time.sleep(1)
         self.tc.expect('.', timeout=10)
 
-    def rgam(self):
+    def decwar_entry(self):
         """from tops10, run game and get to command prompt"""
         self.tc.sendline('r gam:decwar')
         self.tc.expect('Your name please: ', timeout=10)
         self.tc.sendline(f'{self.name}')
         self.tc.expect('line: ', timeout=10)
         self.tc.sendline('')
-        ndx1 = self.tc.expect(['DECWAR', 'Regular or Tournament', 'Federation or Empire', 'You will join', 'choose another ship?'], timeout=10)
+        ndx1 = self.tc.expect(
+            ['DECWAR', 'Regular or Tournament', 'Federation or Empire', 'You will join', 'choose another ship?'],
+            timeout=10)
         if ndx1 > 0:
             if ndx1 == 1: self.tc.sendline(); self.tc.sendline(); self.tc.sendline()
-            if ndx1 < 3: self.tc.sendline() # join default side
+            if ndx1 < 3: self.tc.sendline()  # join default side
             if ndx1 == 4: self.tc.sendline('yes')
             for ship in ships:
                 ndx2 = self.tc.expect(['DECWAR', 'Which vessel'], timeout=10)
-                if ndx2 == 0: break
-                else: self.tc.sendline(ship)
+                if ndx2 == 0:
+                    break
+                else:
+                    self.tc.sendline(ship)
         self.tc.expect('Commands From TTY', timeout=10)
         self.tc.sendline('')
         self.tc.expect('>', timeout=10)
 
-    def quit(self):
+    def decwar_exit(self):
         try:
             self.tc.sendcontrol('c')
             time.sleep(1)
@@ -118,7 +112,7 @@ class Robot:
             print('exception in stop game')
             raise
 
-    def kjob(self):
+    def tops10_exit(self):
         try:
             self.tc.sendline('')
             time.sleep(1)
@@ -130,7 +124,7 @@ class Robot:
             print('exception in logout')
             raise
 
-    def disconnect(self):
+    def telnet_exit(self):
         try:
             self.tc.sendline('')
             time.sleep(1)
@@ -147,4 +141,4 @@ class Robot:
 if __name__ == "__main__":
     args, kwargs = cli.main()
     ro = Robot(*args, **kwargs)
-    ro.run()
+    ro.main()
