@@ -5,15 +5,21 @@ from definitions import robots
 class Brain:
     superbot = 'nomad'
     
-    def __init__(self, name, brainloopcnt, tc):
+    def __init__(self, name, braincnt, tc):
         self.name = name
         self.tc = tc
-        self.brainloopcnt = brainloopcnt
+        self.braincnt = braincnt
+        self.loopcnt = 0
         self.cmdcnt = 0
         if name == self.superbot: self.superpower()
         
     def nextstep(self):
-        a, b = 3, 6
+        a, b = 2, 4
+        time.sleep(1)
+        targets = self.targets()
+        time.sleep(1)
+        # ships = self.list()
+        status = self.command_and_response('status')
         time.sleep(random.uniform(a, b))
         self.move()
         time.sleep(random.uniform(a, b))
@@ -36,7 +42,7 @@ class Brain:
         # while cmd not in res[-1]: res.append(self.tc.readline().decode('utf-8').strip())
         while 'time of day' not in res[-1]: res.append(self.tc.readline().decode('utf-8').strip())
         res = self.cleaned(res)
-        for rec in res: print(f'{self.name}|{str(self.cmdcnt)}|{rec[0]}|{rec[2]}')
+        for rec in res: print(f'{str(self.braincnt)}|{str(self.loopcnt)}|{str(self.cmdcnt)}|{rec[0]}|{rec[2]}')
         self.tc.sendline()
         self.tc.expect('>', timeout=10)
         return res

@@ -9,7 +9,7 @@ class Robot:
     def __init__(self, *args, **kwargs):
         self.args, self.kwargs = args, kwargs
         self.name = kwargs['name']
-        self.id1 = 0
+        self.loopcnt = 0
 
     def main(self):
         """try to stay in game between ships"""
@@ -28,24 +28,20 @@ class Robot:
                 pass
 
     def loop(self):
-        for _ in range(3):
-            self.id1 += 1
-            try:
-                brain = Brain(self.name, self.id1, self.tc)
-                while True: brain.nextstep() # main loop
-            except:
-                for _ in range(6):
-                    time.sleep(5)
-                    try:
-                        for _ in range(3):
-                            time.sleep(1)
-                            self.tc.sendline('')
-                            self.tc.expect('>', timeout=10)
-                        self.loop() # reenter loop
-                    except:
-                        pass
-                print('except out of loop')
-                raise
+        """it's recursive so needs its own call."""
+        self.loopcnt += 1
+        try:
+            brain = Brain(self.name, self.loopcnt, self.tc)
+            while True: brain.nextstep() # main loop
+        except:
+            for _ in range(6): # try to stay in game
+                time.sleep(5)
+                try:
+                    for _ in range(3): time.sleep(1); self.tc.sendline(''); self.tc.expect('>', timeout=10)
+                    self.loop()  # recursive reenter loop
+                except: pass
+            print('except out of loop')
+            raise
 
     def telnet_entry(self):
         # self.tc = pexpect.spawn(f"telnet {self.kwargs['ip']} {self.kwargs['port']}", timeout=10, logfile=sys.stdout.buffer, echo=False)

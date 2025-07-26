@@ -9,7 +9,6 @@ rothread = threading.Thread(target=ro.main)
 rothread.start()
 
 def main():
-    print('hot keys are    0 exit    1 standby    2 active')
     ro.set_mode('2')
     listen_keyboard(on_press=press)
 
