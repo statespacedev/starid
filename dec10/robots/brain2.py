@@ -8,7 +8,6 @@ class Brain2:
         self.name = name
         self.tc = tc
         self.braincnt = braincnt
-        self.loopcnt = 0
         self.cmdcnt = 0
         
     def nextstep(self):
@@ -23,21 +22,21 @@ class Brain2:
         """read till eor end of response"""
         self.tc.sendline(cmd)
         if 'move' in cmd: return
-        line = self.tc.readline().decode('utf-8').strip()
-        while 'move' in line or line == '' or line == '>': line = self.tc.readline().decode('utf-8').strip()
+        line = self.tc.readline().decode('utf-8').strip().lower()
+        while 'move' in line or line == '' or line == '>': line = self.tc.readline().decode('utf-8').strip().lower()
         res = [line]
         while True:
-            line = self.tc.readline().decode('utf-8').strip()
+            line = self.tc.readline().decode('utf-8').strip().lower()
             if not line: break
-            if ' unit P ' in line or ' unit T ' in line: continue
+            if ' unit p ' in line or ' unit t ' in line: continue
             res.append(line)
-        if 'Message' in res[0]: return
-        if ' unit P ' in res[0] or ' unit T ' in res[0]: return
-        if 'Navigation Officer' in res[0]: return
+        if 'message' in res[0]: return
+        if ' unit p ' in res[0] or ' unit t ' in res[0]: return
+        if 'navigation officer' in res[0]: return
+        if not res: return
         self.cmdcnt += 1
-        if 'targets' in res[0]: tmp = ('targets', [x.split() for x in res[1:]])
-        elif 'status' in res[0]: tmp = ('status', [x.split() for x in res[1:]])
-        print(f'{str(self.braincnt)}|{str(self.loopcnt)}|{str(self.cmdcnt)}|{tmp}')
+        res = [x.split() for x in res[1:]]
+        print(f'{self.cmdcnt}|{res}')
         return res
 
     def speak(self):

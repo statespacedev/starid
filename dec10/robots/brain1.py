@@ -2,7 +2,7 @@ import random
 import time
 from definitions import robots
 
-class Brain:
+class Brain1:
     superbot = 'nomad'
     
     def __init__(self, name, braincnt, tc):

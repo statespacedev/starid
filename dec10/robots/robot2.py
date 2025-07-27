@@ -1,7 +1,7 @@
 import time
 import pexpect
 from definitions import ships
-from brain2 import Brain2 as Brain
+from brain2 import Brain2
 
 class Robot2:
 
@@ -14,7 +14,6 @@ class Robot2:
 
     def main(self):
         try:
-            self.brain.loopcnt += 1
             while self.mode: # main loop
                 if self.mode == '1': time.sleep(1)
                 elif self.mode == '2': self.brain.nextstep()
@@ -38,7 +37,7 @@ class Robot2:
         self.tops10_entry()
         self.decwar_entry()
         self.braincnt += 1
-        self.brain = Brain(self.name, self.braincnt, self.tc)
+        self.brain = Brain2(self.name, self.braincnt, self.tc)
 
     def exit(self):
         self.brain = None

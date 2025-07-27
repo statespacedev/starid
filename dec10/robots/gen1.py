@@ -2,7 +2,7 @@ import cli
 import time
 import pexpect
 from definitions import ships
-from brain import Brain
+from brain1 import Brain1
 
 class Robot:
 
@@ -31,7 +31,7 @@ class Robot:
         """it's recursive so needs its own call."""
         self.loopcnt += 1
         try:
-            brain = Brain(self.name, self.loopcnt, self.tc)
+            brain = Brain1(self.name, self.loopcnt, self.tc)
             while True: brain.nextstep() # main loop
         except:
             for _ in range(6): # try to stay in game
