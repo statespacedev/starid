@@ -1,7 +1,7 @@
 import time
 import pexpect
 from definitions import ships
-from brain import Brain
+from brain2 import Brain2 as Brain
 
 class Robot2:
 
