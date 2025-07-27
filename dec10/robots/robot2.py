@@ -13,39 +13,42 @@ class Robot2:
         self.brain = None
 
     def main(self):
-        try:
-            while self.mode: # main loop
-                if self.mode == '1': time.sleep(1)
-                elif self.mode == '2': self.brain.nextstep()
-        except:
-            for _ in range(5):
-                time.sleep(1)
-                try:
-                    self.tc.sendline(''); self.tc.expect('>', timeout=1)
-                    self.main()  # reenter loop
-                except: pass
-        self.exit()
-
-    def set_mode(self, key):
-        if key == '0': self.mode = 0; return # set to false, causes main loop to exit
-        if self.mode == '1' and key == '2': self.entry()
-        elif self.mode == '2' and key == '1': self.exit()
-        self.mode = key
-
-    def entry(self):
-        self.telnet_entry()
-        self.tops10_entry()
-        self.decwar_entry()
-        self.braincnt += 1
-        self.brain = Brain2(self.name, self.braincnt, self.tc)
-
-    def exit(self):
-        self.brain = None
+        while self.mode: # main loop
+            if self.mode == '1': time.sleep(1) # standby mode
+            elif self.mode == '2': self.brain.nextstep()
+            # elif self.mode == '2':
+            #     try: self.brain.nextstep()
+            #     except: self.try_to_stay_in_game()
         self.decwar_exit()
         self.tops10_exit()
         self.telnet_exit()
+        
+    # def try_to_stay_in_game(self):
+    #     for _ in range(3):
+    #         time.sleep(1)
+    #         if self.mode != '2': return # quit trying
+    #         try:
+    #             self.tc.sendline(''); self.tc.expect('>', timeout=1)
+    #             if self.mode == '2': self.main()  # reenter loop
+    #         except: pass
+
+    def set_mode(self, key):
+        if key == '0': 
+            key = 0 # set to false, causes main loop to exit
+        elif self.mode == '1' and key == '2':
+            self.telnet_entry()
+            self.tops10_entry()
+            self.decwar_entry()
+            self.braincnt += 1
+            self.brain = Brain2(self.name, self.braincnt, self.tc)
+        elif self.mode == '2' and key == '1':
+            pass
+        else:
+            return # ignore other keys
+        self.mode = key
 
     def telnet_entry(self):
+        print('telnet entry')
         try:
             self.tc = pexpect.spawn(f"telnet {self.kwargs['ip']} {self.kwargs['port']}", timeout=10, echo=False)
             time.sleep(1)
@@ -56,6 +59,7 @@ class Robot2:
         except: pass
 
     def tops10_entry(self):
+        print('tops10 entry')
         try:
             self.tc.sendline('')
             time.sleep(1)
@@ -70,6 +74,7 @@ class Robot2:
         
     def decwar_entry(self):
         """from tops10, run game and get to command prompt"""
+        print('decwar entry')
         try:
             self.tc.sendline('r gam:decwar')
             self.tc.expect('Your name please: ', timeout=10)
@@ -91,6 +96,7 @@ class Robot2:
         except: pass
 
     def decwar_exit(self):
+        print('decwar exit')
         try:
             self.tc.sendline()
             self.tc.expect('>', timeout=10)
@@ -100,6 +106,7 @@ class Robot2:
         except: pass
 
     def tops10_exit(self):
+        print('tops10 exit')
         try:
             self.tc.sendline('')
             time.sleep(1)
@@ -110,6 +117,7 @@ class Robot2:
         except: pass
 
     def telnet_exit(self):
+        print('telnet exit')
         try:
             self.tc.sendline('')
             time.sleep(1)
