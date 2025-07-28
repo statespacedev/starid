@@ -41,8 +41,10 @@ class Brain2:
             return True
         
         def checkres(res, cmd):
-            if res[0][0] != '>': return 
-            if not len(res[0]) > 1 and not res[0][1] == cmd: return
+            if cmd not in commands: return
+            if len(res[0]) < 2: return
+            if res[0][0][-1] != '>': return # can be emergency condition letters before prompt 
+            if res[0][1] != cmd: return
             return True
 
         cmd = command.split()[0]
@@ -60,28 +62,12 @@ class Brain2:
         res = [x.split() for x in res]
         if checkres(res, cmd):
             self.cmdcnt += 1
-            outstr = f'{self.cmdcnt}|{self.shipcnt}|{self.cmdcnt - self.shipchg}|{res}'
-            print(outstr[:80])
+            outstr = f'{self.shipcnt}|{self.cmdcnt - self.shipchg}|{res}'
+            print(outstr[:115])
         return res
-
-    def speak(self):
-        if True:
-            if self.name not in robots: return
-            if random.uniform(0, 1) > .1: return
-        msg = random.choice(robots[self.name])
-        res = self.command_and_response(f'tell all; {msg}')
     
     def move(self):
         v, h = 0, 0
         while v == 0 and h == 0: v, h = random.randint(-1, 1), random.randint(-1, 1)
         res = self.command_and_response(f'move relative {v} {h}')
-    
-    def targets(self):
-        res = self.command_and_response('targets')
-
-    def time(self):
-        res = self.command_and_response('time')
-    
-    def list(self, *args):
-        res = self.command_and_response('list ships')
     

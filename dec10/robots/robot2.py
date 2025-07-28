@@ -16,21 +16,9 @@ class Robot2:
         while self.mode: # main loop
             if self.mode == '1': time.sleep(1) # standby mode
             elif self.mode == '2': self.brain.nextstep()
-            # elif self.mode == '2':
-            #     try: self.brain.nextstep()
-            #     except: self.try_to_stay_in_game()
         self.decwar_exit()
         self.tops10_exit()
         self.telnet_exit()
-        
-    # def try_to_stay_in_game(self):
-    #     for _ in range(3):
-    #         time.sleep(1)
-    #         if self.mode != '2': return # quit trying
-    #         try:
-    #             self.tc.sendline(''); self.tc.expect('>', timeout=1)
-    #             if self.mode == '2': self.main()  # reenter loop
-    #         except: pass
 
     def set_mode(self, key):
         if key == '0': 
