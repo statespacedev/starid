@@ -1,6 +1,6 @@
 import random
 import time
-from definitions import robots
+from definitions import robots, commands
 
 class Brain2:
     
@@ -22,7 +22,7 @@ class Brain2:
         except:
             for _ in range(2): self.tc.sendline(); self.tc.expect('>', timeout=10) # keep in game after destroyed
 
-    def command_and_response(self, cmd):
+    def command_and_response(self, command):
         """send a command and get the response"""
         
         def getline():
@@ -44,9 +44,11 @@ class Brain2:
             if res[0][0] != '>': return 
             if not len(res[0]) > 1 and not res[0][1] == cmd: return
             return True
-        
+
+        cmd = command.split()[0]
+        if cmd not in commands: return
         for _ in range(2): self.tc.sendline(); self.tc.expect('>', timeout=10)
-        self.tc.sendline(cmd)
+        self.tc.sendline(command)
         line = getline()
         while not checkline(line): line = getline()
         res = [line]
@@ -56,10 +58,10 @@ class Brain2:
             if not checkline(line): continue
             res.append(line)
         res = [x.split() for x in res]
-        if not checkres(res, cmd): self.command_and_response(cmd) # retry cmd
-        self.cmdcnt += 1
-        outstr = f'{self.cmdcnt}|{self.shipcnt}|{self.cmdcnt - self.shipchg}|{res}'
-        print(outstr[:80])
+        if checkres(res, cmd):
+            self.cmdcnt += 1
+            outstr = f'{self.cmdcnt}|{self.shipcnt}|{self.cmdcnt - self.shipchg}|{res}'
+            print(outstr[:80])
         return res
 
     def speak(self):
