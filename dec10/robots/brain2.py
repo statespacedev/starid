@@ -11,19 +11,19 @@ class Brain2:
         self.name = name
         self.tc = tc
         self.braincnt = braincnt
-        self.shipcnt = 1
-        self.last_new_ship_cmdcnt = 0
-        self.cmdcnt = 0
+        self.last_new_ship_cnt = 0
+        self.cnt = 0
         self.age = 0
         self.mode = Mode.defense
-        self.modespan = 100 + random.randint(1, 100)
+        self.age_offense = 50
         self.enemybases = EnemyBases()
         self.enemyships = EnemyShips()
 
     def next(self):
+        self.cnt += 1
+        self.age = self.cnt - self.last_new_ship_cnt
+        if self.age > self.age_offense: self.mode = Mode.offense
         try:
-            self.age = self.cmdcnt - self.last_new_ship_cmdcnt
-            if self.age > self.modespan: self.mode = Mode.offense
             self.speak()
             if self.name == self.superbot:
                 res = self.command_and_response('time')
@@ -84,9 +84,9 @@ class Brain2:
         tmp = tmp.strip().lower().splitlines()
         for line in tmp:
             newshipsignals = ['set prompt', 'set ocdef', 'set output', 'reading commands', 'runs out']
-            if self.age > 100 and any(x in line for x in newshipsignals): 
-                self.shipcnt += 1
-                self.last_new_ship_cmdcnt = self.cmdcnt
+            if any(x in line for x in newshipsignals):
+                self.age = 0
+                self.last_new_ship_cnt = self.cnt
             res.append(line)
         return res
 
@@ -96,9 +96,8 @@ class Brain2:
             for _ in range(2): self.tc.sendline(); self.tc.expect('>', timeout=10)
             self.tc.sendline(command)
             res = self.listen(4)
-            self.cmdcnt += 1
             for rec in res:
                 if not rec: continue
-                print(f'{self.shipcnt}|{self.cmdcnt - self.last_new_ship_cmdcnt}|{rec}')
+                print(f'{self.cnt}|{self.age}|{rec}')
             return res
         except: print(f"cmd exception '{command}'")
