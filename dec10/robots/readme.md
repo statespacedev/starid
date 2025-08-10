@@ -26,6 +26,7 @@ to watch and shutdown
     2 SIGINT     Terminate   Interrupt from keyboard, Control-C
     9 SIGKILL    Terminate   Forced-process termination
     15 SIGTERM    Terminate   Process termination
+    20 SIGTSTP   ctrlz
 
 # gen2
 
