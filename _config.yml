@@ -1,7 +1,7 @@
 plugins:
   - jekyll-feed
   - jekyll-remote-theme
-title: statespace.dev
+title: StateSpaceDev
 #description: statespace.dev
 #author:
 #  name: noah smith
